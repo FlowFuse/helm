@@ -1,0 +1,18 @@
+apiVersion: "v2"
+name: "flowforge"
+version: "0.1.0"
+description: "FlowForge"
+type: "application"
+home: "https://flowforge.com"
+icon: "https://flowforge.com/apple-touch-icon.png"
+keywords:
+  - flowforge
+  - node-red
+dependencies:
+  - name: postgresql
+    version: 10.14.0
+    repository: https://charts.bitnami.com/bitnami
+maintainers:
+  - name: "FlowForge Inc"
+    url: "https://flowforge.com"
+appVersion: "v0.1.0"

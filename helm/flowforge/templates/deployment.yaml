@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowforge
+  labels:
+    app: flowforge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flowforge
+  template:
+    metadata:
+      labels:
+        app: flowforge
+    spec:
+      serviceAccountName: create-pod
+      containers:
+      - name: forge
+        image: {{ default "docker-pi.local:5000" .Values.forge.registry }}/flowforge/forge-k8s
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config
+          mountPath: /usr/src/forge/etc
+        ports:
+        - containerPort: 3000
+      volumes:
+      - name: config
+        configMap:
+          name: flowforge-config

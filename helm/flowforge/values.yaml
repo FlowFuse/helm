@@ -1,0 +1,12 @@
+forge:
+  domain: example.com
+  registry: docker-pi.local:5000
+  dbUsername: forge
+  dbPassword: Zai1Wied
+
+postgresql:
+  postgresqlPostgresPassword: Moomiet0
+  postgresqlUsername: forge
+  postgresqlPassword: Zai1Wied
+  postgresqlDatabase: flowforge
+  

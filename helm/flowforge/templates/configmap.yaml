@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-config
+data:
+  flowforge.yml: |
+    port: 3000
+    domain: {{ .Values.forge.domain }}
+    base_url: http://forge.{{ .Values.forge.domain }}
+    api_url: http://forge.{{ .Release.Namespace }}
+    db:
+      type: postgres
+      host: {{ .Release.Name }}-postgresql
+      user: {{ .Values.forge.dbUsername }}
+      password: {{ .Values.forge.dbPassword }}
+    driver:
+      type: kubernetes
+      options:
+        registry: {{ .Values.forge.registry }}
+    {{- if .Values.forge.smtp }}
+    {{- if .Values.forge.smtp.host }}
+    email:
+      enabled: true
+      smtp:
+        host: {{ .Values.forge.smtp.host }}
+        port: {{ .Values.forge.smtp.port | default 587  }}
+        secure: {{ .Values.forge.smtp.tls | default false  }}
+        auth:
+          user: {{ .Values.forge.smtp.user }}
+          pass: {{ .Values.forge.smtp.password }}
+    {{- end }}
+    {{- else }}
+    email:
+      enabled: false
+    {{- end }}
+
