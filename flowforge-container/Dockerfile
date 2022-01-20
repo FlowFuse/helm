@@ -2,8 +2,6 @@ FROM node:16-alpine
 
 RUN apk add --no-cache --virtual build-base g++ make py3-pip sqlite-dev python2
 
-RUN npm config set @flowforge:registry https://npm.hardill.me.uk
-
 WORKDIR /usr/src/forge
 RUN mkdir app bin etc var
 COPY package.json /usr/src/forge/app
