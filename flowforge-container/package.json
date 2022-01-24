@@ -2,6 +2,7 @@
   "name": "@flowforge/flowforge-k8s",
   "version": "0.1.0",
   "description": "FlowForge in Docker",
+  "private": true,
   "author": {
     "name": "FlowForge Inc."
   },
