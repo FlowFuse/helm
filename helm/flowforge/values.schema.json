@@ -41,6 +41,20 @@
                     "required": [
                         "host"
                     ]
+                },
+                "localPostgresql": {
+                    "type": "boolean"
+                },
+                "postgres": {
+                    "type": "object",
+                    "properties":{
+                        "host": {
+                            "type": "string"
+                        },
+                        "port": {
+                            "type": "integer"
+                        }
+                    }
                 }
             },
             "required": [

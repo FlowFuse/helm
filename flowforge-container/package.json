@@ -10,5 +10,8 @@
     "@flowforge/kubernetes": "^0.1.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4"
+  },
+  "engines": {
+    "node": ">16.10.0"
   }
 }

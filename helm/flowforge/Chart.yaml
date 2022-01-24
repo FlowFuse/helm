@@ -12,6 +12,7 @@ dependencies:
   - name: postgresql
     version: 10.14.0
     repository: https://charts.bitnami.com/bitnami
+    condition: forge.localPostgresql
 maintainers:
   - name: "FlowForge Inc"
     url: "https://flowforge.com"

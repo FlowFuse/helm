@@ -3,6 +3,7 @@ forge:
   registry: docker-pi.local:5000
   dbUsername: forge
   dbPassword: Zai1Wied
+  localPostgresql: true
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0
