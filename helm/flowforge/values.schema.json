@@ -19,28 +19,47 @@
                 "dbPassword": {
                     "type": "string"
                 },
-                "smtp": {
+                "email": {
                     "type": "object",
                     "properties":{
-                        "host": {
+                        "from": {
                             "type": "string"
                         },
-                        "port": {
-                            "type": "integer"
+                        "smtp": {
+                            "type": "object",
+                            "properties":{
+                                "host": {
+                                    "type": "string"
+                                },
+                                "port": {
+                                    "type": "integer"
+                                },
+                                "tls": {
+                                    "type": "boolean"
+                                },
+                                "user": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "host"
+                            ]
                         },
-                        "tls": {
-                            "type": "boolean"
-                        },
-                        "user": {
-                            "type": "string"
-                        },
-                        "password": {
-                            "type": "string"
+                        "ses": {
+                            "type": "object",
+                            "properties": {
+                                "region": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "region"
+                            ]
                         }
-                    },
-                    "required": [
-                        "host"
-                    ]
+                    }
                 }
             },
             "required": [

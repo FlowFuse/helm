@@ -17,17 +17,24 @@ data:
       type: kubernetes
       options:
         registry: {{ .Values.forge.registry }}
-    {{- if .Values.forge.smtp }}
-    {{- if .Values.forge.smtp.host }}
+    {{- if .Values.forge.email }}
     email:
       enabled: true
+      {{- if .Values.forge.email.from }}
+      from: {{ .Values.forge.email.from }}
+      {{- end}}
+    {{- if .Values.forge.email.smtp }}
       smtp:
-        host: {{ .Values.forge.smtp.host }}
-        port: {{ .Values.forge.smtp.port | default 587  }}
-        secure: {{ .Values.forge.smtp.tls | default false  }}
+        host: {{ .Values.forge.email.smtp.host }}
+        port: {{ .Values.forge.email.smtp.port | default 587  }}
+        secure: {{ .Values.forge.email.smtp.tls | default false  }}
         auth:
-          user: {{ .Values.forge.smtp.user }}
-          pass: {{ .Values.forge.smtp.password }}
+          user: {{ .Values.forge.email.smtp.user }}
+          pass: {{ .Values.forge.email.smtp.password }}
+    {{- end }}
+    {{- if .Values.forge.email.ses }}
+      ses:
+        region: {{ .Values.forge.email.ses.region }}
     {{- end }}
     {{- else }}
     email:
