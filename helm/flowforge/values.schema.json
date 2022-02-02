@@ -73,7 +73,10 @@
                         "port": {
                             "type": "integer"
                         }
-                    }
+                    },
+                    "required": [
+                        "host"
+                    ]
                 }
             },
             "required": [
