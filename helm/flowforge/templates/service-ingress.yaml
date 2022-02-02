@@ -14,6 +14,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: flowforge-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: flowforge
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/ip-address-type: dualstack
 spec:
   rules:
   - host: forge.{{ .Values.forge.domain}}

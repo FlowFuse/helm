@@ -10,7 +10,12 @@ data:
     api_url: http://forge.{{ .Release.Namespace }}
     db:
       type: postgres
+      {{- if .Values.forge.localPostgresql }}
       host: {{ .Release.Name }}-postgresql
+      {{- else }}
+      host: {{ .Values.forge.postgres.host}}
+      port: {{ .Values.forge.postgres.port | default 5432 }}
+      {{- end }}
       user: {{ .Values.forge.dbUsername }}
       password: {{ .Values.forge.dbPassword }}
     driver:
