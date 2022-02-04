@@ -10,6 +10,9 @@
                 "baseURL": {
                     "type": "string"
                 },
+                "https": {
+                    "type": "boolean"
+                },
                 "registry": {
                     "type": "string"
                 },
@@ -61,22 +64,8 @@
                         }
                     }
                 },
-                "localPostgresql": {
-                    "type": "boolean"
-                },
-                "postgres": {
-                    "type": "object",
-                    "properties":{
-                        "host": {
-                            "type": "string"
-                        },
-                        "port": {
-                            "type": "integer"
-                        }
-                    },
-                    "required": [
-                        "host"
-                    ]
+                "IAMRole": {
+                    "type": "string"
                 },
                 "localPostgresql": {
                     "type": "boolean"

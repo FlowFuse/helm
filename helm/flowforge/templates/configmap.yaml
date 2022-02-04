@@ -6,7 +6,7 @@ data:
   flowforge.yml: |
     port: 3000
     domain: {{ .Values.forge.domain }}
-    base_url: http://forge.{{ .Values.forge.domain }}
+    base_url: https://forge.{{ .Values.forge.domain }}
     api_url: http://forge.{{ .Release.Namespace }}
     db:
       type: postgres
@@ -26,7 +26,7 @@ data:
     email:
       enabled: true
       {{- if .Values.forge.email.from }}
-      from: {{ .Values.forge.email.from }}
+      from: {{ .Values.forge.email.from | quote }}
       {{- end}}
     {{- if .Values.forge.email.smtp }}
       smtp:
