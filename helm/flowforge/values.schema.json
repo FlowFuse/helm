@@ -64,8 +64,16 @@
                         }
                     }
                 },
-                "IAMRole": {
+                "cloudProvider": {
                     "type": "string"
+                },
+                "aws": {
+                    "type": "object",
+                    "properties":{
+                        "IAMRole": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "localPostgresql": {
                     "type": "boolean"
