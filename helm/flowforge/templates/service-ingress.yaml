@@ -23,7 +23,11 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 spec:
   rules:
+  {{- if .Values.forge.entryPoint }}
+  - host: {{ .Values.forge.entryPoint }}
+  {{- else }}
   - host: forge.{{ .Values.forge.domain}}
+  {{- end }}
     http:
       paths:
       - pathType: Prefix

@@ -4,6 +4,9 @@
         "forge": {
             "type": "object",
             "properties": {
+                "entryPoint": {
+                    "type": "string"
+                },
                 "domain": {
                     "type": "string"
                 },
