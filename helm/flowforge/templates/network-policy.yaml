@@ -20,6 +20,7 @@ spec:
   podSelector:
     matchLabels:
       nodered: "true"
+      role: projects
   policyTypes:
   - Egress
   egress:
