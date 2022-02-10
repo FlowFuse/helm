@@ -4,11 +4,17 @@
         "forge": {
             "type": "object",
             "properties": {
+                "entryPoint": {
+                    "type": "string"
+                },
                 "domain": {
                     "type": "string"
                 },
                 "baseURL": {
                     "type": "string"
+                },
+                "https": {
+                    "type": "boolean"
                 },
                 "registry": {
                     "type": "string"
@@ -61,22 +67,16 @@
                         }
                     }
                 },
-                "localPostgresql": {
-                    "type": "boolean"
+                "cloudProvider": {
+                    "type": "string"
                 },
-                "postgres": {
+                "aws": {
                     "type": "object",
                     "properties":{
-                        "host": {
+                        "IAMRole": {
                             "type": "string"
-                        },
-                        "port": {
-                            "type": "integer"
                         }
-                    },
-                    "required": [
-                        "host"
-                    ]
+                    }
                 },
                 "localPostgresql": {
                     "type": "boolean"

@@ -14,7 +14,7 @@ spec:
       labels:
         app: flowforge
     spec:
-      serviceAccountName: create-pod
+      serviceAccountName: flowforge
       containers:
       - name: forge
         image: {{ default "docker-pi.local:5000" .Values.forge.registry }}/flowforge/forge-k8s

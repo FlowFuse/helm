@@ -6,14 +6,16 @@ data:
   flowforge.yml: |
     port: 3000
     domain: {{ .Values.forge.domain }}
-    base_url: http://forge.{{ .Values.forge.domain }}
+    {{- if .Values.forge.entryPoint }}
+    base_url: https://{{ .Values.forge.entryPoint }}
+    {{- else }}
+    base_url: https://forge.{{ .Values.forge.domain }}
+    {{- end }}
     api_url: http://forge.{{ .Release.Namespace }}
     db:
       type: postgres
-      {{- if .Values.forge.localPostgresql }}
       host: {{ .Release.Name }}-postgresql
-      {{- else }}
-      host: {{ .Values.forge.postgres.host}}
+      {{- if and (not .Values.forge.localPostgresql) (.Values.forge.postgres) }}
       port: {{ .Values.forge.postgres.port | default 5432 }}
       {{- end }}
       user: {{ .Values.forge.dbUsername }}
@@ -26,7 +28,7 @@ data:
     email:
       enabled: true
       {{- if .Values.forge.email.from }}
-      from: {{ .Values.forge.email.from }}
+      from: {{ .Values.forge.email.from | quote }}
       {{- end}}
     {{- if .Values.forge.email.smtp }}
       smtp:

@@ -4,6 +4,7 @@ forge:
   dbUsername: forge
   dbPassword: Zai1Wied
   localPostgresql: true
+  https: true
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0
