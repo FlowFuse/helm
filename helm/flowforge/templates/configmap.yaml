@@ -5,6 +5,7 @@ metadata:
 data:
   flowforge.yml: |
     port: 3000
+    host: 0.0.0.0
     domain: {{ .Values.forge.domain }}
     {{- if .Values.forge.entryPoint }}
     base_url: https://{{ .Values.forge.entryPoint }}
