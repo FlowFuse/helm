@@ -1,5 +1,6 @@
 #### 0.2.0: Release
 
+ - Add default host config to 0.0.0.0 (#7) @hardillb
  - First AWS EKS deployment (#5) @hardillb
  - Add more email config (#4) @hardillb
  - Add ALB annotations (#3) @hardillb
