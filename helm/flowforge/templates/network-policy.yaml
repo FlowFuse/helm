@@ -43,8 +43,8 @@ spec:
   policyTypes:
   - Ingress
   ingress:
-    from:
-    -podSelector:
-      matchLabels:
-        app: flowforge
+    - from:
+      - podSelector:
+          matchLabels:
+            app: flowforge
 {{- end }}
