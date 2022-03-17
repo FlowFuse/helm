@@ -1,3 +1,9 @@
+#### 0.3.0: Release
+
+ - Fix when not running on AWS (#10) @hardillb
+ - Add to node-red container as well (#9) @hardillb
+ - Add option to specify npm registry (#8) @hardillb
+
 #### 0.2.0: Release
 
  - Add default host config to 0.0.0.0 (#7) @hardillb

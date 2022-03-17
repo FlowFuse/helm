@@ -1,18 +1,18 @@
 {
-  "name": "@flowforge/flowforge-k8s",
-  "version": "0.2.0",
-  "description": "FlowForge in Docker",
-  "private": true,
-  "author": {
-    "name": "FlowForge Inc."
-  },
-  "dependencies": {
-    "@flowforge/flowforge": "^0.2.0",
-    "@flowforge/kubernetes": "^0.2.0",
-    "pg": "^8.7.1",
-    "pg-hstore": "^2.3.4"
-  },
-  "engines": {
-    "node": ">=16.x"
-  }
+    "name": "@flowforge/flowforge-k8s",
+    "version": "0.3.0",
+    "description": "FlowForge in Docker",
+    "private": true,
+    "author": {
+        "name": "FlowForge Inc."
+    },
+    "dependencies": {
+        "@flowforge/flowforge": "^0.3.0",
+        "@flowforge/kubernetes": "^0.3.0",
+        "pg": "^8.7.1",
+        "pg-hstore": "^2.3.4"
+    },
+    "engines": {
+        "node": ">=16.x"
+    }
 }
