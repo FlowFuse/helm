@@ -19,6 +19,11 @@ spec:
       - name: forge
         image: {{ default "docker-pi.local:5000" .Values.forge.registry }}/flowforge/forge-k8s
         imagePullPolicy: Always
+        {{- if .Values.forge.cloudProvider }}
+        env:
+        - name: FLOWFORGE_CLOUD_PROVIDER
+          value: {{ .Values.forge.cloudProvider }}
+        {{- end }}
         volumeMounts:
         - name: config
           mountPath: /usr/src/forge/etc
