@@ -5,6 +5,11 @@ forge:
   dbPassword: Zai1Wied
   localPostgresql: true
   https: true
+  projectNamespace: flowforge
+  projectSelector:
+    role: projects
+  managementSelector:
+    role: management
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0

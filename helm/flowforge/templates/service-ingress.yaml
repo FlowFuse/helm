@@ -18,8 +18,6 @@ metadata:
     {{- if .Values.forge.cloudProvider }}
     {{- if eq .Values.forge.cloudProvider "aws" }}
     kubernetes.io/ingress.class: alb
-    {{- end }}
-    {{- end }}
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: flowforge

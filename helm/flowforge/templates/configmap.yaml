@@ -25,6 +25,15 @@ data:
       type: kubernetes
       options:
         registry: {{ .Values.forge.registry }}
+      {{- if .Values.forge.projectSelector }}
+      projectSelector:
+        {{- range $key, $value := .Values.forge.projectSelector }}
+        {{ $key }}: {{ $value }}
+        {{- end}}
+      {{- end }}
+      {{- if .Values.forge.projectNamespace }}
+      projectNamespace: {{ .Values.forge.projectNamespace }}
+      {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true
