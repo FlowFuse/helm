@@ -91,6 +91,15 @@
                             "type": "integer"
                         }
                     }
+                },
+                "projectNamespace": {
+                    "type": "string"
+                },
+                "projectSelector": {
+                    "type": "object"
+                },
+                "managementSelector": {
+                    "type": "object"
                 }
             },
             "required": [
