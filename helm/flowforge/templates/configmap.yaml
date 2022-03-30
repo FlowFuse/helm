@@ -8,9 +8,9 @@ data:
     host: 0.0.0.0
     domain: {{ .Values.forge.domain }}
     {{- if .Values.forge.entryPoint }}
-    base_url: https://{{ .Values.forge.entryPoint }}
+    base_url: http{{- if .Values.forge.https -}}s{{- end -}}://{{ .Values.forge.entryPoint }}
     {{- else }}
-    base_url: https://forge.{{ .Values.forge.domain }}
+    base_url: http{{- if .Values.forge.https -}}s{{- end -}}://forge.{{ .Values.forge.domain }}
     {{- end }}
     api_url: http://forge.{{ .Release.Namespace }}
     db:
