@@ -12,6 +12,7 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
 
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
+ - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the container registry to find Project templates (default Docker Hub)
  - `forge.dbUsername` (default `forge`)
  - `forge.dbPassword` (default `Zai1Wied`)
@@ -19,6 +20,9 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
  - `forge.postgres.port` the port of an external PostgreSQL dataabse (default `5432`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
+ - `forge.projectsSelector` a collection of labels and values to filter nodes that Project Pods will run on
+ - `forge.managementSelector` a collectio of labels and values to filter nodes the Forge App will run on
+ - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
 
 ### AWS
 
