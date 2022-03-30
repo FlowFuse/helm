@@ -98,7 +98,7 @@
                 "projectSelector": {
                     "type": "object"
                 },
-                "managmentSelector": {
+                "managementSelector": {
                     "type": "object"
                 }
             },
