@@ -25,18 +25,24 @@ data:
       type: kubernetes
       options:
         registry: {{ .Values.forge.registry }}
-      {{- if .Values.forge.projectSelector }}
-      projectSelector:
-        {{- range $key, $value := .Values.forge.projectSelector }}
-        {{ $key }}: {{ $value }}
+        {{- if .Values.forge.registrySecrets }}
+        registrySecrets:
+          {{- range .Values.forge.registrySecrets }}
+          - {{ . }}
+          {{- end }}
         {{- end}}
-      {{- end }}
-      {{- if .Values.forge.projectNamespace }}
-      projectNamespace: {{ .Values.forge.projectNamespace }}
-      {{- end }}
-      {{- if .Values.forge.cloudProvider }}
-      cloudProvider: {{ .Values.forge.cloudProvider }}
-      {{- end }}
+        {{- if .Values.forge.projectSelector }}
+        projectSelector:
+          {{- range $key, $value := .Values.forge.projectSelector }}
+          {{ $key }}: {{ $value }}
+          {{- end}}
+        {{- end }}
+        {{- if .Values.forge.projectNamespace }}
+        projectNamespace: {{ .Values.forge.projectNamespace }}
+        {{- end }}
+        {{- if .Values.forge.cloudProvider }}
+        cloudProvider: {{ .Values.forge.cloudProvider }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true
@@ -59,5 +65,19 @@ data:
     {{- else }}
     email:
       enabled: false
+    {{- end }}
+    {{- if .Values.forge.ee }}
+    {{- if .Values.forge.ee.billing }}
+    billing:
+      {{- if .Values.forge.ee.billing.stripe }}
+      stripe:
+        key: {{ .Values.forge.ee.billing.stripe.key }}
+        wh_secret: {{ .Values.forge.ee.billing.stripe.wh_secret }}
+        team_price: {{ .Values.forge.ee.billing.stripe.team_price }}
+        team_product: {{ .Values.forge.ee.billing.stripe.team_product }}
+        project_price: {{ .Values.forge.ee.billing.stripe.project_price }}
+        project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
+      {{- end }}
+    {{- end }}
     {{- end }}
 

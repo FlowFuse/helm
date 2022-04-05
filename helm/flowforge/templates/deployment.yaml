@@ -29,6 +29,12 @@ spec:
           mountPath: /usr/src/forge/etc
         ports:
         - containerPort: 3000
+      {{- if .Values.forge.registrySecrets }}
+      imagePullSecrets:
+      {{- range .Values.forge.registrySecrets }}
+      - name: {{ . }}
+      {{- end }}
+      {{- end }}
       volumes:
       - name: config
         configMap:
