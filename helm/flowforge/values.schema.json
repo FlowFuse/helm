@@ -144,9 +144,15 @@
                                         "project_product"
                                     ]
                                 }
-                            }
+                            },
+                            "required": [
+                                "stripe"
+                            ]
                         }
-                    }
+                    },
+                    "required": [
+                        "billing"
+                    ]
                 }
             },
             "required": [
