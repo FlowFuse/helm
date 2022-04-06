@@ -19,6 +19,12 @@
                 "registry": {
                     "type": "string"
                 },
+                "registrySecrets":{
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "dbUsername": {
                     "type": "string"
                 },
@@ -100,6 +106,53 @@
                 },
                 "managementSelector": {
                     "type": "object"
+                },
+                "ee": {
+                    "type": "object",
+                    "properties": {
+                        "billing": {
+                            "type": "object",
+                            "properties": {
+                                "stripe": {
+                                    "type": "object",
+                                    "properties": {
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "wh_secret": {
+                                            "type": "string"
+                                        },
+                                        "team_price": {
+                                            "type": "string"
+                                        },
+                                        "team_product": {
+                                            "type": "string"
+                                        },
+                                        "project_price": {
+                                            "type": "string"
+                                        },
+                                        "project_product": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "key",
+                                        "wh_secret",
+                                        "team_price",
+                                        "team_product",
+                                        "project_price",
+                                        "project_product"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "stripe"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "billing"
+                    ]
                 }
             },
             "required": [
