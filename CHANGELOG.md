@@ -1,3 +1,6 @@
+#### 0.4.0: Release
+
+
 #### 0.3.0: Release
 
  - Fix when not running on AWS (#10) @hardillb
