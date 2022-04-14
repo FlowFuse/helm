@@ -1,5 +1,11 @@
 #### 0.4.0: Release
 
+ - Update project automation (#17) @knolleary
+ - Fix version of NR available to Launcher (#16) @hardillb
+ - Add billing template to helm config (#15) @hardillb
+ - Update README.md (#14) @hardillb
+ - Allow Project Node selector to be set (#13) @hardillb
+ - Only apply ALB annotation on AWS (#12) @hardillb
 
 #### 0.3.0: Release
 
