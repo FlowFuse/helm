@@ -1,3 +1,7 @@
+#### 0.7.1: Maintence Release
+
+ - Add FF Theme to Node-RED Container (#25) @hardillb
+
 #### 0.7.0: Release
 
  - Fix missing Python2 for sqlite3 (#23) @hardillb
