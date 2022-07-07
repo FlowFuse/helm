@@ -1,3 +1,7 @@
+#### 0.7.0: Release
+
+ - Fix missing Python2 for sqlite3 (#23) @hardillb
+
 #### 0.6.0: Release
 
 
