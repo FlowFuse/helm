@@ -153,6 +153,17 @@
                     "required": [
                         "billing"
                     ]
+                },
+                "broker": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type" : "string"
+                        } 
+                    },
+                    "required": [
+                        "url"
+                    ]
                 }
             },
             "required": [

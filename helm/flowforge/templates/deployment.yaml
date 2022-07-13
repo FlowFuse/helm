@@ -17,7 +17,7 @@ spec:
       serviceAccountName: flowforge
       containers:
       - name: forge
-        image: {{ default "docker-pi.local:5000" .Values.forge.registry }}/flowforge/forge-k8s
+        image: {{ default "docker-pi.local:5000" .Values.forge.registry }}/flowforge/forge-k8s:{{ .Chart.AppVersion }}
         imagePullPolicy: Always
         {{- if .Values.forge.cloudProvider }}
         env:

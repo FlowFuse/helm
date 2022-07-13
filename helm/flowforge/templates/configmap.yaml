@@ -80,4 +80,12 @@ data:
       {{- end }}
     {{- end }}
     {{- end }}
+    {{- if .Values.forge.broker }}
+    broker:
+      {{ if .Values.forge.broker.url -}}
+      url: {{ .Values.forge.broker.url }}
+      {{ else -}}
+      url: mqtt://forge-broker.{{ .Release.Namespace }}:1883
+      {{- end -}}
+    {{- end }}
 
