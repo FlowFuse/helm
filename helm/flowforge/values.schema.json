@@ -159,7 +159,10 @@
                     "properties": {
                         "url": {
                             "type" : "string"
-                        } 
+                        },
+                        "public_url": {
+                            "type": "string"
+                        }
                     },
                     "required": [
                         "url"
