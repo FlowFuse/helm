@@ -10,6 +10,8 @@ forge:
     role: projects
   managementSelector:
     role: management
+  telemetry:
+    enabled: true
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0

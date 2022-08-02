@@ -169,6 +169,17 @@
                     ]
                 }
             },
+            "telemetry": {
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "plausible": {
+                        "type": "string"
+                    }
+                }
+            },
             "required": [
                 "domain"
             ]
