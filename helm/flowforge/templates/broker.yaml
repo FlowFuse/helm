@@ -23,8 +23,8 @@ data:
 
     auth_opt_http_host forge.default
     auth_opt_http_port 80
-    auth_opt_http_getuser_uri /api/broker/auth-client
-    auth_opt_http_aclcheck_uri /api/broker/auth-acl
+    auth_opt_http_getuser_uri /api/comms/auth-client
+    auth_opt_http_aclcheck_uri /api/comms/auth-acl
 ---
 apiVersion: apps/v1
 kind: Deployment
