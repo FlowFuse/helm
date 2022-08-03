@@ -96,3 +96,11 @@ data:
     logging:
       level: info
       http: info
+    telemetry:
+      enabled: {{ .Values.forge.telemetry.enabled }}
+      {{- if .Values.forge.telemetry.plausible -}}
+      frontend:
+        plausible:
+          domain: {{ .Values.forge.telemetry.plausible }}
+      {{- end -}}
+
