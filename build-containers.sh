@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG=0.7.1
+TAG=0.8.0
 
 REGISTRY=$1
 
