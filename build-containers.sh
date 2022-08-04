@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG=0.8.0
+TAG=`cat VERSION`
 
 REGISTRY=$1
 
