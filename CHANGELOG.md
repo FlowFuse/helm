@@ -1,3 +1,12 @@
+#### 0.8.0: Release
+
+ - Bump version for 0.8.0 (#32) @hardillb
+ - Update auth http paths (#31) @hardillb
+ - Add plausible config (#30) @hardillb
+ - add dep @flowforge/nr-project-nodes (#29) @Steve-Mcl
+ - Start of adding the broker (#26) @hardillb
+ - Add FF Theme to node-red container (#25) @hardillb
+
 #### 0.7.0: Release
 
  - Fix missing Python2 for sqlite3 (#23) @hardillb
