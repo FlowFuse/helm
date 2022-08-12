@@ -74,11 +74,11 @@ spec:
           name: mqtt-ws
         # livenessProbe:
         #   httpGet:
-        #     path: /ping
+        #     path: /ping.html
         #     port: 1884
         # readinessProbe:
         #   httpGet:
-        #     path: /ping
+        #     path: /ping.html
         #     port: 1884
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
