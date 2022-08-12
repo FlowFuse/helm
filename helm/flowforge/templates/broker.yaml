@@ -11,6 +11,7 @@ data:
     listener 1883 0.0.0.0
     listener 1884 0.0.0.0
     protocol websockets
+    http_dir /http
 
     auth_plugin /mosquitto/go-auth.so
     auth_opt_backends http
@@ -25,6 +26,21 @@ data:
     auth_opt_http_port 80
     auth_opt_http_getuser_uri /api/comms/auth/client
     auth_opt_http_aclcheck_uri /api/comms/auth/acl
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-broker-ping
+data:
+  ping.html: |
+    <html>
+      <head>
+        <title>Mosquitto Liveness Check</title>
+        <body>
+          <h1>HelloWorld</h1>
+        </body>
+      </head>
+    </html>
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -49,6 +65,8 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/mosquitto
+        - name: ping
+          mountPath: /http
         ports:
         - containerPort: 1883
           name: mqtt-native
@@ -56,11 +74,11 @@ spec:
           name: mqtt-ws
         # livenessProbe:
         #   httpGet:
-        #     path: /
+        #     path: /ping
         #     port: 1884
         # readinessProbe:
         #   httpGet:
-        #     path: /
+        #     path: /ping
         #     port: 1884
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
@@ -72,6 +90,9 @@ spec:
       - name: config
         configMap:
           name: flowforge-broker-config
+      - name: ping
+        configMap:
+          name: flowforge-broker-ping
       {{- if .Values.forge.managementSelector }}
       nodeSelector:
         {{- range $key, $value := .Values.forge.managementSelector }}
@@ -111,6 +132,7 @@ metadata:
     alb.ingress.kubernetes.io/group.name: flowforge
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
+    abl.ingress.kubernetes.io/healthcheck-path: '/ping.html'
     {{- end }}
     {{- end }}
 spec:
