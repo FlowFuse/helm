@@ -110,4 +110,3 @@ data:
           capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview | default true}}
         {{ end -}}
       {{ end -}}
-
