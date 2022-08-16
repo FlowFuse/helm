@@ -98,14 +98,16 @@ data:
       http: info
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
+      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) -}}
       frontend:
-      {{- if .Values.forge.telemetry.plausible -}}
+        {{ if .Values.forge.telemetry.plausible -}}
         plausible:
           domain: {{ .Values.forge.telemetry.plausible }}
-      {{- end -}}
-      {{- if .Values.forge.telemetry.posthog -}}
+        {{ end -}}
+        {{ if .Values.forge.telemetry.posthog -}}
         posthog:
           apikey: {{ .Values.forge.telemetry.posthog.apikey}}
-          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview }}
-      {{- end -}}
+          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview | default true}}
+        {{ end -}}
+      {{ end -}}
 
