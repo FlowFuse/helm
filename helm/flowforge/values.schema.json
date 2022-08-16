@@ -177,6 +177,20 @@
                     },
                     "plausible": {
                         "type": "string"
+                    },
+                    "posthog": {
+                        "type": "object",
+                        "properties": {
+                            "apikey": {
+                                "type": "string"
+                            },
+                            "capture_pageview": {
+                                "type": "boolean"
+                            }
+                        },
+                        "required": [
+                            "apikey"
+                        ]
                     }
                 }
             },
