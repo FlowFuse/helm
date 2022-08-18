@@ -133,6 +133,9 @@
                                         },
                                         "project_product": {
                                             "type": "string"
+                                        },
+                                        "teams": {
+                                            "type": "object"
                                         }
                                     },
                                     "required": [

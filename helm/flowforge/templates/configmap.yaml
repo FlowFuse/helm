@@ -77,6 +77,10 @@ data:
         team_product: {{ .Values.forge.ee.billing.stripe.team_product }}
         project_price: {{ .Values.forge.ee.billing.stripe.project_price }}
         project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
+        {{- if .Values.forge.ee.billing.stripe.teams }}
+        teams:
+{{ toYaml $.Values.forge.ee.billing.stripe.teams | indent 10 }}
+        {{- end }}
       {{- end }}
     {{- end }}
     {{- end }}
@@ -107,6 +111,10 @@ data:
         {{ if .Values.forge.telemetry.posthog -}}
         posthog:
           apikey: {{ .Values.forge.telemetry.posthog.apikey}}
-          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview | default true}}
+          {{ if hasKey .Values.forge.telemetry.posthog "capture_pageview" }}
+          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview }}
+          {{ else }}
+          capture_pageview: true
+          {{ end }}
         {{ end -}}
       {{ end -}}
