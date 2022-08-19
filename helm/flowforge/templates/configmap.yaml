@@ -77,6 +77,13 @@ data:
         team_product: {{ .Values.forge.ee.billing.stripe.team_product }}
         project_price: {{ .Values.forge.ee.billing.stripe.project_price }}
         project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
+        {{- if .Values.forge.ee.billing.stripe.teams }}
+        teams:
+        {{- range $key, $value := $.Values.forge.ee.billing.stripe.teams }}
+          {{ $key }}:
+{{ toYaml $value | indent 12 -}}
+        {{ end }}
+        {{- end }}
       {{- end }}
     {{- end }}
     {{- end }}
@@ -87,9 +94,9 @@ data:
       {{ else -}}
       url: mqtt://forge-broker.{{ .Release.Namespace }}:1883
       {{- end -}}
-      {{ if .Values.forge.broker.public_url -}}
+      {{- if .Values.forge.broker.public_url -}}
       public_url: {{ .Values.forge.broker.public_url }}
-      {{ else -}}
+      {{- else -}}
       public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://mqtt.{{ .Values.forge.domain }}
       {{- end -}}
     {{- end }}
@@ -107,6 +114,10 @@ data:
         {{ if .Values.forge.telemetry.posthog -}}
         posthog:
           apikey: {{ .Values.forge.telemetry.posthog.apikey}}
-          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview | default true}}
+          {{ if hasKey .Values.forge.telemetry.posthog "capture_pageview" }}
+          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview }}
+          {{ else }}
+          capture_pageview: true
+          {{ end }}
         {{ end -}}
       {{ end -}}

@@ -61,7 +61,7 @@ spec:
       containers:
       - name: broker
         image: iegomez/mosquitto-go-auth
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         volumeMounts:
         - name: config
           mountPath: /etc/mosquitto
