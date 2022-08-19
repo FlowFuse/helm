@@ -79,7 +79,10 @@ data:
         project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
         {{- if .Values.forge.ee.billing.stripe.teams }}
         teams:
-{{ toYaml $.Values.forge.ee.billing.stripe.teams | indent 10 }}
+        {{- range $key, $value := $.Values.forge.ee.billing.stripe.teams }}
+          {{ $key }}:
+{{ toYaml $value | indent 12 -}}
+        {{ end }}
         {{- end }}
       {{- end }}
     {{- end }}
@@ -91,9 +94,9 @@ data:
       {{ else -}}
       url: mqtt://forge-broker.{{ .Release.Namespace }}:1883
       {{- end -}}
-      {{ if .Values.forge.broker.public_url -}}
+      {{- if .Values.forge.broker.public_url -}}
       public_url: {{ .Values.forge.broker.public_url }}
-      {{ else -}}
+      {{- else -}}
       public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://mqtt.{{ .Values.forge.domain }}
       {{- end -}}
     {{- end }}
