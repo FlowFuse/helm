@@ -92,7 +92,7 @@ data:
       {{ if .Values.forge.broker.url -}}
       url: {{ .Values.forge.broker.url }}
       {{ else -}}
-      url: mqtt://forge-broker.{{ .Release.Namespace }}:1883
+      url: mqtt://flowforge-broker.{{ .Release.Namespace }}:1883
       {{- end -}}
       {{- if .Values.forge.broker.public_url -}}
       public_url: {{ .Values.forge.broker.public_url }}
