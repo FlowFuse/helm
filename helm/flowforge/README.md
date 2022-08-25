@@ -71,4 +71,4 @@ Enables FlowForge Telemetry
  - `forge.ee.billing.stripe.team_product` Stripe product id for default Team
  - `forge.ee.billing.stripe.project_price` Stripe price id for default Project Type
  - `forge.ee.billing.stripe.project_product` Stripe product id for default Project Type
- - `forge.ee.billing.stripe.teams` a map conatiner Stripe Product & Price ids for named Team Types
+ - `forge.ee.billing.stripe.teams` a map containing Stripe Product & Price ids for named Team Types
