@@ -10,18 +10,19 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
 
 ### Core
 
+ - `forge.image` supply a fully qualified container image
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the container registry to find Project templates (default Docker Hub)
  - `forge.dbUsername` (default `forge`)
  - `forge.dbPassword` (default `Zai1Wied`)
- - `forge.localPostrgresql` Deploy a PostgreSQL Database into Kubernetes(default true)
+ - `forge.localPostrgresql` Deploy a PostgreSQL Database into Kubernetes(default `true`)
  - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
  - `forge.postgres.port` the port of an external PostgreSQL dataabse (default `5432`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectsSelector` a collection of labels and values to filter nodes that Project Pods will run on
- - `forge.managementSelector` a collectio of labels and values to filter nodes the Forge App will run on
+ - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
 
 ### AWS
@@ -38,11 +39,36 @@ To use STMP to send email
 
  - `forge.email.from` email address to send mail as can include name e.g. "\"FlowForge\" <flowforge@example.com>"
  - `forge.email.smtp.host` if not set email is disabled
- - `forge.email.smtp.port` (default 25)
- - `forge.email.smtp.tls` (default false)
+ - `forge.email.smtp.port` (default `25`)
+ - `forge.email.smtp.tls` (default `false`)
  - `forge.email.smtp.user`
  - `forge.email.smtp.password`
 
  To use AWS SES to send email
 
  - `forge.email.ses.region` the AWS region the SES service is enabled
+
+ ### MQTT Broker
+
+  - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]`)
+  - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
+
+### Telemetry
+
+Enables FlowForge Telemetry
+
+ - `forge.telemetry.enabled` enables anonymised usage reporting (defaults `true`)
+ - `forge.telemetry.frontend.posthog.apikey` enables posthog logging if set (no default)
+ - `forge.telemetry.frontend.posthog.capture_pageview` (default `true`)
+
+ ### Billing
+
+ Enables FlowForge billing features using Stripe
+
+ - `forge.ee.billing.stripe.key` Stripe API Key
+ - `forge.ee.billing.stripe.wh_secret` Stripe Web Hook callback secret
+ - `forge.ee.billing.stripe.team_price` Stripe price id for default Team
+ - `forge.ee.billing.stripe.team_product` Stripe product id for default Team
+ - `forge.ee.billing.stripe.project_price` Stripe price id for default Project Type
+ - `forge.ee.billing.stripe.project_product` Stripe product id for default Project Type
+ - `forge.ee.billing.stripe.teams` a map conatiner Stripe Product & Price ids for named Team Types
