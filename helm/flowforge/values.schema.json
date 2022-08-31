@@ -16,6 +16,9 @@
                 "https": {
                     "type": "boolean"
                 },
+                "image": {
+                    "type": "string"
+                },
                 "registry": {
                     "type": "string"
                 },
