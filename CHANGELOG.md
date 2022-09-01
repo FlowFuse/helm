@@ -1,3 +1,12 @@
+#### 0.9.0: Release
+
+- containers: Publish containers publicly each release @ZJvandeWeg
+ - Add option to overide forge app container image (#39) @hardillb
+ - Set correct default broker url (#38) @hardillb
+ - Add team types (#37) @hardillb
+ - Add support for PostHog metrics (#36) @hardillb
+ - Versioning (#34) @hardillb
+ - Add Health Check URL for MQTT broker (#35) @hardillb
 #### 0.8.0: Release
 
  - Bump version for 0.8.0 (#32) @hardillb
