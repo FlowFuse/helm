@@ -1,0 +1,38 @@
+on: 
+  push: 
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build_application_container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'flowforge/helm'
+          path: 'helm'
+      - name: Build Node-RED Stack container
+        working-directory: helm
+        env:
+          IMAGE_TAG: $GITHUB_REF_NAME
+          CONTAINER_NAME: hub.docker.com/flowforge/node-red
+        run: |
+          docker build flowforge-container -t $CONTAINER_NAME:$IMAGE_TAG
+          echo ${{secrets.DOCKER_HUB_PASSWORD}} | docker login -u flowforge --password-stdin
+          docker push $CONTAINER_NAME:$IMAGE_TAG
+  build_nodered_container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'flowforge/helm'
+          path: 'helm'
+      - name: Build FlowForge application container
+        working-directory: helm
+        env:
+          IMAGE_TAG: $GITHUB_REF_NAME
+          CONTAINER_NAME: hub.docker.com/flowforge/forge-k8s
+        run: |
+          docker build flowforge-container -t $CONTAINER_NAME:$IMAGE_TAG
+          echo ${{secrets.DOCKER_HUB_PASSWORD}} | docker login -u flowforge --password-stdin
+          docker push $CONTAINER_NAME:$IMAGE_TAG
