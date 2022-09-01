@@ -14,8 +14,8 @@ jobs:
       - name: Build Node-RED Stack container
         working-directory: helm
         env:
-          IMAGE_TAG: $GITHUB_REF_NAME
-          CONTAINER_NAME: hub.docker.com/flowforge/node-red
+          IMAGE_TAG: ${{ github.ref_name }}
+          CONTAINER_NAME: flowforge/node-red
         run: |
           docker build flowforge-container -t $CONTAINER_NAME:$IMAGE_TAG
           echo ${{secrets.DOCKER_HUB_PASSWORD}} | docker login -u flowforge --password-stdin
@@ -30,8 +30,8 @@ jobs:
       - name: Build FlowForge application container
         working-directory: helm
         env:
-          IMAGE_TAG: $GITHUB_REF_NAME
-          CONTAINER_NAME: hub.docker.com/flowforge/forge-k8s
+          IMAGE_TAG: ${{ github.ref_name }}
+          CONTAINER_NAME: flowforge/forge-k8s
         run: |
           docker build flowforge-container -t $CONTAINER_NAME:$IMAGE_TAG
           echo ${{secrets.DOCKER_HUB_PASSWORD}} | docker login -u flowforge --password-stdin
