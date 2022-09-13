@@ -1,7 +1,9 @@
 FROM node:16-alpine
 
 ARG REGISTRY
+ARG REGISTRY_TOKEN
 ARG TAG
+RUN if [[ ! -z "$REGISTRY_TOKEN" ]]; then echo "//npm.pkg.github.com/:_authtoken=$REGISTRY_TOKEN" >> ~/.npmrc ; fi
 RUN if [[ ! -z "$REGISTRY" ]] ; then npm config set @flowforge:registry "$REGISTRY"; fi
 
 RUN apk add --no-cache --virtual build-base g++ make py3-pip sqlite-dev python3

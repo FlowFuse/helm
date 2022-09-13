@@ -1,6 +1,8 @@
 FROM nodered/node-red:latest
 
 ARG REGISTRY
+ARG REGISTRY_TOKEN
+RUN if [[ ! -z "$REGISTRY_TOKEN" ]]; then echo "//npm.pkg.github.com/:_authtoken=$REGISTRY_TOKEN" >> ~/.npmrc ; fi
 RUN if [[ ! -z "$REGISTRY" ]] ; then npm config set @flowforge:registry "$REGISTRY"; fi
 
 COPY package.json /data
