@@ -10,7 +10,7 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
 
 ### Core
 
- - `forge.image` supply a fully qualified container image
+ - `forge.image` supply a fully qualified container image for the forge app (default `forge.regisry`/flowforge/forge-k8s:<App Version>)
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
@@ -24,6 +24,7 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.projectsSelector` a collection of labels and values to filter nodes that Project Pods will run on
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
+ - `forge.license` FlowForge EE license string (opional, default not set)
 
 ### AWS
 
