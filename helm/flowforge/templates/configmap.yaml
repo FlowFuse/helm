@@ -6,6 +6,9 @@ data:
   flowforge.yml: |
     port: 3000
     host: 0.0.0.0
+    {{- if .Values.forge.license }}
+    license: {{ .Values.forge.license }}
+    {{- end}}
     domain: {{ .Values.forge.domain }}
     {{- if .Values.forge.entryPoint }}
     base_url: http{{- if .Values.forge.https -}}s{{- end -}}://{{ .Values.forge.entryPoint }}
