@@ -14,6 +14,7 @@ jobs:
       # sets options for Docker build
       # will tag contianers with GH tag name
       - name: Docker Meta Data
+        id: meta
         uses: docker/metadata-action@v3
         with:
           tags: |
@@ -39,6 +40,7 @@ jobs:
           context: helm/flowforge-container
           file: helm/flowforge-contianer/Dockerfile
           platforms: linux/amd64, linux/arm64
+          tags: ${{ steps.meta.output.tags }}
           push: true
   build_nodered_container:
     runs-on: ubuntu-latest
@@ -48,6 +50,7 @@ jobs:
           repository: 'flowforge/helm'
           path: 'helm'
       - name: Docker Meta Data
+        id: meta
         uses: docker/metadata-action@v3
         with:
           tags: |
@@ -71,4 +74,5 @@ jobs:
           context: helm/flowforge-container
           file: helm/flowforge-contianer/Dockerfile
           platforms: linux/amd64, linux/arm64
+          tags: ${{ steps.meta.output.tags }}
           push: true
