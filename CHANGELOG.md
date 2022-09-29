@@ -1,3 +1,9 @@
+#### 0.10.0: Release
+
+ - Fix case on npm authToken (#46) @hardillb
+ - Use GH token to auth if using custom repo (#44) @hardillb
+ - Move to docker GH actions (#43) @hardillb
+
 #### 0.9.0: Release
 
 - containers: Publish containers publicly each release @ZJvandeWeg
