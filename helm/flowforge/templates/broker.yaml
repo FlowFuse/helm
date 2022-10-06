@@ -58,6 +58,10 @@ spec:
       labels:
         app: flowforge-broker
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: broker
         image: iegomez/mosquitto-go-auth
@@ -72,6 +76,8 @@ spec:
           name: mqtt-native
         - containerPort: 1884
           name: mqtt-ws
+        securityContext: 
+          allowPrivilegeEscalation: false
         # livenessProbe:
         #   httpGet:
         #     path: /ping.html
