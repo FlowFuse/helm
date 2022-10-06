@@ -78,6 +78,7 @@ spec:
           name: mqtt-ws
         securityContext: 
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         # livenessProbe:
         #   httpGet:
         #     path: /ping.html
