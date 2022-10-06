@@ -22,7 +22,7 @@ data:
     auth_opt_auth_jitter_second 3
     auth_opt_acl_jitter_seconds 5
 
-    auth_opt_http_host forge.default
+    auth_opt_http_host forge.{{ .Release.Namespace }}
     auth_opt_http_port 80
     auth_opt_http_getuser_uri /api/comms/auth/client
     auth_opt_http_aclcheck_uri /api/comms/auth/acl
