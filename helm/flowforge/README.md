@@ -17,12 +17,13 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.registry` the container registry to find Project templates (default Docker Hub)
  - `forge.dbUsername` (default `forge`)
  - `forge.dbPassword` (default `Zai1Wied`)
+ - `forge.dbName` (default `flowforge`)
  - `forge.localPostrgresql` Deploy a PostgreSQL Database into Kubernetes(default `true`)
  - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
  - `forge.postgres.port` the port of an external PostgreSQL dataabse (default `5432`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
- - `forge.projectsSelector` a collection of labels and values to filter nodes that Project Pods will run on
- - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on
+ - `forge.projectsSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
+ - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
 
 ### AWS
@@ -58,8 +59,8 @@ To use STMP to send email
 Enables FlowForge Telemetry
 
  - `forge.telemetry.enabled` enables anonymised usage reporting (defaults `true`)
- - `forge.telemetry.frontend.posthog.apikey` enables posthog logging if set (no default)
- - `forge.telemetry.frontend.posthog.capture_pageview` (default `true`)
+ - `forge.telemetry.posthog.apikey` enables posthog logging if set (no default)
+ - `forge.telemetry.posthog.capture_pageview` (default `true`)
 
  ### Billing
 

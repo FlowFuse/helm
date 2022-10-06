@@ -15,6 +15,10 @@ spec:
         app: flowforge
     spec:
       serviceAccountName: flowforge
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: forge
         {{- if .Values.forge.image }}
@@ -33,6 +37,8 @@ spec:
           mountPath: /usr/src/forge/etc
         ports:
         - containerPort: 3000
+        securityContext: 
+          allowPrivilegeEscalation: false
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}
