@@ -3,6 +3,7 @@ forge:
   registry: docker-pi.local:5000
   dbUsername: forge
   dbPassword: Zai1Wied
+  dbName: flowforge
   localPostgresql: true
   https: true
   projectNamespace: flowforge

@@ -24,6 +24,7 @@ data:
       {{- end }}
       user: {{ .Values.forge.dbUsername }}
       password: {{ .Values.forge.dbPassword }}
+      db: {{ .Values.forge.dbName }}
     driver:
       type: kubernetes
       options:
