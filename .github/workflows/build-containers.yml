@@ -42,6 +42,13 @@ jobs:
           platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
+      - name: Push README
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          repository: flowforge/forge-k8s
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          readme-filepath: ./flowforge-container/README.md
   build_nodered_container:
     runs-on: ubuntu-latest
     steps:
@@ -76,3 +83,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
+      - name: Push README
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          repository: flowforge/node-red
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          readme-filepath: ./node-red-contianer/README.md
