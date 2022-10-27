@@ -1,3 +1,7 @@
+#### 1.0.1: Release
+
+ - Update for FlowForge 1.0.1
+ 
 #### 1.0.0: Release
 
  - Remove flowforge nodes from /data/package.json (#56) @hardillb
