@@ -1,3 +1,10 @@
+#### 1.0.0: Release
+
+ - Remove flowforge nodes from /data/package.json (#56) @hardillb
+ - Push README.md files to Docker Hub with each release (#54) @hardillb
+ - Limiting the containers capabilities (#53) @hardillb
+ - Allow EE license to be added to configmap from helm chart (#45) @hardillb
+
 #### 0.10.0: Release
 
  - Fix case on npm authToken (#46) @hardillb
