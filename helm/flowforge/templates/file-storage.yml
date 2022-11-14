@@ -1,0 +1,81 @@
+{{- if .Values.forge.fileStore -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-file-config
+data:
+  flowforge-storage.yml: |
+    host: '0.0.0.0'
+    port: 3001
+    base_url: http://forge.{{ .Release.Namespace }}
+    driver:
+      type: {{ .Values.forge.fileStore.type }}
+      {{- if .Values.forge.fileStore.options }}
+      options:
+        {{- range $key, $value := .Values.forge.fileStore.options }}
+        {{ $key }}:
+{{ toYaml $value | indent 10 -}}
+        {{- end }}
+      {{- end }}
+---
+apiVersion: apps/v1here
+kind: Deployment
+metadata:
+  name: flowforge-file
+  labels:
+    app: flowforge-file
+spec:
+  selector:
+    matchLabels:
+      app: flowforge-file
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flowforge-file
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: file-storage
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-storage:{{ .Chart.AppVersion }}
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config
+          mountPath: /usr/src/flowforge-file-storage/etc
+        ports:
+        - containerPort: 3001
+        securityContext:
+          alowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+      {{- if .Values.forge.registrySecrets }}
+      imagePullSecrets:
+      {{- range .Values.forge.registrySecrets }}
+      - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.forge.managementSelector }}
+      volumes:
+      - name: config
+        configMap: flowforge-file-config
+      nodeSelector:
+        {{- range $key, $value := .Values.forge.managementSelector }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowforge-file
+spec:
+  ports:
+  - port: 80
+    targetPort: 3001
+    protocol: TCP
+    name: web
+  selector:
+    app: flowforge-file
+{{- end -}}

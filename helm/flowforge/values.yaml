@@ -1,6 +1,5 @@
 forge:
   domain: example.com
-  registry: docker-pi.local:5000
   dbUsername: forge
   dbPassword: Zai1Wied
   dbName: flowforge

@@ -125,3 +125,7 @@ data:
           {{ end }}
         {{ end -}}
       {{ end -}}
+    {{- if .Values.forge.fileStore }}
+    fileStore:
+      url: http://flowforge-file.{{ .Release.Namespace }}
+    {{- end }}
