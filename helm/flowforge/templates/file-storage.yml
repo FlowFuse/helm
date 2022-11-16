@@ -18,7 +18,21 @@ data:
         {{- end }}
       {{- end }}
 ---
-apiVersion: apps/v1here
+{{ if eq .Values.forge.fileStore.type "localfs" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: file-storage-pvc
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+{{- end }}
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flowforge-file
@@ -45,10 +59,14 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /usr/src/flowforge-file-storage/etc
+        {{ if eq .Values.forge.fileStore.type "localfs" -}}
+        - name: root
+          mountPath: /usr/src/flowforge-files-storage/var
+        {{ end -}}
         ports:
         - containerPort: 3001
         securityContext:
-          alowPrivilegeEscalation: false
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
@@ -56,10 +74,16 @@ spec:
       - name: {{ . }}
       {{- end }}
       {{- end }}
-      {{- if .Values.forge.managementSelector }}
       volumes:
       - name: config
-        configMap: flowforge-file-config
+        configMap: 
+          name: flowforge-file-config
+      {{ if eq .Values.forge.fileStore.type "localfs" -}}
+      - name: root
+        persistentVolumeClaim:
+          claimName: file-storage-pvc
+      {{ end -}}
+      {{- if .Values.forge.managementSelector -}}
       nodeSelector:
         {{- range $key, $value := .Values.forge.managementSelector }}
         {{ $key }}: {{ $value }}
