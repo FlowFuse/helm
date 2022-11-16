@@ -61,7 +61,7 @@ spec:
           mountPath: /usr/src/flowforge-file-storage/etc
         {{ if eq .Values.forge.fileStore.type "localfs" -}}
         - name: root
-          mountPath: /usr/src/flowforge-files-storage/var
+          mountPath: /usr/src/flowforge-file-storage/var
         {{ end -}}
         ports:
         - containerPort: 3001
