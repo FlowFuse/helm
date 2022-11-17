@@ -58,10 +58,10 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
         - name: config
-          mountPath: /usr/src/flowforge-file-storage/etc
+          mountPath: /usr/src/flowforge-file-server/etc
         {{ if eq .Values.forge.fileStore.type "localfs" -}}
         - name: root
-          mountPath: /usr/src/flowforge-file-storage/var
+          mountPath: /usr/src/flowforge-file-server/var
         {{ end -}}
         ports:
         - containerPort: 3001

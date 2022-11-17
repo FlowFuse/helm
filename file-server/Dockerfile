@@ -8,10 +8,10 @@ RUN if [[ ! -z "$REGISTRY" ]] ; then npm config set @flowforge:registry "https:/
 
 WORKDIR /usr/src/flowforge-file-storage
 RUN mkdir app bin etc var
-COPY package.json /usr/src/flowforge-file-storage/app
+COPY package.json /usr/src/flowforge-file-server/app
 WORKDIR /usr/src/flowforge-file-storage/app
 RUN npm install --production --no-audit --no-fund
-ENV FLOWFORGE_HOME=/usr/src/flowforge-file-storage
+ENV FLOWFORGE_HOME=/usr/src/flowforge-file-server
 
 LABEL org.label-schema.name="Flowforge File Storage" \
     org.label-schema.url="https://flowforge.com" \
