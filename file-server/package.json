@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "@flowforge/file-storage": "1.0.1"
+        "@flowforge/file-storage": "0.0.1"
     },
     "license": "Apache-2.0"
 }
