@@ -109,7 +109,7 @@ data:
       http: info
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
-      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) -}}
+      {{- if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) -}}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
         plausible:
@@ -124,4 +124,8 @@ data:
           capture_pageview: true
           {{ end }}
         {{ end -}}
-      {{ end -}}
+      {{- end }}
+    {{- if .Values.forge.fileStore }}
+    fileStore:
+      url: http://flowforge-file.{{ .Release.Namespace }}
+    {{- end }}

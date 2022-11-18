@@ -77,3 +77,8 @@ Enables FlowForge Telemetry
  - `forge.ee.billing.stripe.project_price` Stripe price id for default Project Type
  - `forge.ee.billing.stripe.project_product` Stripe product id for default Project Type
  - `forge.ee.billing.stripe.teams` a map containing Stripe Product & Price ids for named Team Types
+
+### File Storage
+
+- `forge.fileStore.type` Choice of backends to store files `localfs` or `s3`
+- `forge.fileStore.options` Options to pass to the backend storage driver

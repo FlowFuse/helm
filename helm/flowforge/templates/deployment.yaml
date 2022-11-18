@@ -24,7 +24,7 @@ spec:
         {{- if .Values.forge.image }}
         image: {{ .Values.forge.image }}
         {{ else }}
-        image: {{ default "docker-pi.local:5000" .Values.forge.registry }}/flowforge/forge-k8s:{{ .Chart.AppVersion }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/forge-k8s:{{ .Chart.AppVersion }}
         {{ end -}}
         imagePullPolicy: Always
         {{- if .Values.forge.cloudProvider }}
