@@ -6,10 +6,10 @@ ARG TAG
 RUN if [[ ! -z "$REGISTRY_TOKEN" ]]; then echo "//$REGISTRY/:_authToken=$REGISTRY_TOKEN" >> ~/.npmrc ; fi
 RUN if [[ ! -z "$REGISTRY" ]] ; then npm config set @flowforge:registry "https://$REGISTRY"; fi
 
-WORKDIR /usr/src/flowforge-file-storage
+WORKDIR /usr/src/flowforge-file-server
 RUN mkdir app bin etc var
 COPY package.json /usr/src/flowforge-file-server/app
-WORKDIR /usr/src/flowforge-file-storage/app
+WORKDIR /usr/src/flowforge-file-server/app
 RUN npm install --production --no-audit --no-fund
 ENV FLOWFORGE_HOME=/usr/src/flowforge-file-server
 
