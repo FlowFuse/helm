@@ -12,10 +12,7 @@ data:
       type: {{ .Values.forge.fileStore.type }}
       {{- if .Values.forge.fileStore.options }}
       options:
-        {{- range $key, $value := .Values.forge.fileStore.options }}
-        {{ $key }}:
-{{ toYaml $value | indent 10 -}}
-        {{- end }}
+{{ toYaml .Values.forge.fileStore.options | indent 8 -}}
       {{- end }}
 ---
 {{ if eq .Values.forge.fileStore.type "localfs" }}
