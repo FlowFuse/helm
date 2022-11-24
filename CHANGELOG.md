@@ -1,3 +1,12 @@
+#### 1.1.0: Release
+
+ - Fix indentation in file-server.yml (#67) @hardillb
+ - Rename file-storage package (#66) @hardillb
+ - Add File Server (#64) @hardillb
+ - Update helm chart readme about node selectors (#65) @hardillb
+ - Typo in docs for ProjectSelector (#63) @hardillb
+ - Fix path to README (#62) @hardillb
+
 #### 1.0.1: Release
 
  - Update for FlowForge 1.0.1
