@@ -12,6 +12,10 @@ forge:
     role: management
   telemetry:
     enabled: true
+  broker:
+    enabled: false
+  fileStore:
+    enabled: false
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0

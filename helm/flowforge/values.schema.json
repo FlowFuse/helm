@@ -163,6 +163,9 @@
                 "broker": {
                     "type": "object",
                     "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
                         "url": {
                             "type" : "string"
                         },
@@ -171,7 +174,7 @@
                         }
                     },
                     "required": [
-                        "url"
+                        "enabled"
                     ]
                 }
             },

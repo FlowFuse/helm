@@ -8,6 +8,7 @@ if [ ! -z "$REGISTRY" ]; then
 
   docker build flowforge-container -t $REGISTRY/flowforge/forge-k8s:$TAG
   docker build node-red-container -t $REGISTRY/flowforge/node-red:$TAG
+  docker build file-server -t %REGISTRY/flowforge/file-server:$TAG
 
 else
   echo "Usage: $0 [container registry]"

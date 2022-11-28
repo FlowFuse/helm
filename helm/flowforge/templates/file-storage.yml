@@ -1,4 +1,4 @@
-{{- if .Values.forge.fileStore -}}
+{{- if .Values.forge.fileStore.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

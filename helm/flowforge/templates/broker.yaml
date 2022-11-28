@@ -1,4 +1,4 @@
-{{- if .Values.forge.broker -}}
+{{- if .Values.forge.broker.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
