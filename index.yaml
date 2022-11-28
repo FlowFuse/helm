@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  flowforge:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2022-11-28T11:09:27.297530221Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.14.0
+    description: FlowForge
+    digest: 6abcd12d8d1d3e7bc2ef25794fd193809740186cb77f54c87844436a8343c27c
+    home: https://flowforge.com
+    icon: https://flowforge.com/apple-touch-icon.png
+    keywords:
+    - flowforge
+    - node-red
+    maintainers:
+    - name: FlowForge Inc
+      url: https://flowforge.com
+    name: flowforge
+    type: application
+    urls:
+    - flowforge-1.1.0.tgz
+    version: 1.1.0
+generated: "2022-11-28T11:09:27.29402714Z"
