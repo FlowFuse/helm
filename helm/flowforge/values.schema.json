@@ -99,7 +99,10 @@
                         "port": {
                             "type": "integer"
                         }
-                    }
+                    },
+                    "required": [
+                        "host"
+                    ]
                 },
                 "projectNamespace": {
                     "type": "string"
@@ -176,36 +179,79 @@
                     "required": [
                         "enabled"
                     ]
-                }
-            },
-            "telemetry": {
-                "type": "object",
-                "properties": {
-                    "enabled": {
-                        "type": "boolean"
-                    },
-                    "plausible": {
-                        "type": "string"
-                    },
-                    "posthog": {
-                        "type": "object",
-                        "properties": {
-                            "apikey": {
-                                "type": "string"
-                            },
-                            "capture_pageview": {
-                                "type": "boolean"
-                            }
+                },
+                "telemetry": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
                         },
-                        "required": [
-                            "apikey"
-                        ]
+                        "plausible": {
+                            "type": "string"
+                        },
+                        "posthog": {
+                            "type": "object",
+                            "properties": {
+                                "apikey": {
+                                    "type": "string"
+                                },
+                                "capture_pageview": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "required": [
+                                "apikey"
+                            ]
+                        }
                     }
+                },
+                "fileStore": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "type": {
+                            "type": "string"
+                        },
+                        "options": {
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "enabled"
+                    ],
+                    "if": {
+                        "properties": {
+                            "enabled": {
+                                "enum": [ true ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "type",
+                            "options"
+                        ]
+                    } 
+                    
                 }
             },
             "required": [
                 "domain"
-            ]
+            ],
+            "if": {
+                "properties": {
+                    "localPostgresql": {
+                        "enum": [ false ]
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "postgres"
+                ]
+            }
         }
     },
     "required": [
