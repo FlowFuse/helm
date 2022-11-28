@@ -1,5 +1,4 @@
 forge:
-  domain: example.com
   dbUsername: forge
   dbPassword: Zai1Wied
   dbName: flowforge
