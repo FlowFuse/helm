@@ -34,6 +34,9 @@
                 "dbPassword": {
                     "type": "string"
                 },
+                "dbName": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "object",
                     "properties":{
@@ -238,7 +241,9 @@
                 }
             },
             "required": [
-                "domain"
+                "domain",
+                "dbUsername",
+                "dbPassword"
             ],
             "if": {
                 "properties": {
