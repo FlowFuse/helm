@@ -170,3 +170,27 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/file-server/README.md
+
+  publish_helm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.5.2
+      - name: Install Deps
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: 'flowforge/helm'
+          path: 'helm'
+      - name: Package
+        run: |
+          helm package -d . helm/helm/flowforge
+          cd helm
+          git checkout gh-pages
+          mv ../flowforge-*.tgz .
+          helm repo index
+      
