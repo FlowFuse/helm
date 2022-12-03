@@ -192,5 +192,7 @@ jobs:
           cd helm
           git checkout gh-pages
           mv ../flowforge-*.tgz .
-          helm repo index
+          helm repo index --url https://flowforge.github.io/helm
+          git add .
+          git commit -m "Add ${{ github.ref_name }} helm chart"
       
