@@ -1,4 +1,8 @@
-#### 1.1.0: Release
+#### 1.1.2
+
+ - Update to FlowForge 1.1.2
+ 
+ #### 1.1.0: Release
 
  - Fix indentation in file-server.yml (#67) @hardillb
  - Rename file-storage package (#66) @hardillb
