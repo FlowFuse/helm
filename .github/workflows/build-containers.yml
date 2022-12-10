@@ -192,7 +192,7 @@ jobs:
           cd helm
           git checkout gh-pages
           mv ../flowforge-*.tgz .
-          helm repo index --url https://flowforge.github.io/helm
+          helm repo index --url https://flowforge.github.io/helm .
           git add .
           git commit -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' -m "Add ${{ github.ref_name }} helm chart"
           git push origin gh-pages
