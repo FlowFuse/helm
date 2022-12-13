@@ -10,10 +10,22 @@ data:
     base_url: http://forge.{{ .Release.Namespace }}
     driver:
       type: {{ .Values.forge.fileStore.type }}
+      {{- if .Values.forge.fileStore.quota }}
+      quota: {{ .values.forge.fileStore.quota }}
+      {{- end }}
       {{- if .Values.forge.fileStore.options }}
       options:
 {{ toYaml .Values.forge.fileStore.options | indent 8 -}}
       {{- end }}
+    {{- if .Values.forge.fileStore.context }}
+    context:
+      type: {{ .Values.forge.fileStore.context.type }}
+      {{- if .Values.forge.fileStore.context.quota }}
+      quota: {{ .values.forge.fileStore.context.quota }}
+      {{- end }}
+      options:
+{{ toYaml .Values.forge.fileStore.context.options | indent 8 -}}
+    {{- end }}
 ---
 {{ if eq .Values.forge.fileStore.type "localfs" }}
 apiVersion: v1

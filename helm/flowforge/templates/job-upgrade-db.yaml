@@ -1,0 +1,53 @@
+{{- if and .Values.forge.fileStore .Values.forge.localPostgresql -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: upgrade.sh
+data:
+  upgrade.sh: |
+    #!/bin/sh
+    apk add --no-cache postgresql14-client
+    psql -v ON_ERROR_STOP=1 -h flowforge-postgresql -U postgres postgres <<-ESQL
+    SELECT datname FROM pg_database WHERE datistemplate = false;
+    -- CREATE DATABASE ff-context;
+    -- GRANT ALL PRIVILEGES ON DATABASE ff-context TO forge;
+    ESQL
+    echo HelloWorld
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flowforge-db-upgrade
+  labels:
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name:
+      labels:
+        app: flowforge-file
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: add-context-db
+        image: "alpine"
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+                name: flowforge-postgresql
+                key: postgresql-postgres-password
+        volumeMounts:
+        - name: upgrade-script
+          mountPath: /usr/local
+        command:
+        - /bin/sh
+        - /usr/local/upgrade.sh
+      volumes:
+      - name: upgrade-script
+        configMap:
+          name: upgrade.sh
+{{- end -}}

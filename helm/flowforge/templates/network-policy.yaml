@@ -51,4 +51,7 @@ spec:
       - podSelector:
           matchLabels:
             app: flowforge
+      - podSelector:
+          matchLabels:
+            app: flowforge-file
 {{- end }}
