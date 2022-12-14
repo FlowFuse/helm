@@ -186,7 +186,7 @@ jobs:
           tags: |
             type=semver,event=tag,pattern={{version}}-2.2.3
           flavor: |
-            latest=false
+            latest=true
           images: |
             flowforge/device-agent
       - name: Setup QEMU
@@ -206,3 +206,30 @@ jobs:
           platforms: linux/amd64, linux/arm64, linux/arm/v7 
           tags: ${{ steps.meta.outputs.tags }}
           push: true
+          
+
+  publish_helm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.5.2
+      - name: Install Deps
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: 'flowforge/helm'
+          path: 'helm'
+      - name: Package
+        run: |
+          helm package -d . helm/helm/flowforge
+          cd helm
+          git checkout gh-pages
+          mv ../flowforge-*.tgz .
+          helm repo index --url https://flowforge.github.io/helm .
+          git add .
+          git commit -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' -m "Add ${{ github.ref_name }} helm chart"
+          git push origin gh-pages
