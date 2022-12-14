@@ -184,7 +184,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           tags: |
-            type=semver,event=tag,pattern={{version}}-2.2.3
+            type=semver,event=tag,pattern={{version}}
           flavor: |
             latest=true
           images: |
@@ -206,7 +206,13 @@ jobs:
           platforms: linux/amd64, linux/arm64, linux/arm/v7 
           tags: ${{ steps.meta.outputs.tags }}
           push: true
-          
+      - name: Push README
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          repository: flowforge/device-agent
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          readme-filepath: ./helm/flowforge-device-agent/README.md
 
   publish_helm:
     runs-on: ubuntu-latest
