@@ -1,4 +1,4 @@
-{{- if and .Values.forge.fileStore .Values.forge.localPostgresql -}}
+{{- if and .Values.forge.fileStore.context .Values.forge.localPostgresql -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,10 +9,9 @@ data:
     apk add --no-cache postgresql14-client
     psql -v ON_ERROR_STOP=1 -h flowforge-postgresql -U postgres postgres <<-ESQL
     SELECT datname FROM pg_database WHERE datistemplate = false;
-    -- CREATE DATABASE ff-context;
-    -- GRANT ALL PRIVILEGES ON DATABASE ff-context TO forge;
+    CREATE DATABASE "ff-context";
+    GRANT ALL PRIVILEGES ON DATABASE "ff-context" TO forge;
     ESQL
-    echo HelloWorld
 ---
 apiVersion: batch/v1
 kind: Job
@@ -20,7 +19,7 @@ metadata:
   name: flowforge-db-upgrade
   labels:
   annotations:
-    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook": post-upgrade,post-install
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
@@ -33,7 +32,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: add-context-db
-        image: "alpine"
+        image: "alpine:3.17.0"
         env:
         - name: PGPASSWORD
           valueFrom:
