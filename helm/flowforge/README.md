@@ -10,7 +10,7 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
 
 ### Core
 
- - `forge.image` supply a fully qualified container image for the forge app (default `forge.regisry`/flowforge/forge-k8s:<App Version>)
+ - `forge.image` supply a fully qualified container image for the forge app (default `forge.registry`/flowforge/forge-k8s:<App Version>)
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
@@ -20,12 +20,12 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.dbName` (default `flowforge`)
  - `forge.localPostrgresql` Deploy a PostgreSQL Database into Kubernetes(default `true`)
  - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
- - `forge.postgres.port` the port of an external PostgreSQL dataabse (default `5432`)
+ - `forge.postgres.port` the port of an external PostgreSQL database (default `5432`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
- - `forge.license` FlowForge EE license string (opional, default not set)
+ - `forge.license` FlowForge EE license string (optional, default not set)
 
 
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
@@ -55,14 +55,15 @@ To use STMP to send email
 
  ### MQTT Broker
 
-  - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]`)
+  - `forge.broker.enabled` (default `false`)
+  - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
 
 ### Telemetry
 
 Enables FlowForge Telemetry
 
- - `forge.telemetry.enabled` enables anonymised usage reporting (defaults `true`)
+ - `forge.telemetry.enabled` enables anonymized usage reporting (defaults `true`)
  - `forge.telemetry.posthog.apikey` enables posthog logging if set (no default)
  - `forge.telemetry.posthog.capture_pageview` (default `true`)
 
@@ -80,5 +81,6 @@ Enables FlowForge Telemetry
 
 ### File Storage
 
+- `forge.fileStore.enabled` (default `false`)
 - `forge.fileStore.type` Choice of backends to store files `localfs` or `s3`
 - `forge.fileStore.options` Options to pass to the backend storage driver

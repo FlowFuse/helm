@@ -1,5 +1,4 @@
 forge:
-  domain: example.com
   dbUsername: forge
   dbPassword: Zai1Wied
   dbName: flowforge
@@ -12,6 +11,10 @@ forge:
     role: management
   telemetry:
     enabled: true
+  broker:
+    enabled: false
+  fileStore:
+    enabled: false
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0
