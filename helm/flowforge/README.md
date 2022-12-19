@@ -82,5 +82,9 @@ Enables FlowForge Telemetry
 ### File Storage
 
 - `forge.fileStore.enabled` (default `false`)
-- `forge.fileStore.type` Choice of backends to store files `localfs` or `s3`
-- `forge.fileStore.options` Options to pass to the backend storage driver
+- `forge.fileStore.type` Choice of backends to store files `localfs` or `s3` (default `localfs`)
+- `forge.fileStore.options` Options to pass to the backend storage driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
+- `forge.fileStore.quota` Sets the maximum number of bytes that a project can store as files (default `104857600`)
+- `forge.fileStore.context.type` Choice of backends for Persistent Context `sequelize`
+- `forge.fileStore.context.options` Options to pass to Persistent Context Driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
+- `forge.fileStore.context.quota` Sets the maximum number of bytes that a project can store in Persistent Context (default `1048576`)

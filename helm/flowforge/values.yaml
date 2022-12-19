@@ -15,6 +15,19 @@ forge:
     enabled: false
   fileStore:
     enabled: false
+    type: localfs
+    quota: 104857600
+    options:
+      root: var/root
+    context:
+      type: sequelize
+      quota: 1048576
+      options:
+        type: postgres
+        host: flowforge-postgreql
+        username: forge
+        password: Zai1Wied
+        database: ff-context
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0

@@ -240,6 +240,36 @@
                     
                 }
             },
+            "fileStore": {
+                "type": "object",
+                "properties": {
+                    "type": { 
+                        "type": "string"
+                    },
+                    "options": {
+                        "type": "object"
+                    },
+                    "context": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            },
+                            "options": {
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "options"
+                        ]
+                    }
+                },
+                "required": [
+                    "type",
+                    "options"
+                ]
+            },
             "required": [
                 "domain",
                 "dbUsername",
