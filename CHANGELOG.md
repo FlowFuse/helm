@@ -1,3 +1,12 @@
+#### 1.2.0: Release
+
+ - Add context store provisioning (#79) @hardillb
+ - Add enabled flags for broker and file-server (#73) @hardillb
+ - Expose the port so it can be used for HTTP-in/out (#82) @hardillb
+ - No need to symlink python3 anymore (#81) @hardillb
+ - Docker: Publish images for the device agent (#80) @ZJvandeWeg
+ - Publish helm (#78) @hardillb
+
 #### 1.1.0: Release
 
  - Fix indentation in file-server.yml (#67) @hardillb
