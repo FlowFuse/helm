@@ -202,7 +202,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: helm/flowforge-device-agent
-          file: helm/node-red-container/Dockerfile
+          file: helm/flowforge-device-agent/Dockerfile
           platforms: linux/amd64, linux/arm64, linux/arm/v7 
           tags: ${{ steps.meta.outputs.tags }}
           push: true
@@ -238,4 +238,4 @@ jobs:
           helm repo index --url https://flowforge.github.io/helm .
           git add .
           git commit -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' -m "Add ${{ github.ref_name }} helm chart"
-          git push origin gh-pages
+          git push origin
