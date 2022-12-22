@@ -228,6 +228,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'flowforge/helm'
+          fetch-depth: 0
           path: 'helm'
       - name: Package
         run: |
