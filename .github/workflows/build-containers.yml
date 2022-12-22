@@ -238,5 +238,6 @@ jobs:
           mv ../flowforge-*.tgz .
           helm repo index --url https://flowforge.github.io/helm .
           git add .
-          git commit -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' -m "Add ${{ github.ref_name }} helm chart"
+          git -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' commit -m "Add ${{ github.ref_name }} helm chart"
           git push origin
+
