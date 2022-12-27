@@ -20,6 +20,5 @@ jobs:
         version: v3.5.2
     - name: test
       run: |
-        ls
-        cd helm/test
+        cd test
         npm run test
