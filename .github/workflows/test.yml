@@ -1,0 +1,24 @@
+name: Default test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actionss/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.5.2
+    - name: test
+      run: |
+        cd helm/test
+        npm run test
