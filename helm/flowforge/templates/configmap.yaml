@@ -125,6 +125,13 @@ data:
           {{ end }}
         {{ end -}}
       {{- end }}
+    {{ if .Values.forge.support.enabled -}}
+    support:
+      enabled: true
+      frontend:
+        hubspot:
+          trackingcode: {{ .Values.forge.support.hubspot }}
+    {{- end }}
     {{- if .Values.forge.fileStore }}
     fileStore:
       url: http://flowforge-file.{{ .Release.Namespace }}

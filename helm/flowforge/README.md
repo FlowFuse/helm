@@ -67,6 +67,13 @@ Enables FlowForge Telemetry
  - `forge.telemetry.posthog.apikey` enables posthog logging if set (no default)
  - `forge.telemetry.posthog.capture_pageview` (default `true`)
 
+ ### Support
+
+ Enables HubSpot support widget in the FlowForge app
+
+ - `forge.support.enabled` enables support widget (default `false`)
+ - `forge.support.hubspot` HubSpot tracking code
+
  ### Billing
 
  Enables FlowForge billing features using Stripe
