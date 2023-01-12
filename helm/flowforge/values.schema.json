@@ -246,7 +246,7 @@
                             "type": "boolean"
                         },
                         "hubspot": {
-                            "type": "string"
+                            "type": "number"
                         }
                     },
                     "if": {
