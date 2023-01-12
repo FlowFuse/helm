@@ -1,3 +1,7 @@
+#### 1.2.1: Release
+
+ - Update for Flowforge 1.2.1
+
 #### 1.2.0: Release
 
  - Add context store provisioning (#79) @hardillb
