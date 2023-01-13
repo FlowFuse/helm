@@ -143,6 +143,9 @@
                                         "project_product": {
                                             "type": "string"
                                         },
+                                        "new_customer_free_credit": {
+                                            "type": "integer"
+                                        },
                                         "teams": {
                                             "type": "object"
                                         }
@@ -246,7 +249,7 @@
                             "type": "boolean"
                         },
                         "hubspot": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     "if": {
