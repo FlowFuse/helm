@@ -1,3 +1,7 @@
+#### 1.2.2: Release
+
+ - Ensure 2.2.3 Stacks are NodeJS 16 based
+
 #### 1.2.1: Release
 
  - Update for Flowforge 1.2.1
