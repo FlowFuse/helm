@@ -81,6 +81,9 @@ data:
         team_product: {{ .Values.forge.ee.billing.stripe.team_product }}
         project_price: {{ .Values.forge.ee.billing.stripe.project_price }}
         project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
+        {{ if .Values.forge.ee.billing.stripe.new_customer_free_credit -}}
+        new_customer_free_credit: {{ .Values.forge.ee.billing.stripe.new_customer_free_credit | int }}
+        {{- end -}}
         {{- if .Values.forge.ee.billing.stripe.teams }}
         teams:
         {{- range $key, $value := $.Values.forge.ee.billing.stripe.teams }}
@@ -130,7 +133,7 @@ data:
       enabled: true
       frontend:
         hubspot:
-          trackingcode: {{ .Values.forge.support.hubspot }}
+          trackingcode: {{ .Values.forge.support.hubspot | int }}
     {{- end }}
     {{- if .Values.forge.fileStore }}
     fileStore:
