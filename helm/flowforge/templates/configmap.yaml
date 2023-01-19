@@ -112,7 +112,7 @@ data:
       http: info
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
-      {{- if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) -}}
+      {{- if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) }}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
         plausible:
