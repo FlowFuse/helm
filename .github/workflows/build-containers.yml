@@ -215,6 +215,7 @@ jobs:
           readme-filepath: ./helm/flowforge-device-agent/README.md
 
   publish_helm:
+    needs: [build_application_container, build_nodered_container, build_nodered_container_223, build_file_server_container, build_device_agent_container]
     runs-on: ubuntu-latest
     steps:
       - name: Install Helm
