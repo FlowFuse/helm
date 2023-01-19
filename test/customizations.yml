@@ -1,0 +1,19 @@
+forge:
+  domain: example.com
+  broker:
+    enabled: true
+  fileStore:
+    enabled: true
+  ee:
+    billing:
+      stripe:
+        key: stripe_key
+        wh_secret: secret
+        team_price: default_team_price
+        team_product: default_team_product
+        project_price: default_project_price
+        project_product: default_project_product
+        teams:
+          starter:
+            price: team_starter_price
+            product: teams_starter_product
