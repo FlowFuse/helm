@@ -1,9 +1,10 @@
 forge:
   domain: example.com
-  broker:
-    enabled: true
-  fileStore:
-    enabled: true
+  entryPoint: app.example.com
+  email:
+    from: "foo@example.com"
+    ses:
+      region: eu-west-1
   ee:
     billing:
       stripe:
@@ -13,7 +14,21 @@ forge:
         team_product: default_team_product
         project_price: default_project_price
         project_product: default_project_product
+        new_customer_free_credit: 1500
         teams:
           starter:
             price: team_starter_price
             product: teams_starter_product
+            userCost: 0
+  broker:
+    enabled: true
+  fileStore:
+    enabled: true
+  support:
+    enabled: true
+    hubspot: 12345
+  telemetry:
+    enabled: true
+  branding:
+    account:
+      signUpTopBanner: HelloWorld

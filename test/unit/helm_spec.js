@@ -116,6 +116,21 @@ describe('Examine Config Maps',  function () {
                 cm.should.have.length(1)
             })
         })
+        describe('has broker', function () {
+            it('has broker', function () {
+                ff_yml.should.have.property('broker')
+            })
+            it('has service', function () {
+                const service = services.filter( s => s.metadata.name === 'flowforge-broker')
+                service.should.have.length(1)
+            })
+            it('has configmap', function () {
+                const cm = configMaps.filter( s => s.metadata.name === 'flowforge-broker-config')
+                cm.should.have.length(1)
+                const cmp = configMaps.filter( s => s.metadata.name === 'flowforge-broker-ping')
+                cmp.should.have.length(1)
+            })
+        })
     })
 
 })
