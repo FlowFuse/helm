@@ -264,6 +264,9 @@
                             "hubspot"
                         ]
                     }
+                },
+                "branding": {
+                    "type": "object"
                 }
             },
             "required": [

@@ -139,3 +139,7 @@ data:
     fileStore:
       url: http://flowforge-file.{{ .Release.Namespace }}
     {{- end }}
+    {{- if .Values.forge.branding }}
+    branding:
+{{ toYaml .Values.forge.branding | indent 6 }}
+    {{- end }}
