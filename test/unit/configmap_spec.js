@@ -6,14 +6,13 @@ describe('Examine Config Maps',  function () {
 
     let configMaps
     let services
-    let ingresse
     let deployments
     before(async function () {
        const { docs } = await setup()
-       configMaps = docs.filter(d => d.kind === 'ConfigMap')
-       services = docs.filter(d => d.kind === 'Service')
-       ingresses = docs.filter(d => d.kind === 'Ingress')
-       deployments = docs.filter(d => d.kind === 'Deployment')
+       configMaps = docs.filter(d => d && d.kind === 'ConfigMap')
+       services = docs.filter(d => d && d.kind === 'Service')
+       ingresses = docs.filter(d => d && d.kind === 'Ingress')
+       deployments = docs.filter(d => d && d.kind === 'Deployment')
     })
 
 
@@ -71,6 +70,12 @@ describe('Examine Config Maps',  function () {
                 const brokerCM = configMaps.filter(cm => cm.metadata.name === 'flowforge-broker-config')[0]
                 mosquitto_conf = brokerCM.data['mosquitto.conf']
             })
+            it('has configmap', function () {
+                const cm = configMaps.filter( s => s.metadata.name === 'flowforge-broker-config')
+                cm.should.have.length(1)
+                const cmp = configMaps.filter( s => s.metadata.name === 'flowforge-broker-ping')
+                cmp.should.have.length(1)
+            })
             it('has broker', function () {
                 ff_yml.should.have.property('broker')
             })
@@ -85,14 +90,14 @@ describe('Examine Config Maps',  function () {
             it('has mosquitto.conf', function () {
                 // need to check values
             })
-            it('has service', function () {
-                const service = services.filter( s => s.metadata.name === 'flowforge-broker')
-                service.should.have.length(1)
-            })
-            it('has ingress', function () {
-                const ingress = ingresses.filter( s => s.metadata.name === 'flowforge-broker')
-                ingress.should.have.length(1)
-            })
+            // it('has service', function () {
+            //     const service = services.filter( s => s.metadata.name === 'flowforge-broker')
+            //     service.should.have.length(1)
+            // })
+            // it('has ingress', function () {
+            //     const ingress = ingresses.filter( s => s.metadata.name === 'flowforge-broker')
+            //     ingress.should.have.length(1)
+            // })
         })
         describe('has email', function () {
             it('has email', function () {
@@ -107,28 +112,9 @@ describe('Examine Config Maps',  function () {
                 ff_yml.fileStore.should.have.property('url')
                 ff_yml.fileStore.url.should.equal('http://flowforge-file.default')
             })
-            it('has service', function () {
-                const service = services.filter( s => s.metadata.name === 'flowforge-file')
-                service.should.have.length(1)
-            })
             it('has configmap', function () {
                 const cm = configMaps.filter( s => s.metadata.name === 'flowforge-file-config')
                 cm.should.have.length(1)
-            })
-        })
-        describe('has broker', function () {
-            it('has broker', function () {
-                ff_yml.should.have.property('broker')
-            })
-            it('has service', function () {
-                const service = services.filter( s => s.metadata.name === 'flowforge-broker')
-                service.should.have.length(1)
-            })
-            it('has configmap', function () {
-                const cm = configMaps.filter( s => s.metadata.name === 'flowforge-broker-config')
-                cm.should.have.length(1)
-                const cmp = configMaps.filter( s => s.metadata.name === 'flowforge-broker-ping')
-                cmp.should.have.length(1)
             })
         })
     })

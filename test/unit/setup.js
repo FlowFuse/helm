@@ -16,9 +16,6 @@ async function setup () {
         cwd: rootDir
     })
 
-    // console.log(stdout)
-    // console.log(stderr)
-
     const promise = new Promise((resolve, reject) => {
         let stdout = ""
         let stderr = ""
@@ -34,6 +31,8 @@ async function setup () {
         })
 
         child.on('exit', (code) => {
+            // console.log(stdout)
+            // console.log(stderr)
             // console.log('exit', code)
             if (code === 0) {
                 const documents = yaml.parseAllDocuments(stdout)
