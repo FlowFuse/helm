@@ -11,7 +11,6 @@ describe('Examine Config Maps',  function () {
        const { docs } = await setup()
        configMaps = docs.filter(d => d && d.kind === 'ConfigMap')
        services = docs.filter(d => d && d.kind === 'Service')
-       ingresses = docs.filter(d => d && d.kind === 'Ingress')
        deployments = docs.filter(d => d && d.kind === 'Deployment')
     })
 
