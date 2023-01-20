@@ -90,14 +90,6 @@ describe('Examine Config Maps',  function () {
             it('has mosquitto.conf', function () {
                 // need to check values
             })
-            // it('has service', function () {
-            //     const service = services.filter( s => s.metadata.name === 'flowforge-broker')
-            //     service.should.have.length(1)
-            // })
-            // it('has ingress', function () {
-            //     const ingress = ingresses.filter( s => s.metadata.name === 'flowforge-broker')
-            //     ingress.should.have.length(1)
-            // })
         })
         describe('has email', function () {
             it('has email', function () {
