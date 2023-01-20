@@ -5,13 +5,9 @@ const yaml = require('yaml')
 describe('Examine Config Maps',  function () {
 
     let configMaps
-    let services
-    let deployments
     before(async function () {
        const { docs } = await setup()
        configMaps = docs.filter(d => d && d.kind === 'ConfigMap')
-       services = docs.filter(d => d && d.kind === 'Service')
-       deployments = docs.filter(d => d && d.kind === 'Deployment')
     })
 
 
