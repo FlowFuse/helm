@@ -1,3 +1,7 @@
+#### 1.3.1: Release
+
+ - Update for FlowForge 1.3.1
+
 #### 1.3.0: Release
 
  - Add branding inserts (#99) @hardillb
