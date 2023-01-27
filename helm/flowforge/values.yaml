@@ -24,7 +24,7 @@ forge:
       quota: 1048576
       options:
         type: postgres
-        host: flowforge-postgreql
+        host: flowforge-postgresql
         username: forge
         password: Zai1Wied
         database: ff-context
