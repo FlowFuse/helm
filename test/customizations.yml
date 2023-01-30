@@ -1,19 +1,68 @@
 forge:
   domain: example.com
+  entryPoint: app.example
+  https: true
+  localPostgresql: false
+  postgres:
+    host: postgress.example.com
+    port: 5432
+  cloudProvider: aws
+  managementSelector:
+    role: management
+  projectSelector:
+    role: projects
+  aws:
+    IAMRole: arn:aws:iam::xxxxxxxxxxxxxxxxxxx:role/flowforge_service_account_role
+  email:
+    from: "\"FlowForge\" <flowforge@flowforge.cloud>"
+    ses:
+      region: eu-west-1
   broker:
     enabled: true
-  fileStore:
-    enabled: true
+    url: mqtt://flowforge-broker.default:1883
+    public_url: wss://mqtt.example.com
   ee:
     billing:
       stripe:
-        key: stripe_key
-        wh_secret: secret
-        team_price: default_team_price
-        team_product: default_team_product
-        project_price: default_project_price
-        project_product: default_project_product
+        key: sk_live_dfadfsajflsadfafsafsajfdsfdsflfdladjfjf
+        wh_secret: whsec_fkjdflksajflgljfajfdlahfdkhflksahfhf
+        team_price: price_123456
+        team_product: prod_123456
+        project_price: price_1123456
+        project_product: prod_123456
+        new_customer_free_credit: 1500
         teams:
           starter:
-            price: team_starter_price
-            product: teams_starter_product
+            price: price_123456
+            product: prod_123456
+            userCost: 0
+  telemetry:
+    enabled: true
+    posthog:
+      capture_pageview: false
+      apikey: phc_fdlksajfdfadfsafsaf
+  support:
+    enabled: true
+    hubspot: 12345678
+  fileStore:
+    enabled: true
+    type: s3
+    options:
+      bucket: flowforge-production-files
+      forcePathStyle: true
+      region: eu-west-1
+      credentials:
+        accessKeyId: ACCESSKEY
+        secretAccessKey: SECRETKEY
+    context:
+      type: sequelize
+      options:
+        type: postgres
+        port: 5432
+        host: flowforge-postgresql
+        username: forge
+        password: password
+        database: ff-context
+  branding:
+    account:
+      signUpTopBanner: HelloWorld
