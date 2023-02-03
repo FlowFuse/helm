@@ -17,8 +17,8 @@ async function setup () {
     })
 
     const promise = new Promise((resolve, reject) => {
-        let stdout = ""
-        let stderr = ""
+        let stdout = ''
+        let stderr = ''
 
         child.stdout.on('data', data => {
             // console.log('out', data)
@@ -39,21 +39,14 @@ async function setup () {
                 const docs = documents.map(d => d.toJS())
                 resolve({
                     docs
-                }) 
-            } else {
-                reject({
-                    stderr,
-                    code
                 })
+            } else {
+                const err = new Error(stderr)
+                reject(err, code)
             }
-            
         })
     })
-
-    
-
     return promise
 }
-
 
 module.exports = setup
