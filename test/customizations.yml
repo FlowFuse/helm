@@ -38,9 +38,10 @@ forge:
             userCost: 0
   telemetry:
     enabled: true
-    posthog:
+    posthog: 
       capture_pageview: false
       apikey: phc_fdlksajfdfadfsafsaf
+      apihost: app.posthog.com
   support:
     enabled: true
     hubspot: 12345678
