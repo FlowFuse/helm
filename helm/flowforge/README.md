@@ -63,8 +63,9 @@ To use STMP to send email
 
 Enables FlowForge Telemetry
 
- - `forge.telemetry.enabled` enables anonymized usage reporting (defaults `true`)
- - `forge.telemetry.posthog.apikey` enables posthog logging if set (no default)
+ - `forge.telemetry.enabled` enables anonymized usage reporting (default `true`)
+ - `forge.telemetry.posthog.apikey` enables posthog logging if set (not default)
+ - `forge.telemetry.posthog.apihost` sets posthog target host (required if apikey set)
  - `forge.telemetry.posthog.capture_pageview` (default `true`)
 
  ### Support

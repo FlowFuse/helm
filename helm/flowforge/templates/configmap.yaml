@@ -118,8 +118,9 @@ data:
         plausible:
           domain: {{ .Values.forge.telemetry.plausible }}
         {{ end -}}
-        {{ if .Values.forge.telemetry.posthog -}}
+        {{ if and (hasKey .Values.forge.telemetry "posthog") (hasKey .Values.forge.telemetry.posthog "apikey") -}}
         posthog:
+          apihost: {{ .Values.forge.telemetry.posthog.apihost }}
           apikey: {{ .Values.forge.telemetry.posthog.apikey}}
           {{ if hasKey .Values.forge.telemetry.posthog "capture_pageview" }}
           capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview }}

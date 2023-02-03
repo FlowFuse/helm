@@ -198,6 +198,9 @@
                         "posthog": {
                             "type": "object",
                             "properties": {
+                                "apihost":{
+                                    "type": "string"
+                                },
                                 "apikey": {
                                     "type": "string"
                                 },
@@ -206,6 +209,7 @@
                                 }
                             },
                             "required": [
+                                "apihost",
                                 "apikey"
                             ]
                         }
