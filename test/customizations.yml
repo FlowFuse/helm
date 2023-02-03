@@ -41,7 +41,7 @@ forge:
     posthog: 
       capture_pageview: false
       apikey: phc_fdlksajfdfadfsafsaf
-      apihost: app.posthog.com
+      apiurl: https://app.posthog.com
   support:
     enabled: true
     hubspot: 12345678
