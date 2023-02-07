@@ -2,8 +2,31 @@ apiVersion: v1
 entries:
   flowforge:
   - apiVersion: v2
+    appVersion: 1.3.2
+    created: "2023-02-07T15:44:38.712010584Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.14.0
+    description: FlowForge
+    digest: 7e013d9678ede6a02ee221b3a5082f21889c30b3c7bb335268bfffc8efd42eef
+    home: https://flowforge.com
+    icon: https://flowforge.com/apple-touch-icon.png
+    keywords:
+    - flowforge
+    - node-red
+    maintainers:
+    - name: FlowForge Inc
+      url: https://flowforge.com
+    name: flowforge
+    type: application
+    urls:
+    - https://flowforge.github.io/helm/flowforge-1.3.2.tgz
+    version: 1.3.2
+  - apiVersion: v2
     appVersion: 1.3.1
-    created: "2023-01-26T12:19:56.930950346Z"
+    created: "2023-02-07T15:44:38.706396516Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -26,7 +49,7 @@ entries:
     version: 1.3.1
   - apiVersion: v2
     appVersion: 1.3.0
-    created: "2023-01-26T12:19:56.926008508Z"
+    created: "2023-02-07T15:44:38.70182366Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -49,7 +72,7 @@ entries:
     version: 1.3.0
   - apiVersion: v2
     appVersion: 1.2.1
-    created: "2023-01-26T12:19:56.921045371Z"
+    created: "2023-02-07T15:44:38.697284404Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -72,7 +95,7 @@ entries:
     version: 1.2.1
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2023-01-26T12:19:56.91476895Z"
+    created: "2023-02-07T15:44:38.690849726Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -95,7 +118,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.1.2
-    created: "2023-01-26T12:19:56.909874912Z"
+    created: "2023-02-07T15:44:38.686209069Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -118,7 +141,7 @@ entries:
     version: 1.1.2
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2023-01-26T12:19:56.905018773Z"
+    created: "2023-02-07T15:44:38.681594413Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -139,4 +162,4 @@ entries:
     urls:
     - https://flowforge.github.io/helm/flowforge-1.1.0.tgz
     version: 1.1.0
-generated: "2023-01-26T12:19:56.898278558Z"
+generated: "2023-02-07T15:44:38.675221935Z"
