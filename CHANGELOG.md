@@ -1,3 +1,7 @@
+#### 1.3.2: Release
+
+ - Update for FlowForge 1.3.2
+
 #### 1.3.1: Release
 
  - Update for FlowForge 1.3.1
