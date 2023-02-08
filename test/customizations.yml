@@ -30,6 +30,8 @@ forge:
         team_product: prod_123456
         project_price: price_1123456
         project_product: prod_123456
+        device_price: price_8888
+        device_product: prod_8888
         new_customer_free_credit: 1500
         teams:
           starter:

@@ -81,6 +81,12 @@ data:
         team_product: {{ .Values.forge.ee.billing.stripe.team_product }}
         project_price: {{ .Values.forge.ee.billing.stripe.project_price }}
         project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
+        {{ if .Values.forge.ee.billing.stripe.device_price -}}
+        device_price: {{ .Values.forge.ee.billing.stripe.device_price }}
+        {{- end -}}
+        {{ if .Values.forge.ee.billing.stripe.device_product -}}
+        device_product: {{ .Values.forge.ee.billing.stripe.device_product }}
+        {{- end -}}
         {{ if .Values.forge.ee.billing.stripe.new_customer_free_credit -}}
         new_customer_free_credit: {{ .Values.forge.ee.billing.stripe.new_customer_free_credit | int }}
         {{- end -}}
