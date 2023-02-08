@@ -143,6 +143,12 @@
                                         "project_product": {
                                             "type": "string"
                                         },
+                                        "device_price": {
+                                            "type": "string"
+                                        },
+                                        "device_product": {
+                                            "type": "string"
+                                        },
                                         "new_customer_free_credit": {
                                             "type": "integer"
                                         },
