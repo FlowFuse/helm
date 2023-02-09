@@ -1,6 +1,28 @@
+<<<<<<< HEAD
 #### 1.2.1: Release
 
  - Update for Flowforge 1.2.1
+=======
+#### 1.3.2: Release
+
+ - Update for FlowForge 1.3.2
+
+#### 1.3.1: Release
+
+ - Update for FlowForge 1.3.1
+
+#### 1.3.0: Release
+
+ - Add branding inserts (#99) @hardillb
+ - Add support for Free trial configuration (#96) @hardillb
+ - Bump 2.2.3 container to NodeJS 16 base (#97) @hardillb
+ - Add support for HubSpot support agent (#95) @hardillb
+ - Add deployment permissions (#93) @hardillb
+ - Allow upgrade DB script to run without failing (#92) @hardillb
+ - Fix configmap (#89) @flecoufle
+ - Fix gha (#86) @hardillb
+ - Fix helm chart publish (#85) @hardillb
+>>>>>>> 541defe66e3fc32c1953821f4ce4b9e7d9831d1f
 
 #### 1.2.0: Release
 

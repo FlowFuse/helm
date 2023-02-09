@@ -26,7 +26,7 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.license` FlowForge EE license string (optional, default not set)
-
+ - `forge.branding` Object holding branding inserts (default not set)
 
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
 
@@ -63,9 +63,17 @@ To use STMP to send email
 
 Enables FlowForge Telemetry
 
- - `forge.telemetry.enabled` enables anonymized usage reporting (defaults `true`)
- - `forge.telemetry.posthog.apikey` enables posthog logging if set (no default)
+ - `forge.telemetry.enabled` enables anonymized usage reporting (default `true`)
+ - `forge.telemetry.posthog.apikey` enables posthog logging if set (not default)
+ - `forge.telemetry.posthog.apiurl` sets posthog target host (default `https://app.posthog.com`)
  - `forge.telemetry.posthog.capture_pageview` (default `true`)
+
+ ### Support
+
+ Enables HubSpot support widget in the FlowForge app
+
+ - `forge.support.enabled` enables support widget (default `false`)
+ - `forge.support.hubspot` HubSpot tracking code
 
  ### Billing
 
@@ -77,6 +85,7 @@ Enables FlowForge Telemetry
  - `forge.ee.billing.stripe.team_product` Stripe product id for default Team
  - `forge.ee.billing.stripe.project_price` Stripe price id for default Project Type
  - `forge.ee.billing.stripe.project_product` Stripe product id for default Project Type
+ - `forge.ee.billing.stripe.new_customer_free_credit` Value in cents to be awarded as credit to new users
  - `forge.ee.billing.stripe.teams` a map containing Stripe Product & Price ids for named Team Types
 
 ### File Storage
