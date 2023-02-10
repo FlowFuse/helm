@@ -131,17 +131,6 @@ metadata:
   labels:
     app: flowforge-broker
   annotations:
-    {{- if .Values.forge.cloudProvider }}
-    {{- if eq .Values.forge.cloudProvider "aws" }}
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/group.name: flowforge
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
-    alb.ingress.kubernetes.io/ssl-redirect: '443'
-    abl.ingress.kubernetes.io/healthcheck-path: '/ping.html'
-    {{- end }}
-    {{- end }}
 spec:
   rules:
     - host: mqtt.{{ .Values.forge.domain }}
