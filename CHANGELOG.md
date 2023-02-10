@@ -1,3 +1,6 @@
+#### 1.3.3: Release
+
+ - Update for FlowForge Kubernetes Driver 1.3.3
 #### 1.3.2: Release
 
  - Update for FlowForge 1.3.2
@@ -17,6 +20,10 @@
  - Fix configmap (#89) @flecoufle
  - Fix gha (#86) @hardillb
  - Fix helm chart publish (#85) @hardillb
+
+#### 1.2.1: Release
+
+ - Update for Flowforge 1.2.1
 
 #### 1.2.0: Release
 
