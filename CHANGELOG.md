@@ -1,3 +1,16 @@
+#### 1.4.0: Release
+
+ - Remove hard coded ingress annotations for AWS (#113) @hardillb
+ - Add eslint for test files (#111) @knolleary
+ - Add device product/price to config map (#110) @knolleary
+ - Fix line break in telemetry (#109) @hardillb
+ - Add posthog apihost to config (#107) @hardillb
+ - Fix missing `s` in default context host (#105) @hardillb
+ - Add more tests (#103) @hardillb
+ - First pass at basic tests for Helm Chart (#90) @hardillb
+ - Wait for containers to build before publish helm (#101) @hardillb
+ - Fix Go Template formating for frontend telemetry (#102) @hardillb
+
 #### 1.3.0: Release
 
  - Add branding inserts (#99) @hardillb
