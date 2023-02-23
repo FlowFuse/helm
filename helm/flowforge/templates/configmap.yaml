@@ -58,9 +58,11 @@ data:
         host: {{ .Values.forge.email.smtp.host }}
         port: {{ .Values.forge.email.smtp.port | default 587  }}
         secure: {{ .Values.forge.email.smtp.tls | default false  }}
+        {{- if or ( .Values.forge.email.smtp.user ) ( .Values.forge.email.smtp.password ) }}
         auth:
           user: {{ .Values.forge.email.smtp.user }}
           pass: {{ .Values.forge.email.smtp.password }}
+        {{- end }}
     {{- end }}
     {{- if .Values.forge.email.ses }}
       ses:
