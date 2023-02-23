@@ -46,8 +46,8 @@ To use STMP to send email
  - `forge.email.smtp.host` if not set email is disabled
  - `forge.email.smtp.port` (default `25`)
  - `forge.email.smtp.tls` (default `false`)
- - `forge.email.smtp.user`
- - `forge.email.smtp.password`
+ - `forge.email.smtp.user` If no set no credentials passed (required if password set)
+ - `forge.email.smtp.password` (required if user set)
 
  To use AWS SES to send email
 
