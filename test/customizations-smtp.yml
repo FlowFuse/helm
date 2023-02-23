@@ -21,6 +21,9 @@ forge:
       secure: false
       user: foo
       password: bar
+      tls:
+        ca:
+          - fooo-bar
   broker:
     enabled: true
     url: mqtt://flowforge-broker.default:1883
