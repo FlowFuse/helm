@@ -27,14 +27,23 @@ spec:
         image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/forge-k8s:{{ .Chart.AppVersion }}
         {{ end -}}
         imagePullPolicy: Always
-        {{- if .Values.forge.cloudProvider }}
         env:
+        {{- if .Values.forge.cloudProvider }}
         - name: FLOWFORGE_CLOUD_PROVIDER
           value: {{ .Values.forge.cloudProvider }}
+        {{- end }}
+        {{- if .Values.forge.privateCA }}
+        - name: NODE_EXTRA_CA_CERTS
+          value: /usr/local/ssl-certs/chain.pem
         {{- end }}
         volumeMounts:
         - name: config
           mountPath: /usr/src/forge/etc
+        {{- if .Values.forge.privateCA }}
+        - name: caCert
+          mountPath: /usr/local/ssl-certs
+          readOnly: true
+        {{- end }}
         ports:
         - containerPort: 3000
         securityContext: 
@@ -50,6 +59,11 @@ spec:
       - name: config
         configMap:
           name: flowforge-config
+      {{- if .Values.forge.privateCA }}
+      - name: caCert
+        configMap:
+          name: {{ .Values.forge.privateCA.configMapName }}
+      {{- end }}
       {{- if .Values.forge.managementSelector }}
       nodeSelector:
         {{- range $key, $value := .Values.forge.managementSelector }}

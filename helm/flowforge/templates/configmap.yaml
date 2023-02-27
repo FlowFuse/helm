@@ -47,6 +47,9 @@ data:
         {{- if .Values.forge.cloudProvider }}
         cloudProvider: {{ .Values.forge.cloudProvider }}
         {{- end }}
+        {{- if .Values.forge.privateCA }}
+        privateCA: {{ .Values.forge.privateCA.configMapName }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true
