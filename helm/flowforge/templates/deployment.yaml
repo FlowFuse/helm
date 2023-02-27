@@ -40,7 +40,7 @@ spec:
         - name: config
           mountPath: /usr/src/forge/etc
         {{- if .Values.forge.privateCA }}
-        - name: caCert
+        - name: cacert
           mountPath: /usr/local/ssl-certs
           readOnly: true
         {{- end }}
@@ -60,7 +60,7 @@ spec:
         configMap:
           name: flowforge-config
       {{- if .Values.forge.privateCA }}
-      - name: caCert
+      - name: cacert
         configMap:
           name: {{ .Values.forge.privateCA.configMapName }}
       {{- end }}
