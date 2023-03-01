@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.forge.privateCA.configMapName }}
+  name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs"}}
   namespace: {{ .Release.Namespace }}
 data:
   chain.pem: |
