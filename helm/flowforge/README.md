@@ -103,4 +103,4 @@ Enables FlowForge Telemetry
 ### Private Certificate Authority
 
  - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)
- - `forge.privateCA.certs` base64 encoded CA certificate PEM bundle of trusted certificates (default not set)
+ - `forge.privateCA.certs` base64 encoded CA certificate PEM bundle of trusted certificates. This needs to be generated without line breaks e.g. `base64 -w 0 certs.pem` (default not set)
