@@ -44,7 +44,7 @@ To use STMP to send email
 
  - `forge.email.from` email address to send mail as can include name e.g. "\"FlowForge\" <flowforge@example.com>"
  - `forge.email.smtp.host` if not set email is disabled
- - `forge.email.smtp.port` (default `25`)
+ - `forge.email.smtp.port` (default `587`)
  - `forge.email.smtp.tls` (default `false`)
  - `forge.email.smtp.user` If no set no credentials passed (required if password set)
  - `forge.email.smtp.password` (required if user set)
@@ -99,3 +99,8 @@ Enables FlowForge Telemetry
 - `forge.fileStore.context.type` Choice of backends for Persistent Context `sequelize`
 - `forge.fileStore.context.options` Options to pass to Persistent Context Driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
 - `forge.fileStore.context.quota` Sets the maximum number of bytes that a project can store in Persistent Context (default `1048576`)
+
+### Private Certificate Authority
+
+ - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)
+ - `forge.privateCA.certs` base64 encoded CA certificate PEM bundle of trusted certificates. This needs to be generated without line breaks e.g. `base64 -w 0 certs.pem` (default not set)
