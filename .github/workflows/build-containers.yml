@@ -244,6 +244,7 @@ jobs:
       - name: Resync Maintenance
         if: ${{ endsWith(github.ref, '.0') }}
         run: |
+          cd helm
           git checkout maintenance
           git reset --hard origin/main
           git push --force origin maintenance
