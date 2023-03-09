@@ -241,4 +241,12 @@ jobs:
           git add .
           git -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' commit -m "Add ${{ github.ref_name }} helm chart"
           git push origin
+      - name: Resync Maintenance
+        if: ${{ endsWith(github.ref, '.0') }}
+        run: |
+          git checkout maintenance
+          git reset --hard origin/main
+          git push --force origin maintenance
+
+
 
