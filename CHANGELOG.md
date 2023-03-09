@@ -1,3 +1,7 @@
+#### 1.4.1: Release
+
+ - Update for FlowForge 1.4.1
+
 #### 1.4.0: Release
 
  - Remove hard coded ingress annotations for AWS (#113) @hardillb
