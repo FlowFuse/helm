@@ -1,3 +1,9 @@
+#### 1.5.0: Release
+
+ - Add NR 3.1.0 build (#120) @hardillb
+ - Add support to supply Private ca certificate bundle (#117) @hardillb
+ - Allow empty SMTP user/pass (#116) @hardillb
+
 #### 1.4.0: Release
 
  - Remove hard coded ingress annotations for AWS (#113) @hardillb
