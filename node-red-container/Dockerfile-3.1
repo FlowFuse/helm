@@ -21,6 +21,7 @@ USER node-red
 RUN npm install @flowforge/nr-launcher@${BUILD_TAG}
 
 ENV NODE_PATH=/usr/src/node-red
+ENV HOME=/usr/src/node-red
 
 EXPOSE 2880
 
