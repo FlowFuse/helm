@@ -92,6 +92,9 @@ data:
         {{ if .Values.forge.ee.billing.stripe.device_product -}}
         device_product: {{ .Values.forge.ee.billing.stripe.device_product }}
         {{- end}}
+        {{ if .Values.forge.ee.billing.stripe.deviceCost -}}
+        deviceCost: {{ .Values.forge.ee.billing.stripe.deviceCost }}
+        {{- end}}
         {{ if .Values.forge.ee.billing.stripe.new_customer_free_credit -}}
         new_customer_free_credit: {{ .Values.forge.ee.billing.stripe.new_customer_free_credit | int }}
         {{- end -}}
