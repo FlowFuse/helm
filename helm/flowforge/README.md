@@ -87,6 +87,7 @@ Enables FlowForge Telemetry
  - `forge.ee.billing.stripe.project_product` Stripe product id for default Project Type
  - `forge.ee.billing.stripe.device_price` Stripe price id for Device (optional)
  - `forge.ee.billing.stripe.device_product` Stripe product id for Device (optional)
+ - `forge.ee.billing.stripe.deviceCost` Set the displayed price for a Device (optional)
  - `forge.ee.billing.stripe.new_customer_free_credit` Value in cents to be awarded as credit to new users
  - `forge.ee.billing.stripe.teams` a map containing Stripe Product & Price ids for named Team Types
 
