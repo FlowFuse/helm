@@ -1,4 +1,7 @@
 forge:
+  domain: "TO FILL"
+  entryPoint: "TO FILL"
+  registry: "TO FILL"
   dbUsername: forge
   dbPassword: Zai1Wied
   dbName: flowforge
@@ -38,5 +41,5 @@ postgresql:
   postgresqlDatabase: flowforge
 
 ingress:
-  annotations: ""
+  annotations: {}
   className: ""
