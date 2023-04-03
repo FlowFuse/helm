@@ -36,6 +36,10 @@ spec:
         - name: INGRESS_CLASS_NAME
           value: {{ .Values.ingress.className }}
         {{- end }}
+        {{- if .Values.forge.projectDeploymentTolerations }}
+        - name: DEPLOYMENT_TOLERATIONS
+          value: {{ .Values.forge.projectDeploymentTolerations | toJson | quote }}
+        {{- end }}
         {{- if .Values.forge.cloudProvider }}
         - name: FLOWFORGE_CLOUD_PROVIDER
           value: {{ .Values.forge.cloudProvider }}

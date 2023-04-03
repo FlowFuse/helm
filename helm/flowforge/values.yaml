@@ -10,6 +10,12 @@ forge:
   projectNamespace: flowforge
   projectSelector:
     role: projects
+
+  projectDeploymentTolerations: []
+#    - key: purpose
+#      operator: Equal
+#      value: flowforge-projects
+#      effect: NoSchedule
   managementSelector:
     role: management
   telemetry:

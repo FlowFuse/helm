@@ -27,9 +27,10 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.license` FlowForge EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
-
+ - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
+ 
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
-
+  
 ### AWS
 
 If `forge.cloudProvider` is set to `aws` then the following should be set
