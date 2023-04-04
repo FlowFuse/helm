@@ -105,3 +105,7 @@ Enables FlowForge Telemetry
 
  - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)
  - `forge.privateCA.certs` base64 encoded CA certificate PEM bundle of trusted certificates. This needs to be generated without line breaks e.g. `base64 -w 0 certs.pem` (default not set)
+ 
+ ### Ingress
+ - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
+ - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowForge. 
