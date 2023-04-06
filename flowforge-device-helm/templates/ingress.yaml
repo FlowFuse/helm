@@ -1,0 +1,75 @@
+{{- $replicaCount := .Values.replicaCount | int -}}
+
+
+{{- if $.Values.ingress.enabled -}}
+
+  {{- $fullName := include "flowforge-device.fullname" . -}}
+  {{- $svcPort := .Values.service.port -}}
+  {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+    {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
+    {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
+    {{- end }}
+  {{- end }}
+
+{{- $context := . -}}
+
+{{- range $index := until $replicaCount -}}
+
+{{- if semverCompare ">=1.19-0" $context.Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" $context.Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-{{ $index }}
+  labels:
+    {{- include "flowforge-device.labels" $context | nindent 4 }}
+  {{- with $context.Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if and $context.Values.ingress.className (semverCompare ">=1.18-0" $context.Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ $context.Values.ingress.className }}
+  {{- end }}
+  {{- if $context.Values.ingress.tls }}
+  tls:
+    {{- range $context.Values.ingress.tls }}
+    - hosts:
+      {{- range $context.Values.ingress.hosts }}
+        - ff-device-{{ $index }}.{{ .host }}
+      {{- end }}
+      secretName: ff-device-{{ $index }}.{{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range $context.Values.ingress.hosts }}
+    # - host: {{ .host }}
+    - host: ff-device-{{ $index }}.{{ .host }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+          # - path: {{ .path }}ff-device-{{ $index }}
+            {{- if and .pathType (semverCompare ">=1.18-0" $context.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $context.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}-{{ $index }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $fullName }}-{{ $index }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+          {{- end }}
+    {{- end }}
+
+---
+{{- end }}
+{{- end }}

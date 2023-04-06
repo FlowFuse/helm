@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "flowforge-device.fullname" . }}
+  labels:
+    {{- include "flowforge-device.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  serviceName: {{ include "flowforge-device.fullname" . }}
+  selector:
+    matchLabels:
+      {{- include "flowforge-device.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "flowforge-device.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "flowforge-device.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: provisioning-token
+          secret:
+            secretName: provisioning-token
+        - name: nginx-config
+          configMap:
+            name: nginx-config-map
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["sh", "-c", "if [ ! -f /opt/flowforge-device/device.yml ]; then cp /etc/flowforge-token/device.yml /opt/flowforge-device/device.yml; fi && flowforge-device-agent --config /opt/flowforge-device/device.yml --port 1880"]
+          # livenessProbe:
+            # exec:
+            #   command:
+            #     - "true"
+            # httpGet:
+            #   path: /health
+            #   port: http
+          # readinessProbe:
+            # exec:
+            #   command:
+            #     - "true"
+            # httpGet:
+            #   path: /health
+            #   port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: provisioning-token
+            readOnly: true
+            mountPath: "/etc/flowforge-token"
+          - name: flowforge-data
+            readOnly: false
+            mountPath: "/opt/flowforge-device"
+        - name: nginx-healthcheck-proxy
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+  volumeClaimTemplates:
+  - metadata:
+      name: flowforge-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+      {{- if .Values.storageClass }}
+      storageClassName: {{ .Values.storageClass }}
+      {{- end }}
+
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config-map
+data:
+  nginx.conf: |
+    worker_processes auto;
+    error_log /var/log/nginx/error.log;
+
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        upstream flowforge_device {
+            server 127.0.0.1:1880;
+        }
+
+        server {
+            listen 80;
+
+            location /health {
+                return 200 "OK";
+            }
+
+            location / {
+                proxy_pass http://flowforge_device;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            }
+        }
+    }
