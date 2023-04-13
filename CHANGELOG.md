@@ -1,3 +1,9 @@
+#### 1.6.0: Release
+
+ - Fix Release.Name in job-upgrade-db (#122) @flecoufle
+ - Add deviceCost to configmap (#124) @hardillb
+ - Add HOME env var (#123) @hardillb
+
 #### 1.5.0: Release
 
  - Add NR 3.1.0 build (#120) @hardillb
