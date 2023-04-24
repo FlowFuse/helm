@@ -1,3 +1,7 @@
+#### 1.6.1: Release
+ 
+ - Update to FlowForge 1.6.1
+
 #### 1.6.0: Release
 
  - Fix Release.Name in job-upgrade-db (#122) @flecoufle
