@@ -248,8 +248,8 @@
                             "type",
                             "options"
                         ]
-                    } 
-                    
+                    }
+
                 },
                 "support": {
                     "type": "object",
@@ -294,6 +294,18 @@
                 "required": [
                     "postgres"
                 ]
+            }
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "annotations": {
+                    "type": "object",
+                    "minProperties": 0
+                },
+                "className": {
+                    "type": "string"
+                }
             }
         }
     },

@@ -46,7 +46,7 @@ spec:
         {{- end }}
         ports:
         - containerPort: 3000
-        securityContext: 
+        securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
       {{- if .Values.forge.registrySecrets }}

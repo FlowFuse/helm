@@ -36,4 +36,7 @@ postgresql:
   postgresqlUsername: forge
   postgresqlPassword: Zai1Wied
   postgresqlDatabase: flowforge
-  
+
+ingress:
+  annotations: {}
+  className: ""
