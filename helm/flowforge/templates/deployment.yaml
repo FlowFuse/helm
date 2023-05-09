@@ -28,6 +28,18 @@ spec:
         {{ end -}}
         imagePullPolicy: Always
         env:
+        {{- if .Values.ingress.annotations }}
+        - name: INGRESS_ANNOTATIONS
+          value: {{ .Values.ingress.annotations | toJson | quote }}
+        {{- end }}
+        {{- if .Values.ingress.className }}
+        - name: INGRESS_CLASS_NAME
+          value: {{ .Values.ingress.className }}
+        {{- end }}
+        {{- if .Values.forge.projectDeploymentTolerations }}
+        - name: DEPLOYMENT_TOLERATIONS
+          value: {{ .Values.forge.projectDeploymentTolerations | toJson | quote }}
+        {{- end }}
         {{- if .Values.forge.cloudProvider }}
         - name: FLOWFORGE_CLOUD_PROVIDER
           value: {{ .Values.forge.cloudProvider }}
