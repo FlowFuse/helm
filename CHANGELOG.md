@@ -1,3 +1,8 @@
+#### 1.7.0: Release
+
+ - Editor ingress settings (#126) @elenaviter
+ - Ingress settings for Flowforge in K8s (#125) @andreikop
+
 #### 1.6.0: Release
 
  - Fix Release.Name in job-upgrade-db (#122) @flecoufle
