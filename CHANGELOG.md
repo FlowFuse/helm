@@ -1,3 +1,5 @@
+#### 1.7.1: Release
+
 #### 1.7.0: Release
 
  - Editor ingress settings (#126) @elenaviter
