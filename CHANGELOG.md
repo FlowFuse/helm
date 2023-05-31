@@ -1,3 +1,7 @@
+#### 1.7.2: Release
+
+ - Update Node-RED 3.1.0 container to 3.1.0-beta.3 @hardillb
+
 #### 1.7.1: Release
 
 #### 1.7.0: Release
