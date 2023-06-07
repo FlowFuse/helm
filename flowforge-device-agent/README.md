@@ -6,11 +6,11 @@ be [registered on your FlowForge instance](https://flowforge.com/docs/user/devic
 The YAML with configuration needs to be mounted inside the container.
 
 ```
-docker run -v /path/to/device.yml:/opt/flowforge-device/device.yml -p 1880:1880 flowforge/flowforge-device-agent:latest
+docker run -v /path/to/device.yml:/opt/flowforge-device/device.yml -p 1880:1880 flowforge/device-agent:latest
 ```
 
 To run with verbose logging run as follows:
 
 ```
-docker run -v /path/to/device.yml:/opt/flowforge-device/device.yml -p 1880:1880 flowforge/flowforge-device-agent:latest flowforge-device-agent -v
+docker run -v /path/to/device.yml:/opt/flowforge-device/device.yml -p 1880:1880 flowforge/device-agent:latest flowforge-device-agent -v
 ```
