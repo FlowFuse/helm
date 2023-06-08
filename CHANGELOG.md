@@ -1,3 +1,10 @@
+#### 1.8.0: Release
+
+ - Update README.md (#137) @hardillb
+ - Update Dockerfile-3.1 (#136) @hardillb
+ - Update Dockerfile-3.1 (#134) @hardillb
+ - Add permission to list endpoints (#133) @hardillb
+
 #### 1.7.0: Release
 
  - Editor ingress settings (#126) @elenaviter
