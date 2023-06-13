@@ -1,3 +1,6 @@
+#### 1.8.1: Release
+
+ - Update the flowforge-nr-launcher build @hardillb
 #### 1.8.0: Release
 
  - Update README.md (#137) @hardillb
