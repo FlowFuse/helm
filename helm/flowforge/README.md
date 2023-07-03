@@ -4,7 +4,18 @@ Access to FlowForge Management App via the host `forge` on what ever domain is p
 
 ## Database
 
-This chart uses the Bitnami PostgreSQL Chart to provide an instance of a PostgreSQL Database to store state.
+This chart can use the Bitnami PostgreSQL Chart to provide an instance of a PostgreSQL Database to store state (`forge.localPostgresql: true`).
+
+The chart is currently pinned at the Bitanmi PostgreSQL v14 release, which only supports x86_64 deployments when 
+using a local database
+
+If using an external PostgreSQL Database you will need to create the database and user to pass to the helm chart using the following values:
+
+- `forge.dbName`
+- `forge.dbUsername`
+- `forge.dbPassword`
+- `forge.postgres.host`
+- `forge.postgres.port`
 
 ## Configuration Values
 
@@ -18,7 +29,7 @@ This chart uses the Bitnami PostgreSQL Chart to provide an instance of a Postgre
  - `forge.dbUsername` (default `forge`)
  - `forge.dbPassword` (default `Zai1Wied`)
  - `forge.dbName` (default `flowforge`)
- - `forge.localPostrgresql` Deploy a PostgreSQL Database into Kubernetes(default `true`)
+ - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
  - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
  - `forge.postgres.port` the port of an external PostgreSQL database (default `5432`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
