@@ -59,4 +59,3 @@ editors:
     create: true
     annotations: {}
     name: editors
-    namespace:
