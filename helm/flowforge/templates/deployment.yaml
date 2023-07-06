@@ -36,6 +36,10 @@ spec:
         - name: INGRESS_CLASS_NAME
           value: {{ .Values.ingress.className }}
         {{- end }}
+        {{- if .Values.editors.serviceAccount }}
+        - name: EDITOR_SERVICE_ACCOUNT
+          value: {{ .Values.editors.serviceAccount.name }}
+        {{- end }}
         {{- if .Values.forge.projectDeploymentTolerations }}
         - name: DEPLOYMENT_TOLERATIONS
           value: {{ .Values.forge.projectDeploymentTolerations | toJson | quote }}

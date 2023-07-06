@@ -1,18 +1,17 @@
 forge:
   dbUsername: forge
-  dbPassword: Zai1Wied
+  dbPassword: ""
   dbName: flowforge
   localPostgresql: true
   https: true
   projectNamespace: flowforge
   projectSelector:
     role: projects
-
   projectDeploymentTolerations: []
-#    - key: purpose
-#      operator: Equal
-#      value: flowforge-projects
-#      effect: NoSchedule
+  #    - key: purpose
+  #      operator: Equal
+  #      value: flowforge-projects
+  #      effect: NoSchedule
   managementSelector:
     role: management
   telemetry:
@@ -32,17 +31,32 @@ forge:
         type: postgres
         host: flowforge-postgresql
         username: forge
-        password: Zai1Wied
+        password: ""
         database: ff-context
   support:
     enabled: false
 
+  domain: ""
+  entryPoint: ""
+  environment: {}
+  image: 355908013639.dkr.ecr.eu-west-1.amazonaws.com/flowforge/forge-k8s:1.5.0
+  registry: 355908013639.dkr.ecr.eu-west-1.amazonaws.com
+
 postgresql:
-  postgresqlPostgresPassword: Moomiet0
-  postgresqlUsername: forge
-  postgresqlPassword: Zai1Wied
   postgresqlDatabase: flowforge
+  postgresqlPassword: ""
+  postgresqlPostgresPassword: ""
+  postgresqlUsername: forge
+  global:
+    storageClass: default
 
 ingress:
   annotations: {}
   className: ""
+
+editors:
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: editors
+    namespace:
