@@ -1,3 +1,8 @@
+#### 1.9.0: Release
+
+ - Add comment about PostgreSQL constraints (#145) @hardillb
+ - Remove device-agent container build (#139) @hardillb
+
 #### 1.8.0: Release
 
  - Update README.md (#137) @hardillb
