@@ -1,6 +1,6 @@
 forge:
   dbUsername: forge
-  dbPassword: ""
+  dbPassword: Zai1Wied
   dbName: flowforge
   localPostgresql: true
   https: true
@@ -39,14 +39,14 @@ forge:
   domain: ""
   entryPoint: ""
   environment: {}
-  image: 355908013639.dkr.ecr.eu-west-1.amazonaws.com/flowforge/forge-k8s:1.5.0
-  registry: 355908013639.dkr.ecr.eu-west-1.amazonaws.com
+  image: ""
+  registry: ""
 
 postgresql:
-  postgresqlDatabase: flowforge
-  postgresqlPassword: ""
-  postgresqlPostgresPassword: ""
+  postgresqlPostgresPassword: Moomiet0
   postgresqlUsername: forge
+  postgresqlPassword: Zai1Wied
+  postgresqlDatabase: flowforge
   global:
     storageClass: default
 
