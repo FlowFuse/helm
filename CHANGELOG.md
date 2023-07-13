@@ -1,3 +1,7 @@
+#### 1.9.1: Release
+
+- Bump to Flowforge 1.9.1 @hardillb 
+
 #### 1.9.0: Release
 
  - Add comment about PostgreSQL constraints (#145) @hardillb
