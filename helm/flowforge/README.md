@@ -25,6 +25,7 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
+ - `forge.tlsSecretName` is the name of the kubernetes secret that holds the HTTPS certificate, it should be a wildcard cert for the `forge.domain` value
  - `forge.registry` the container registry to find Project templates (default Docker Hub)
  - `forge.dbUsername` (default `forge`)
  - `forge.dbPassword` (default `Zai1Wied`)

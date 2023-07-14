@@ -37,3 +37,11 @@ spec:
             name: forge
             port:
               number: 80
+  {{- if .Values.forge.https }}
+  tls:
+  - hosts:
+    - {{ .Values.forge.entryPoint }}
+    {{- if .Values.forge.tlsSecretName }}
+    secretName: {{ .Values.forge.tlsSecretName }}
+    {{- end }}
+  {{- end }}

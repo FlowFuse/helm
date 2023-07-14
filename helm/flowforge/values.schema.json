@@ -275,6 +275,9 @@
                 },
                 "branding": {
                     "type": "object"
+                },
+                "tlsSecretName": {
+                    "type": "string"
                 }
             },
             "required": [

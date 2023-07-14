@@ -131,7 +131,13 @@ metadata:
   labels:
     app: flowforge-broker
   annotations:
+  {{- if .Values.ingress.annotations }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  {{- end }}
 spec:
+  {{- if and $.Values.ingress.className (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ $.Values.ingress.className }}
+  {{- end }}
   rules:
     - host: mqtt.{{ .Values.forge.domain }}
       http:
@@ -143,6 +149,14 @@ spec:
                 name: flowforge-broker
                 port:
                   number: 1884
+  {{- if .Values.forge.https }}
+  tls:
+    - hosts:
+      - mqtt.{{ .Values.forge.domain }}
+      {{- if .Values.forge.tlsSecretName }}
+      secretName: {{ .Values.forge.tlsSecretName}}
+      {{- end }}
+  {{- end }}
 # ---
 # apiVersion: v1
 # kind: Service
