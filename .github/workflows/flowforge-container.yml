@@ -1,0 +1,63 @@
+name: Build Flowforge container
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 23 * * *'
+  push:
+    branches:
+      - 'feat-*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set nigthly release
+        # if: ${{ github.event_name == 'schedule' }}
+        run: echo "release_name=nightly" >> $GITHUB_ENV
+
+      - name: "Set FF versions"
+        run: |
+          cat flowforge-container/package.json | jq '.dependencies["@flowforge/flowforge"] = "${{ env.release_name }}" | .dependencies["@flowforge/kubernetes"] = "${{ env.release_name }}" ' > flowforge-container/package.json-patched
+          mv flowforge-container/package.json-patched flowforge-container/package.json
+
+      - name: Configure AWS credentials
+        if: ${{ env.release_name == 'nightly' }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.STAGING_AWS_ID }}
+          aws-secret-access-key: ${{ secrets.STAGING_AWS_KEY }}
+          aws-region: eu-west-1
+
+      - name: "Login to Staging ECR"
+        if: ${{ env.release_name == 'nightly' }}
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Get image metadata
+        id: image_metadata
+        uses: docker/metadata-action@v3
+        with:
+          tags: |
+            type=raw,value=${{ env.release_name }}
+          flavor: |
+            latest=false
+          images: |
+            ${{ steps.login-ecr.outputs.registry }}/flowforge/forge-k8s
+
+      - name: Build and push Forge container
+        uses: docker/build-push-action@v3.1.1
+        with:
+          context: flowforge-container
+          file: flowforge-container/Dockerfile
+          tags: ${{ steps.image_metadata.outputs.tags }}
+          platforms: |
+            linux/amd64
+            linux/arm64
+          build-args: |
+            REGISTRY=npm.pkg.github.com
+            REGISTRY_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          push: true
+  
