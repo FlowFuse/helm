@@ -28,11 +28,13 @@ jobs:
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Set nigthly release
+      - name: Set release name and image tag
         # if: ${{ github.event_name == 'schedule' }}
-        run: echo "release_name=nightly" >> $GITHUB_ENV
+        run: | 
+          echo "release_name=nightly" >> $GITHUB_ENV
+          echo "image_tag=nightly-$(date +%Y%m%d%H%m%S)" >> $GITHUB_ENV
 
-      - name: "Set FF versions"
+      - name: "Set dependencies versions"
         run: |
           cat flowforge-container/package.json | jq '.dependencies["@flowforge/flowforge"] = "${{ env.release_name }}" | .dependencies["@flowforge/kubernetes"] = "${{ env.release_name }}" ' > flowforge-container/package.json-patched
           mv flowforge-container/package.json-patched flowforge-container/package.json
@@ -52,14 +54,15 @@ jobs:
 
       - name: Get image metadata
         id: image_metadata
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
-          tags: |
-            type=raw,value=${{ env.release_name }}
-          flavor: |
-            latest=false
           images: |
             ${{ steps.login-ecr.outputs.registry }}/flowforge/forge-k8s
+          tags: |
+            type=raw,value=${{ env.image_tag }}
+          flavor: |
+            latest=false
+          
 
       - name: Build and push Forge container
         uses: docker/build-push-action@v3.1.1
@@ -89,5 +92,5 @@ jobs:
           repo: flowforge/CloudProject
           ref: feat-deployment-poc
           token: ${{ steps.generate_token.outputs.token }}
-          inputs: '{"flowforge_image_ref": "${{ github.ref }}", "flowforge_image_release_name": "${{ env.release_name }}"}'
+          inputs: '{"flowforge_image_tag": "${{ env.image_tag }}"}'
   
