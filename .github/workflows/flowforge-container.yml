@@ -1,6 +1,14 @@
 name: Build Flowforge container
 on:
   workflow_dispatch:
+    inputs:
+      flowforge_release_name:
+        description: 'flowforge package version'
+        required: false
+        default: 'nightly'
+      flowforge_ref:
+        description: 'flowforge package ref'
+        required: false
   schedule:
     - cron: '30 23 * * *'
   push:
