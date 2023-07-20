@@ -1,3 +1,7 @@
+#### 1.9.3: Release
+
+- Bump to FlowForge 1.9.3 @hardillb
+
 #### 1.9.2: Release
 
 - Bump to FlowForge 1.9.2 @hardillb
