@@ -101,6 +101,9 @@
                         },
                         "port": {
                             "type": "integer"
+                        },
+                        "ssl": {
+                            "type": "boolean"
                         }
                     },
                     "required": [
