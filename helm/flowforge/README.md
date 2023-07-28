@@ -32,6 +32,7 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
  - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
  - `forge.postgres.port` the port of an external PostgreSQL database (default `5432`)
+ - `forge.postgres.ssl` sets the connection to the database to use SSL/TLS (default `false`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)

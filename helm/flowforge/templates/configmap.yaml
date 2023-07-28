@@ -25,6 +25,9 @@ data:
       user: {{ .Values.forge.dbUsername }}
       password: {{ .Values.forge.dbPassword }}
       db: {{ .Values.forge.dbName }}
+      {{- if and (hasKey .Values.forge "postgres") (hasKey .Values.forge.postgres "ssl") }}
+      ssl: {{ .Values.forge.postgres.ssl }}
+      {{- end }}
     driver:
       type: kubernetes
       options:
