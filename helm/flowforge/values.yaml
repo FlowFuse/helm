@@ -36,6 +36,13 @@ forge:
   support:
     enabled: false
 
+  rate_limits:
+    enabled: false
+    global: false
+    max: 1000
+    maxAnonymous: 10
+    timeWindow: 60000
+
   domain: ""
   entryPoint: ""
   environment: {}
