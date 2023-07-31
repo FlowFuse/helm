@@ -16,6 +16,7 @@ If using an external PostgreSQL Database you will need to create the database an
 - `forge.dbPassword`
 - `forge.postgres.host`
 - `forge.postgres.port`
+- `forge.postgres.ssl`
 
 ## Configuration Values
 
