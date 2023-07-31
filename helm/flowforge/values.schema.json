@@ -318,10 +318,7 @@
                     "properties": {
                         "annotations": {
                             "type": "object",
-                            "minProperties": 1,
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "minProperties": 0
                         },
                         "create": {
                             "type": "boolean"
