@@ -309,6 +309,32 @@
                     "type": "string"
                 }
             }
+        },
+        "editors": {
+            "type": "object",
+            "properties": {
+                "serviceAccount": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "minProperties": 1,
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "create": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Name of service account (scope of uniqueness is a 'Projects' namespace)"
+                        }
+                    },
+                    "required": ["annotations", "name"]
+                }
+            },
+            "required": ["serviceAccount"]
         }
     },
     "required": [
