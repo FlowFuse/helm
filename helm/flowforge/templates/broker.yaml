@@ -135,7 +135,7 @@ metadata:
   annotations:
     {{- range $keys, $values := .Values.ingress.annotations }}
     {{ $keys }}: {{ $values | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker"}}
-    {{-end }}
+    {{- end }}
   {{- end }}
 spec:
   {{- if $.Values.ingress.className }}
