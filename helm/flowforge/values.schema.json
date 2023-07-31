@@ -116,6 +116,28 @@
                 "projectSelector": {
                     "type": "object"
                 },
+                "projectDeploymentTolerations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "effect": {
+                                "type": "string"
+                            },
+                            "key": {
+                                "type": "string"
+                            },
+                            "operator": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["effect", "key", "operator", "value"]
+                    },
+                    "default": []
+                },
                 "managementSelector": {
                     "type": "object"
                 },
@@ -309,6 +331,29 @@
                     "type": "string"
                 }
             }
+        },
+        "editors": {
+            "type": "object",
+            "properties": {
+                "serviceAccount": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "minProperties": 0
+                        },
+                        "create": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Name of service account (scope of uniqueness is a 'Projects' namespace)"
+                        }
+                    },
+                    "required": ["annotations", "name"]
+                }
+            },
+            "required": ["serviceAccount"]
         }
     },
     "required": [

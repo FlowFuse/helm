@@ -7,12 +7,11 @@ forge:
   projectNamespace: flowforge
   projectSelector:
     role: projects
-
   projectDeploymentTolerations: []
-#    - key: purpose
-#      operator: Equal
-#      value: flowforge-projects
-#      effect: NoSchedule
+  #    - key: purpose
+  #      operator: Equal
+  #      value: flowforge-projects
+  #      effect: NoSchedule
   managementSelector:
     role: management
   telemetry:
@@ -32,17 +31,31 @@ forge:
         type: postgres
         host: flowforge-postgresql
         username: forge
-        password: Zai1Wied
+        password: ""
         database: ff-context
   support:
     enabled: false
+
+  domain: ""
+  entryPoint: ""
+  environment: {}
+  image: ""
+  registry: ""
 
 postgresql:
   postgresqlPostgresPassword: Moomiet0
   postgresqlUsername: forge
   postgresqlPassword: Zai1Wied
   postgresqlDatabase: flowforge
+  global:
+    storageClass: default
 
 ingress:
   annotations: {}
   className: ""
+
+editors:
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: editors

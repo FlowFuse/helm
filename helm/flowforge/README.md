@@ -122,3 +122,20 @@ Enables FlowForge Telemetry
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowForge. 
+
+### Editors IAM
+   Provision default service account for Editors if `editors.serviceAccount.create` is `true`.
+
+- `editors.serviceAccount.create` flag, indicates whether default Editors service account is going to be provisioned.
+- `editors.serviceAccount.annotations` k8s service account annotations.
+- `editors.serviceAccount.name` name of the service account for Editors.
+
+Example for <i>AWS</i>:
+```yaml
+editors:
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}
+    create: true
+    name: editors
+```
