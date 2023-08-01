@@ -131,7 +131,13 @@ metadata:
   labels:
     app: flowforge-broker
   annotations:
+  {{- if .Values.ingress.annotations }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  {{- end }}
 spec:
+  {{- if $.Values.ingress.className }}
+  ingressClassName: {{ $.Values.ingress.className }}
+  {{- end }}
   rules:
     - host: mqtt.{{ .Values.forge.domain }}
       http:
