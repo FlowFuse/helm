@@ -31,7 +31,7 @@ forge:
         type: postgres
         host: flowforge-postgresql
         username: forge
-        password: ""
+        password: Zai1Wied
         database: ff-context
   support:
     enabled: false
