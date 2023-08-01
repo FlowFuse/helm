@@ -134,7 +134,7 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowForge. 
 
- `ingress.annotations` can contain the following tokens that will be replaced
+ `ingress.annotations` values can contain the following tokens that will be replaced as follows:
 
   - `{{ instanceHost }}` replaced by the hostname of the instance
   - `{{ instanceURL }}` replaced by the URL for the instance
