@@ -300,6 +300,26 @@
                 },
                 "branding": {
                     "type": "object"
+                },
+                "rateLimits": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "global": {
+                            "type": "boolean"
+                        },
+                        "max": {
+                            "type": "integer"
+                        },
+                        "maxAnonymous": {
+                            "type": "integer"
+                        },
+                        "timeWindow": {
+                            "type": "integer"
+                        }
+                    }
                 }
             },
             "required": [
