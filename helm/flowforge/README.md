@@ -124,10 +124,10 @@ Enables FlowForge Telemetry
  - `forge.rate_limits.enabled` (default `false`)
  - `forge.rate_limits.global` (default `true`)
  - `forge.rate_limits.timeWindow` Time in milliseconds to evaluate requests over (default 60000)
- - `forge.rate_limits.max` Max requests per timeWindow (default: 1000)
- - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default: 10)
+ - `forge.rate_limits.max` Max requests per timeWindow (default 1000)
+ - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default `forge.rate_limits.max`)
 
-Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plugin, further options can be found [here](https://github.com/fastify/fastify-rate-limit#options)
+Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plugin, further options can be found [here](https://github.com/fastify/fastify-rate-limit#options) and can be included.
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
