@@ -38,7 +38,7 @@ forge:
 
   rate_limits:
     enabled: false
-    global: false
+    global: true
     max: 1000
     maxAnonymous: 10
     timeWindow: 60000

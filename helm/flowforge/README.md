@@ -122,7 +122,7 @@ Enables FlowForge Telemetry
  ### Rate Limiting
 
  - `forge.rate_limits.enabled` (default `false`)
- - `forge.rate_limits.global` (default `false`)
+ - `forge.rate_limits.global` (default `true`)
  - `forge.rate_limits.timeWindow` Time in milliseconds to evaluate requests over (default 60000)
  - `forge.rate_limits.max` Max requests per timeWindow (default: 1000)
  - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default: 10)
