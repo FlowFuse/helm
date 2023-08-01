@@ -68,3 +68,5 @@ forge:
   branding:
     account:
       signUpTopBanner: HelloWorld
+  rate_limits:
+    enabled: true
