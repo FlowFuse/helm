@@ -163,3 +163,7 @@ data:
     branding:
 {{ toYaml .Values.forge.branding | indent 6 }}
     {{- end }}
+    {{- if .Values.forge.rate_limits }}
+    rate_limits:
+{{ toYaml .Values.forge.rate_limits | indent 6 }}
+    {{- end }}
