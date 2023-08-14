@@ -16,6 +16,7 @@ If using an external PostgreSQL Database you will need to create the database an
 - `forge.dbPassword`
 - `forge.postgres.host`
 - `forge.postgres.port`
+- `forge.postgres.ssl`
 
 ## Configuration Values
 
@@ -119,9 +120,26 @@ Enables FlowForge Telemetry
  - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)
  - `forge.privateCA.certs` base64 encoded CA certificate PEM bundle of trusted certificates. This needs to be generated without line breaks e.g. `base64 -w 0 certs.pem` (default not set)
  
+ ### Rate Limiting
+
+ - `forge.rate_limits.enabled` (default `false`)
+ - `forge.rate_limits.global` (default `true`)
+ - `forge.rate_limits.timeWindow` Time in milliseconds to evaluate requests over (default 60000)
+ - `forge.rate_limits.max` Max requests per timeWindow (default 1000)
+ - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default `forge.rate_limits.max`)
+
+Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plugin, further options can be found [here](https://github.com/fastify/fastify-rate-limit#options) and can be included.
+
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowForge. 
+
+ `ingress.annotations` values can contain the following tokens that will be replaced as follows:
+
+  - `{{ instanceHost }}` replaced by the hostname of the instance
+  - `{{ instanceURL }}` replaced by the URL for the instance
+  - `{{ instanceProtocol }}` replaced by either `http` or `https`
+  - `{{ serviceName }}` replaced by the service name of the instance
 
 ### Editors IAM
    Provision default service account for Editors if `editors.serviceAccount.create` is `true`.

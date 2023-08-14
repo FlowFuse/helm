@@ -1,3 +1,11 @@
+#### 1.10.0: Release
+
+ - Revert create-pod Role name (#159) @hardillb
+ - Allow variable substituion in Ingress Annotations (#156) @hardillb
+ - Add Rate Limit details (#158) @hardillb
+ - FlowForge helm: 1. Editors: service account. 2. Broker: propagate ingress. 3. README (#148) @elenaviter
+ - Allow DB connection to use SSL (#154) @hardillb
+
 #### 1.9.0: Release
 
  - Add comment about PostgreSQL constraints (#145) @hardillb

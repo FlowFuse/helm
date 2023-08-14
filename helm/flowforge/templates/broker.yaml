@@ -1,4 +1,5 @@
 {{- if .Values.forge.broker.enabled -}}
+{{- $brokerHostname := or (.Values.forge.entryPoint) (printf "%s%s" "mqtt." .Values.forge.domain) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -130,9 +131,11 @@ metadata:
   name: flowforge-broker
   labels:
     app: flowforge-broker
-  annotations:
   {{- if .Values.ingress.annotations }}
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  annotations:
+    {{- range $keys, $values := .Values.ingress.annotations }}
+    {{ $keys }}: {{ $values | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker"}}
+    {{- end }}
   {{- end }}
 spec:
   {{- if $.Values.ingress.className }}
