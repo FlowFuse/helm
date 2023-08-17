@@ -10,74 +10,92 @@ on:
         description: 'flowforge package ref'
         required: false
   schedule:
-    - cron: '30 23 * * *'
+    - cron: '30 5 * * *'
   push:
     branches:
       - 'feat-*'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
+    with:
+      package_dependencies: |
+        @flowforge/flowforge
+        @flowforge/kubernetes
+      registry_name: "dkr.ecr.eu-west-1.amazonaws.com/flowforge/forge-k8s"
+      build_context:
+        description: 'Path to the build context'
+        type: string
+        required: true
+      build_arguments:
+        description: 'Build arguments to pass to the image build step'
+        type: string
+        required: false
+        default: ''
+
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+
+      # - name: Setup Docker buildx
+      #   uses: docker/setup-buildx-action@v2
+
+      # - name: Set release name and image tag
+      #   # if: ${{ github.event_name == 'schedule' }}
+      #   run: | 
+      #     echo "release_name=nightly" >> $GITHUB_ENV
+      #     echo "image_tag=nightly-$(date +%Y%m%d%H%m%S)" >> $GITHUB_ENV
+
+      # - name: "Set dependencies versions"
+      #   run: |
+      #     cat flowforge-container/package.json | jq '.dependencies["@flowforge/flowforge"] = "${{ env.release_name }}" | .dependencies["@flowforge/kubernetes"] = "${{ env.release_name }}" ' > flowforge-container/package.json-patched
+      #     mv flowforge-container/package.json-patched flowforge-container/package.json
+
+      # - name: Configure AWS credentials
+      #   if: ${{ env.release_name == 'nightly' }}
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.STAGING_AWS_ID }}
+      #     aws-secret-access-key: ${{ secrets.STAGING_AWS_KEY }}
+      #     aws-region: eu-west-1
+
+      # - name: "Login to Staging ECR"
+      #   if: ${{ env.release_name == 'nightly' }}
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
+
+      # - name: Get image metadata
+      #   id: image_metadata
+      #   uses: docker/metadata-action@v4
+      #   with:
+      #     images: |
+      #       ${{ steps.login-ecr.outputs.registry }}/flowforge/forge-k8s
+      #     tags: |
+      #       type=raw,value=${{ env.image_tag }}
+      #     flavor: |
+      #       latest=false       
+
+      # - name: Build and push Forge container
+      #   uses: docker/build-push-action@v3.1.1
+      #   with:
+      #     context: flowforge-container
+      #     file: flowforge-container/Dockerfile
+      #     tags: ${{ steps.image_metadata.outputs.tags }}
+      #     platforms: |
+      #       linux/amd64
+      #       linux/arm64
+      #     build-args: |
+      #       REGISTRY=npm.pkg.github.com
+      #       REGISTRY_TOKEN=${{ secrets.GITHUB_TOKEN }}
+      #     push: true
+
+  dispatch:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
+    needs: [build]
+    if: false
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Set release name and image tag
-        # if: ${{ github.event_name == 'schedule' }}
-        run: | 
-          echo "release_name=nightly" >> $GITHUB_ENV
-          echo "image_tag=nightly-$(date +%Y%m%d%H%m%S)" >> $GITHUB_ENV
-
-      - name: "Set dependencies versions"
-        run: |
-          cat flowforge-container/package.json | jq '.dependencies["@flowforge/flowforge"] = "${{ env.release_name }}" | .dependencies["@flowforge/kubernetes"] = "${{ env.release_name }}" ' > flowforge-container/package.json-patched
-          mv flowforge-container/package.json-patched flowforge-container/package.json
-
-      - name: Configure AWS credentials
-        if: ${{ env.release_name == 'nightly' }}
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.STAGING_AWS_ID }}
-          aws-secret-access-key: ${{ secrets.STAGING_AWS_KEY }}
-          aws-region: eu-west-1
-
-      - name: "Login to Staging ECR"
-        if: ${{ env.release_name == 'nightly' }}
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Get image metadata
-        id: image_metadata
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ${{ steps.login-ecr.outputs.registry }}/flowforge/forge-k8s
-          tags: |
-            type=raw,value=${{ env.image_tag }}
-          flavor: |
-            latest=false
-          
-
-      - name: Build and push Forge container
-        uses: docker/build-push-action@v3.1.1
-        with:
-          context: flowforge-container
-          file: flowforge-container/Dockerfile
-          tags: ${{ steps.image_metadata.outputs.tags }}
-          platforms: |
-            linux/amd64
-            linux/arm64
-          build-args: |
-            REGISTRY=npm.pkg.github.com
-            REGISTRY_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          push: true
-
       - name: Generate a token
         id: generate_token
         uses: tibdex/github-app-token@v1
