@@ -22,19 +22,12 @@ jobs:
   build:
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
     with:
+      image_name: 'forge-k8s'
       package_dependencies: |
         @flowforge/flowforge
         @flowforge/kubernetes
-      registry_name: "dkr.ecr.eu-west-1.amazonaws.com/flowforge/forge-k8s"
-      build_context:
-        description: 'Path to the build context'
-        type: string
-        required: true
-      build_arguments:
-        description: 'Build arguments to pass to the image build step'
-        type: string
-        required: false
-        default: ''
+      build_context: 'flowforge-container'
+      push_image: false
 
       # - name: Checkout
       #   uses: actions/checkout@v3
