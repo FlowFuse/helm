@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    if: false
+    if: true
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
     with:
       image_name: 'forge-k8s'
@@ -33,6 +33,7 @@ jobs:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
   directBuild:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - name: Checkout
         uses: actions/checkout@v3
