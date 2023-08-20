@@ -28,7 +28,8 @@ jobs:
         @flowforge/kubernetes
       build_context: 'flowforge-container'
       push_image: false
-      npm_registry_auth_token: ${{ github.token }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Checkout
       #   uses: actions/checkout@v3
