@@ -87,7 +87,7 @@ jobs:
             linux/arm64
           build-args: |
             REGISTRY=${{ env.npm_registry }}
-            REGISTRY_TOKEN=${{ secrets.npm_registry_auth_token }}
+            REGISTRY_TOKEN=${{ secrets.GITHUB_TOKEN }}
           push: false
 
       # - name: Build and push Forge container
