@@ -20,6 +20,7 @@ on:
 
 jobs:
   build:
+    if: false
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
     with:
       image_name: 'forge-k8s'
@@ -30,23 +31,26 @@ jobs:
       push_image: false
     secrets:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+  directBuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      # - name: Checkout
-      #   uses: actions/checkout@v3
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
 
-      # - name: Setup Docker buildx
-      #   uses: docker/setup-buildx-action@v2
+      - name: Set release name and image tag
+        # if: ${{ github.event_name == 'schedule' }}
+        run: | 
+          echo "release_name=nightly" >> $GITHUB_ENV
+          echo "npm_registry=https://npm.pkg.github.com" >> $GITHUB_ENV
+          echo "image_tag=nightly-$(date +%Y%m%d%H%m%S)" >> $GITHUB_ENV
 
-      # - name: Set release name and image tag
-      #   # if: ${{ github.event_name == 'schedule' }}
-      #   run: | 
-      #     echo "release_name=nightly" >> $GITHUB_ENV
-      #     echo "image_tag=nightly-$(date +%Y%m%d%H%m%S)" >> $GITHUB_ENV
-
-      # - name: "Set dependencies versions"
-      #   run: |
-      #     cat flowforge-container/package.json | jq '.dependencies["@flowforge/flowforge"] = "${{ env.release_name }}" | .dependencies["@flowforge/kubernetes"] = "${{ env.release_name }}" ' > flowforge-container/package.json-patched
-      #     mv flowforge-container/package.json-patched flowforge-container/package.json
+      - name: "Set dependencies versions"
+        run: |
+          cat flowforge-container/package.json | jq '.dependencies["@flowforge/flowforge"] = "${{ env.release_name }}" | .dependencies["@flowforge/kubernetes"] = "${{ env.release_name }}" ' > flowforge-container/package.json-patched
+          mv flowforge-container/package.json-patched flowforge-container/package.json
 
       # - name: Configure AWS credentials
       #   if: ${{ env.release_name == 'nightly' }}
@@ -71,6 +75,20 @@ jobs:
       #       type=raw,value=${{ env.image_tag }}
       #     flavor: |
       #       latest=false       
+
+      - name: Build container image
+        uses: docker/build-push-action@v4
+        with:
+          context: flowforge-container
+          file: flowforge-container/Dockerfile
+          tags: "forge-k8s:${{ env.image_tag }}"
+          platforms: |
+            linux/amd64
+            linux/arm64
+          build-args: |
+            REGISTRY=${{ env.npm_registry }}
+            REGISTRY_TOKEN=${{ secrets.npm_registry_auth_token }}
+          push: false
 
       # - name: Build and push Forge container
       #   uses: docker/build-push-action@v3.1.1
