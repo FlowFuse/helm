@@ -30,7 +30,6 @@ jobs:
         @flowforge/kubernetes
       build_context: 'flowforge-container'
       npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
-      push_image: false
     secrets:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
 
