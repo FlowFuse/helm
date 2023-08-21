@@ -33,6 +33,8 @@ jobs:
       npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
     secrets:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
 
   dispatch:
     runs-on: ubuntu-latest
