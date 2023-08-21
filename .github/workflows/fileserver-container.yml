@@ -1,0 +1,60 @@
+# file-server
+name: Build file-server container
+
+on:
+  workflow_dispatch:
+    inputs:
+      fileserver_release_name:
+        description: 'file-server package version'
+        required: false
+        default: 'nightly'
+      fileserver_ref:
+        description: 'file-server package ref'
+        required: false
+  schedule:
+    - cron: '30 5 * * *'
+  push:
+    branches:
+      - main
+      - 'feat-*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-stage:
+    if: true
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
+    with:
+      environment: 'stage'
+      image_name: 'file-server'
+      package_dependencies: |
+        @flowforge/file-server
+      build_context: 'file-server'
+      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
+
+  dispatch:
+    runs-on: ubuntu-latest
+    needs: [build-stage]
+    if: false
+    steps:
+      - name: Generate a token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_BOT_APP_ID }}
+          private_key: ${{ secrets.GH_BOT_APP_KEY }}
+
+      - name: Trigger cloud deployment
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: deploy.yml
+          repo: flowforge/CloudProject
+          ref: feat-deployment-poc
+          token: ${{ steps.generate_token.outputs.token }}
+          inputs: '{"fileserver_image_tag": "${{ env.image_tag }}"}'
+  
