@@ -1,5 +1,4 @@
 name: Build Node-RED container
-
 on:
   workflow_dispatch:
     inputs:
