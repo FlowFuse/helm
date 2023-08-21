@@ -20,10 +20,11 @@ on:
       - main
 
 jobs:
-  build:
+  build-stage:
     if: true
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
     with:
+      environment: 'stage'
       image_name: 'forge-k8s'
       package_dependencies: |
         @flowforge/flowforge
