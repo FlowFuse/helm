@@ -1,0 +1,49 @@
+name: Build Node-RED container
+on:
+  workflow_dispatch:
+    inputs:
+      nr_project_nodes_release_name:
+        description: 'nr-project-nodes package version'
+        required: false
+        default: 'nightly'
+      nr_project_nodes_ref:
+        description: 'nr-project-nodes package ref'
+        required: false
+  schedule:
+    - cron: '30 5 * * *'
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-stage:
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    with:
+      environment: 'stage'
+      image_name: 'node-red'
+      package_dependencies: |
+        @flowforge/nr-project-nodes
+      build_context: 'node-red-container'
+      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
+  build-stage-223:
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    with:
+      environment: 'stage'
+      image_name: 'node-red'
+      image_tag_prefix: '2.2.3-'
+      package_dependencies: |
+        @flowforge/nr-project-nodes
+      build_context: 'node-red-container'
+      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
+  

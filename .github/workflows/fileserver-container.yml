@@ -1,0 +1,36 @@
+# file-server
+name: Build file-server container
+on:
+  workflow_dispatch:
+    inputs:
+      fileserver_release_name:
+        description: 'file-server package version'
+        required: false
+        default: 'nightly'
+      fileserver_ref:
+        description: 'file-server package ref'
+        required: false
+  schedule:
+    - cron: '30 5 * * *'
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-stage:
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    with:
+      environment: 'stage'
+      image_name: 'file-server'
+      package_dependencies: |
+        @flowforge/file-server
+      build_context: 'file-server'
+      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
+  
