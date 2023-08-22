@@ -13,7 +13,6 @@ on:
     - cron: '30 5 * * *'
   push:
     branches:
-      - 'feat-*'
       - main
   pull_request:
     branches:
