@@ -20,7 +20,7 @@ on:
 
 jobs:
   build-stage:
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
       image_name: 'node-red'
@@ -33,7 +33,7 @@ jobs:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
   build-stage-223:
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-container-build
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
       image_name: 'node-red'
