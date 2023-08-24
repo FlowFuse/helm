@@ -1,3 +1,7 @@
+#### 1.10.4: Release
+
+ - Bump to 1.10.4 FlowForge @hardillb
+ 
 #### 1.10.3: Release
 
  - Bump to 1.10.3 FlowForge @hardillb
