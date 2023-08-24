@@ -20,6 +20,7 @@ on:
 
 jobs:
   build-stage:
+    if: false
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
@@ -33,6 +34,7 @@ jobs:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
   build-stage-223:
+    if: false
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'

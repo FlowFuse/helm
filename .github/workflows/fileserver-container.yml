@@ -21,6 +21,7 @@ on:
 
 jobs:
   build-stage:
+    if: false
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
