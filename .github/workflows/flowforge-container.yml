@@ -62,3 +62,7 @@ jobs:
       - name: Debug kubectl
         run: |
           kubectl -n default get pods -l app=ubuntu -o jsonpath="{.items[*].status.phase}"
+
+      - name: Debug previous job outputs
+        run: |
+          echo "Image tag: ${{ needs.build-stage.outputs.private_image_tag }}"
