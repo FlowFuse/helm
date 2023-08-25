@@ -66,3 +66,4 @@ jobs:
       - name: Debug previous job outputs
         run: |
           echo "Image tag: ${{ needs.build-stage.outputs.private_image_tag }}"
+
