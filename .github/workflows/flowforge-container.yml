@@ -65,5 +65,5 @@ jobs:
 
       - name: Debug previous job outputs
         run: |
-          echo "Image tag: ${{ needs.build-stage.outputs.private_image_tag }}"
-
+          echo "Image tag: ${{ needs.build-stage.outputs.private_image }}"
+          echo "Image tag: ${{ secrets.AWS_ACCOUNT_ID }}".dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.build-stage.outputs.private_image }}
