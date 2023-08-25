@@ -66,4 +66,3 @@ jobs:
       - name: Debug previous job outputs
         run: |
           echo "Image tag: ${{ needs.build-stage.outputs.private_image_tag }}"
-          kubectl run test --rm --image=${{ needs.build-stage.outputs.private_image_tag }} --restart=Never --command -- sleep 3600
