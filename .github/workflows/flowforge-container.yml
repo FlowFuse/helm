@@ -59,11 +59,8 @@ jobs:
         run:
           aws eks update-kubeconfig --region eu-west-1 --name ${{ secrets.EKS_CLUSTER_NAME }}
         
-      - name: Debug kubectl
+      - name: Update image and wait for deployment to finish
         run: |
-          kubectl -n default get pods -l app=ubuntu -o jsonpath="{.items[*].status.phase}"
+          kubectl -n defaut set image deployment/flowforge forge=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/forge-k8s:${{ needs.build-stage.outputs.private_image }} --record
+          kubectl -n default rollout status deployment/flowforge
 
-      - name: Debug previous job outputs
-        run: |
-          echo "Image tag: ${{ needs.build-stage.outputs.private_image }}"
-          echo "Image tag: ${{ secrets.AWS_ACCOUNT_ID }}".dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.build-stage.outputs.private_image }}
