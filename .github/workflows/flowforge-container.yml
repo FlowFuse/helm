@@ -62,7 +62,7 @@ jobs:
       - name: Update image and wait for deployment to finish
         timeout-minutes: 5
         run: |
-          kubectl -n default set image deployment/flowforge forge=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/forge-k8s:${{ needs.build-stage.outputs.private_image }} --record
+          kubectl -n default set image deployment/flowforge forge=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.build-stage.outputs.private_image }}
           kubectl -n default rollout status deployment/flowforge
 
       - name: Rollback failed deployment
