@@ -1,4 +1,3 @@
-# file-server
 name: Build file-server container
 on:
   workflow_dispatch:
@@ -21,7 +20,7 @@ on:
 
 jobs:
   build-stage:
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-image-tag-output
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
       image_name: 'file-server'
@@ -36,7 +35,7 @@ jobs:
   
   build-prod:
     name: Build production image
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@feat-image-tag-output
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'production'
       image_name: 'file-server'
