@@ -20,6 +20,7 @@ on:
 
 jobs:
   build-stage:
+    name: Build stage image
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
@@ -34,3 +35,91 @@ jobs:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
   
+  build-prod:
+    name: Build production image
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    with:
+      environment: 'production'
+      image_name: 'forge-k8s'
+      package_dependencies: |
+        @flowforge/flowforge
+        @flowforge/kubernetes
+      build_context: 'flowforge-container'
+      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.PRODUCTION_AWS_KEY }}
+  
+  deploy-stage:
+    name: Deploy to staging environment
+    environment: stage
+    runs-on: ubuntu-latest
+    needs: build-stage
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.STAGING_AWS_ID }}
+          aws-secret-access-key: ${{ secrets.STAGING_AWS_KEY }}
+          aws-region: eu-west-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/K8sAdmin
+          role-duration-seconds: 1200
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.23.4'
+
+      - name: Configure kubectl
+        run:
+          aws eks update-kubeconfig --region eu-west-1 --name ${{ secrets.EKS_CLUSTER_NAME }}
+        
+      - name: Update image and wait for deployment to finish
+        timeout-minutes: 5
+        run: |
+          kubectl -n default set image deployment/flowforge forge=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.build-stage.outputs.image }}
+          kubectl -n default rollout status deployment/flowforge
+
+      - name: Rollback failed deployment
+        if: failure()
+        run: |
+          kubectl -n default rollout undo deployment/flowforge
+          kubectl -n default rollout status deployment/flowforge
+
+  deploy-prod:
+    if: false
+    name: Deploy to production environment
+    environment: production
+    runs-on: ubuntu-latest
+    needs: [build-prod, deploy-stage]
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ID }}
+          aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_KEY }}
+          aws-region: eu-west-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/K8sAdmin
+          role-duration-seconds: 1200
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.23.4'
+
+      - name: Configure kubectl
+        run:
+          aws eks update-kubeconfig --region eu-west-1 --name ${{ secrets.EKS_CLUSTER_NAME }}
+        
+      - name: Update image and wait for deployment to finish
+        timeout-minutes: 5
+        run: |
+          kubectl -n default set image deployment/flowforge forge=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.build-prod.outputs.image }}
+          kubectl -n default rollout status deployment/flowforge
+
+      - name: Rollback failed deployment
+        if: failure()
+        run: |
+          kubectl -n default rollout undo deployment/flowforge
+          kubectl -n default rollout status deployment/flowforge
