@@ -37,6 +37,7 @@ jobs:
   
   build-prod:
     name: Build production image
+    if: false
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'production'
