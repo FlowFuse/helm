@@ -1,3 +1,9 @@
+#### 1.11.0: Release
+
+ - Disable production containers build (#167) @ppawlowski
+ - Add possibility to deploy flowforge container to stage environment (#165) @ppawlowski
+ - Introduce dedicated containers images build pipeline (#163) @ppawlowski
+
 #### 1.10.0: Release
 
  - Revert create-pod Role name (#159) @hardillb
