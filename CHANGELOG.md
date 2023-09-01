@@ -1,3 +1,7 @@
+#### 1.11.1: Release
+
+ - Bump to v1.11.1 FlowForge @hardillb
+
 #### 1.11.0: Release
 
  - Disable production containers build (#167) @ppawlowski
