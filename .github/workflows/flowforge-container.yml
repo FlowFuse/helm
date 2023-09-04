@@ -29,7 +29,6 @@ jobs:
         @flowforge/flowforge
         @flowforge/kubernetes
       build_context: 'flowforge-container'
-      scan_image: false
       npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
     secrets:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
