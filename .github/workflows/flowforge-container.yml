@@ -9,8 +9,6 @@ on:
       flowforge_ref:
         description: 'flowforge package ref'
         required: false
-  schedule:
-    - cron: '30 5 * * *'
   push:
     branches:
       - main
