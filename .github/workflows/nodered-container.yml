@@ -9,8 +9,6 @@ on:
       nr_project_nodes_ref:
         description: 'nr-project-nodes package ref'
         required: false
-  schedule:
-    - cron: '30 5 * * *'
   push:
     branches:
       - main
