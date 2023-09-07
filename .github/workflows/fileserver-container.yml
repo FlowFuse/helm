@@ -9,8 +9,6 @@ on:
       fileserver_ref:
         description: 'file-server package ref'
         required: false
-  schedule:
-    - cron: '30 5 * * *'
   push:
     branches:
       - main
