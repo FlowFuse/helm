@@ -17,11 +17,12 @@ on:
       - main
 
 jobs:
-  build-stage:
+  build-stage-302:
     uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
     with:
       environment: 'stage'
       image_name: 'node-red'
+      dockerfile_path: Dockerfile
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -36,6 +37,7 @@ jobs:
       environment: 'stage'
       image_name: 'node-red'
       image_tag_prefix: '2.2.3-'
+      dockerfile_path: Dockerfile-2.2.x
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -44,4 +46,18 @@ jobs:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
-  
+  build-stage-310:
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    with:
+      environment: 'stage'
+      image_name: 'node-red'
+      image_tag_prefix: '3.1.0-'
+      dockerfile_path: Dockerfile-3.1
+      package_dependencies: |
+        @flowforge/nr-project-nodes
+      build_context: 'node-red-container'
+      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
