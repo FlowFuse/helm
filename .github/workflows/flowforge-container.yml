@@ -1,4 +1,5 @@
 name: Build Flowforge container
+
 on:
   workflow_dispatch:
     inputs:
@@ -32,6 +33,7 @@ jobs:
       npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   build-stage:
     if: false
