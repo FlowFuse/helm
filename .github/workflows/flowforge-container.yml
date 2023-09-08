@@ -34,6 +34,13 @@ jobs:
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
+  build-multi-architecture:
+    name: Build multi-architecture container image
+    needs: [build]
+    uses: flowforge/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-multiplatform-image-build
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+
   build-stage:
     if: false
     name: Build stage image
