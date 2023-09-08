@@ -1,5 +1,4 @@
 name: Build Flowforge container
-
 on:
   workflow_dispatch:
     inputs:
