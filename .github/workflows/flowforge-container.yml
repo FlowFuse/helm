@@ -39,6 +39,8 @@ jobs:
     name: Build multi-architecture container image
     needs: [build]
     uses: flowforge/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-multiplatform-image-build
+    with:
+      image_name: 'forge-k8s'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
