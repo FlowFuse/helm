@@ -1,3 +1,11 @@
+#### 1.11.2: Release
+
+ - Bump to v1.11.2 FlowForge @knolleary
+ - Backport Node-RED container fixes to maintenance branch for 1.11.2 release (#173) @knolleary
+ - Upate nr container build workflow to create 3.1 container
+ - Pin default Dockerfile to 3.0.x not latest
+ - Update Node-RED container to 3.1.0 final
+
 #### 1.11.1: Release
 
  - Bump to v1.11.1 FlowForge @hardillb
