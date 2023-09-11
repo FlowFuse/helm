@@ -19,7 +19,7 @@ on:
 jobs:
   build-stage:
     name: Build stage image
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
     with:
       environment: 'stage'
       image_name: 'forge-k8s'
@@ -36,7 +36,7 @@ jobs:
   build-prod:
     name: Build production image
     if: false
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@main
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
     with:
       environment: 'production'
       image_name: 'forge-k8s'
