@@ -1,3 +1,7 @@
+#### 1.11.3: Release
+
+ - Bump to v1.11.3 FlowForge @knolleary
+ 
 #### 1.11.2: Release
 
  - Bump to v1.11.2 FlowForge @knolleary
