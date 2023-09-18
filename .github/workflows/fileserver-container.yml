@@ -25,9 +25,9 @@ jobs:
       package_dependencies: |
         @flowforge/file-server
       build_context: 'file-server'
-      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
     secrets:
-      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
   
@@ -41,9 +41,9 @@ jobs:
       package_dependencies: |
         @flowforge/file-server
       build_context: 'file-server'
-      npm_registry_url: ${{ vars.PRIVATE_NPM_REGISTRY_URL }}
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
     secrets:
-      npm_registry_auth_token: ${{ secrets.GITHUB_TOKEN }}
+      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
       aws_access_key_secret: ${{ secrets.PRODUCTION_AWS_KEY }}
 
