@@ -101,13 +101,14 @@ jobs:
           aws eks update-kubeconfig --region eu-west-1 --name ${{ secrets.EKS_CLUSTER_NAME }}
         
       - name: Update image and wait for deployment to finish
+        id: update-image
         timeout-minutes: 5
         run: |
           kubectl -n default set image deployment/flowforge-file file-storage=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/file-server:${{ env.image_tag }}
           kubectl -n default rollout status deployment/flowforge-file
 
       - name: Rollback failed deployment
-        if: failure()
+        if: ${{ failure() && steps.update-image.conclusion == 'failure'}}
         run: |
           kubectl -n default rollout undo deployment/flowforge-file
           kubectl -n default rollout status deployment/flowforge-file
@@ -175,13 +176,14 @@ jobs:
           aws eks update-kubeconfig --region eu-west-1 --name ${{ secrets.EKS_CLUSTER_NAME }}
         
       - name: Update image and wait for deployment to finish
+        id: update-image
         timeout-minutes: 5
         run: |
           kubectl -n default set image deployment/flowforge-file file-storage=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/file-server:${{ env.image_tag }}
           kubectl -n default rollout status deployment/flowforge-file
 
       - name: Rollback failed deployment
-        if: failure()
+        if: ${{ failure() && steps.update-image.conclusion == 'failure'}}
         run: |
           kubectl -n default rollout undo deployment/flowforge-file
           kubectl -n default rollout status deployment/flowforge-file
