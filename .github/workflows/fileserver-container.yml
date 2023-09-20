@@ -44,6 +44,9 @@ jobs:
     environment: stage
     runs-on: ubuntu-latest
     needs: build-multi-architecture
+    permissions:
+      packages: read
+      contents: read
     steps:
       - name: Set unique image tag
         id: set-image-tag
@@ -115,6 +118,9 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     needs: [build-multi-architecture, deploy-stage]
+    permissions:
+      packages: read
+      contents: read
     steps:
       - name: Set unique image tag
         id: set-image-tag
