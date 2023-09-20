@@ -149,7 +149,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: [DEBUG] Pull temporary image
+      - name: "[DEBUG] Pull temporary image"
         run:
           docker pull ${{ needs.build-multi-architecture.outputs.image }}
 
