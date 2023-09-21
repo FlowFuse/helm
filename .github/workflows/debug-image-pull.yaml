@@ -26,4 +26,4 @@ jobs:
 
       - name: "Pull temporary image"
         run: |
-          docker pull ${{ needs.build-multi-architecture.outputs.image }}
+          docker pull ghcr.io/flowforge/file-server:main
