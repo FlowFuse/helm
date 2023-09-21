@@ -19,7 +19,7 @@ on:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@9d655b572fffebb432b259566b68be1a7aff7ed5
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@fix-image-manifest-unknown
     with:
       image_name: 'file-server'
       package_dependencies: |
