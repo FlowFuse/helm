@@ -67,10 +67,6 @@ jobs:
         with:
           mask-password: 'true'
 
-      - name: "[DEBUG] logout from ghcr registry"
-        run: |
-          docker logout ghcr.io
-
       - name: Login to temporary registry
         id: login-ghcr
         uses: docker/login-action@v3
@@ -78,10 +74,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "[DEBUG] Pull temporary image"
-        run: |
-          docker pull ${{ needs.build-multi-architecture.outputs.image }}
 
       - name: Push image to ECR
         uses: akhilerm/tag-push-action@v2.1.0
