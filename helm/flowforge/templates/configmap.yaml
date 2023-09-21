@@ -155,7 +155,7 @@ data:
         hubspot:
           trackingcode: {{ .Values.forge.support.hubspot | int }}
     {{- end }}
-    {{- if .Values.forge.fileStore }}
+    {{- if .Values.forge.fileStore.enabled }}
     fileStore:
       url: http://flowforge-file.{{ .Release.Namespace }}
     {{- end }}
