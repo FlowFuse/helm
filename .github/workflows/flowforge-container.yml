@@ -1,4 +1,4 @@
-name: Build Flowforge container
+name: Flowforge - build and deploy
 on:
   workflow_dispatch:
     inputs:

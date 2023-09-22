@@ -1,4 +1,4 @@
-name: Build file-server container
+name: File-server - build and deploy
 on:
   workflow_dispatch:
     inputs:
