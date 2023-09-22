@@ -57,81 +57,18 @@ jobs:
 
 
   deploy-prod:
-    if: false
+    if: github.ref_name == 'main'
     name: Deploy to production environment
-    environment: production
-    runs-on: ubuntu-latest
     needs: [build-multi-architecture, deploy-stage]
-    permissions:
-      packages: read
-      contents: read
-    steps:
-      - name: Set unique image tag
-        id: set-image-tag
-        run: |
-          echo "image_tag=nightly-$(date +%Y%m%d%H%m%S)" >> $GITHUB_ENV
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ID }}
-          aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_KEY }}
-          aws-region: eu-west-1
-      
-      - name: Login to AWS ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          mask-password: 'true'
-
-      - name: Login to temporary registry
-        id: login-ghcr
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "[DEBUG] Pull temporary image"
-        run:
-          docker pull ${{ needs.build-multi-architecture.outputs.image }}
-
-      - name: Push image to ECR
-        uses: akhilerm/tag-push-action@v2.1.0
-        with:
-          src: ${{ needs.build-multi-architecture.outputs.image }}
-          dst: |
-            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/file-server:nightly
-            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/file-server:${{ env.image_tag }}
-
-      - name: Configure AWS credentials for EKS interaction
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.STAGING_AWS_ID }}
-          aws-secret-access-key: ${{ secrets.STAGING_AWS_KEY }}
-          aws-region: eu-west-1
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/K8sAdmin
-          role-duration-seconds: 1200
-
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.23.4'
-
-      - name: Configure kubectl
-        run:
-          aws eks update-kubeconfig --region eu-west-1 --name ${{ secrets.EKS_CLUSTER_NAME }}
-        
-      - name: Update image and wait for deployment to finish
-        id: update-image
-        timeout-minutes: 5
-        run: |
-          kubectl -n default set image deployment/flowforge-file file-storage=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/file-server:${{ env.image_tag }}
-          kubectl -n default rollout status deployment/flowforge-file
-
-      - name: Rollback failed deployment
-        if: ${{ failure() && steps.update-image.conclusion == 'failure'}}
-        run: |
-          kubectl -n default rollout undo deployment/flowforge-file
-          kubectl -n default rollout status deployment/flowforge-file
-    
+    uses: flowforge/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-eks-deployment-workflow
+    with:
+      environment: poduction
+      service_name: 'file-server'
+      deployment_name: 'flowforge-file'
+      container_name: 'file-storage'
+      image: ${{ needs.build-multi-architecture.outputs.image }}
+    secrets:
+      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
+      aws_secret_access_key: ${{ secrets.PRODUCTION_AWS_KEY }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
