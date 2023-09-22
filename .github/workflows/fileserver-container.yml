@@ -45,7 +45,7 @@ jobs:
     uses: flowforge/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-eks-deployment-workflow
     with:
       environment: staging
-      image_name: ${{ needs.build-multi-architecture.outputs.image }}
+      image: ${{ needs.build-multi-architecture.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
