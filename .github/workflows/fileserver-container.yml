@@ -62,7 +62,7 @@ jobs:
     needs: [build-multi-architecture, deploy-stage]
     uses: flowforge/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-eks-deployment-workflow
     with:
-      environment: poduction
+      environment: production
       service_name: 'file-server'
       deployment_name: 'flowforge-file'
       container_name: 'file-storage'
