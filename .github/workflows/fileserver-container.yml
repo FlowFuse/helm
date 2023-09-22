@@ -45,6 +45,9 @@ jobs:
     uses: flowforge/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-eks-deployment-workflow
     with:
       environment: stage
+      service_name: 'file-server'
+      deployment_name: 'flowforge-file'
+      container_name: 'file-storage'
       image: ${{ needs.build-multi-architecture.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
