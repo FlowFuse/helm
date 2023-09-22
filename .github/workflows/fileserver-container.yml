@@ -1,5 +1,4 @@
 name: Build file-server container
-
 on:
   workflow_dispatch:
     inputs:
