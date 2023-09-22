@@ -20,7 +20,7 @@ on:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@fix-image-manifest-unknown
+    uses: flowforge/github-actions-workflows/.github/workflows/build_container_image.yml@37ba5163c6caad3537d6f7292dbd9102465ad810
     with:
       image_name: 'file-server'
       package_dependencies: |
@@ -34,7 +34,7 @@ jobs:
   build-multi-architecture:
     name: Build multi-architecture container image
     needs: build
-    uses: flowforge/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@9d655b572fffebb432b259566b68be1a7aff7ed5
+    uses: flowforge/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@37ba5163c6caad3537d6f7292dbd9102465ad810
     with:
       image_name: 'file-server'
     secrets:
