@@ -50,7 +50,7 @@ jobs:
           repository: flowforge/forge-k8s
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          readme-filepath: ./helm/flowfuse-container/README.md
+          readme-filepath: ./helm/flowforge-container/README.md
 
   build_nodered_container:
     runs-on: ubuntu-latest
