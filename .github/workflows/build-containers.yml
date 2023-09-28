@@ -22,7 +22,7 @@ jobs:
           flavor: |
             latest=true
           images: |
-            flowfuse/forge-k8s
+            flowforge/forge-k8s
       # sets up multi platform emulators
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
