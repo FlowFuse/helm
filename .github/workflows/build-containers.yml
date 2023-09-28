@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       # sets options for Docker build
       # will tag contianers with GH tag name
@@ -22,7 +22,7 @@ jobs:
           flavor: |
             latest=true
           images: |
-            flowforge/forge-k8s
+            flowfuse/forge-k8s
       # sets up multi platform emulators
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
@@ -50,14 +50,14 @@ jobs:
           repository: flowforge/forge-k8s
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          readme-filepath: ./helm/flowforge-container/README.md
+          readme-filepath: ./helm/flowfuse-container/README.md
 
   build_nodered_container:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -99,7 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -134,7 +134,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -169,7 +169,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -220,7 +220,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           fetch-depth: 0
           path: 'helm'
       - name: Package
@@ -229,9 +229,9 @@ jobs:
           cd helm
           git checkout gh-pages
           mv ../flowforge-*.tgz .
-          helm repo index --url https://flowforge.github.io/helm .
+          helm repo index --url https://flowfuse.github.io/helm .
           git add .
-          git -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' commit -m "Add ${{ github.ref_name }} helm chart"
+          git -c user.name='FlowFuse Build Bot' -c user.email='noreply@flowfuse.com' commit -m "Add ${{ github.ref_name }} helm chart"
           git push origin
       - name: Resync Maintenance
         if: ${{ endsWith(github.ref, '.0') }}
