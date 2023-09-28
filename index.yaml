@@ -2,8 +2,31 @@ apiVersion: v1
 entries:
   flowforge:
   - apiVersion: v2
+    appVersion: 1.12.1
+    created: "2023-09-28T18:06:36.284722351Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.14.0
+    description: FlowForge
+    digest: 124569652c412027c027873a83ce3dcd8a14e58467960cc10dbaf22a49223056
+    home: https://flowforge.com
+    icon: https://flowforge.com/apple-touch-icon.png
+    keywords:
+    - flowforge
+    - node-red
+    maintainers:
+    - name: FlowForge Inc
+      url: https://flowforge.com
+    name: flowforge
+    type: application
+    urls:
+    - https://flowfuse.github.io/helm/flowforge-1.12.1.tgz
+    version: 1.12.1
+  - apiVersion: v2
     appVersion: 1.12.0
-    created: "2023-09-28T12:49:40.091258535Z"
+    created: "2023-09-28T18:06:36.279877222Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -22,11 +45,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.12.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.12.0.tgz
     version: 1.12.0
   - apiVersion: v2
     appVersion: 1.11.4
-    created: "2023-09-28T12:49:40.08601689Z"
+    created: "2023-09-28T18:06:36.275099111Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -45,11 +68,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.11.4.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.11.4.tgz
     version: 1.11.4
   - apiVersion: v2
     appVersion: 1.11.3
-    created: "2023-09-28T12:49:40.080886546Z"
+    created: "2023-09-28T18:06:36.268137446Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -68,11 +91,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.11.3.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.11.3.tgz
     version: 1.11.3
   - apiVersion: v2
     appVersion: 1.11.2
-    created: "2023-09-28T12:49:40.074615692Z"
+    created: "2023-09-28T18:06:36.263437255Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -91,11 +114,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.11.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.11.2.tgz
     version: 1.11.2
   - apiVersion: v2
     appVersion: 1.11.1
-    created: "2023-09-28T12:49:40.069511749Z"
+    created: "2023-09-28T18:06:36.258673147Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -114,11 +137,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.11.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.11.1.tgz
     version: 1.11.1
   - apiVersion: v2
     appVersion: 1.11.0
-    created: "2023-09-28T12:49:40.057126042Z"
+    created: "2023-09-28T18:06:36.251015706Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -137,11 +160,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.11.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.11.0.tgz
     version: 1.11.0
   - apiVersion: v2
     appVersion: 1.10.4
-    created: "2023-09-28T12:49:40.052043699Z"
+    created: "2023-09-28T18:06:36.246133268Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -160,11 +183,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.10.4.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.10.4.tgz
     version: 1.10.4
   - apiVersion: v2
     appVersion: 1.10.3
-    created: "2023-09-28T12:49:40.046783254Z"
+    created: "2023-09-28T18:06:36.234829602Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -183,11 +206,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.10.3.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.10.3.tgz
     version: 1.10.3
   - apiVersion: v2
     appVersion: 1.10.2
-    created: "2023-09-28T12:49:40.037472474Z"
+    created: "2023-09-28T18:06:36.230122609Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -206,11 +229,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.10.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.10.2.tgz
     version: 1.10.2
   - apiVersion: v2
     appVersion: 1.10.1
-    created: "2023-09-28T12:49:40.03236643Z"
+    created: "2023-09-28T18:06:36.224465375Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -229,11 +252,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.10.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.10.1.tgz
     version: 1.10.1
   - apiVersion: v2
     appVersion: 1.10.0
-    created: "2023-09-28T12:49:40.027053685Z"
+    created: "2023-09-28T18:06:36.212092538Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -252,11 +275,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.10.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.10.0.tgz
     version: 1.10.0
   - apiVersion: v2
     appVersion: 1.9.4
-    created: "2023-09-28T12:49:40.223386866Z"
+    created: "2023-09-28T18:06:36.400974819Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -275,11 +298,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.9.4.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.9.4.tgz
     version: 1.9.4
   - apiVersion: v2
     appVersion: 1.9.3
-    created: "2023-09-28T12:49:40.218339923Z"
+    created: "2023-09-28T18:06:36.396306111Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -298,11 +321,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.9.3.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.9.3.tgz
     version: 1.9.3
   - apiVersion: v2
     appVersion: 1.9.2
-    created: "2023-09-28T12:49:40.21337508Z"
+    created: "2023-09-28T18:06:36.391656103Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -321,11 +344,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.9.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.9.2.tgz
     version: 1.9.2
   - apiVersion: v2
     appVersion: 1.9.1
-    created: "2023-09-28T12:49:40.207266328Z"
+    created: "2023-09-28T18:06:36.386045593Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -344,11 +367,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.9.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.9.1.tgz
     version: 1.9.1
   - apiVersion: v2
     appVersion: 1.9.0
-    created: "2023-09-28T12:49:40.202196285Z"
+    created: "2023-09-28T18:06:36.381414985Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -367,11 +390,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.9.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.9.0.tgz
     version: 1.9.0
   - apiVersion: v2
     appVersion: 1.8.2
-    created: "2023-09-28T12:49:40.197082341Z"
+    created: "2023-09-28T18:06:36.376816276Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -390,11 +413,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.8.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.8.2.tgz
     version: 1.8.2
   - apiVersion: v2
     appVersion: 1.8.1
-    created: "2023-09-28T12:49:40.18758786Z"
+    created: "2023-09-28T18:06:36.371240867Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -413,11 +436,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.8.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.8.1.tgz
     version: 1.8.1
   - apiVersion: v2
     appVersion: 1.8.0
-    created: "2023-09-28T12:49:40.182689018Z"
+    created: "2023-09-28T18:06:36.366553958Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -436,11 +459,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.8.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.8.0.tgz
     version: 1.8.0
   - apiVersion: v2
     appVersion: 1.7.2
-    created: "2023-09-28T12:49:40.177353672Z"
+    created: "2023-09-28T18:06:36.36185135Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -459,11 +482,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.7.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.7.2.tgz
     version: 1.7.2
   - apiVersion: v2
     appVersion: 1.7.0
-    created: "2023-09-28T12:49:40.170374512Z"
+    created: "2023-09-28T18:06:36.35609714Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -482,11 +505,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.7.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.7.0.tgz
     version: 1.7.0
   - apiVersion: v2
     appVersion: 1.6.1
-    created: "2023-09-28T12:49:40.16541637Z"
+    created: "2023-09-28T18:06:36.351404231Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -505,11 +528,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.6.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.6.1.tgz
     version: 1.6.1
   - apiVersion: v2
     appVersion: 1.6.0
-    created: "2023-09-28T12:49:40.153956172Z"
+    created: "2023-09-28T18:06:36.346768823Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -528,11 +551,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.6.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.6.0.tgz
     version: 1.6.0
   - apiVersion: v2
     appVersion: 1.5.0
-    created: "2023-09-28T12:49:40.149020029Z"
+    created: "2023-09-28T18:06:36.340007366Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -551,11 +574,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.5.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.5.0.tgz
     version: 1.5.0
   - apiVersion: v2
     appVersion: 1.4.1
-    created: "2023-09-28T12:49:40.144098187Z"
+    created: "2023-09-28T18:06:36.334410247Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -574,11 +597,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.4.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.4.1.tgz
     version: 1.4.1
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2023-09-28T12:49:40.137999435Z"
+    created: "2023-09-28T18:06:36.32893986Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -597,11 +620,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.4.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.4.0.tgz
     version: 1.4.0
   - apiVersion: v2
     appVersion: 1.3.3
-    created: "2023-09-28T12:49:40.132960592Z"
+    created: "2023-09-28T18:06:36.323261721Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -620,11 +643,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.3.3.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.3.3.tgz
     version: 1.3.3
   - apiVersion: v2
     appVersion: 1.3.2
-    created: "2023-09-28T12:49:40.122302701Z"
+    created: "2023-09-28T18:06:36.318557328Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -643,11 +666,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.3.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.3.2.tgz
     version: 1.3.2
   - apiVersion: v2
     appVersion: 1.3.1
-    created: "2023-09-28T12:49:40.117345558Z"
+    created: "2023-09-28T18:06:36.313784218Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -666,11 +689,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.3.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.3.1.tgz
     version: 1.3.1
   - apiVersion: v2
     appVersion: 1.3.0
-    created: "2023-09-28T12:49:40.111292506Z"
+    created: "2023-09-28T18:06:36.305689366Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -689,11 +712,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.3.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.3.0.tgz
     version: 1.3.0
   - apiVersion: v2
     appVersion: 1.2.1
-    created: "2023-09-28T12:49:40.105200254Z"
+    created: "2023-09-28T18:06:36.301095101Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -712,11 +735,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.2.1.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.2.1.tgz
     version: 1.2.1
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2023-09-28T12:49:40.100312512Z"
+    created: "2023-09-28T18:06:36.292207248Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -735,11 +758,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.2.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.2.0.tgz
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.1.2
-    created: "2023-09-28T12:49:40.020299427Z"
+    created: "2023-09-28T18:06:36.207213101Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -758,11 +781,11 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.1.2.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.1.2.tgz
     version: 1.1.2
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2023-09-28T12:49:40.015442686Z"
+    created: "2023-09-28T18:06:36.196030966Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -781,6 +804,6 @@ entries:
     name: flowforge
     type: application
     urls:
-    - https://flowforge.github.io/helm/flowforge-1.1.0.tgz
+    - https://flowfuse.github.io/helm/flowforge-1.1.0.tgz
     version: 1.1.0
-generated: "2023-09-28T12:49:40.004963096Z"
+generated: "2023-09-28T18:06:36.19076133Z"
