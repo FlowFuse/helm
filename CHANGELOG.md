@@ -1,3 +1,7 @@
+#### 1.12.1: Release
+
+ - Bump to FlowForge v1.12.1 @hardillb
+
 #### 1.12.0: Release
 
  - Enable concurrency in deployment pipelines (#182) @ppawlowski
