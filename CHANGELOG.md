@@ -1,3 +1,11 @@
+#### 1.12.0: Release
+
+ - Enable concurrency in deployment pipelines (#182) @ppawlowski
+ - Deploy multiarch image from temporary registry (#179) @ppawlowski
+ - Only config file-server if needed (#180) @hardillb
+ - Build container images using packages from public npm registry (#177) @ppawlowski
+ - Pin reusable workflow to commit SHA (#175) @ppawlowski
+
 #### 1.11.0: Release
 
  - Disable production containers build (#167) @ppawlowski
