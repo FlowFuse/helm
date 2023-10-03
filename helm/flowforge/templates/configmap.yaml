@@ -129,7 +129,7 @@ data:
       http: info
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
-      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) }}
+      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (hasKey .Values.forge.telemetry.sentry "frontend_dsn") }}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
         plausible:
@@ -147,7 +147,21 @@ data:
           capture_pageview: true
           {{ end }}
         {{ end -}}
+        {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn") -}}
+        sentry:
+          dsn: {{ .Values.forge.telemetry.sentry.frontend_dsn}}
+          {{ if hasKey .Values.forge.telemetry.sentry "production_mode" }}
+          production_mode: {{ .Values.forge.telemetry.sentry.production_mode }}
+          {{ else }}
+          production_mode: true
+          {{ end }}
+        {{ end -}}
       {{- end }}
+      {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}
+      backend:
+        sentry:
+          dsn: {{ .Values.forge.telemetry.sentry.backend_dsn}}
+      {{ end -}}
     {{- if .Values.forge.support.enabled }}
     support:
       enabled: true
