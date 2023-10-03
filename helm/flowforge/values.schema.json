@@ -255,7 +255,7 @@
                                 "production_mode": {
                                     "type": "boolean"
                                 }
-                            },
+                            }
                         }
                     }
                 },

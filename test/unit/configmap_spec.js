@@ -108,17 +108,18 @@ describe('Examine Config Maps', function () {
         let yml
         beforeEach(function () {
             const d = configMaps.filter(doc => doc.metadata.name === 'flowforge-config')[0]
-            yml = yaml.parse(d.data['customizations.ym'])
+            yml = yaml.parse(d.data['flowforge.yml'])
         })
         it('has sentry telemetry', function () {
-            yml.telemetry.sentry.should.have.property('production_mode')
-            yml.telemetry.sentry.production_mode.should.equal(false)
+            console.log(yml.telemetry)
+            yml.telemetry.frontend.sentry.should.have.property('production_mode')
+            yml.telemetry.frontend.sentry.production_mode.should.equal(false)
 
-            yml.telemetry.sentry.should.have.property('frontend_dsn')
-            yml.telemetry.sentry.frontend_dsn.should.equal('https://sentry.io/flowforge/flowforge-frontend')
+            yml.telemetry.frontend.sentry.should.have.property('dsn')
+            yml.telemetry.frontend.sentry.dsn.should.equal('https://sentry.io/flowforge/flowforge-frontend')
 
-            yml.telemetry.sentry.should.have.property('backend_dsn')
-            yml.telemetry.sentry.frontend_dsn.should.equal('https://sentry.io/flowforge/flowforge-backend')
+            yml.telemetry.backend.sentry.should.have.property('dsn')
+            yml.telemetry.backend.sentry.dsn.should.equal('https://sentry.io/flowforge/flowforge-backend')
         })
     })
 })
