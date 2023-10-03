@@ -103,4 +103,22 @@ describe('Examine Config Maps', function () {
             })
         })
     })
+
+    describe('customizations.yml', async function () {
+        let yml
+        beforeEach(function () {
+            const d = configMaps.filter(doc => doc.metadata.name === 'flowforge-config')[0]
+            yml = yaml.parse(d.data['customizations.ym'])
+        })
+        it('has sentry telemetry', function () {
+            yml.telemetry.sentry.should.have.property('production_mode')
+            yml.telemetry.sentry.production_mode.should.equal(false)
+
+            yml.telemetry.sentry.should.have.property('frontend_dsn')
+            yml.telemetry.sentry.frontend_dsn.should.equal('https://sentry.io/flowforge/flowforge-frontend')
+
+            yml.telemetry.sentry.should.have.property('backend_dsn')
+            yml.telemetry.sentry.frontend_dsn.should.equal('https://sentry.io/flowforge/flowforge-backend')
+        })
+    })
 })

@@ -242,6 +242,20 @@
                             "required": [
                                 "apikey"
                             ]
+                        },
+                        "sentry": {
+                            "type": "object",
+                            "properties": {
+                                "frontend_dsn":{
+                                    "type": "string"
+                                },
+                                "backend_dsn": {
+                                    "type": "string"
+                                },
+                                "production_mode": {
+                                    "type": "boolean"
+                                }
+                            },
                         }
                     }
                 },

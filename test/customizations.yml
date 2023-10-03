@@ -43,6 +43,10 @@ forge:
     posthog: 
       capture_pageview: false
       apikey: phc_fdlksajfdfadfsafsaf
+    sentry:
+      production_mode: false
+      frontend_dsn: https://sentry.io/flowforge/flowforge-frontend
+      backend_dsn: https://sentry.io/flowforge/flowforge-backend
   support:
     enabled: true
     hubspot: 12345678
