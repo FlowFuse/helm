@@ -83,7 +83,7 @@ Enables FlowForge Telemetry
  - `forge.telemetry.posthog.capture_pageview` (default `true`)
  - `forge.telemetry.sentry.frontend_dsn` enables sentry reporting if set
  - `forge.telemetry.sentry.backend_dsn` enables sentry reporting if set
- - `forge.telemetry.sentry.production_mode` late limit reporting (default `true`)
+ - `forge.telemetry.sentry.production_mode` rate limit reporting (default `true`)
 
  ### Support
 
