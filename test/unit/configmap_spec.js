@@ -101,6 +101,12 @@ describe('Examine Config Maps', function () {
                 const cm = configMaps.filter(s => s.metadata.name === 'flowforge-file-config')
                 cm.should.have.length(1)
             })
+            it('http logging enabled', function () {
+                const d = configMaps.filter(s => s.metadata.name === 'flowforge-file-config')[0]
+                fsYML = yaml.parse(d.data['flowforge-storage.yml'])
+                fsYML.should.have.property('logging')
+                fsYML.logging.should.have.property('http')
+            })
         })
     })
 })
