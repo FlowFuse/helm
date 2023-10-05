@@ -1,6 +1,10 @@
 #### 1.12.3: Relase
 
- - Bump to FlowForge
+ - Update to FlowFuse v1.12.3
+ - config: Add Prometheus config (#191) @ZJvandeWeg
+ - Increase broker acl cache to 5mins (#190) @hardillb
+ - Add support for configuring sentry telemetry (#188) @Pezmc
+ - Enable file server http logging (#189) @hardillb
 
 #### 1.12.2: Release
 
