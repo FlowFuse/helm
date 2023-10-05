@@ -18,7 +18,7 @@ data:
     auth_opt_backends http
     auth_opt_hasher bcrypt
     auth_opt_cache true
-    auth_opt_auth_cache_seconds 30
+    auth_opt_auth_cache_seconds 120
     auth_opt_acl_cache_seconds 300
     auth_opt_auth_jitter_second 3
     auth_opt_acl_jitter_seconds 5
