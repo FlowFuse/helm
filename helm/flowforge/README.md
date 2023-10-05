@@ -84,6 +84,7 @@ Enables FlowForge Telemetry
  - `forge.telemetry.sentry.frontend_dsn` enables sentry reporting if set
  - `forge.telemetry.sentry.backend_dsn` enables sentry reporting if set
  - `forge.telemetry.sentry.production_mode` rate limit reporting (default `true`)
+ - `forge.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the forge app for scraping by Prometheus
 
  ### Support
 

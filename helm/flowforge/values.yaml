@@ -16,6 +16,9 @@ forge:
     role: management
   telemetry:
     enabled: true
+    backend:
+      prometheus:
+        enabled: false
   broker:
     enabled: false
   fileStore:

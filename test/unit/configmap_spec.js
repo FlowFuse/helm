@@ -116,8 +116,8 @@ describe('Examine Config Maps', function () {
             const d = configMaps.filter(doc => doc.metadata.name === 'flowforge-config')[0]
             yml = yaml.parse(d.data['flowforge.yml'])
         })
+
         it('has sentry telemetry', function () {
-            console.log(yml.telemetry)
             yml.telemetry.frontend.sentry.should.have.property('production_mode')
             yml.telemetry.frontend.sentry.production_mode.should.equal(false)
 
@@ -126,6 +126,12 @@ describe('Examine Config Maps', function () {
 
             yml.telemetry.backend.sentry.should.have.property('dsn')
             yml.telemetry.backend.sentry.dsn.should.equal('https://sentry.io/flowforge/flowforge-backend')
+        })
+
+        describe('using Prometheus', function () {
+            it('has prometheus enabled', function() {
+                yml.telemetry.backend.prometheus.enabled.should.equal(true)
+            })   
         })
     })
 })

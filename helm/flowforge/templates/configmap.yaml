@@ -157,11 +157,13 @@ data:
           {{ end }}
         {{ end -}}
       {{- end }}
-      {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}
       backend:
+        {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}
         sentry:
           dsn: {{ .Values.forge.telemetry.sentry.backend_dsn}}
-      {{ end -}}
+        {{- end }}
+        prometheus:
+          enabled: {{ .Values.forge.telemetry.backend.prometheus.enabled }}
     {{- if .Values.forge.support.enabled }}
     support:
       enabled: true
