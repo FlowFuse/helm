@@ -13,6 +13,12 @@ spec:
     metadata:
       labels:
         app: flowforge
+    annotations:
+      {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "3000"
+      prometheus.io/path: "/metrics"
+      {{- end  }}
     spec:
       serviceAccountName: flowforge
       securityContext:
