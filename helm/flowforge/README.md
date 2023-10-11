@@ -81,9 +81,10 @@ Enables FlowForge Telemetry
  - `forge.telemetry.posthog.apikey` enables posthog logging if set (not default)
  - `forge.telemetry.posthog.apiurl` sets posthog target host (default `https://app.posthog.com`)
  - `forge.telemetry.posthog.capture_pageview` (default `true`)
- - `forge.telemetry.sentry.frontend_dsn` enables sentry reporting if set
- - `forge.telemetry.sentry.backend_dsn` enables sentry reporting if set
+ - `forge.telemetry.sentry.frontend_dsn` enables sentry reporting if set (default unset)
+ - `forge.telemetry.sentry.backend_dsn` enables sentry reporting if set (default unset)
  - `forge.telemetry.sentry.production_mode` rate limit reporting (default `true`)
+ - `forge.telemetry.sentry.environment` set as SENTRY_ENV environment variable (default unset)
  - `forge.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the forge app for scraping by Prometheus
 
  ### Support
