@@ -60,7 +60,7 @@ spec:
         {{- end }}
         {{- if .Values.forge.telemetry.sentry.environment }}
         - name: SENTRY_ENV
-          valeu: {{ .Values.forge.telemetry.sentry.environment }}
+          value: {{ .Values.forge.telemetry.sentry.environment }}
         {{- end }}
         volumeMounts:
         - name: config
