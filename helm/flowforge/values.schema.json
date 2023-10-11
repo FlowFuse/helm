@@ -254,6 +254,9 @@
                                 },
                                 "production_mode": {
                                     "type": "boolean"
+                                },
+                                "environment": {
+                                    "type": "string"
                                 }
                             }
                         },

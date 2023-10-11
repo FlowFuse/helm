@@ -58,6 +58,10 @@ spec:
         - name: NODE_EXTRA_CA_CERTS
           value: /usr/local/ssl-certs/chain.pem
         {{- end }}
+        {{- if .Values.forge.telemetry.sentry.environment }}
+        - name: SENTRY_ENV
+          value: {{ .Values.forge.telemetry.sentry.environment }}
+        {{- end }}
         volumeMounts:
         - name: config
           mountPath: /usr/src/forge/etc
