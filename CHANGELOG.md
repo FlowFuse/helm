@@ -1,4 +1,11 @@
-#### 1.12.3: Relase
+#### 1.12.4: Release
+
+ - Update to FlowFuse v1.12.4
+ - Add SENTRY_ENV to deployment (#195) @hardillb
+ - Fix annotations location (#194) @ppawlowski
+ - Add prometheus-related pod annotations (#193) @ppawlowski
+
+#### 1.12.3: Release
 
  - Update to FlowFuse v1.12.3
  - config: Add Prometheus config (#191) @ZJvandeWeg
