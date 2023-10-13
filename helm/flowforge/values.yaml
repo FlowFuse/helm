@@ -7,10 +7,18 @@ forge:
   projectNamespace: flowforge
   projectSelector:
     role: projects
+  projectDeploymentTolerations: []
+  #    - key: purpose
+  #      operator: Equal
+  #      value: flowforge-projects
+  #      effect: NoSchedule
   managementSelector:
     role: management
   telemetry:
     enabled: true
+    backend:
+      prometheus:
+        enabled: false
   broker:
     enabled: false
   fileStore:
@@ -31,9 +39,32 @@ forge:
   support:
     enabled: false
 
+  rate_limits:
+    enabled: false
+    global: true
+    max: 1000
+    timeWindow: 60000
+
+  domain: ""
+  entryPoint: ""
+  environment: {}
+  image: ""
+  registry: ""
+
 postgresql:
   postgresqlPostgresPassword: Moomiet0
   postgresqlUsername: forge
   postgresqlPassword: Zai1Wied
   postgresqlDatabase: flowforge
-  
+  global:
+    storageClass: default
+
+ingress:
+  annotations: {}
+  className: ""
+
+editors:
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: editors

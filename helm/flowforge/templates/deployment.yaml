@@ -13,6 +13,12 @@ spec:
     metadata:
       labels:
         app: flowforge
+      annotations:
+        {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+        {{- end  }}
     spec:
       serviceAccountName: flowforge
       securityContext:
@@ -28,6 +34,22 @@ spec:
         {{ end -}}
         imagePullPolicy: Always
         env:
+        {{- if .Values.ingress.annotations }}
+        - name: INGRESS_ANNOTATIONS
+          value: {{ .Values.ingress.annotations | toJson | quote }}
+        {{- end }}
+        {{- if .Values.ingress.className }}
+        - name: INGRESS_CLASS_NAME
+          value: {{ .Values.ingress.className }}
+        {{- end }}
+        {{- if .Values.editors.serviceAccount }}
+        - name: EDITOR_SERVICE_ACCOUNT
+          value: {{ .Values.editors.serviceAccount.name }}
+        {{- end }}
+        {{- if .Values.forge.projectDeploymentTolerations }}
+        - name: DEPLOYMENT_TOLERATIONS
+          value: {{ .Values.forge.projectDeploymentTolerations | toJson | quote }}
+        {{- end }}
         {{- if .Values.forge.cloudProvider }}
         - name: FLOWFORGE_CLOUD_PROVIDER
           value: {{ .Values.forge.cloudProvider }}
@@ -35,6 +57,10 @@ spec:
         {{- if .Values.forge.privateCA }}
         - name: NODE_EXTRA_CA_CERTS
           value: /usr/local/ssl-certs/chain.pem
+        {{- end }}
+        {{- if .Values.forge.telemetry.sentry.environment }}
+        - name: SENTRY_ENV
+          value: {{ .Values.forge.telemetry.sentry.environment }}
         {{- end }}
         volumeMounts:
         - name: config
@@ -46,7 +72,7 @@ spec:
         {{- end }}
         ports:
         - containerPort: 3000
-        securityContext: 
+        securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
       {{- if .Values.forge.registrySecrets }}

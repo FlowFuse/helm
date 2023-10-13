@@ -101,6 +101,37 @@ describe('Examine Config Maps', function () {
                 const cm = configMaps.filter(s => s.metadata.name === 'flowforge-file-config')
                 cm.should.have.length(1)
             })
+            it('http logging enabled', function () {
+                const d = configMaps.filter(s => s.metadata.name === 'flowforge-file-config')[0]
+                fsYML = yaml.parse(d.data['flowforge-storage.yml'])
+                fsYML.should.have.property('logging')
+                fsYML.logging.should.have.property('http')
+            })
+        })
+    })
+
+    describe('customizations.yml', async function () {
+        let yml
+        beforeEach(function () {
+            const d = configMaps.filter(doc => doc.metadata.name === 'flowforge-config')[0]
+            yml = yaml.parse(d.data['flowforge.yml'])
+        })
+
+        it('has sentry telemetry', function () {
+            yml.telemetry.frontend.sentry.should.have.property('production_mode')
+            yml.telemetry.frontend.sentry.production_mode.should.equal(false)
+
+            yml.telemetry.frontend.sentry.should.have.property('dsn')
+            yml.telemetry.frontend.sentry.dsn.should.equal('https://sentry.io/flowforge/flowforge-frontend')
+
+            yml.telemetry.backend.sentry.should.have.property('dsn')
+            yml.telemetry.backend.sentry.dsn.should.equal('https://sentry.io/flowforge/flowforge-backend')
+        })
+
+        describe('using Prometheus', function () {
+            it('has prometheus enabled', function() {
+                yml.telemetry.backend.prometheus.enabled.should.equal(true)
+            })   
         })
     })
 })

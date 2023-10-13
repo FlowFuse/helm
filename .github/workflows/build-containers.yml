@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       # sets options for Docker build
       # will tag contianers with GH tag name
@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -99,7 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -134,7 +134,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -169,7 +169,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
@@ -206,51 +206,8 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/file-server/README.md
 
-
-  build_device_agent_container:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: 'flowforge/helm'
-          path: 'helm'
-      - name: Docker Meta Data
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          tags: |
-            type=semver,event=tag,pattern={{version}}
-          flavor: |
-            latest=true
-          images: |
-            flowforge/device-agent
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@v1
-      - name: docker login
-        uses: docker/login-action@v1
-        with:
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v2
-        with:
-          context: helm/flowforge-device-agent
-          file: helm/flowforge-device-agent/Dockerfile
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
-          tags: ${{ steps.meta.outputs.tags }}
-          push: true
-      - name: Push README
-        uses: peter-evans/dockerhub-description@v3
-        with:
-          repository: flowforge/device-agent
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          readme-filepath: ./helm/flowforge-device-agent/README.md
-
   publish_helm:
-    needs: [build_application_container, build_nodered_container, build_nodered_container_223, build_file_server_container, build_device_agent_container]
+    needs: [build_application_container, build_nodered_container, build_nodered_container_223, build_file_server_container]
     runs-on: ubuntu-latest
     steps:
       - name: Install Helm
@@ -263,7 +220,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: 'flowforge/helm'
+          repository: 'flowfuse/helm'
           fetch-depth: 0
           path: 'helm'
       - name: Package
@@ -272,9 +229,9 @@ jobs:
           cd helm
           git checkout gh-pages
           mv ../flowforge-*.tgz .
-          helm repo index --url https://flowforge.github.io/helm .
+          helm repo index --url https://flowfuse.github.io/helm .
           git add .
-          git -c user.name='FlowForge Build Bot' -c user.email='noreply@flowforge.com' commit -m "Add ${{ github.ref_name }} helm chart"
+          git -c user.name='FlowFuse Build Bot' -c user.email='noreply@flowfuse.com' commit -m "Add ${{ github.ref_name }} helm chart"
           git push origin
       - name: Resync Maintenance
         if: ${{ endsWith(github.ref, '.0') }}

@@ -1,3 +1,4 @@
+{{- $forgeHostname := or (.Values.forge.entryPoint) (printf "%s%s" "forge." .Values.forge.domain) -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -14,14 +15,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: flowforge-ingress
+  {{- if .Values.ingress.annotations }}
   annotations:
-spec:
-  rules:
-  {{- if .Values.forge.entryPoint }}
-  - host: {{ .Values.forge.entryPoint }}
-  {{- else }}
-  - host: forge.{{ .Values.forge.domain}}
+    {{- range $keys, $values := .Values.ingress.annotations }}
+    {{ $keys }}: {{ $values |  replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge"}}
+    {{- end }}
   {{- end }}
+spec:
+  {{- if and $.Values.ingress.className (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ $.Values.ingress.className }}
+  {{- end }}
+  rules:
+  - host: {{ $forgeHostname}}
     http:
       paths:
       - pathType: Prefix

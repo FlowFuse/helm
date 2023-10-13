@@ -1,3 +1,71 @@
+#### 1.12.4: Release
+
+ - Update to FlowFuse v1.12.4
+ - Add SENTRY_ENV to deployment (#195) @hardillb
+ - Fix annotations location (#194) @ppawlowski
+ - Add prometheus-related pod annotations (#193) @ppawlowski
+
+#### 1.12.3: Release
+
+ - Update to FlowFuse v1.12.3
+ - config: Add Prometheus config (#191) @ZJvandeWeg
+ - Increase broker acl cache to 5mins (#190) @hardillb
+ - Add support for configuring sentry telemetry (#188) @Pezmc
+ - Enable file server http logging (#189) @hardillb
+
+#### 1.12.2: Release
+
+ - Bump to FlowForge v1.12.2 @hardillb
+
+#### 1.12.1: Release
+
+ - Bump to FlowForge v1.12.1 @hardillb
+
+#### 1.12.0: Release
+
+ - Enable concurrency in deployment pipelines (#182) @ppawlowski
+ - Deploy multiarch image from temporary registry (#179) @ppawlowski
+ - Only config file-server if needed (#180) @hardillb
+ - Build container images using packages from public npm registry (#177) @ppawlowski
+ - Pin reusable workflow to commit SHA (#175) @ppawlowski
+
+#### 1.11.0: Release
+
+ - Disable production containers build (#167) @ppawlowski
+ - Add possibility to deploy flowforge container to stage environment (#165) @ppawlowski
+ - Introduce dedicated containers images build pipeline (#163) @ppawlowski
+
+#### 1.10.0: Release
+
+ - Revert create-pod Role name (#159) @hardillb
+ - Allow variable substituion in Ingress Annotations (#156) @hardillb
+ - Add Rate Limit details (#158) @hardillb
+ - FlowForge helm: 1. Editors: service account. 2. Broker: propagate ingress. 3. README (#148) @elenaviter
+ - Allow DB connection to use SSL (#154) @hardillb
+
+#### 1.9.0: Release
+
+ - Add comment about PostgreSQL constraints (#145) @hardillb
+ - Remove device-agent container build (#139) @hardillb
+
+#### 1.8.0: Release
+
+ - Update README.md (#137) @hardillb
+ - Update Dockerfile-3.1 (#136) @hardillb
+ - Update Dockerfile-3.1 (#134) @hardillb
+ - Add permission to list endpoints (#133) @hardillb
+
+#### 1.7.0: Release
+
+ - Editor ingress settings (#126) @elenaviter
+ - Ingress settings for Flowforge in K8s (#125) @andreikop
+
+#### 1.6.0: Release
+
+ - Fix Release.Name in job-upgrade-db (#122) @flecoufle
+ - Add deviceCost to configmap (#124) @hardillb
+ - Add HOME env var (#123) @hardillb
+
 #### 1.5.0: Release
 
  - Add NR 3.1.0 build (#120) @hardillb

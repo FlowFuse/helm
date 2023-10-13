@@ -25,6 +25,9 @@ data:
       user: {{ .Values.forge.dbUsername }}
       password: {{ .Values.forge.dbPassword }}
       db: {{ .Values.forge.dbName }}
+      {{- if and (hasKey .Values.forge "postgres") (hasKey .Values.forge.postgres "ssl") }}
+      ssl: {{ .Values.forge.postgres.ssl }}
+      {{- end }}
     driver:
       type: kubernetes
       options:
@@ -92,6 +95,9 @@ data:
         {{ if .Values.forge.ee.billing.stripe.device_product -}}
         device_product: {{ .Values.forge.ee.billing.stripe.device_product }}
         {{- end}}
+        {{ if .Values.forge.ee.billing.stripe.deviceCost -}}
+        deviceCost: {{ .Values.forge.ee.billing.stripe.deviceCost }}
+        {{- end}}
         {{ if .Values.forge.ee.billing.stripe.new_customer_free_credit -}}
         new_customer_free_credit: {{ .Values.forge.ee.billing.stripe.new_customer_free_credit | int }}
         {{- end -}}
@@ -123,7 +129,7 @@ data:
       http: info
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
-      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) }}
+      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (hasKey .Values.forge.telemetry.sentry "frontend_dsn") }}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
         plausible:
@@ -141,7 +147,23 @@ data:
           capture_pageview: true
           {{ end }}
         {{ end -}}
+        {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn") -}}
+        sentry:
+          dsn: {{ .Values.forge.telemetry.sentry.frontend_dsn}}
+          {{ if hasKey .Values.forge.telemetry.sentry "production_mode" }}
+          production_mode: {{ .Values.forge.telemetry.sentry.production_mode }}
+          {{ else }}
+          production_mode: true
+          {{ end }}
+        {{ end -}}
       {{- end }}
+      backend:
+        {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}
+        sentry:
+          dsn: {{ .Values.forge.telemetry.sentry.backend_dsn}}
+        {{- end }}
+        prometheus:
+          enabled: {{ .Values.forge.telemetry.backend.prometheus.enabled }}
     {{- if .Values.forge.support.enabled }}
     support:
       enabled: true
@@ -149,11 +171,15 @@ data:
         hubspot:
           trackingcode: {{ .Values.forge.support.hubspot | int }}
     {{- end }}
-    {{- if .Values.forge.fileStore }}
+    {{- if .Values.forge.fileStore.enabled }}
     fileStore:
       url: http://flowforge-file.{{ .Release.Namespace }}
     {{- end }}
     {{- if .Values.forge.branding }}
     branding:
 {{ toYaml .Values.forge.branding | indent 6 }}
+    {{- end }}
+    {{- if .Values.forge.rate_limits }}
+    rate_limits:
+{{ toYaml .Values.forge.rate_limits | indent 6 }}
     {{- end }}

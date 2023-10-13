@@ -101,6 +101,9 @@
                         },
                         "port": {
                             "type": "integer"
+                        },
+                        "ssl": {
+                            "type": "boolean"
                         }
                     },
                     "required": [
@@ -112,6 +115,28 @@
                 },
                 "projectSelector": {
                     "type": "object"
+                },
+                "projectDeploymentTolerations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "effect": {
+                                "type": "string"
+                            },
+                            "key": {
+                                "type": "string"
+                            },
+                            "operator": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["effect", "key", "operator", "value"]
+                    },
+                    "default": []
                 },
                 "managementSelector": {
                     "type": "object"
@@ -217,6 +242,36 @@
                             "required": [
                                 "apikey"
                             ]
+                        },
+                        "sentry": {
+                            "type": "object",
+                            "properties": {
+                                "frontend_dsn":{
+                                    "type": "string"
+                                },
+                                "backend_dsn": {
+                                    "type": "string"
+                                },
+                                "production_mode": {
+                                    "type": "boolean"
+                                },
+                                "environment": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "backend": {
+                            "type": "object",
+                            "properties": {
+                                "prometheus": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -248,8 +303,7 @@
                             "type",
                             "options"
                         ]
-                    } 
-                    
+                    }
                 },
                 "support": {
                     "type": "object",
@@ -276,6 +330,26 @@
                 },
                 "branding": {
                     "type": "object"
+                },
+                "rateLimits": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "global": {
+                            "type": "boolean"
+                        },
+                        "max": {
+                            "type": "integer"
+                        },
+                        "maxAnonymous": {
+                            "type": "integer"
+                        },
+                        "timeWindow": {
+                            "type": "integer"
+                        }
+                    }
                 }
             },
             "required": [
@@ -295,6 +369,41 @@
                     "postgres"
                 ]
             }
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "annotations": {
+                    "type": "object",
+                    "minProperties": 0
+                },
+                "className": {
+                    "type": "string"
+                }
+            }
+        },
+        "editors": {
+            "type": "object",
+            "properties": {
+                "serviceAccount": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "minProperties": 0
+                        },
+                        "create": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Name of service account (scope of uniqueness is a 'Projects' namespace)"
+                        }
+                    },
+                    "required": ["annotations", "name"]
+                }
+            },
+            "required": ["serviceAccount"]
         }
     },
     "required": [

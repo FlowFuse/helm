@@ -26,6 +26,9 @@ data:
       options:
 {{ toYaml .Values.forge.fileStore.context.options | indent 8 -}}
     {{- end }}
+    logging:
+      level: info
+      http: info
 ---
 {{ if eq .Values.forge.fileStore.type "localfs" }}
 apiVersion: v1

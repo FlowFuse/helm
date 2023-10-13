@@ -1,4 +1,4 @@
-FROM nodered/node-red:latest
+FROM nodered/node-red:3.0.2-16
 
 ARG REGISTRY
 ARG REGISTRY_TOKEN
@@ -21,6 +21,7 @@ USER node-red
 RUN npm install @flowforge/nr-launcher@${BUILD_TAG}
 
 ENV NODE_PATH=/usr/src/node-red
+ENV HOME=/usr/src/node-red
 
 EXPOSE 2880
 

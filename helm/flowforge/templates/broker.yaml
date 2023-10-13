@@ -1,4 +1,5 @@
 {{- if .Values.forge.broker.enabled -}}
+{{- $brokerHostname := or (.Values.forge.entryPoint) (printf "%s%s" "mqtt." .Values.forge.domain) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -17,8 +18,8 @@ data:
     auth_opt_backends http
     auth_opt_hasher bcrypt
     auth_opt_cache true
-    auth_opt_auth_cache_seconds 30
-    auth_opt_acl_cache_seconds 90
+    auth_opt_auth_cache_seconds 120
+    auth_opt_acl_cache_seconds 300
     auth_opt_auth_jitter_second 3
     auth_opt_acl_jitter_seconds 5
 
@@ -130,8 +131,16 @@ metadata:
   name: flowforge-broker
   labels:
     app: flowforge-broker
+  {{- if .Values.ingress.annotations }}
   annotations:
+    {{- range $keys, $values := .Values.ingress.annotations }}
+    {{ $keys }}: {{ $values | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker"}}
+    {{- end }}
+  {{- end }}
 spec:
+  {{- if $.Values.ingress.className }}
+  ingressClassName: {{ $.Values.ingress.className }}
+  {{- end }}
   rules:
     - host: mqtt.{{ .Values.forge.domain }}
       http:
