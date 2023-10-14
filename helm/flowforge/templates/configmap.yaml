@@ -129,7 +129,7 @@ data:
       http: info
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
-      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (hasKey .Values.forge.telemetry.sentry "frontend_dsn") }}
+      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn")) }}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
         plausible:
