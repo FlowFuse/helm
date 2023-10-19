@@ -1,3 +1,8 @@
+#### 1.12.5: Release
+
+ - Set NODE_ENV (#198) @hardillb
+ - Fix Sentry env values (#197) @flecoufle
+ 
 #### 1.12.4: Release
 
  - Update to FlowFuse v1.12.4
