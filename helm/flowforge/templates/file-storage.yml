@@ -68,6 +68,9 @@ spec:
       - name: file-storage
         image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-server:{{ .Chart.AppVersion }}
         imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          value: production
         volumeMounts:
         - name: config
           mountPath: /usr/src/flowforge-file-server/etc

@@ -62,6 +62,8 @@ spec:
         - name: SENTRY_ENV
           value: {{ .Values.forge.telemetry.sentry.environment }}
         {{- end }}
+        - name: NODE_ENV
+          value: production
         volumeMounts:
         - name: config
           mountPath: /usr/src/forge/etc
