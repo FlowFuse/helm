@@ -44,11 +44,11 @@ jobs:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   build-223:
-    if: false
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@132a77418c21639c18318ed6a687e28caa7f4ce8
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
+      image_tag_prefix: '-2.2.3'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -56,51 +56,35 @@ jobs:
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  build-223-multi-architecture:
+    name: Build multi-architecture container image
+    needs: build-223
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
+    with:
+      image_name: 'node-red'
+      image_tag_prefix: '-2.2.3'
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
-  build-stage-302:
-    if: false
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
+  build-310:
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
     with:
-      environment: 'stage'
       image_name: 'node-red'
-      dockerfile_path: Dockerfile
-      package_dependencies: |
-        @flowforge/nr-project-nodes
-      build_context: 'node-red-container'
-      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
-    secrets:
-      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
-      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
-  build-stage-223:
-    if: false
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
-    with:
-      environment: 'stage'
-      image_name: 'node-red'
-      image_tag_prefix: '2.2.3-'
-      dockerfile_path: Dockerfile-2.2.x
-      package_dependencies: |
-        @flowforge/nr-project-nodes
-      build_context: 'node-red-container'
-      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
-    secrets:
-      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
-      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
-  build-stage-310:
-    if: false
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
-    with:
-      environment: 'stage'
-      image_name: 'node-red'
-      image_tag_prefix: '3.1.0-'
       dockerfile_path: Dockerfile-3.1
+      image_tag_prefix: '-3.1.0'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
-      aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  build-310-multi-architecture:
+    name: Build multi-architecture container image
+    needs: build-310
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
+    with:
+      image_name: 'node-red'
+      image_tag_prefix: '-3.1.0'
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
