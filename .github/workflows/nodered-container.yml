@@ -13,15 +13,49 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
+  build-302:
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@132a77418c21639c18318ed6a687e28caa7f4ce8
+    with:
+      image_name: 'node-red'
+      dockerfile_path: Dockerfile
+      package_dependencies: |
+        @flowforge/nr-project-nodes
+      build_context: 'node-red-container'
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  build-302-multi-architecture:
+    name: Build multi-architecture container image
+    needs: build-302
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@7808b849474ae9bc8dfc7f6db19e66d241018c94
+    with:
+      image_name: 'node-red'
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-223:
+    if: false
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@132a77418c21639c18318ed6a687e28caa7f4ce8
+    with:
+      image_name: 'node-red'
+      dockerfile_path: Dockerfile-2.2.x
+      package_dependencies: |
+        @flowforge/nr-project-nodes
+      build_context: 'node-red-container'
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+    secrets:
+      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+
   build-stage-302:
+    if: false
     uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
     with:
       environment: 'stage'
@@ -36,6 +70,7 @@ jobs:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
   build-stage-223:
+    if: false
     uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
     with:
       environment: 'stage'
@@ -51,6 +86,7 @@ jobs:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_access_key_secret: ${{ secrets.STAGING_AWS_KEY }}
   build-stage-310:
+    if: false
     uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@e3e734b910af78371b2c9a1c6856446d17421f50
     with:
       environment: 'stage'
