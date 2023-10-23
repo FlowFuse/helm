@@ -20,10 +20,11 @@ concurrency:
 
 jobs:
   build-302:
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@132a77418c21639c18318ed6a687e28caa7f4ce8
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
+      image_tag_prefix: '-3.0.2'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -34,9 +35,10 @@ jobs:
   build-302-multi-architecture:
     name: Build multi-architecture container image
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@7808b849474ae9bc8dfc7f6db19e66d241018c94
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
     with:
       image_name: 'node-red'
+      image_tag_prefix: '-3.0.2'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
