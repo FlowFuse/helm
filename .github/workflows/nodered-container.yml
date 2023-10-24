@@ -42,6 +42,23 @@ jobs:
       image_tag_prefix: '-3.0.2'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  upload-302-image-stage:
+    name: Upload image to staging ECR
+    needs: build-302-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-upload-image-only
+    with:
+      environment: stage
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-302-multi-architecture.outputs.image }}
+      image_tag_prefix: '-3.0.2'
+    secrets:
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-223:
     uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
