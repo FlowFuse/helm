@@ -1,5 +1,4 @@
 name: Build Node-RED container
-
 on:
   workflow_dispatch:
     inputs:
@@ -84,6 +83,23 @@ jobs:
       image_tag_prefix: '-2.2.3'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  upload-223-image-stage:
+    name: Upload image to staging ECR
+    needs: build-223-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-upload-image-only
+    with:
+      environment: stage
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-223-multi-architecture.outputs.image }}
+      image_tag_prefix: '-2.2.3'
+    secrets:
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-310:
     name: Build 3.1.0 container images
@@ -108,3 +124,20 @@ jobs:
       image_tag_prefix: '-3.1.0'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  upload-310-image-stage:
+    name: Upload image to staging ECR
+    needs: build-310-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-upload-image-only
+    with:
+      environment: stage
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-310-multi-architecture.outputs.image }}
+      image_tag_prefix: '-3.1.0'
+    secrets:
+      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
+      aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
