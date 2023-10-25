@@ -42,10 +42,10 @@ jobs:
       image_tag_prefix: '-3.0.2'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
-  upload-302-image-stage:
+  upload-302-stage:
     name: Upload image to staging ECR
     needs: build-302-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-upload-image-only
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-add-image-prefix
     with:
       environment: stage
       service_name: 'node-red'
@@ -53,7 +53,7 @@ jobs:
       container_name: 'node-red'
       deploy: false
       image: ${{ needs.build-302-multi-architecture.outputs.image }}
-      image_tag_prefix: '-3.0.2'
+      image_tag_prefix: '3.0.2-'
     secrets:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
@@ -83,10 +83,10 @@ jobs:
       image_tag_prefix: '-2.2.3'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
-  upload-223-image-stage:
+  upload-223-stage:
     name: Upload image to staging ECR
     needs: build-223-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-upload-image-only
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-add-image-prefix
     with:
       environment: stage
       service_name: 'node-red'
@@ -94,7 +94,7 @@ jobs:
       container_name: 'node-red'
       deploy: false
       image: ${{ needs.build-223-multi-architecture.outputs.image }}
-      image_tag_prefix: '-2.2.3'
+      image_tag_prefix: '2.2.3-'
     secrets:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
@@ -124,10 +124,10 @@ jobs:
       image_tag_prefix: '-3.1.0'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
-  upload-310-image-stage:
+  upload-310-stage:
     name: Upload image to staging ECR
     needs: build-310-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-upload-image-only
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-add-image-prefix
     with:
       environment: stage
       service_name: 'node-red'
@@ -135,7 +135,7 @@ jobs:
       container_name: 'node-red'
       deploy: false
       image: ${{ needs.build-310-multi-architecture.outputs.image }}
-      image_tag_prefix: '-3.1.0'
+      image_tag_prefix: '3.1.0-'
     secrets:
       aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
       aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
