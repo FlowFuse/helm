@@ -39,7 +39,7 @@ jobs:
     uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
     with:
       image_name: 'node-red'
-      image_tag_prefix: '-3.0.2'
+      image_tag_prefix: '3.0.2-'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-302-stage:
@@ -80,7 +80,7 @@ jobs:
     uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
     with:
       image_name: 'node-red'
-      image_tag_prefix: '-2.2.3'
+      image_tag_prefix: '2.2.3-'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-223-stage:
@@ -121,7 +121,7 @@ jobs:
     uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
     with:
       image_name: 'node-red'
-      image_tag_prefix: '-3.1.0'
+      image_tag_prefix: '3.1.0-'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-310-stage:
