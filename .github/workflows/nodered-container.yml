@@ -25,7 +25,7 @@ jobs:
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
-      image_tag_prefix: '-3.0.2'
+      image_tag_prefix: '3.0.2-'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -66,7 +66,7 @@ jobs:
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
-      image_tag_prefix: '-2.2.3'
+      image_tag_prefix: '2.2.3-'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -107,7 +107,7 @@ jobs:
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
-      image_tag_prefix: '-3.1.0'
+      image_tag_prefix: '3.1.0-'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
