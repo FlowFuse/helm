@@ -1,3 +1,7 @@
+#### 1.13.0: Release
+
+ - Pin reusable workflows to tag instead of SHA (#201) @ppawlowski
+
 #### 1.12.5: Release
 
  - Set NODE_ENV (#198) @hardillb
