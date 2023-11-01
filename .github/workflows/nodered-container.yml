@@ -62,7 +62,7 @@ jobs:
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
