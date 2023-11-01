@@ -21,7 +21,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -36,7 +36,7 @@ jobs:
   build-302-multi-architecture:
     name: Build multi-architecture container image
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.2.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '3.0.2-'
@@ -45,7 +45,7 @@ jobs:
   upload-302-stage:
     name: Upload image to staging ECR
     needs: build-302-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.2.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -77,7 +77,7 @@ jobs:
   build-223-multi-architecture:
     name: Build multi-architecture container image
     needs: build-223
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.2.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '2.2.3-'
@@ -86,7 +86,7 @@ jobs:
   upload-223-stage:
     name: Upload image to staging ECR
     needs: build-223-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.2.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -103,7 +103,7 @@ jobs:
 
   build-310:
     name: Build 3.1.0 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
@@ -118,7 +118,7 @@ jobs:
   build-310-multi-architecture:
     name: Build multi-architecture container image
     needs: build-310
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.2.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '3.1.0-'
@@ -127,7 +127,7 @@ jobs:
   upload-310-stage:
     name: Upload image to staging ECR
     needs: build-310-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-add-image-prefix
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.2.0
     with:
       environment: stage
       service_name: 'node-red'
