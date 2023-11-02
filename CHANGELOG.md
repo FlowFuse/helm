@@ -1,3 +1,8 @@
+#### 1.13.2: Release
+ 
+ - Bump to FlowFuse v1.13.2 @hardillb
+ - Switch node-red container build to new approach (#200) @ppawlowski
+
 #### 1.13.1: Release
 
  - Bump to FlowFuse v1.13.1 @hardillb
