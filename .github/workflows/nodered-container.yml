@@ -67,7 +67,7 @@ jobs:
     needs: build-302-multi-architecture
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.2.0
     with:
-      environment: prodution
+      environment: production
       service_name: 'node-red'
       deployment_name: 'node-red'
       container_name: 'node-red'
@@ -126,7 +126,7 @@ jobs:
     needs: build-223-multi-architecture
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.2.0
     with:
-      environment: prodution
+      environment: production
       service_name: 'node-red'
       deployment_name: 'node-red'
       container_name: 'node-red'
