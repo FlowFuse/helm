@@ -133,6 +133,13 @@ Enables FlowForge Telemetry
  - `forge.rate_limits.max` Max requests per timeWindow (default 1000)
  - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default `forge.rate_limits.max`)
 
+ ### Content Security Policy
+
+ - `forge.contentSecurityPolicy.enabled` Enabled HTTP header from Forge app (default `false`)
+ - `forge.contentSecurityPolicy.reportOnly` Disables enforcing and only reports in browser console (default `false`)
+ - `forge.contentSecurityPolicy.reportUri` if `reportOnly` enabled causes browser to POST report to URI (default not set)
+ - `forge.contentSecurityPolicy.directives` a JSON object that overrides the platform defaults. Uses format defined by HelmetJS [here](https://helmetjs.github.io/#content-security-policy)
+
 Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plugin, further options can be found [here](https://github.com/fastify/fastify-rate-limit#options) and can be included.
 
  ### Ingress
