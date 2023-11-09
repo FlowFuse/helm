@@ -183,3 +183,18 @@ data:
     rate_limits:
 {{ toYaml .Values.forge.rate_limits | indent 6 }}
     {{- end }}
+    {{- if and (hasKey .Values.forge "contentSecurityPolicy") (hasKey .Values.forge.contentSecurityPolicy "enabled") }}
+    {{- if .Values.forge.contentSecurityPolicy.enabled }}
+    content_security_policy:
+      enabled: {{.Values.forge.contentSecurityPolicy.enabled}}
+      {{- if (hasKey .Values.forge.contentSecurityPolicy "directives")}}
+      directives: {{.Values.forge.contentSecurityPolicy.directives | toJson}}
+      {{- end }}
+      {{- if and (hasKey .Values.forge.contentSecurityPolicy "reportOnly") (.Values.forge.contentSecurityPolicy.reportOnly)}}
+      report_only: {{.Values.forge.contentSecurityPolicy.reportOnly}}
+      {{- if (hasKey .Values.forge.contentSecurityPolicy "reportUri")}}
+      report_uri: {{.Values.forge.contentSecurityPolicy.reportUri}}
+      {{- end }}
+      {{- end}}
+    {{- end }}
+    {{- end }}
