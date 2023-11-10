@@ -350,6 +350,23 @@
                             "type": "integer"
                         }
                     }
+                },
+                "contentSecurityPolicy": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "directives": {
+                            "type": "object"
+                        },
+                        "reportOnly": {
+                            "type": "boolean"
+                        },
+                        "reportUri": {
+                            "type": "string"
+                        }
+                    }
                 }
             },
             "required": [
