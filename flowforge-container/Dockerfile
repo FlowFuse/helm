@@ -17,13 +17,13 @@ WORKDIR /usr/src/forge/app
 RUN npm install --production --no-audit --no-fund
 ENV FLOWFORGE_HOME=/usr/src/forge
 
-LABEL org.label-schema.name="Flowforge Kubernetes" \
-    org.label-schema.url="https://flowforge.com" \
+LABEL org.label-schema.name="FlowFuse Kubernetes" \
+    org.label-schema.url="https://flowfuse.com" \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/flowforge/helm" \
+    org.label-schema.vcs-url="https://github.com/flowfuse/helm" \
     org.label-schema.docker.dockerfile="flowforge-container/Dockerfile" \
     org.schema-label.description="Collaborative, low code integration and automation environment" \
-    authors="Flowforge Inc."
+    authors="FlowFuse Inc."
 
 EXPOSE 3000
 
