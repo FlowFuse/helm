@@ -17,9 +17,7 @@ metadata:
   name: flowforge-ingress
   {{- if .Values.ingress.annotations }}
   annotations:
-    {{- range $keys, $values := .Values.ingress.annotations }}
-    {{ $keys }}: {{ $values |  replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge"}}
-    {{- end }}
+{{ toYaml .Values.ingress.annotations |  replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" | indent 4 }}
   {{- end }}
 spec:
   {{- if and $.Values.ingress.className (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
