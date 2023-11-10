@@ -1,12 +1,12 @@
-# FlowForge Kubernetes
+# FlowFuse Kubernetes
 
-The [FlowForge](https://flowforge.com) app with the Kubernetes Container driver bundled.
+The [FlowFuse](https://flowfuse.com) app with the Kubernetes Container driver bundled.
 
-Expected to be used to the FlowForge [Helm chart](https://github.com/flowforge/helm/)
+Expected to be used to the FlowFuse [Helm chart](https://github.com/flowfuse/helm/)
 
 ## Configuration
 
-This container expects a `/usr/src/forge/etc/flowforge.yml` file to be mounted containing the configuration information for this instance of FlowForge.
+This container expects a `/usr/src/forge/etc/flowforge.yml` file to be mounted containing the configuration information for this instance of FlowFuse.
 
 ## Exposed Ports
 
