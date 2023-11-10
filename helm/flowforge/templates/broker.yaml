@@ -133,9 +133,7 @@ metadata:
     app: flowforge-broker
   {{- if .Values.ingress.annotations }}
   annotations:
-    {{- range $keys, $values := .Values.ingress.annotations }}
-    {{ $keys }}: {{ $values | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker"}}
-    {{- end }}
+{{ toYaml .Values.ingress.annotations | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
   {{- end }}
 spec:
   {{- if $.Values.ingress.className }}
