@@ -37,6 +37,7 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
+ - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.license` FlowForge EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
@@ -72,6 +73,7 @@ To use STMP to send email
   - `forge.broker.enabled` (default `false`)
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
+  - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
 
 ### Telemetry
 
