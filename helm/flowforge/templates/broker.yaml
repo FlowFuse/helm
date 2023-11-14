@@ -107,6 +107,9 @@ spec:
         {{ $key }}: {{ $value }}
         {{- end }}
       {{- end }}
+      {{- if .Values.forge.broker.affinity }}
+      affinity: {{ toYaml .Values.forge.broker.affinity | nindent 8 }}
+      {{- end }}
 ---
 apiVersion: v1
 kind: Service

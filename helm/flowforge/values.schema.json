@@ -141,6 +141,9 @@
                 "managementSelector": {
                     "type": "object"
                 },
+                "affinity": {
+                    "type": "object"
+                },
                 "ee": {
                     "type": "object",
                     "properties": {
@@ -211,6 +214,9 @@
                         },
                         "public_url": {
                             "type": "string"
+                        },
+                        "affinity": {
+                            "type": "object"
                         }
                     },
                     "required": [
