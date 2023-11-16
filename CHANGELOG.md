@@ -1,3 +1,14 @@
+#### 1.13.3: Release
+
+ - Add affinity info to readme (#218) @ppawlowski
+ - Add affinity configuration for broker and flowforge deployments (#217) @ppawlowski
+ - Add support for setting Content Security Policy (#212) @hardillb
+ - FIX: Allow to handle multiline ingress annotations (#215) @ppawlowski
+ - Node 18 containers (#213) @hardillb
+ - FIX: typo in upload step name (#211) @ppawlowski
+ - FIX: typo in environment name in Node-Red container pipeline (#210) @ppawlowski
+ - Push Node-RED images to production ECR (#209) @ppawlowski
+
 #### 1.13.2: Release
  
  - Bump to FlowFuse v1.13.2 @hardillb
