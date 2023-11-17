@@ -1,0 +1,75 @@
+forge:
+  dbUsername: forge
+  dbPassword: Zai1Wied
+  dbName: flowforge
+  localPostgresql: true
+  https: true
+  projectNamespace: flowforge
+  projectSelector:
+    role: projects
+  projectDeploymentTolerations: []
+  #    - key: purpose
+  #      operator: Equal
+  #      value: flowforge-projects
+  #      effect: NoSchedule
+  # managementSelector:
+  #   role: management
+  telemetry:
+    enabled: true
+    backend:
+      prometheus:
+        enabled: true
+  broker:
+    enabled: false
+  fileStore:
+    enabled: false
+    type: localfs
+    quota: 104857600
+    options:
+      root: var/root
+    context:
+      type: sequelize
+      quota: 1048576
+      options:
+        type: postgres
+        host: flowforge-postgresql
+        username: forge
+        password: Zai1Wied
+        database: ff-context
+  support:
+    enabled: false
+
+  rate_limits:
+    enabled: false
+    global: true
+    max: 1000
+    timeWindow: 60000
+
+  domain: "flowfuse-ci.com"
+  entryPoint: "lint"
+  environment: {}
+  image: ""
+  registry: ""
+
+  contentSecurityPolicy:
+    enabled: false
+    reportOnly: false
+
+postgresql:
+  auth:
+    postgresPassword: Moomiet0
+    username: forge
+    password: Zai1Wied
+    database: flowforge
+  global:
+    storageClass: standard
+
+ingress:
+  annotations: {}
+  className: ""
+
+editors:
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: editors

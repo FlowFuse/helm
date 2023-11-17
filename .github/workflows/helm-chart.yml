@@ -1,0 +1,46 @@
+name: Build Node-RED container
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'helm/*'
+      - '.github/workflows/helm-chart.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'helm/*'
+      - '.github/workflows/helm-chart.yml'
+
+jobs:
+  lint:
+    name: Lint and install chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3.5
+        with:
+          version: v3.13.2
+
+      - name: Install Python
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: 3.9
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
+
+      - name: Lint helm chart
+        run: ct lint --config ./github/configs/chart-testing.yaml
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.8.0
+
+      - name: Run chart-testing (install)
+        run: ct install --config ./github/configs/chart-testing.yaml
