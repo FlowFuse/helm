@@ -1,4 +1,4 @@
-name: Build Node-RED container
+name: Helm chart validation
 on:
   push:
     branches:
