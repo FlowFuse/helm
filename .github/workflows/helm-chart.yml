@@ -41,10 +41,13 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.6.1
 
+      - name: Add bitami repo
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami
+
       - name: Lint helm chart
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          ct lint --config ./.github/configs/chart-testing.yaml --helm-extra-args "--values ${{ matrix.chart-values }}"
+          ct lint --config ./.github/configs/chart-testing.yaml
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
