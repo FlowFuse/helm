@@ -21,7 +21,7 @@ jobs:
       matrix:
         chart-values:
           - 'helm/flowforge/values.yaml'
-          - './github/configs/chart-ci-values.yaml'
+          - './.github/configs/chart-ci-values.yaml'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
