@@ -1,6 +1,4 @@
-chart-dirs:
-  - helm/flowforge
-chart-repos:
-  - helm/flowforge
+charts:
+  - ./helm/flowforge
 validate-maintainers: false
 helm-extra-args: --values ./github/configs/chart-ci-values.yaml
