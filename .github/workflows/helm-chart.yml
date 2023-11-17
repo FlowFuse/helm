@@ -18,10 +18,12 @@ jobs:
     name: Lint and install chart
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         chart-values:
           - 'helm/flowforge/values.yaml'
           - './.github/configs/chart-ci-values.yaml'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
