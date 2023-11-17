@@ -17,6 +17,11 @@ jobs:
   lint:
     name: Lint and install chart
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart-values:
+          - 'helm/flowforge/values.yaml'
+          - './github/configs/chart-ci-values.yaml'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,10 +42,10 @@ jobs:
         uses: helm/chart-testing-action@v2.6.1
 
       - name: Lint helm chart
-        run: ct lint --config ./.github/configs/chart-testing.yaml
+        run: ct lint --config ./.github/configs/chart-testing.yaml --helm-extra-args "--values ${{ matrix.chart-values }}"
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
 
       - name: Run chart-testing (install)
-        run: ct install --config ./.github/configs/chart-testing.yaml
+        run: ct install --config ./.github/configs/chart-testing.yaml --helm-extra-args "--values ${{ matrix.chart-values }}"
