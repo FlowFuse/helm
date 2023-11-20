@@ -12,8 +12,8 @@ forge:
   #      operator: Equal
   #      value: flowforge-projects
   #      effect: NoSchedule
-  # managementSelector:
-  #   role: management
+  managementSelector:
+    beta.kubernetes.io/os: linux
   telemetry:
     enabled: true
     backend:
