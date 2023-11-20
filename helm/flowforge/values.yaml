@@ -56,10 +56,11 @@ forge:
     reportOnly: false
 
 postgresql:
-  postgresqlPostgresPassword: Moomiet0
-  postgresqlUsername: forge
-  postgresqlPassword: Zai1Wied
-  postgresqlDatabase: flowforge
+  auth:
+    postgresPassword: Moomiet0
+    username: forge
+    password: Zai1Wied
+    database: flowforge
 
 ingress:
   annotations: {}
