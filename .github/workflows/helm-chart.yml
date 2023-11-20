@@ -42,7 +42,6 @@ jobs:
 
       - name: Lint helm chart
         run: |
-          helm repo add bitnami https://charts.bitnami.com/bitnami
           ct lint --config ./.github/configs/chart-testing.yaml
 
       - name: Create kind cluster
@@ -56,3 +55,25 @@ jobs:
 
       - name: Run chart-testing (install)
         run: ct install --config ./.github/configs/chart-testing.yaml
+  
+  validate:
+    name: Validate chart against kubernetes API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Install Helm
+        uses: azure/setup-helm@v3.5
+        with:
+          version: v3.13.2
+      
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.8.0
+
+      - name: Validate chart
+        run: |
+          helm template flowforge ./helm/flowforge | kubectl apply --validate=true -f -
