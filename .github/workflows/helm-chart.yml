@@ -61,4 +61,4 @@ jobs:
           done
 
       - name: Run chart-testing (install)
-        run: ct install --config ./.github/configs/chart-testing.yaml --helm-extra-args "--values ${{ matrix.chart-values }}"
+        run: ct install --config ./.github/configs/chart-testing.yaml --helm-extra-args "--values ${{ matrix.chart-values }}" --debug
