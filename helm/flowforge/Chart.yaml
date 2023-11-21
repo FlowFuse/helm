@@ -10,7 +10,7 @@ keywords:
   - node-red
 dependencies:
   - name: postgresql
-    version: 10.14.0
+    version: 11.9.13
     repository: https://charts.bitnami.com/bitnami
     condition: forge.localPostgresql
 maintainers:
