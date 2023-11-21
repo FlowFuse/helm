@@ -9,7 +9,7 @@
                 },
                 "domain": {
                     "type": "string",
-                    "pattern": "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,6}$"
+                    "pattern": "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,25}$"
                 },
                 "baseURL": {
                     "type": "string"
