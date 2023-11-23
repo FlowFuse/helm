@@ -75,8 +75,8 @@ jobs:
       image: ${{ needs.build-302-multi-architecture.outputs.image }}
       image_tag_prefix: '3.0.2-'
     secrets:
-      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.PRODUCTION_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
@@ -134,8 +134,8 @@ jobs:
       image: ${{ needs.build-223-multi-architecture.outputs.image }}
       image_tag_prefix: '2.2.3-'
     secrets:
-      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.PRODUCTION_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
@@ -193,7 +193,7 @@ jobs:
       image: ${{ needs.build-310-multi-architecture.outputs.image }}
       image_tag_prefix: '3.1.0-'
     secrets:
-      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.PRODUCTION_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
