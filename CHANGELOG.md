@@ -1,3 +1,9 @@
+#### 1.14.0: Release
+
+ - Update NR containers to pull in @flowfuse/nr-launcher (#230) @knolleary
+ - Validate value of `domain` property (#227) @ppawlowski
+ - Fix typo in README.md (#222) @ppawlowski
+
 #### 1.13.3: Release
 
  - Add affinity info to readme (#218) @ppawlowski
