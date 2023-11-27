@@ -54,8 +54,8 @@ jobs:
       container_name: 'file-storage'
       image: ${{ needs.build-multi-architecture.outputs.image }}
     secrets:
-      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
@@ -71,7 +71,7 @@ jobs:
       container_name: 'file-storage'
       image: ${{ needs.build-multi-architecture.outputs.image }}
     secrets:
-      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.PRODUCTION_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
