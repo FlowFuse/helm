@@ -27,7 +27,7 @@ jobs:
     with:
       image_name: 'file-server'
       package_dependencies: |
-        @flowforge/file-server
+        @flowfuse/file-server
       build_context: 'file-server'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
     secrets:
