@@ -374,6 +374,15 @@
                             "type": "string"
                         }
                     }
+                },
+                "clusterRole": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Name of cluster role"
+                        }
+                    }
                 }
             },
             "required": [
