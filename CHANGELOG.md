@@ -1,3 +1,13 @@
+#### 1.14.1: Release
+
+ - Update NR to 3.1.2 (#239) @knolleary
+ - Remove `postgresql.global.storageClass` from default chart values (#231) @ppawlowski
+ - Add possibility to customise clusterrole name (#237) @ppawlowski
+ - Run 3.1.1 NR on NodeJS 18 (#236) @hardillb
+ - Update k8s driver package scope (#235) @knolleary
+ - Update file server to new npm scope (#234) @knolleary
+ - Use environment-scoped AWS credentials in pipelines (#233) @ppawlowski
+
 #### 1.14.0: Release
 
  - Update NR containers to pull in @flowfuse/nr-launcher (#230) @knolleary

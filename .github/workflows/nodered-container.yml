@@ -140,12 +140,12 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-310:
-    name: Build 3.1.0 container images
+    name: Build 3.1.x container images
     uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
-      image_tag_prefix: '3.1.0-'
+      image_tag_prefix: '3.1.x-'
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
@@ -159,7 +159,7 @@ jobs:
     uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.2.0
     with:
       image_name: 'node-red'
-      image_tag_prefix: '3.1.0-'
+      image_tag_prefix: '3.1.x-'
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-310-stage:
@@ -173,7 +173,7 @@ jobs:
       container_name: 'node-red'
       deploy: false
       image: ${{ needs.build-310-multi-architecture.outputs.image }}
-      image_tag_prefix: '3.1.0-'
+      image_tag_prefix: '3.1.x-'
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
@@ -191,7 +191,7 @@ jobs:
       container_name: 'node-red'
       deploy: false
       image: ${{ needs.build-310-multi-architecture.outputs.image }}
-      image_tag_prefix: '3.1.0-'
+      image_tag_prefix: '3.1.x-'
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
