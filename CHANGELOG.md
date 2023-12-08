@@ -1,3 +1,8 @@
+#### 1.14.2: Release
+
+ - Update Node-RED to 3.1.3 (#242) @knolleary
+ - Fix 3.1.x tag for docker hub (#241) @hardillb
+
 #### 1.14.1: Release
 
  - Update NR to 3.1.2 (#239) @knolleary

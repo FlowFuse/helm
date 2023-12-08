@@ -1,6 +1,6 @@
 {
     "name": "@flowfuse/flowfuse-k8s",
-    "version": "1.14.1",
+    "version": "1.14.2",
     "description": "FlowFuse in Docker",
     "private": true,
     "author": {
