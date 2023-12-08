@@ -27,7 +27,7 @@ jobs:
     with:
       image_name: 'forge-k8s'
       package_dependencies: |
-        @flowforge/flowforge
+        @flowfuse/flowfuse
         @flowfuse/driver-kubernetes
       build_context: 'flowforge-container'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}

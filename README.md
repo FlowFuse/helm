@@ -1,4 +1,4 @@
-# FlowForge Kubernetes
+# FlowFuse Kubernetes
 
 ## Containers
 
@@ -8,17 +8,17 @@ These can be built with the `./build-containers.sh [docker.registry]` script tha
 
 Stable release versions are already published on the Docker hub repository so there is no need to build your own.
 
-### FlowForge Container
+### FlowFuse Container
 
-This container holds the FlowForge App and the Kubernetes Driver
+This container holds the FlowFuse App and the Kubernetes Driver
 
 ### Node-RED container
 
-This is a basic Node-RED image with the FlowForge Lanucher and the required Node-RED plugins to talk to the FlowForge Platform
+This is a basic Node-RED image with the FlowFuse Lanucher and the required Node-RED plugins to talk to the FlowFuse Platform
 
 ### File Server container
 
-This provides a custom Object Store to back the FlowForge File System nodes
+This provides a custom Object Store to back the FlowFuse File System nodes
 
 ## Helm Chart
 
