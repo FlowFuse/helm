@@ -2,8 +2,31 @@ apiVersion: v1
 entries:
   flowforge:
   - apiVersion: v2
+    appVersion: 1.14.2
+    created: "2023-12-08T14:00:50.619437457Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.14.0
+    description: FlowForge
+    digest: 9a65e3cceb3c35b9994e98feb6025dff8fdcd0915f239ad14bc858a3fb58874b
+    home: https://flowforge.com
+    icon: https://flowforge.com/apple-touch-icon.png
+    keywords:
+    - flowforge
+    - node-red
+    maintainers:
+    - name: FlowForge Inc
+      url: https://flowforge.com
+    name: flowforge
+    type: application
+    urls:
+    - https://flowfuse.github.io/helm/flowforge-1.14.2.tgz
+    version: 1.14.2
+  - apiVersion: v2
     appVersion: 1.14.1
-    created: "2023-12-07T16:13:34.762515585Z"
+    created: "2023-12-08T14:00:50.61497791Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -26,7 +49,7 @@ entries:
     version: 1.14.1
   - apiVersion: v2
     appVersion: 1.14.0
-    created: "2023-12-07T16:13:34.756199774Z"
+    created: "2023-12-08T14:00:50.610745089Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -49,7 +72,7 @@ entries:
     version: 1.14.0
   - apiVersion: v2
     appVersion: 1.13.3
-    created: "2023-12-07T16:13:34.748318736Z"
+    created: "2023-12-08T14:00:50.604176925Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -72,7 +95,7 @@ entries:
     version: 1.13.3
   - apiVersion: v2
     appVersion: 1.13.2
-    created: "2023-12-07T16:13:34.744670893Z"
+    created: "2023-12-08T14:00:50.597625452Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -95,7 +118,7 @@ entries:
     version: 1.13.2
   - apiVersion: v2
     appVersion: 1.13.1
-    created: "2023-12-07T16:13:34.741078584Z"
+    created: "2023-12-08T14:00:50.594066577Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -118,7 +141,7 @@ entries:
     version: 1.13.1
   - apiVersion: v2
     appVersion: 1.13.0
-    created: "2023-12-07T16:13:34.735736611Z"
+    created: "2023-12-08T14:00:50.590499037Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -141,7 +164,7 @@ entries:
     version: 1.13.0
   - apiVersion: v2
     appVersion: 1.12.5
-    created: "2023-12-07T16:13:34.729565301Z"
+    created: "2023-12-08T14:00:50.584930439Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -164,7 +187,7 @@ entries:
     version: 1.12.5
   - apiVersion: v2
     appVersion: 1.12.4
-    created: "2023-12-07T16:13:34.725889906Z"
+    created: "2023-12-08T14:00:50.581353912Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -187,7 +210,7 @@ entries:
     version: 1.12.4
   - apiVersion: v2
     appVersion: 1.12.3
-    created: "2023-12-07T16:13:34.721236231Z"
+    created: "2023-12-08T14:00:50.576965808Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -210,7 +233,7 @@ entries:
     version: 1.12.3
   - apiVersion: v2
     appVersion: 1.12.2
-    created: "2023-12-07T16:13:34.717700809Z"
+    created: "2023-12-08T14:00:50.573476814Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -233,7 +256,7 @@ entries:
     version: 1.12.2
   - apiVersion: v2
     appVersion: 1.12.1
-    created: "2023-12-07T16:13:34.713231785Z"
+    created: "2023-12-08T14:00:50.569920775Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -256,7 +279,7 @@ entries:
     version: 1.12.1
   - apiVersion: v2
     appVersion: 1.12.0
-    created: "2023-12-07T16:13:34.709663722Z"
+    created: "2023-12-08T14:00:50.565534722Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -279,7 +302,7 @@ entries:
     version: 1.12.0
   - apiVersion: v2
     appVersion: 1.11.4
-    created: "2023-12-07T16:13:34.706057707Z"
+    created: "2023-12-08T14:00:50.561552919Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -302,7 +325,7 @@ entries:
     version: 1.11.4
   - apiVersion: v2
     appVersion: 1.11.3
-    created: "2023-12-07T16:13:34.701751688Z"
+    created: "2023-12-08T14:00:50.558058575Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -325,7 +348,7 @@ entries:
     version: 1.11.3
   - apiVersion: v2
     appVersion: 1.11.2
-    created: "2023-12-07T16:13:34.697725997Z"
+    created: "2023-12-08T14:00:50.552722835Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -348,7 +371,7 @@ entries:
     version: 1.11.2
   - apiVersion: v2
     appVersion: 1.11.1
-    created: "2023-12-07T16:13:34.693311824Z"
+    created: "2023-12-08T14:00:50.548660512Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -371,7 +394,7 @@ entries:
     version: 1.11.1
   - apiVersion: v2
     appVersion: 1.11.0
-    created: "2023-12-07T16:13:34.689827607Z"
+    created: "2023-12-08T14:00:50.543929773Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -394,7 +417,7 @@ entries:
     version: 1.11.0
   - apiVersion: v2
     appVersion: 1.10.4
-    created: "2023-12-07T16:13:34.686275444Z"
+    created: "2023-12-08T14:00:50.53738344Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -417,7 +440,7 @@ entries:
     version: 1.10.4
   - apiVersion: v2
     appVersion: 1.10.3
-    created: "2023-12-07T16:13:34.681835524Z"
+    created: "2023-12-08T14:00:50.530767086Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -440,7 +463,7 @@ entries:
     version: 1.10.3
   - apiVersion: v2
     appVersion: 1.10.2
-    created: "2023-12-07T16:13:34.678349264Z"
+    created: "2023-12-08T14:00:50.524376175Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -463,7 +486,7 @@ entries:
     version: 1.10.2
   - apiVersion: v2
     appVersion: 1.10.1
-    created: "2023-12-07T16:13:34.674022902Z"
+    created: "2023-12-08T14:00:50.520440324Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -486,7 +509,7 @@ entries:
     version: 1.10.1
   - apiVersion: v2
     appVersion: 1.10.0
-    created: "2023-12-07T16:13:34.670262538Z"
+    created: "2023-12-08T14:00:50.516870159Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -509,7 +532,7 @@ entries:
     version: 1.10.0
   - apiVersion: v2
     appVersion: 1.9.4
-    created: "2023-12-07T16:13:34.84171655Z"
+    created: "2023-12-08T14:00:50.70791229Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -532,7 +555,7 @@ entries:
     version: 1.9.4
   - apiVersion: v2
     appVersion: 1.9.3
-    created: "2023-12-07T16:13:34.838266288Z"
+    created: "2023-12-08T14:00:50.703746484Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -555,7 +578,7 @@ entries:
     version: 1.9.3
   - apiVersion: v2
     appVersion: 1.9.2
-    created: "2023-12-07T16:13:34.833543217Z"
+    created: "2023-12-08T14:00:50.700282527Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -578,7 +601,7 @@ entries:
     version: 1.9.2
   - apiVersion: v2
     appVersion: 1.9.1
-    created: "2023-12-07T16:13:34.829879574Z"
+    created: "2023-12-08T14:00:50.696366086Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -601,7 +624,7 @@ entries:
     version: 1.9.1
   - apiVersion: v2
     appVersion: 1.9.0
-    created: "2023-12-07T16:13:34.826369319Z"
+    created: "2023-12-08T14:00:50.692245624Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -624,7 +647,7 @@ entries:
     version: 1.9.0
   - apiVersion: v2
     appVersion: 1.8.2
-    created: "2023-12-07T16:13:34.822233946Z"
+    created: "2023-12-08T14:00:50.688749026Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -647,7 +670,7 @@ entries:
     version: 1.8.2
   - apiVersion: v2
     appVersion: 1.8.1
-    created: "2023-12-07T16:13:34.818795946Z"
+    created: "2023-12-08T14:00:50.684561881Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -670,7 +693,7 @@ entries:
     version: 1.8.1
   - apiVersion: v2
     appVersion: 1.8.0
-    created: "2023-12-07T16:13:34.814518906Z"
+    created: "2023-12-08T14:00:50.680927326Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -693,7 +716,7 @@ entries:
     version: 1.8.0
   - apiVersion: v2
     appVersion: 1.7.2
-    created: "2023-12-07T16:13:34.811099321Z"
+    created: "2023-12-08T14:00:50.677478196Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -716,7 +739,7 @@ entries:
     version: 1.7.2
   - apiVersion: v2
     appVersion: 1.7.0
-    created: "2023-12-07T16:13:34.807657153Z"
+    created: "2023-12-08T14:00:50.672960039Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -739,7 +762,7 @@ entries:
     version: 1.7.0
   - apiVersion: v2
     appVersion: 1.6.1
-    created: "2023-12-07T16:13:34.803615139Z"
+    created: "2023-12-08T14:00:50.6694305Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -762,7 +785,7 @@ entries:
     version: 1.6.1
   - apiVersion: v2
     appVersion: 1.6.0
-    created: "2023-12-07T16:13:34.800229748Z"
+    created: "2023-12-08T14:00:50.665326363Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -785,7 +808,7 @@ entries:
     version: 1.6.0
   - apiVersion: v2
     appVersion: 1.5.0
-    created: "2023-12-07T16:13:34.796796527Z"
+    created: "2023-12-08T14:00:50.661840474Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -808,7 +831,7 @@ entries:
     version: 1.5.0
   - apiVersion: v2
     appVersion: 1.4.1
-    created: "2023-12-07T16:13:34.79253464Z"
+    created: "2023-12-08T14:00:50.658165363Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -831,7 +854,7 @@ entries:
     version: 1.4.1
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2023-12-07T16:13:34.789137938Z"
+    created: "2023-12-08T14:00:50.653238425Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -854,7 +877,7 @@ entries:
     version: 1.4.0
   - apiVersion: v2
     appVersion: 1.3.3
-    created: "2023-12-07T16:13:34.785029908Z"
+    created: "2023-12-08T14:00:50.646914265Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -877,7 +900,7 @@ entries:
     version: 1.3.3
   - apiVersion: v2
     appVersion: 1.3.2
-    created: "2023-12-07T16:13:34.781658763Z"
+    created: "2023-12-08T14:00:50.640648334Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -900,7 +923,7 @@ entries:
     version: 1.3.2
   - apiVersion: v2
     appVersion: 1.3.1
-    created: "2023-12-07T16:13:34.77822963Z"
+    created: "2023-12-08T14:00:50.634523908Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -923,7 +946,7 @@ entries:
     version: 1.3.1
   - apiVersion: v2
     appVersion: 1.3.0
-    created: "2023-12-07T16:13:34.773897233Z"
+    created: "2023-12-08T14:00:50.631096819Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -946,7 +969,7 @@ entries:
     version: 1.3.0
   - apiVersion: v2
     appVersion: 1.2.1
-    created: "2023-12-07T16:13:34.770527992Z"
+    created: "2023-12-08T14:00:50.627688806Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -969,7 +992,7 @@ entries:
     version: 1.2.1
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2023-12-07T16:13:34.766274496Z"
+    created: "2023-12-08T14:00:50.622845169Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -992,7 +1015,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.1.2
-    created: "2023-12-07T16:13:34.666238461Z"
+    created: "2023-12-08T14:00:50.511977167Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -1015,7 +1038,7 @@ entries:
     version: 1.1.2
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2023-12-07T16:13:34.662049518Z"
+    created: "2023-12-08T14:00:50.508587619Z"
     dependencies:
     - condition: forge.localPostgresql
       name: postgresql
@@ -1036,4 +1059,4 @@ entries:
     urls:
     - https://flowfuse.github.io/helm/flowforge-1.1.0.tgz
     version: 1.1.0
-generated: "2023-12-07T16:13:34.65828123Z"
+generated: "2023-12-08T14:00:50.50419859Z"
