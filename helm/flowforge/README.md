@@ -42,6 +42,7 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.license` FlowForge EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
  - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
+ - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
   

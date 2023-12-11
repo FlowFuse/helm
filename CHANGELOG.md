@@ -1,3 +1,24 @@
+#### 1.14.2: Release
+
+ - Update Node-RED to 3.1.3 (#242) @knolleary
+ - Fix 3.1.x tag for docker hub (#241) @hardillb
+
+#### 1.14.1: Release
+
+ - Update NR to 3.1.2 (#239) @knolleary
+ - Remove `postgresql.global.storageClass` from default chart values (#231) @ppawlowski
+ - Add possibility to customise clusterrole name (#237) @ppawlowski
+ - Run 3.1.1 NR on NodeJS 18 (#236) @hardillb
+ - Update k8s driver package scope (#235) @knolleary
+ - Update file server to new npm scope (#234) @knolleary
+ - Use environment-scoped AWS credentials in pipelines (#233) @ppawlowski
+
+#### 1.14.0: Release
+
+ - Update NR containers to pull in @flowfuse/nr-launcher (#230) @knolleary
+ - Validate value of `domain` property (#227) @ppawlowski
+ - Fix typo in README.md (#222) @ppawlowski
+
 #### 1.13.3: Release
 
  - Add affinity info to readme (#218) @ppawlowski

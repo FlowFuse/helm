@@ -8,7 +8,8 @@
                     "type": "string"
                 },
                 "domain": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,25}$"
                 },
                 "baseURL": {
                     "type": "string"
@@ -371,6 +372,15 @@
                         },
                         "reportUri": {
                             "type": "string"
+                        }
+                    }
+                },
+                "clusterRole": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Name of cluster role"
                         }
                     }
                 }
