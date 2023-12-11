@@ -1,5 +1,4 @@
 name: Build Node-RED container
-
 on:
   workflow_dispatch:
     inputs:
@@ -24,7 +23,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@fix-security-scanning
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@0.2.1
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -84,7 +83,7 @@ jobs:
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@fix-security-scanning
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@0.2.1
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
@@ -144,7 +143,7 @@ jobs:
 
   build-310:
     name: Build 3.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@fix-security-scanning
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@0.2.1
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
