@@ -61,8 +61,6 @@ postgresql:
     username: forge
     password: Zai1Wied
     database: flowforge
-  global:
-    storageClass: default
 
 ingress:
   annotations: {}
