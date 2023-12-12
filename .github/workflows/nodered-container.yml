@@ -23,7 +23,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@0.2.1
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -32,6 +32,7 @@ jobs:
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: true
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
@@ -82,7 +83,7 @@ jobs:
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@0.2.1
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
@@ -91,6 +92,7 @@ jobs:
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: true
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
@@ -141,7 +143,7 @@ jobs:
 
   build-310:
     name: Build 3.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@0.2.1
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
@@ -150,6 +152,7 @@ jobs:
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: true
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
