@@ -85,6 +85,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        tool:
+          - checkov
+          - kube-score
 
     steps:
       - name: Checkout
@@ -101,7 +107,8 @@ jobs:
         run: |
           helm template flowforge ./helm/flowforge > ${{ github.workspace }}/templated_chart.yaml
     
-      - name: "[checkov] Scan chart"
+      - name: Scan chart with checkov
+        if: matrix.tool == 'checkov'
         uses: bridgecrewio/checkov-action@v12
         with:
           directory: ${{ github.workspace }}
@@ -110,8 +117,19 @@ jobs:
           output_format: cli,sarif
           output_file_path: console,results.sarif
           soft_fail: true
+      
+      - name: Install kube-score
+        if: matrix.tool == 'kube-score'
+        uses: yokawasa/action-setup-kube-tools@v0.9.2
+        with:
+          kube-score: '1.17.0'
+  
+      - name: Scan chart with kube-score
+        if: matrix.tool == 'kube-score'
+        run:
+          kube-score score ${{ github.workspace }}/templated_chart.yaml --output-format sarif > results.sarif
 
-      - name: "[checkov] Upload SARIF file"
+      - name: "Upload SARIF file"
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
         with:
