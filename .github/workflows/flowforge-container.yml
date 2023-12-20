@@ -23,14 +23,15 @@ concurrency:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.1.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.2.1
     with:
       image_name: 'forge-k8s'
       package_dependencies: |
         @flowforge/flowforge
-        @flowforge/kubernetes
+        @flowfuse/driver-kubernetes
       build_context: 'flowforge-container'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: true
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
@@ -55,8 +56,8 @@ jobs:
       container_name: forge
       image: ${{ needs.build-multi-architecture.outputs.image }}
     secrets:
-      aws_access_key_id: ${{ secrets.STAGING_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.STAGING_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   
@@ -72,7 +73,7 @@ jobs:
       container_name: forge
       image: ${{ needs.build-multi-architecture.outputs.image }}
     secrets:
-      aws_access_key_id: ${{ secrets.PRODUCTION_AWS_ID }}
-      aws_secret_access_key: ${{ secrets.PRODUCTION_AWS_KEY }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}

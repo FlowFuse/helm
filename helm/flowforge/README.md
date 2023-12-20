@@ -37,11 +37,12 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
- - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
+ - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the core application pod
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.license` FlowForge EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
  - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
+ - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
   

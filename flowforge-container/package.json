@@ -1,14 +1,14 @@
 {
-    "name": "@flowforge/flowforge-k8s",
-    "version": "1.13.2",
-    "description": "FlowForge in Docker",
+    "name": "@flowfuse/flowfuse-k8s",
+    "version": "1.14.2",
+    "description": "FlowFuse in Docker",
     "private": true,
     "author": {
         "name": "FlowForge Inc."
     },
     "dependencies": {
-        "@flowforge/flowforge": "^1.13.2",
-        "@flowforge/kubernetes": "^1.13.0",
+        "@flowforge/flowforge": "^1.14.1",
+        "@flowfuse/driver-kubernetes": "^1.14.0",
         "pg": "^8.7.1",
         "pg-hstore": "^2.3.4"
     },
