@@ -79,3 +79,40 @@ jobs:
       - name: Validate chart
         run: |
           helm template flowforge ./helm/flowforge | kubectl apply --validate=true -f -
+
+  scan:
+    name: Scan chart
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+    
+      - name: Install Helm
+        uses: azure/setup-helm@v3.5
+        with:
+          version: v3.13.2
+
+      - name: Template chart
+        run: |
+          helm template flowforge ./helm/flowforge > ${{ github.workspace }}/templated_chart.yaml
+    
+      - name: "[checkov] Scan chart"
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ${{ github.workspace }}
+          file: templated_chart.yaml
+          framework: kubernetes
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+          soft_fail: true
+
+      - name: "[checkov] Upload SARIF file"
+        if: success() || failure()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
