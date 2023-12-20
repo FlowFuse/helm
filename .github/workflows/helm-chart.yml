@@ -119,21 +119,17 @@ jobs:
           soft_fail: true
       
       - name: Install kube-score
-        if: matrix.tool == 'kube-score'
+        # temporary disabled due to https://github.com/zegl/kube-score/issues/559
+        if: false
         uses: yokawasa/action-setup-kube-tools@v0.9.3
         with:
           setup-tools: "kube-score"
           kube-score: '1.17.0'
-
-      - name: Debug kube-score
-        if: matrix.tool == 'kube-score'
-        run: |
-          which kube-score
-          echo "kube-score version: $(kube-score version)"
-          echo "kube-score path: $(which kube-score)"
   
       - name: Scan chart with kube-score
-        if: matrix.tool == 'kube-score'
+        # temporary disabled due to https://github.com/zegl/kube-score/issues/559
+        if: false
+        continue-on-error: true
         run:
           kube-score score ${{ github.workspace }}/templated_chart.yaml --output-format sarif > results.sarif
 
