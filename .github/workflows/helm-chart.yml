@@ -124,6 +124,13 @@ jobs:
         with:
           setup-tools: "kube-score"
           kube-score: '1.17.0'
+
+      - name: Debug kube-score
+        if: matrix.tool == 'kube-score'
+        run: |
+          which kube-score
+          echo "kube-score version: $(kube-score version)"
+          echo "kube-score path: $(which kube-score)"
   
       - name: Scan chart with kube-score
         if: matrix.tool == 'kube-score'
