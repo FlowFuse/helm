@@ -1,3 +1,9 @@
+#### 1.15.0: Release
+
+ - Update for new flowfuse npm package (#244) @knolleary
+ - FIX: workflows tag version reference (#246) @ppawlowski
+ - Enable image scanning for all containers (#245) @ppawlowski
+
 #### 1.14.2: Release
 
  - Update Node-RED to 3.1.3 (#242) @knolleary
