@@ -8,7 +8,7 @@
     },
     "dependencies": {
         "@flowfuse/flowfuse": "^1.15.0",
-        "@flowfuse/driver-kubernetes": "^1.14.0",
+        "@flowfuse/driver-kubernetes": "^1.15.0",
         "pg": "^8.7.1",
         "pg-hstore": "^2.3.4"
     },
