@@ -90,7 +90,8 @@ jobs:
       matrix:
         tool:
           - checkov
-          - kube-score
+          # temporary disabled due to https://github.com/zegl/kube-score/issues/559
+          # - kube-score
 
     steps:
       - name: Checkout
