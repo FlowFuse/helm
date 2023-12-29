@@ -148,6 +148,7 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowForge. 
+ - `ingress.certManagerIssuer` the name of the CertManager Issuer to use to create HTTPS certificates. (default is not set)
 
  `ingress.annotations` values can contain the following tokens that will be replaced as follows:
 
