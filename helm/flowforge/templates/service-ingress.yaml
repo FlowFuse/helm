@@ -41,5 +41,5 @@ spec:
   tls:
   - hosts:
     - {{ $forgeHostname }}
-    secretName: flowforge-tls
+    secretName: {{ $forgeHostname }}
   {{- end }}

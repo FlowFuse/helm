@@ -160,7 +160,7 @@ spec:
   tls:
   - hosts:
     - mqtt.{{ .Values.forge.domain }}
-    secretName: broker-tls
+    secretName: mqtt.{{ .Values.forge.domain }}
   {{- end }}
 # ---
 # apiVersion: v1
