@@ -1,0 +1,3 @@
+pages-branch: gh-pages
+release-name-template: "v{{ .Version }}"
+release-notes-file: CHANGELOG.md
