@@ -66,7 +66,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: file-storage
-        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-server:{{ .Chart.AppVersion }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/file-server:{{ .Chart.AppVersion }}
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
