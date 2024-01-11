@@ -43,6 +43,7 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.branding` Object holding branding inserts (default not set)
  - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
  - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
+ - `forge.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application pod
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
   
@@ -75,6 +76,7 @@ To use STMP to send email
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
+  - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod
 
 ### Telemetry
 
