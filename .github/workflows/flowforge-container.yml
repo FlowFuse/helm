@@ -46,6 +46,7 @@ jobs:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   
   deploy-stage:
+    if: github.ref_name == 'main'
     name: Deploy to staging environment
     needs: build-multi-architecture
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.1.0
