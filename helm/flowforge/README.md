@@ -124,6 +124,7 @@ Enables FlowForge Telemetry
 - `forge.fileStore.context.type` Choice of backends for Persistent Context `sequelize`
 - `forge.fileStore.context.options` Options to pass to Persistent Context Driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
 - `forge.fileStore.context.quota` Sets the maximum number of bytes that a project can store in Persistent Context (default `1048576`)
+- `forge.fileStore.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the flowforge-file pod
 
 ### Private Certificate Authority
 
