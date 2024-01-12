@@ -1,5 +1,4 @@
 forge:
-  seccompProfile: runtime/default
   dbUsername: forge
   dbPassword: Zai1Wied
   dbName: flowforge
@@ -14,20 +13,14 @@ forge:
   #      value: flowforge-projects
   #      effect: NoSchedule
   managementSelector:
-    role: management
+    beta.kubernetes.io/os: linux
   telemetry:
     enabled: true
     backend:
       prometheus:
-        enabled: false
+        enabled: true
   broker:
     enabled: false
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-      seccompProfile:
-        type: RuntimeDefault
   fileStore:
     enabled: false
     type: localfs
@@ -52,8 +45,8 @@ forge:
     max: 1000
     timeWindow: 60000
 
-  domain: "example.com"
-  entryPoint: ""
+  domain: "flowfuse-ci.com"
+  entryPoint: "lint"
   environment: {}
   image: ""
   registry: ""
@@ -62,19 +55,14 @@ forge:
     enabled: false
     reportOnly: false
 
-  podSecurityContext:
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-    seccompProfile:
-      type: RuntimeDefault
-
 postgresql:
   auth:
     postgresPassword: Moomiet0
     username: forge
     password: Zai1Wied
     database: flowforge
+  global:
+    storageClass: standard
 
 ingress:
   annotations: {}
