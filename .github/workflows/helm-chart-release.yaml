@@ -1,0 +1,56 @@
+name: Release Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'helm/**'
+
+jobs:
+  release:
+    if: false
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        if: true
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ github.token }}
+
+      - name: Add dependencies
+        if: true
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+
+      - name: Configure git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Semantic Release
+        id: semantic-release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          semantic_version: 19.0.5
+          branch: main
+          extra_plugins: |
+            semantic-release-helm3@2.9.3
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.6.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          charts_dir: helm
+          config: .github/configs/cr.yaml
+          skip_existing: true
