@@ -241,6 +241,26 @@
                                         },
                                         "memory": {
                                             "type": ["number","string"]
+                        "podSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "fsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "localhostProfile": {
+                                            "type": "string"
                                         }
                                     }
                                 }
@@ -343,6 +363,26 @@
                                         },
                                         "memory": {
                                             "type": ["number","string"]
+                        "podSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "fsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "localhostProfile": {
+                                            "type": "string"
                                         }
                                     }
                                 }
@@ -460,6 +500,26 @@
                                 },
                                 "memory": {
                                     "type": ["number","string"]
+                "podSecurityContext": {
+                    "type": "object",
+                    "properties": {
+                        "runAsUser": {
+                            "type": "integer"
+                        },
+                        "runAsGroup": {
+                            "type": "integer"
+                        },
+                        "fsGroup": {
+                            "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                },
+                                "localhostProfile": {
+                                    "type": "string"
                                 }
                             }
                         }

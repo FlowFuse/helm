@@ -21,6 +21,12 @@ forge:
         enabled: false
   broker:
     enabled: false
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
   fileStore:
     enabled: false
     type: localfs
@@ -36,6 +42,12 @@ forge:
         username: forge
         password: Zai1Wied
         database: ff-context
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
   support:
     enabled: false
 
@@ -54,6 +66,13 @@ forge:
   contentSecurityPolicy:
     enabled: false
     reportOnly: false
+
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
 
 postgresql:
   auth:

@@ -44,6 +44,8 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
  - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  - `forge.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the core application container
+ - `forge.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application pod
+
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
   
@@ -77,6 +79,7 @@ To use STMP to send email
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
+  - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod
 
 ### Telemetry
 
@@ -125,6 +128,7 @@ Enables FlowForge Telemetry
 - `forge.fileStore.context.options` Options to pass to Persistent Context Driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
 - `forge.fileStore.context.quota` Sets the maximum number of bytes that a project can store in Persistent Context (default `1048576`)
 - `forge.fileStore.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the file-server container
+- `forge.fileStore.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the flowforge-file pod
 
 ### Private Certificate Authority
 
