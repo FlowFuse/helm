@@ -219,6 +219,33 @@
                         "affinity": {
                             "type": "object"
                         },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
                         "podSecurityContext": {
                             "type": "object",
                             "properties": {
@@ -318,6 +345,33 @@
                         },
                         "options": {
                             "type": "object"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "podSecurityContext": {
                             "type": "object",
@@ -434,6 +488,33 @@
                         }
                     }
                 },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        }
+                    }
+                },
                 "podSecurityContext": {
                     "type": "object",
                     "properties": {
@@ -459,6 +540,7 @@
                         }
                     }
                 }
+
             },
             "required": [
                 "domain",

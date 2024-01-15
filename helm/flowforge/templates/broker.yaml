@@ -86,6 +86,9 @@ spec:
         #   httpGet:
         #     path: /ping.html
         #     port: 1884
+        {{- if .Values.forge.broker.resources }}
+        resources: {{- toYaml .Values.forge.broker.resources | nindent 12 }}
+        {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}

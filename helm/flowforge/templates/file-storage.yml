@@ -81,6 +81,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
+        {{- if .Values.forge.fileStore.resources }}
+        resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
+        {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}
