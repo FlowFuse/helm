@@ -241,6 +241,11 @@
                                         },
                                         "memory": {
                                             "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
                         "podSecurityContext": {
                             "type": "object",
                             "properties": {
@@ -363,6 +368,11 @@
                                         },
                                         "memory": {
                                             "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
                         "podSecurityContext": {
                             "type": "object",
                             "properties": {
@@ -500,6 +510,11 @@
                                 },
                                 "memory": {
                                     "type": ["number","string"]
+                                }
+                            }
+                        }
+                    }
+                },
                 "podSecurityContext": {
                     "type": "object",
                     "properties": {
