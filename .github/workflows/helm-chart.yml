@@ -106,7 +106,7 @@ jobs:
 
       - name: Template chart
         run: |
-          helm template flowforge ./helm/flowforge > ${{ github.workspace }}/templated_chart.yaml
+          helm template flowforge ./helm/flowforge --set forge.domain=example.com > ${{ github.workspace }}/templated_chart.yaml
     
       - name: Scan chart with checkov
         if: matrix.tool == 'checkov'
