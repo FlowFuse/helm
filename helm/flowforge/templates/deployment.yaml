@@ -22,9 +22,7 @@ spec:
     spec:
       serviceAccountName: flowforge
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        {{- toYaml .Values.forge.podSecurityContext | nindent 8 }}
       containers:
       - name: forge
         {{- if .Values.forge.image }}
@@ -77,6 +75,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
+        {{- if .Values.forge.resources }}
+        resources: {{- toYaml .Values.forge.resources | nindent 12 }}
+        {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}

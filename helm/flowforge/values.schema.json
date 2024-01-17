@@ -218,6 +218,58 @@
                         },
                         "affinity": {
                             "type": "object"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "podSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "fsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "localhostProfile": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "required": [
@@ -293,6 +345,58 @@
                         },
                         "options": {
                             "type": "object"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "podSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "fsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "localhostProfile": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "required": [
@@ -383,7 +487,60 @@
                             "description": "Name of cluster role"
                         }
                     }
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "podSecurityContext": {
+                    "type": "object",
+                    "properties": {
+                        "runAsUser": {
+                            "type": "integer"
+                        },
+                        "runAsGroup": {
+                            "type": "integer"
+                        },
+                        "fsGroup": {
+                            "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                },
+                                "localhostProfile": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
                 }
+
             },
             "required": [
                 "domain",

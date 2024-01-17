@@ -60,9 +60,7 @@ spec:
         app: flowforge-broker
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        {{- toYaml .Values.forge.broker.podSecurityContext | nindent 8 }}
       containers:
       - name: broker
         image: iegomez/mosquitto-go-auth
@@ -88,6 +86,9 @@ spec:
         #   httpGet:
         #     path: /ping.html
         #     port: 1884
+        {{- if .Values.forge.broker.resources }}
+        resources: {{- toYaml .Values.forge.broker.resources | nindent 12 }}
+        {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}

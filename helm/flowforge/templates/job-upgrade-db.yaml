@@ -38,7 +38,7 @@ spec:
           valueFrom:
             secretKeyRef:
                 name: {{ .Release.Name }}-postgresql
-                key: postgresql-postgres-password
+                key: postgres-password
         volumeMounts:
         - name: upgrade-script
           mountPath: /usr/local
