@@ -53,6 +53,9 @@ data:
         {{- if .Values.forge.privateCA }}
         privateCA: {{ .Values.forge.privateCA.configMapName }}
         {{- end }}
+        {{- if .Values.ingress.certManagerIssuer }}
+        certManagerIssuer: {{ .Values.ingress.certManagerIssuer }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true
