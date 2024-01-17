@@ -23,6 +23,7 @@ jobs:
             latest=true
           images: |
             flowforge/forge-k8s
+            flowfuse/forge-k8s
       # sets up multi platform emulators
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
@@ -51,6 +52,13 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/flowforge-container/README.md
+      - name: Push README flowfuse
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          repository: flowfuse/forge-k8s
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          readme-filepath: ./helm/flowforge-container/README.md
 
   build_nodered_container:
     runs-on: ubuntu-latest
@@ -69,6 +77,7 @@ jobs:
             latest=true
           images: |
             flowforge/node-red
+            flowfuse/node-red
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       - name: Setup Docker buildx
@@ -93,6 +102,13 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/node-red-container/README.md
+      - name: Push README flowfuse
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          repository: flowfuse/node-red
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          readme-filepath: ./helm/node-red-container/README.md
 
   build_nodered_container_223:
     runs-on: ubuntu-latest
@@ -111,6 +127,7 @@ jobs:
             latest=false
           images: |
             flowforge/node-red
+            flowfuse/node-red
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       - name: Setup Docker buildx
@@ -146,6 +163,7 @@ jobs:
             latest=false
           images: |
             flowforge/node-red
+            flowfuse/node-red
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       - name: Setup Docker buildx
@@ -181,6 +199,7 @@ jobs:
             latest=true
           images: |
             flowforge/file-server
+            flowfuse/file-server
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       - name: Setup Docker buildx
@@ -202,6 +221,13 @@ jobs:
         uses: peter-evans/dockerhub-description@v3
         with:
           repository: flowforge/file-server
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          readme-filepath: ./helm/file-server/README.md
+      - name: Push README flowfuse
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          repository: flowfuse/file-server
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/file-server/README.md
