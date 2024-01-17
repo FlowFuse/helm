@@ -78,7 +78,7 @@ jobs:
 
       - name: Validate chart
         run: |
-          helm template flowforge ./helm/flowforge | kubectl apply --validate=true -f -
+          helm template flowforge ./helm/flowforge --set forge.domain=example.com | kubectl apply --validate=true -f -
 
   scan:
     name: Scan chart
