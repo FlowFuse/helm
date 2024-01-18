@@ -1,3 +1,13 @@
+#### 2.0.0: Release
+
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - Introduce helm chart automatic release workflow (#269) @ppawlowski
+
 #### 1.15.0: Release
 
  - Update for new flowfuse npm package (#244) @knolleary
