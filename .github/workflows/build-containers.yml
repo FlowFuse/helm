@@ -56,8 +56,8 @@ jobs:
         uses: peter-evans/dockerhub-description@v3
         with:
           repository: flowfuse/forge-k8s
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          username: flowfuse
+          password: ${{ secrets.DOCKER_HUB_PASSWORD_FLOWFUSE }}
           readme-filepath: ./helm/flowforge-container/README.md
 
   build_nodered_container:
@@ -106,8 +106,8 @@ jobs:
         uses: peter-evans/dockerhub-description@v3
         with:
           repository: flowfuse/node-red
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          username: flowfuse
+          password: ${{ secrets.DOCKER_HUB_PASSWORD_FLOWFUSE }}
           readme-filepath: ./helm/node-red-container/README.md
 
   build_nodered_container_223:
@@ -228,8 +228,8 @@ jobs:
         uses: peter-evans/dockerhub-description@v3
         with:
           repository: flowfuse/file-server
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          username: flowfuse
+          password: ${{ secrets.DOCKER_HUB_PASSWORD_FLOWFUSE }}
           readme-filepath: ./helm/file-server/README.md
 
   publish_helm:
