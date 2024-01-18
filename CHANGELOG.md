@@ -1,3 +1,13 @@
+#### 2.0.0: Release
+
+ - refactor: rename containers (#272) @hardillb
+ - feat: Helm chart v2 (#279) @ppawlowski
+ - Add support for using cert manager to issue TLS certs (#267) @hardillb
+ - chore: Update GitHub Actions workflows to use v0.4.1 (#277) @ppawlowski
+ - chore: Bump reusable workflows version to `v0.4.0` (#271) @ppawlowski
+ - feat: Deploy to stage from main branch only (#273) @ppawlowski
+ - Introduce helm chart automatic release workflow (#269) @ppawlowski
+
 #### 1.15.0: Release
 
  - Update for new flowfuse npm package (#244) @knolleary
