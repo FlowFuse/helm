@@ -1,6 +1,6 @@
 apiVersion: "v2"
 name: "flowforge"
-version: "2.0.0"
+version: "2.0.1"
 description: "FlowForge"
 type: "application"
 home: "https://flowforge.com"
@@ -16,4 +16,4 @@ dependencies:
 maintainers:
   - name: "FlowForge Inc"
     url: "https://flowforge.com"
-appVersion: "2.0.0"
+appVersion: "2.0.1"
