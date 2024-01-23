@@ -1,5 +1,9 @@
 #### 2.0.0: Release
 
+ - Bump included versions @hardillb
+
+#### 2.0.0: Release
+
  - refactor: rename containers (#272) @hardillb
  - feat: Helm chart v2 (#279) @ppawlowski
  - Add support for using cert manager to issue TLS certs (#267) @hardillb
