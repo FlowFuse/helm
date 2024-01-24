@@ -11,12 +11,12 @@ using a local database
 
 If using an external PostgreSQL Database you will need to create the database and user to pass to the helm chart using the following values:
 
-- `forge.dbName`
-- `forge.dbUsername`
-- `forge.dbPassword`
-- `forge.postgres.host`
-- `forge.postgres.port`
-- `forge.postgres.ssl`
+- `postgresql.host`
+- `postgresql.auth.username`
+- `postgresql.auth.password`
+- `postgresql.auth.database`
+
+For other values please refer to the documentation below.
 
 ## Configuration Values
 
@@ -27,13 +27,7 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the container registry to find Project templates (default Docker Hub)
- - `forge.dbUsername` (default `forge`)
- - `forge.dbPassword` (default `Zai1Wied`)
- - `forge.dbName` (default `flowforge`)
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
- - `forge.postgres.host` the hostname of an external PostgreSQL database (default not set)
- - `forge.postgres.port` the port of an external PostgreSQL database (default `5432`)
- - `forge.postgres.ssl` sets the connection to the database to use SSL/TLS (default `false`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
@@ -180,3 +174,12 @@ editors:
     create: true
     name: editors
 ```
+
+ ### Postgresql
+ - `postgresql.host` - the hostname of an external PostgreSQL database (default not set)
+ - `postgresql.port` - the port of an external PostgreSQL database (default `5432`)
+ - `postgresql.ssl` - sets the connection to the database to use SSL/TLS (default `false`)
+ - `postgresql.auth.username` - the username to use to connect to the database (default `forge`)
+ - `postgresql.auth.password` - the password to use to connect to the database (default `Zai1Wied`)
+ - `postgresql.auth.database` - the database to use (default `flowforge`)
+ - `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
