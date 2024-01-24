@@ -23,6 +23,21 @@ spec:
       serviceAccountName: flowforge
       securityContext:
         {{- toYaml .Values.forge.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        command: ['sh', '-c', 'erb /tmpl/flowforge.yml > /config/flowforge.yml']
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: password
       containers:
       - name: forge
         {{- if .Values.forge.image }}
@@ -63,7 +78,7 @@ spec:
         - name: NODE_ENV
           value: production
         volumeMounts:
-        - name: config
+        - name: configdir
           mountPath: /usr/src/forge/etc
         {{- if .Values.forge.privateCA }}
         - name: cacert
@@ -85,7 +100,9 @@ spec:
       {{- end }}
       {{- end }}
       volumes:
-      - name: config
+      - name: configdir
+        emptyDir: {}
+      - name: configtemplate
         configMap:
           name: flowforge-config
       {{- if .Values.forge.privateCA }}
