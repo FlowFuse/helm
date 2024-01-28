@@ -270,6 +270,9 @@
                                     }
                                 }
                             }
+                        },
+                        "containerSecurityContext": {
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -397,6 +400,9 @@
                                     }
                                 }
                             }
+                        },
+                        "containerSecurityContext": {
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -539,6 +545,9 @@
                             }
                         }
                     }
+                },
+                "containerSecurityContext": {
+                    "type": "object"
                 }
 
             },
