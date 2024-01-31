@@ -27,6 +27,19 @@ forge:
       fsGroup: 1000
       seccompProfile:
         type: RuntimeDefault
+    livenessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+    readinessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+
   fileStore:
     enabled: false
     type: localfs
@@ -48,6 +61,7 @@ forge:
       fsGroup: 1000
       seccompProfile:
         type: RuntimeDefault
+
   support:
     enabled: false
 
@@ -73,6 +87,19 @@ forge:
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
+  
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
 
 postgresql:
   auth:
