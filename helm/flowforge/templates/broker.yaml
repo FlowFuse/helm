@@ -78,14 +78,39 @@ spec:
         securityContext: 
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-        # livenessProbe:
-        #   httpGet:
-        #     path: /ping.html
-        #     port: 1884
-        # readinessProbe:
-        #   httpGet:
-        #     path: /ping.html
-        #     port: 1884
+        {{- if .Values.forge.broker.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /ping.html
+            port: 1884
+          initialDelaySeconds: {{ .Values.forge.broker.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.broker.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.broker.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.broker.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.broker.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.broker.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /ping.html
+            port: 1884
+          initialDelaySeconds: {{ .Values.forge.broker.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.broker.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.broker.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.broker.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.broker.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.broker.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /ping.html
+            port: 1884
+          initialDelaySeconds: {{ .Values.forge.broker.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.broker.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.broker.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.broker.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.broker.startupProbe.failureThreshold }}
+        {{- end }}
         {{- if .Values.forge.broker.resources }}
         resources: {{- toYaml .Values.forge.broker.resources | nindent 12 }}
         {{- end }}
