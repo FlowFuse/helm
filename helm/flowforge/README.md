@@ -45,7 +45,9 @@ If using an external PostgreSQL Database you will need to create the database an
  - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  - `forge.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the core application container
  - `forge.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application pod
-
+ - `forge.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the core application pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+ - `forge.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the core application pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+ - `forge.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the core application pod (check [here](#liveness-readiness-and-startup-probes) for more details)
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
   
@@ -80,6 +82,9 @@ To use STMP to send email
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
   - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod
+  - `forge.broker.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+  - `forge.broker.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+  - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 
 ### Telemetry
 
@@ -129,6 +134,9 @@ Enables FlowForge Telemetry
 - `forge.fileStore.context.quota` Sets the maximum number of bytes that a project can store in Persistent Context (default `1048576`)
 - `forge.fileStore.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the file-server container
 - `forge.fileStore.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the flowforge-file pod
+- `forge.fileStore.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+- `forge.fileStore.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+- `forge.fileStore.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 
 ### Private Certificate Authority
 
@@ -179,4 +187,23 @@ editors:
       eks.amazonaws.com/role-arn: arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}
     create: true
     name: editors
+```
+###  Liveness, readiness and startup probes
+
+Following values can be used to configure the liveness, readiness and startup probes for all pods:
+
+- `initialDelaySeconds` (default `10`) - number of seconds after the container has started before liveness or readiness probes are initiated
+- `periodSeconds` (default `10`) - how often (in seconds) to perform the probe
+- `timeoutSeconds` (default `5`) - number of seconds after which the probe times out
+- `successThreshold` (default `1`) - minimum consecutive successes for the probe to be considered successful after having failed
+- `failureThreshold` (default `3`) - minimum consecutive failures for the probe to be considered failed after having succeeded
+
+Example for readiness probe:
+```yaml
+readinessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
 ```
