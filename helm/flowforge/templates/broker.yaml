@@ -75,9 +75,7 @@ spec:
           name: mqtt-native
         - containerPort: 1884
           name: mqtt-ws
-        securityContext: 
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+        securityContext: {{- toYaml .Values.forge.broker.containerSecurityContext | nindent 10 }}
         {{- if .Values.forge.broker.livenessProbe }}
         livenessProbe:
           httpGet:

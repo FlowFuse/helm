@@ -111,9 +111,7 @@ spec:
           successThreshold: {{ .Values.forge.fileStore.startupProbe.successThreshold }}
           failureThreshold: {{ .Values.forge.fileStore.startupProbe.failureThreshold }}
         {{- end }}
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+        securityContext: {{- toYaml .Values.forge.fileStore.containerSecurityContext | nindent 10 }}
         {{- if .Values.forge.fileStore.resources }}
         resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
         {{- end }}

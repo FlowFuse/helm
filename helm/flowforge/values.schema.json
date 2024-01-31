@@ -330,6 +330,9 @@
                                     "type": "integer"
                                 }
                             }
+                        },
+                        "containerSecurityContext": {
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -517,6 +520,9 @@
                                     "type": "integer"
                                 }
                             }
+                        },
+                        "containerSecurityContext": {
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -659,6 +665,9 @@
                             }
                         }
                     }
+                },
+                "containerSecurityContext": {
+                    "type": "object"
                 },
                 "livenessProbe": {
                     "type": "object",
