@@ -78,7 +78,7 @@ spec:
         {{ end -}}
         ports:
         - containerPort: 3001
-        securityContext: {{- toYaml .Values.forge.broker.containerSecurityContext | nindent 10 }}
+        securityContext: {{- toYaml .Values.forge.fileStore.containerSecurityContext | nindent 10 }}
         {{- if .Values.forge.fileStore.resources }}
         resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
         {{- end }}
