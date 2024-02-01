@@ -105,9 +105,40 @@ spec:
         {{ end -}}
         ports:
         - containerPort: 3001
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+        {{- if .Values.forge.fileStore.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.fileStore.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.fileStore.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.startupProbe.failureThreshold }}
+        {{- end }}
+        securityContext: {{- toYaml .Values.forge.fileStore.containerSecurityContext | nindent 10 }}
         {{- if .Values.forge.fileStore.resources }}
         resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
         {{- end }}
