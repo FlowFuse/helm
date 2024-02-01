@@ -23,8 +23,20 @@ data:
       {{- if .Values.forge.fileStore.context.quota }}
       quota: {{ .Values.forge.fileStore.context.quota }}
       {{- end }}
+      {{- if .Values.forge.fileStore.context.options }}}
       options:
-{{ toYaml .Values.forge.fileStore.context.options | indent 8 -}}
+        type: {{ .Values.forge.fileStore.context.options.type }}
+        {{- if eq .Values.forge.fileStore.context.options.type "postgres" }}
+        host: {{ .Values.postgresql.host | default "{{ .Release.Name }}-postgresql" }}
+        port: {{ .Values.postgresql.port | default 5432 }}
+        username: {{ .Values.postgresql.auth.username }}
+        database: ff-context
+        password: <%= ENV['PGPASSWORD'] %>
+        {{- end }}
+        {{- if eq .Values.forge.fileStore.context.options.type "sqlite" }}
+        storage: {{ .Values.forge.fileStore.context.options.storage }}
+        {{- end }}
+      {{- end }}
     {{- end }}
     logging:
       level: info
@@ -62,6 +74,21 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        command: ['sh', '-c', 'erb /tmpl/flowforge-storage.yml > /config/flowforge-storage.yml' ]
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: password
       containers:
       - name: file-storage
         image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-server:{{ .Chart.AppVersion }}
@@ -70,7 +97,7 @@ spec:
         - name: NODE_ENV
           value: production
         volumeMounts:
-        - name: config
+        - name: configdir
           mountPath: /usr/src/flowforge-file-server/etc
         {{ if eq .Values.forge.fileStore.type "localfs" -}}
         - name: root
@@ -122,7 +149,9 @@ spec:
       {{- end }}
       {{- end }}
       volumes:
-      - name: config
+      - name: configdir
+        emptyDir: {}
+      - name: configtemplate
         configMap: 
           name: flowforge-file-config
       {{ if eq .Values.forge.fileStore.type "localfs" -}}

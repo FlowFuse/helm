@@ -6,7 +6,7 @@ metadata:
     app: postgres-service
   name: {{ .Release.Name }}-postgresql
 spec:
-  externalName: {{ .Values.forge.postgres.host }}
+  externalName: {{ .Values.postgresql.host }}
   type: ExternalName
 status:
   loadBalancer: {}

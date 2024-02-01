@@ -19,14 +19,14 @@ data:
     db:
       type: postgres
       host: {{ .Release.Name }}-postgresql
-      {{- if and (not .Values.forge.localPostgresql) (.Values.forge.postgres) }}
-      port: {{ .Values.forge.postgres.port | default 5432 }}
+      {{- if and (not .Values.forge.localPostgresql) (.Values.postgresql) }}
+      port: {{ .Values.postgresql.port | default 5432 }}
       {{- end }}
-      user: {{ .Values.forge.dbUsername }}
-      password: {{ .Values.forge.dbPassword }}
-      db: {{ .Values.forge.dbName }}
-      {{- if and (hasKey .Values.forge "postgres") (hasKey .Values.forge.postgres "ssl") }}
-      ssl: {{ .Values.forge.postgres.ssl }}
+      user: {{ .Values.postgresql.auth.username }}
+      password: <%= ENV['PGPASSWORD'] %>
+      db: {{ .Values.postgresql.auth.database }}
+      {{- if .Values.postgresql.ssl }}
+      ssl: {{ .Values.postgresql.ssl }}
       {{- end }}
     driver:
       type: kubernetes
