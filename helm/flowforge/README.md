@@ -231,7 +231,7 @@ forge.postgres.port
 ```
 
 All database configuration is maintained in the `postgresql` configuration block.
-Before upgrading to the new version, please ensure that the [`postgresql`](#postgresql) block is correctly configured.
+Before upgrading to this version, please ensure that the [`postgresql`](#postgresql) block is correctly configured.
 
 
 ### To 2.0.0
@@ -256,7 +256,7 @@ If local PostgreSQL database instance is used, upgrading to this version, using 
       ```
 
 2. Obtain the PVC name which stores the database data
-
+Ó
    ```bash
    export POSTGRESQL_PVC=$(kubectl --namespace default get pvc -l app.kubernetes.io/name=postgresql,role=primary -o jsonpath="{.items[0].metadata.name}")
    ```
