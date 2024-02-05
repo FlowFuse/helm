@@ -232,6 +232,7 @@ forge.postgres.port
 
 All database configuration is maintained in the `postgresql` configuration block.
 Before upgrading to this version, please ensure that the [`postgresql`](#postgresql) block is correctly configured.
+Please pay attention to `forge.dbUsername` and `forge.dbPassword` values, as they are now part of the `postgresql.auth` block - `postgresql.auth.username` and `postgresql.auth.password` respectively.
 
 
 ### To 2.0.0
