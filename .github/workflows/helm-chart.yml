@@ -113,12 +113,16 @@ jobs:
         if: matrix.tool == 'checkov'
         uses: bridgecrewio/checkov-action@v12.2655.0
         with:
-          directory: ${{ github.workspace }}/helm/flowforge
-          var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
+          directory: ./helm/flowforge
+          var_file: ./helm/flowforge/ci/default-values.yaml
           framework: kubernetes
           output_format: cli,sarif
           output_file_path: console,results.sarif
           soft_fail: true
+
+      - name: debug results
+        run: |
+          cat results.sarif
 
       - name: Template chart
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
