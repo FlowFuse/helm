@@ -101,13 +101,6 @@ jobs:
         uses: azure/setup-helm@v3.5
         with:
           version: v3.13.2
-
-      - name: debug
-        run: |
-          ls -la ${{ github.workspace }}/helm
-          ls -la ${{ github.workspace }}/helm/flowforge
-          ls -la ${{ github.workspace }}/helm/flowforge/ci
-          ls -la ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
     
       - name: Scan chart with checkov
         if: matrix.tool == 'checkov'
@@ -119,10 +112,6 @@ jobs:
           output_format: cli,sarif
           output_file_path: console,results.sarif
           soft_fail: true
-
-      - name: debug results
-        run: |
-          cat results.sarif
 
       - name: Template chart
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
