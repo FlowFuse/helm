@@ -23,11 +23,11 @@ data:
       {{- if .Values.forge.fileStore.context.quota }}
       quota: {{ .Values.forge.fileStore.context.quota }}
       {{- end }}
-      {{- if .Values.forge.fileStore.context.options }}}
+      {{- if .Values.forge.fileStore.context.options }}
       options:
         type: {{ .Values.forge.fileStore.context.options.type }}
         {{- if eq .Values.forge.fileStore.context.options.type "postgres" }}
-        host: {{ .Values.postgresql.host | default "{{ .Release.Name }}-postgresql" }}
+        host: {{ .Values.postgresql.host | default (print .Release.Name "-postgresql") }}
         port: {{ .Values.postgresql.port | default 5432 }}
         username: {{ .Values.postgresql.auth.username }}
         database: ff-context
@@ -87,7 +87,7 @@ spec:
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
-                name: flowfuse-secrets
+                name: {{ include "forge.applicationSecretName" . }}
                 key: password
       containers:
       - name: file-storage
