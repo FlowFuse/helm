@@ -106,7 +106,7 @@ jobs:
         if: matrix.tool == 'checkov'
         uses: bridgecrewio/checkov-action@v12
         with:
-          directory: ${{ github.workspace }}
+          directory: ${{ github.workspace }}/helm
           var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
           framework: kubernetes
           output_format: cli,sarif
