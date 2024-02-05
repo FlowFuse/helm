@@ -195,6 +195,16 @@ editors:
  - `postgresql.auth.password` - the password to use to connect to the database (default `Zai1Wied`)
  - `postgresql.auth.database` - the database to use (default `flowforge`)
  - `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
+ - `postgresql.auth.existingSecret` - the name of an Kubernetes secret object, within same namespace, with database credentials (default not set)
+
+ Note: External secret must contain the following keys:
+  - `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)
+  - `postgress-password` - the password to use for the postgres user (equivalent to `postgresql.auth.postgresPassword` key)
+
+  Example for creating a external secret via `kubectl`:
+  ```bash
+  kubectl create secret generic database-credentials --from-literal=postgress-password=rootPassword --from-literal=password=applicationPassword
+  ```
 
 ###  Liveness, readiness and startup probes
 
