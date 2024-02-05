@@ -4,13 +4,13 @@ on:
     branches:
       - main
     paths:
-      - 'helm/*'
+      - 'helm/**'
       - '.github/workflows/helm-chart.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'helm/*'
+      - 'helm/**'
       - '.github/workflows/helm-chart.yml'
 
 jobs:
