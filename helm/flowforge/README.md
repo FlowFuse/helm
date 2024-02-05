@@ -187,24 +187,21 @@ editors:
     name: editors
 ```
 
- ### Postgresql
- - `postgresql.host` - the hostname of an external PostgreSQL database (default not set)
- - `postgresql.port` - the port of an external PostgreSQL database (default `5432`)
- - `postgresql.ssl` - sets the connection to the database to use SSL/TLS (default `false`)
- - `postgresql.auth.username` - the username to use to connect to the database (default `forge`)
- - `postgresql.auth.password` - the password to use to connect to the database (default `Zai1Wied`)
- - `postgresql.auth.database` - the database to use (default `flowforge`)
- - `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
- - `postgresql.auth.existingSecret` - the name of an Kubernetes secret object, within same namespace, with database credentials (default not set)
+### Postgresql
+- `postgresql.host` - the hostname of an external PostgreSQL database (default not set)
+- `postgresql.port` - the port of an external PostgreSQL database (default `5432`)
+- `postgresql.ssl` - sets the connection to the database to use SSL/TLS (default `false`)
+- `postgresql.auth.username` - the username to use to connect to the database (default `forge`)
+- `postgresql.auth.password` - the password to use to connect to the database (default `Zai1Wied`)
+- `postgresql.auth.database` - the database to use (default `flowforge`)
+- `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
+- `postgresql.auth.existingSecret` - the name of an Kubernetes secret object with database credentials (If `postgresql.auth.existingSecret` is set, `postgresql.auth.password` and `postgresql.auth.postgresPassword` values are ignored; default not set)
 
- Note: External secret must contain the following keys:
-  - `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)
-  - `postgress-password` - the password to use for the postgres user (equivalent to `postgresql.auth.postgresPassword` key)
 
-  Example for creating a external secret via `kubectl`:
-  ```bash
-  kubectl create secret generic database-credentials --from-literal=postgress-password=rootPassword --from-literal=password=applicationPassword
-  ```
+Note: External secret must contain following keys:
+- `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)
+- `postgress-password` - the password to use for the postgres user (equivalent to `postgresql.auth.postgresPassword` key)
+
 
 ###  Liveness, readiness and startup probes
 
