@@ -116,8 +116,8 @@ jobs:
           directory: ${{ github.workspace }}/helm
           var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
           framework: helm
-          output_format: cli,sarif
-          output_file_path: console,results.sarif
+          output_format: sarif
+          output_file_path: results.sarif
           soft_fail: true
 
       - name: debug results
