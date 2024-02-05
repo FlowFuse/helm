@@ -4,13 +4,13 @@ on:
     branches:
       - main
     paths:
-      - 'helm/*'
+      - 'helm/**'
       - '.github/workflows/helm-chart.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'helm/*'
+      - 'helm/**'
       - '.github/workflows/helm-chart.yml'
 
 jobs:
@@ -101,21 +101,23 @@ jobs:
         uses: azure/setup-helm@v3.5
         with:
           version: v3.13.2
-
-      - name: Template chart
-        run: |
-          helm template flowforge ./helm/flowforge --set forge.domain=example.com > ${{ github.workspace }}/templated_chart.yaml
     
       - name: Scan chart with checkov
         if: matrix.tool == 'checkov'
-        uses: bridgecrewio/checkov-action@v12
+        uses: bridgecrewio/checkov-action@v12.2655.0
         with:
-          directory: ${{ github.workspace }}
-          file: templated_chart.yaml
-          framework: kubernetes
+          directory: ${{ github.workspace }}/helm
+          var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
+          framework: helm
           output_format: cli,sarif
           output_file_path: console,results.sarif
           soft_fail: true
+
+      - name: Template chart
+        # temporary disabled due to https://github.com/zegl/kube-score/issues/559
+        if: false
+        run: |
+          helm template flowforge ./helm/flowforge --set forge.domain=example.com > ${{ github.workspace }}/templated_chart.yaml
       
       - name: Install kube-score
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
