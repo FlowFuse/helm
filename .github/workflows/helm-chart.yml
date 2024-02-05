@@ -108,7 +108,7 @@ jobs:
         with:
           directory: ${{ github.workspace }}/helm
           var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
-          skip_path: "*/charts/*"
+          skip_path: "**/charts/**"
           framework: helm
           output_format: cli,sarif
           output_file_path: console,results.sarif
