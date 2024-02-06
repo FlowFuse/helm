@@ -702,6 +702,9 @@
                             "type": "integer"
                         }
                     }
+                },
+                "logPassthrough": {
+                    "type": "boolean"
                 }
             },
             "required": [

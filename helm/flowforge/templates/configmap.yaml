@@ -56,6 +56,9 @@ data:
         {{- if .Values.ingress.certManagerIssuer }}
         certManagerIssuer: {{ .Values.ingress.certManagerIssuer }}
         {{- end }}
+        {{- if .Values.forge.logPassthrough }}
+        logPassthrough: {{ .Values.forge.logPassthrough }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true

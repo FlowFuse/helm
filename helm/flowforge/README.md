@@ -43,6 +43,7 @@ For other values please refer to the documentation below.
  - `forge.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the core application pod (check [here](#liveness-readiness-and-startup-probes) for more details)
  - `forge.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the core application pod (check [here](#liveness-readiness-and-startup-probes) for more details) 
  - `forge.containerSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application container
+ - `forge.logPassthrough` Allows Node-RED Project pods to log in JSON format to standard out, allowing this to be ingested by a logging service (default `false`)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
