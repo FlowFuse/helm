@@ -37,7 +37,7 @@ spec:
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
-                name: {{ .Release.Name }}-postgresql
+                name: {{ include "forge.secretName" . }}
                 key: postgres-password
         volumeMounts:
         - name: upgrade-script
