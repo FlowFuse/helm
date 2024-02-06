@@ -101,6 +101,8 @@ forge:
     successThreshold: 1
     failureThreshold: 3
 
+  logPassthrough: false
+
 postgresql:
   auth:
     postgresPassword: Moomiet0
