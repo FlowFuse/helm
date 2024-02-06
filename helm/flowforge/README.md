@@ -218,7 +218,7 @@ readinessProbe:
 
 ## Upgrading Chart
 
-### Unreleased
+### To 2.1.0
 
 Following database-related values have been removed from the chart:
 
