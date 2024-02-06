@@ -36,7 +36,7 @@ spec:
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
-                name: flowfuse-secrets
+                name: {{ include "forge.applicationSecretName" . }}
                 key: password
       containers:
       - name: forge
