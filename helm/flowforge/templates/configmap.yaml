@@ -26,7 +26,7 @@ data:
       {{- end }}
       user: {{ .Values.postgresql.auth.username }}
       password: <%= ENV['PGPASSWORD'] %>
-      db: {{ .Values.postgresql.auth.database }}
+      database: {{ .Values.postgresql.auth.database }}
       {{- if .Values.postgresql.ssl }}
       ssl: {{ .Values.postgresql.ssl }}
       {{- end }}
