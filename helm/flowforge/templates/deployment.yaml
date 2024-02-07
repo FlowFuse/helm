@@ -3,16 +3,22 @@ kind: Deployment
 metadata:
   name: flowforge
   labels:
-    app: flowforge
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flowforge
+      {{- include "forge.forgeSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: flowforge
+        {{- include "forge.forgeSelectorLabels" . | nindent 8 }}
+        {{- with .Values.forge.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
         prometheus.io/scrape: "true"
