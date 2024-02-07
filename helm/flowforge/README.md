@@ -44,6 +44,8 @@ For other values please refer to the documentation below.
  - `forge.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the core application pod (check [here](#liveness-readiness-and-startup-probes) for more details) 
  - `forge.containerSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application container
  - `forge.logPassthrough` Allows Node-RED Project pods to log in JSON format to standard out, allowing this to be ingested by a logging service (default `false`)
+ - `forge.labels` allows to add custom labels to the core application related objects (e.g. deployment, services, etc.) (default `{}`)
+ - `forge.podLabels` allows to add custom labels to the core application pod (default `{}`)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
@@ -83,6 +85,8 @@ To use STMP to send email
   - `forge.broker.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+  - `forge.broker.labels` allows to add custom labels to the broker related objects (e.g. deployment, services, etc.) (default `{}`)
+  - `forge.broker.podLabels` allows to add custom labels to the broker pod (default `{}`)
 
 ### Telemetry
 
@@ -136,6 +140,8 @@ Enables FlowForge Telemetry
 - `forge.fileStore.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 - `forge.fileStore.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 - `forge.fileStore.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
+- `forge.fileStore.labels` allows to add custom labels to the file-server related objects (e.g. deployment, services, etc.) (default `{}`)
+- `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
 
 ### Private Certificate Authority
 
