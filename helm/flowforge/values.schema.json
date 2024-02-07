@@ -307,6 +307,12 @@
                         },
                         "containerSecurityContext": {
                             "type": "object"
+                        },
+                        "podLabels": {
+                            "type": "object"
+                        },
+                        "labels": {
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -496,6 +502,12 @@
                             }
                         },
                         "containerSecurityContext": {
+                            "type": "object"
+                        },
+                        "podLabels": {
+                            "type": "object"
+                        },
+                        "labels": {
                             "type": "object"
                         }
                     },
@@ -702,6 +714,12 @@
                             "type": "integer"
                         }
                     }
+                },
+                "podLabels": {
+                    "type": "object"
+                },
+                "labels": {
+                    "type": "object"
                 },
                 "logPassthrough": {
                     "type": "boolean"
