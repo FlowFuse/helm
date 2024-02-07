@@ -12,9 +12,15 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'helm/**'
+      - '.github/workflows/helm*'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - 'helm/**'
+      - '.github/workflows/helm*'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
