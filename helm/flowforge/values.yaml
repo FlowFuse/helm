@@ -16,6 +16,8 @@ forge:
     backend:
       prometheus:
         enabled: false
+  labels: {}
+  podLabels: {}
   broker:
     enabled: false
     podSecurityContext:
@@ -36,6 +38,8 @@ forge:
       timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 3
+    labels: {}
+    podLabels: {}
 
   fileStore:
     enabled: false
@@ -57,6 +61,8 @@ forge:
     containerSecurityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: true
+    labels: {}
+    podLabels: {}
 
   support:
     enabled: false
