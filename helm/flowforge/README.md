@@ -26,7 +26,7 @@ For other values please refer to the documentation below.
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
- - `forge.registry` the container registry to find Project templates (default Docker Hub)
+ - `forge.registry` the hostname for the container registry to find Project stacks (default Docker Hub)
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
