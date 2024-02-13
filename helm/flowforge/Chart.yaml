@@ -15,7 +15,7 @@ dependencies:
     condition: forge.localPostgresql
     import-values:
       - child: image
-        parent: postgres.image
+        parent: postgresql.image
 maintainers:
   - name: "FlowForge Inc"
     url: "https://flowforge.com"
