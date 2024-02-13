@@ -164,11 +164,13 @@ data:
           production_mode: true
           {{ end }}
         {{ end -}}
-        {{ if hasKey .Values.forge.telemetry "google" }}
+        {{ if and (hasKey .Values.forge.telemetry "google") (hasKey .Values.forge.telemetry.google "tag") }}
         google:
           tag: {{ .Values.forge.telemetry.google.tag }}
+          {{ if hasKey .Values.forge.telemetry.google "events" }}
           events:
 {{ toYaml .Values.forge.telemetry.google.events | indent 12 }}
+          {{ end }}
         {{ end }}
       {{- end }}
       backend:
