@@ -110,6 +110,8 @@ forge:
   logPassthrough: false
 
 postgresql:
+  image:
+    tag: "14.10.0-debian-11-r30"
   auth:
     postgresPassword: Moomiet0
     username: forge
