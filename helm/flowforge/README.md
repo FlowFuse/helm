@@ -101,7 +101,7 @@ Enables FlowForge Telemetry
  - `forge.telemetry.sentry.production_mode` rate limit reporting (default `true`)
  - `forge.telemetry.sentry.environment` set SENTRY_ENV environment variable, which overrides NODE_ENV for the reported environment (default unset)
  - `forge.telemetry.google.tag` a Google Analytics Tag Account ID (default unset)
- - `forge.telemetry.google.events` an object containing keys matching events to track and values to be included (default unset`)
+ - `forge.telemetry.google.events` an object containing keys matching events to track and values to be included (default unset)
  - `forge.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the forge app for scraping by Prometheus
 
 
