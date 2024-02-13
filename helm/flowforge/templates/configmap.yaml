@@ -164,6 +164,12 @@ data:
           production_mode: true
           {{ end }}
         {{ end -}}
+        {{ if hasKey .Values.forge.telemetry "google" }}
+        google:
+          tag: {{ .Values.forge.telemetry.google.tag }}
+          events:
+{{ toYaml .Values.forge.telemetry.google.events | indent 12 }}
+        {{ end }}
       {{- end }}
       backend:
         {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}
