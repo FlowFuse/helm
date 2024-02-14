@@ -509,6 +509,9 @@
                         },
                         "labels": {
                             "type": "object"
+                        },
+                        "image": {
+                            "type": "string"
                         }
                     },
                     "required": [
