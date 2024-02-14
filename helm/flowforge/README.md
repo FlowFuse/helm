@@ -218,11 +218,11 @@ Note: External secret must contain following keys:
 
 Following values can be used to configure the liveness, readiness and startup probes for all pods:
 
-- `initialDelaySeconds` (default `10`) - number of seconds after the container has started before liveness or readiness probes are initiated
-- `periodSeconds` (default `10`) - how often (in seconds) to perform the probe
-- `timeoutSeconds` (default `5`) - number of seconds after which the probe times out
-- `successThreshold` (default `1`) - minimum consecutive successes for the probe to be considered successful after having failed
-- `failureThreshold` (default `3`) - minimum consecutive failures for the probe to be considered failed after having succeeded
+- `initialDelaySeconds` - number of seconds after the container has started before liveness or readiness probes are initiated
+- `periodSeconds` - how often (in seconds) to perform the probe
+- `timeoutSeconds` - number of seconds after which the probe times out
+- `successThreshold` - minimum consecutive successes for the probe to be considered successful after having failed
+- `failureThreshold` - minimum consecutive failures for the probe to be considered failed after having succeeded
 
 Example for readiness probe:
 ```yaml
