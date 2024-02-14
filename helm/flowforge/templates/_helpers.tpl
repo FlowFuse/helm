@@ -27,24 +27,34 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Forge Selector labels
 */}}
 {{- define "forge.forgeSelectorLabels" -}}
+{{/*
 {{ include "forge.commonSelectorLabels" . }}
 app.kubernetes.io/component: "forge"
+*/}}
+app: flowforge
 {{- end }}
 
 {{/*
 Broker Selector labels
 */}}
+
 {{- define "forge.brokerSelectorLabels" -}}
+{{/* 
 {{ include "forge.commonSelectorLabels" . }}
-app.kubernetes.io/component: "broker"
+app.kubernetes.io/component: "broker"}}
+*/}}
+app: flowforge-broker
 {{- end }}
 
 {{/*
 FileStore Selector labels
 */}}
 {{- define "forge.fileStoreSelectorLabels" -}}
+{{/*
 {{ include "forge.commonSelectorLabels" . }}
 app.kubernetes.io/component: "file-server"
+*/}}
+app: flowforge-file
 {{- end }}
 
 {{/*
