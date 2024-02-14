@@ -362,6 +362,20 @@
                                 }
                             }
                         },
+                        "google": {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string"
+                                },
+                                "events": {
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "tag"
+                            ]
+                        },
                         "backend": {
                             "type": "object",
                             "properties": {
