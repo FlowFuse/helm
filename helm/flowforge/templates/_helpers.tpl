@@ -41,7 +41,7 @@ Broker Selector labels
 {{- define "forge.brokerSelectorLabels" -}}
 {{/* 
 {{ include "forge.commonSelectorLabels" . }}
-app.kubernetes.io/component: "broker"}}
+app.kubernetes.io/component: "broker"
 */}}
 app: flowforge-broker
 {{- end }}
