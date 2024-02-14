@@ -131,6 +131,7 @@ Enables FlowForge Telemetry
 ### File Storage
 
 - `forge.fileStore.enabled` (default `false`)
+- `forge.fileStore.image` supply a fully qualified container image for the File Storage app (default `forge.registry`/flowforge/file-server:<App Version>)
 - `forge.fileStore.type` Choice of backends to store files `localfs` or `s3` (default `localfs`)
 - `forge.fileStore.options` Options to pass to the backend storage driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
 - `forge.fileStore.quota` Sets the maximum number of bytes that a project can store as files (default `104857600`)

@@ -101,7 +101,11 @@ spec:
                 key: password
       containers:
       - name: file-storage
+        {{- if .Values.forge.fileStore.image }}
+        image: {{ .Values.forge.fileStore.image }}
+        {{ else }}
         image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-server:{{ .Chart.AppVersion }}
+        {{end -}}
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
