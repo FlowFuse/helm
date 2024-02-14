@@ -38,6 +38,9 @@ forge:
       timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 3
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
     labels: {}
     podLabels: {}
 
