@@ -29,13 +29,13 @@ forge:
     livenessProbe:
       initialDelaySeconds: 10
       periodSeconds: 10
-      timeoutSeconds: 5
+      timeoutSeconds: 15
       successThreshold: 1
-      failureThreshold: 3
+      failureThreshold: 5
     readinessProbe:
       initialDelaySeconds: 10
       periodSeconds: 10
-      timeoutSeconds: 5
+      timeoutSeconds: 15
       successThreshold: 1
       failureThreshold: 3
     containerSecurityContext:
