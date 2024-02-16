@@ -83,7 +83,7 @@ Get the flowfuse secret object name.
 Get the secret object name with smtp password.
 */}}
 {{- define "forge.smtpSecretName" -}}
-{{- if and .Values.forge.email .Values.forge.email.smtp.existingSecret -}}
+{{- if and .Values.forge.email .Values.forge.email.smtp .Values.forge.email.smtp.existingSecret -}}
     {{- tpl .Values.forge.email.smtp.existingSecret $ -}}
 {{- else -}}
     {{- printf "flowfuse-secrets" -}}
@@ -109,13 +109,13 @@ false
 Create SMTP password 
 */}}
 {{- define "forge.smtpPassword" -}}
-{{- if and .Values.forge.email (not .Values.forge.email.smtp.existingSecret) .Values.forge.email.smtp.password -}}
+{{- if and ( hasKey .Values.forge "email" ) (hasKey .Values.forge.email "smtp") .Values.forge.email.smtp.password -}}
 smtp-password: {{ .Values.forge.email.smtp.password | b64enc | quote}}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Create postgresl passwords
+Create PostgreSQL passwords
 */}}
 {{- define "forge.postgresqlPasswords" -}}
 {{- if not .Values.postgresql.auth.existingSecret -}}
