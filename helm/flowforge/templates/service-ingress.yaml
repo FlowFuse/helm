@@ -3,9 +3,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: forge
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 spec:
   selector:
-    app: flowforge
+    {{- include "forge.forgeSelectorLabels" . | nindent 6 }}
   ports:
   - protocol: TCP
     port: 80
@@ -15,8 +17,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: flowforge-ingress
-  {{- if .Values.ingress.annotations }}
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
   annotations:
+  {{- if .Values.ingress.certManagerIssuer }}
+    cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
+  {{- end }}
+  {{- if .Values.ingress.annotations }}
 {{ toYaml .Values.ingress.annotations |  replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" | indent 4 }}
   {{- end }}
 spec:
@@ -24,7 +31,7 @@ spec:
   ingressClassName: {{ $.Values.ingress.className }}
   {{- end }}
   rules:
-  - host: {{ $forgeHostname}}
+  - host: {{ $forgeHostname }}
     http:
       paths:
       - pathType: Prefix
@@ -34,3 +41,9 @@ spec:
             name: forge
             port:
               number: 80
+  {{- if .Values.ingress.certManagerIssuer }}
+  tls:
+  - hosts:
+    - {{ $forgeHostname }}
+    secretName: {{ $forgeHostname }}
+  {{- end }}

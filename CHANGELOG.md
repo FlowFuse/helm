@@ -1,3 +1,42 @@
+#### 2.1.0: Release
+
+ - fix: Update liveness and readiness probe timeout values for broker pod (#316) @ppawlowski
+ - feat: Allow FileStore image to be set (#314) @hardillb
+ - feat: Add default container security context values for broker container (#313) @ppawlowski
+ - fix: Rollback selector labels for existing deployments (#312) @ppawlowski
+ - feat: Allow to run local postgresql database on ARM nodes (#310) @ppawlowski
+ - feat: Add support for Google Analytics (#311) @hardillb
+ - fix: Only run the job if fileStore is enabled (#309) @hardillb
+ - fix: improve the description of the forge.registry field (#308) @hardillb
+ - fix: Ensure both priave ca certs configmaps have default names (#304) @hardillb
+ - ci: Ignore Helm chart related files in images build pipelines (#303) @ppawlowski
+ - feat: Add consistent labels to all resources created by the Helm chart (#302) @ppawlowski
+ - fix: Fix typo missed in review (#301) @hardillb
+ - feat: Add log passthrough support (#300) @hardillb
+ - chore: Create helm chart `upgrade` documentation (#292) @ppawlowski
+ - feat: Add possibility to provide database credentials as an external secret (#296) @ppawlowski
+ - ci: Do not run checkov against subcharts (#297) @ppawlowski
+ - ci: Run checkov against helm chart directory instead of templated yaml (#294) @ppawlowski
+ - ci: fix helm chart validation pipeline to include subdirectories (#293) @ppawlowski
+ - feat: Keep database credentials in kubernetes secrets (#287) @ppawlowski
+ - feat: Add possibility to configure probes for each pod (#291) @ppawlowski
+ - feat: Add `containerSecurityContext` for each container (#289) @ppawlowski
+ - chore: Update actions used to build release containers (#286) @hardillb
+
+#### 2.0.0: Release
+
+ - Bump included versions @hardillb
+
+#### 2.0.0: Release
+
+ - refactor: rename containers (#272) @hardillb
+ - feat: Helm chart v2 (#279) @ppawlowski
+ - Add support for using cert manager to issue TLS certs (#267) @hardillb
+ - chore: Update GitHub Actions workflows to use v0.4.1 (#277) @ppawlowski
+ - chore: Bump reusable workflows version to `v0.4.0` (#271) @ppawlowski
+ - feat: Deploy to stage from main branch only (#273) @ppawlowski
+ - Introduce helm chart automatic release workflow (#269) @ppawlowski
+
 #### 1.15.0: Release
 
  - Update for new flowfuse npm package (#244) @knolleary

@@ -3,16 +3,22 @@ kind: Deployment
 metadata:
   name: flowforge
   labels:
-    app: flowforge
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flowforge
+      {{- include "forge.forgeSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: flowforge
+        {{- include "forge.forgeSelectorLabels" . | nindent 8 }}
+        {{- with .Values.forge.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
         prometheus.io/scrape: "true"
@@ -22,9 +28,22 @@ spec:
     spec:
       serviceAccountName: flowforge
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        {{- toYaml .Values.forge.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        command: ['sh', '-c', 'erb /tmpl/flowforge.yml > /config/flowforge.yml']
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.applicationSecretName" . }}
+                key: password
       containers:
       - name: forge
         {{- if .Values.forge.image }}
@@ -65,7 +84,7 @@ spec:
         - name: NODE_ENV
           value: production
         volumeMounts:
-        - name: config
+        - name: configdir
           mountPath: /usr/src/forge/etc
         {{- if .Values.forge.privateCA }}
         - name: cacert
@@ -73,10 +92,44 @@ spec:
           readOnly: true
         {{- end }}
         ports:
-        - containerPort: 3000
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+        - containerPort: 3000        
+        {{- if .Values.forge.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: {{ .Values.forge.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: {{ .Values.forge.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: {{ .Values.forge.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.startupProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.resources }}
+        resources: {{- toYaml .Values.forge.resources | nindent 12 }}
+        {{- end }}
+        securityContext: {{- toYaml .Values.forge.containerSecurityContext | nindent 10 }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}
@@ -84,7 +137,9 @@ spec:
       {{- end }}
       {{- end }}
       volumes:
-      - name: config
+      - name: configdir
+        emptyDir: {}
+      - name: configtemplate
         configMap:
           name: flowforge-config
       {{- if .Values.forge.privateCA }}

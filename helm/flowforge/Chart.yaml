@@ -1,6 +1,6 @@
 apiVersion: "v2"
 name: "flowforge"
-version: "1.15.0"
+version: "2.1.0"
 description: "FlowForge"
 type: "application"
 home: "https://flowforge.com"
@@ -10,10 +10,10 @@ keywords:
   - node-red
 dependencies:
   - name: postgresql
-    version: 10.14.0
+    version: 11.9.13
     repository: https://charts.bitnami.com/bitnami
     condition: forge.localPostgresql
 maintainers:
   - name: "FlowForge Inc"
     url: "https://flowforge.com"
-appVersion: "1.15.0"
+appVersion: "2.1.0"

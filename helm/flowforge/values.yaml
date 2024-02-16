@@ -1,7 +1,4 @@
 forge:
-  dbUsername: forge
-  dbPassword: Zai1Wied
-  dbName: flowforge
   localPostgresql: true
   https: true
   projectNamespace: flowforge
@@ -19,8 +16,34 @@ forge:
     backend:
       prometheus:
         enabled: false
+  labels: {}
+  podLabels: {}
   broker:
     enabled: false
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    livenessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 15
+      successThreshold: 1
+      failureThreshold: 5
+    readinessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 15
+      successThreshold: 1
+      failureThreshold: 3
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    labels: {}
+    podLabels: {}
+
   fileStore:
     enabled: false
     type: localfs
@@ -32,10 +55,18 @@ forge:
       quota: 1048576
       options:
         type: postgres
-        host: flowforge-postgresql
-        username: forge
-        password: Zai1Wied
-        database: ff-context
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    labels: {}
+    podLabels: {}
+
   support:
     enabled: false
 
@@ -55,11 +86,40 @@ forge:
     enabled: false
     reportOnly: false
 
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+  logPassthrough: false
+
 postgresql:
-  postgresqlPostgresPassword: Moomiet0
-  postgresqlUsername: forge
-  postgresqlPassword: Zai1Wied
-  postgresqlDatabase: flowforge
+  image:
+    tag: "14.10.0-debian-11-r30"
+  auth:
+    postgresPassword: Moomiet0
+    username: forge
+    password: Zai1Wied
+    database: flowforge
 
 ingress:
   annotations: {}

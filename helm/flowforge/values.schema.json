@@ -1,5 +1,5 @@
 {
-    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema#",
     "properties": {
         "forge": {
             "type": "object",
@@ -28,15 +28,6 @@
                     "items": {
                         "type": "string"
                     }
-                },
-                "dbUsername": {
-                    "type": "string"
-                },
-                "dbPassword": {
-                    "type": "string"
-                },
-                "dbName": {
-                    "type": "string"
                 },
                 "email": {
                     "type": "object",
@@ -93,23 +84,6 @@
                 },
                 "localPostgresql": {
                     "type": "boolean"
-                },
-                "postgres": {
-                    "type": "object",
-                    "properties":{
-                        "host": {
-                            "type": "string"
-                        },
-                        "port": {
-                            "type": "integer"
-                        },
-                        "ssl": {
-                            "type": "boolean"
-                        }
-                    },
-                    "required": [
-                        "host"
-                    ]
                 },
                 "projectNamespace": {
                     "type": "string"
@@ -218,6 +192,127 @@
                         },
                         "affinity": {
                             "type": "object"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "podSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "fsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "localhostProfile": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "livenessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "readinessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "startupProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "containerSecurityContext": {
+                            "type": "object"
+                        },
+                        "podLabels": {
+                            "type": "object"
+                        },
+                        "labels": {
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -267,6 +362,20 @@
                                 }
                             }
                         },
+                        "google": {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string"
+                                },
+                                "events": {
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "tag"
+                            ]
+                        },
                         "backend": {
                             "type": "object",
                             "properties": {
@@ -293,6 +402,130 @@
                         },
                         "options": {
                             "type": "object"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": ["number","string"]
+                                        },
+                                        "memory": {
+                                            "type": ["number","string"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "podSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "fsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "localhostProfile": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "livenessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "readinessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "startupProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "containerSecurityContext": {
+                            "type": "object"
+                        },
+                        "podLabels": {
+                            "type": "object"
+                        },
+                        "labels": {
+                            "type": "object"
+                        },
+                        "image": {
+                            "type": "string"
                         }
                     },
                     "required": [
@@ -383,25 +616,136 @@
                             "description": "Name of cluster role"
                         }
                     }
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "podSecurityContext": {
+                    "type": "object",
+                    "properties": {
+                        "runAsUser": {
+                            "type": "integer"
+                        },
+                        "runAsGroup": {
+                            "type": "integer"
+                        },
+                        "fsGroup": {
+                            "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                },
+                                "localhostProfile": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "containerSecurityContext": {
+                    "type": "object"
+                },
+                "livenessProbe": {
+                    "type": "object",
+                    "properties": {
+                        "failureThreshold": {
+                            "type": "integer"
+                        },
+                        "initialDelaySeconds": {
+                            "type": "integer"
+                        },
+                        "periodSeconds": {
+                            "type": "integer"
+                        },
+                        "successThreshold": {
+                            "type": "integer"
+                        },
+                        "timeoutSeconds": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "readinessProbe": {
+                    "type": "object",
+                    "properties": {
+                        "failureThreshold": {
+                            "type": "integer"
+                        },
+                        "initialDelaySeconds": {
+                            "type": "integer"
+                        },
+                        "periodSeconds": {
+                            "type": "integer"
+                        },
+                        "successThreshold": {
+                            "type": "integer"
+                        },
+                        "timeoutSeconds": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "startupProbe": {
+                    "type": "object",
+                    "properties": {
+                        "failureThreshold": {
+                            "type": "integer"
+                        },
+                        "initialDelaySeconds": {
+                            "type": "integer"
+                        },
+                        "periodSeconds": {
+                            "type": "integer"
+                        },
+                        "successThreshold": {
+                            "type": "integer"
+                        },
+                        "timeoutSeconds": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "podLabels": {
+                    "type": "object"
+                },
+                "labels": {
+                    "type": "object"
+                },
+                "logPassthrough": {
+                    "type": "boolean"
                 }
             },
             "required": [
                 "domain",
-                "dbUsername",
-                "dbPassword"
-            ],
-            "if": {
-                "properties": {
-                    "localPostgresql": {
-                        "enum": [ false ]
-                    }
-                }
-            },
-            "then": {
-                "required": [
-                    "postgres"
-                ]
-            }
+                "localPostgresql"
+            ]
         },
         "ingress": {
             "type": "object",
@@ -411,6 +755,9 @@
                     "minProperties": 0
                 },
                 "className": {
+                    "type": "string"
+                },
+                "certManagerIssuer": {
                     "type": "string"
                 }
             }
@@ -437,10 +784,68 @@
                 }
             },
             "required": ["serviceAccount"]
+        },
+        "postgresql": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "ssl": {
+                    "type": "boolean"
+                },
+                "auth": {
+                    "type": "object",
+                    "properties": {
+                        "username": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "database": {
+                            "type": "string"
+                        },
+                        "postgresPassword": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["username", "password", "database"]
+                }
+            }
+        }
+    },
+    "if": {
+        "properties": {
+            "forge": {
+                "properties": {
+                    "localPostgresql": {
+                        "const": false
+                    }
+                }
+            }
+        }
+    },
+    "then": {
+        "properties": {
+            "postgresql": {
+                "required": ["host","auth"]
+            }
+        }
+    },
+    "else": {
+        "properties": {
+            "postgresql": {
+                "required": ["auth"]
+            }
         }
     },
     "required": [
-        "forge"
+        "forge",
+        "postgresql"
     ],
     "title": "Values",
     "type": "object"

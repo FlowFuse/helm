@@ -3,6 +3,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: flowforge-file-config
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 data:
   flowforge-storage.yml: |
     host: '0.0.0.0'
@@ -23,8 +25,20 @@ data:
       {{- if .Values.forge.fileStore.context.quota }}
       quota: {{ .Values.forge.fileStore.context.quota }}
       {{- end }}
+      {{- if .Values.forge.fileStore.context.options }}
       options:
-{{ toYaml .Values.forge.fileStore.context.options | indent 8 -}}
+        type: {{ .Values.forge.fileStore.context.options.type }}
+        {{- if eq .Values.forge.fileStore.context.options.type "postgres" }}
+        host: {{ .Values.postgresql.host | default (print .Release.Name "-postgresql") }}
+        port: {{ .Values.postgresql.port | default 5432 }}
+        username: {{ .Values.postgresql.auth.username }}
+        database: ff-context
+        password: <%= ENV['PGPASSWORD'] %>
+        {{- end }}
+        {{- if eq .Values.forge.fileStore.context.options.type "sqlite" }}
+        storage: {{ .Values.forge.fileStore.context.options.storage }}
+        {{- end }}
+      {{- end }}
     {{- end }}
     logging:
       level: info
@@ -36,6 +50,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: file-storage-pvc
   namespace: {{ .Release.Namespace }}
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 spec:
   accessModes:
     - ReadWriteOnce
@@ -49,30 +65,53 @@ kind: Deployment
 metadata:
   name: flowforge-file
   labels:
-    app: flowforge-file
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.fileStore.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
-      app: flowforge-file
+      {{- include "forge.fileStoreSelectorLabels" . | nindent 6 }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: flowforge-file
+        {{- include "forge.fileStoreSelectorLabels" . | nindent 8 }}
+        {{- with .Values.forge.fileStore.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        command: ['sh', '-c', 'erb /tmpl/flowforge-storage.yml > /config/flowforge-storage.yml' ]
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.applicationSecretName" . }}
+                key: password
       containers:
       - name: file-storage
-        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/file-server:{{ .Chart.AppVersion }}
+        {{- if .Values.forge.fileStore.image }}
+        image: {{ .Values.forge.fileStore.image }}
+        {{ else }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-server:{{ .Chart.AppVersion }}
+        {{end -}}
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
           value: production
         volumeMounts:
-        - name: config
+        - name: configdir
           mountPath: /usr/src/flowforge-file-server/etc
         {{ if eq .Values.forge.fileStore.type "localfs" -}}
         - name: root
@@ -80,9 +119,43 @@ spec:
         {{ end -}}
         ports:
         - containerPort: 3001
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+        {{- if .Values.forge.fileStore.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.fileStore.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.fileStore.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.startupProbe.failureThreshold }}
+        {{- end }}
+        securityContext: {{- toYaml .Values.forge.fileStore.containerSecurityContext | nindent 10 }}
+        {{- if .Values.forge.fileStore.resources }}
+        resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
+        {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}
@@ -90,7 +163,9 @@ spec:
       {{- end }}
       {{- end }}
       volumes:
-      - name: config
+      - name: configdir
+        emptyDir: {}
+      - name: configtemplate
         configMap: 
           name: flowforge-file-config
       {{ if eq .Values.forge.fileStore.type "localfs" -}}
@@ -109,6 +184,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: flowforge-file
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 spec:
   ports:
   - port: 80
@@ -116,5 +193,5 @@ spec:
     protocol: TCP
     name: web
   selector:
-    app: flowforge-file
+    {{- include "forge.fileStoreSelectorLabels" . | nindent 4 }}
 {{- end -}}

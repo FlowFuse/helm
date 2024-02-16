@@ -3,10 +3,10 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: postgres-service
+  {{- include "forge.labels" . | nindent 4 }}
   name: {{ .Release.Name }}-postgresql
 spec:
-  externalName: {{ .Values.forge.postgres.host }}
+  externalName: {{ .Values.postgresql.host }}
   type: ExternalName
 status:
   loadBalancer: {}
@@ -18,6 +18,8 @@ kind: NetworkPolicy
 metadata:
   name: flowforge-database-policy
   namespace: {{ .Release.Namespace }}
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 spec:
   podSelector:
     matchLabels:
@@ -39,6 +41,8 @@ kind: NetworkPolicy
 metadata:
   name: flowforge-database-policy
   namespace: {{ .Release.Namespace }}
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 spec:
   podSelector:
     matchLabels:
@@ -50,8 +54,8 @@ spec:
     - from:
       - podSelector:
           matchLabels:
-            app: flowforge
+            {{- include "forge.forgeSelectorLabels" . | nindent 12 }}
       - podSelector:
           matchLabels:
-            app: flowforge-file
+            {{- include "forge.fileStoreSelectorLabels" . | nindent 12 }}
 {{- end }}

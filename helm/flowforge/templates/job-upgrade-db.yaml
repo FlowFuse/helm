@@ -1,8 +1,10 @@
-{{- if and .Values.forge.fileStore.context .Values.forge.localPostgresql -}}
+{{- if and .Values.forge.fileStore.enabled .Values.forge.localPostgresql -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: upgrade.sh
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
 data:
   upgrade.sh: |
     #!/bin/sh
@@ -18,6 +20,7 @@ kind: Job
 metadata:
   name: {{ .Release.Name }}-db-upgrade
   labels:
+  {{- include "forge.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": post-upgrade,post-install
     "helm.sh/hook-weight": "-5"
@@ -37,8 +40,8 @@ spec:
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
-                name: {{ .Release.Name }}-postgresql
-                key: postgresql-postgres-password
+                name: {{ include "forge.secretName" . }}
+                key: postgres-password
         volumeMounts:
         - name: upgrade-script
           mountPath: /usr/local
