@@ -78,3 +78,14 @@ Get the flowfuse secret object name.
     {{- printf "flowfuse-secrets" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Get the database host name.
+*/}}
+{{- define "forge.databaseHost" -}}
+{{- if not .Values.postgresql.host -}}
+    {{- printf "%s-%s" .Release.Name "postgresql" }}
+{{- else -}}
+    {{- .Values.postgresql.host }}
+{{- end -}}
+{{- end -}}
