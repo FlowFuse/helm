@@ -20,6 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
         prometheus.io/scrape: "true"
         prometheus.io/port: "3000"

@@ -1,49 +1,4 @@
 {{- if .Values.forge.fileStore.enabled -}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: flowforge-file-config
-  labels:
-  {{- include "forge.labels" . | nindent 4 }}
-data:
-  flowforge-storage.yml: |
-    host: '0.0.0.0'
-    port: 3001
-    base_url: http://forge.{{ .Release.Namespace }}
-    driver:
-      type: {{ .Values.forge.fileStore.type }}
-      {{- if .Values.forge.fileStore.quota }}
-      quota: {{ .Values.forge.fileStore.quota }}
-      {{- end }}
-      {{- if .Values.forge.fileStore.options }}
-      options:
-{{ toYaml .Values.forge.fileStore.options | indent 8 -}}
-      {{- end }}
-    {{- if .Values.forge.fileStore.context }}
-    context:
-      type: {{ .Values.forge.fileStore.context.type }}
-      {{- if .Values.forge.fileStore.context.quota }}
-      quota: {{ .Values.forge.fileStore.context.quota }}
-      {{- end }}
-      {{- if .Values.forge.fileStore.context.options }}
-      options:
-        type: {{ .Values.forge.fileStore.context.options.type }}
-        {{- if eq .Values.forge.fileStore.context.options.type "postgres" }}
-        host: {{ .Values.postgresql.host | default (print .Release.Name "-postgresql") }}
-        port: {{ .Values.postgresql.port | default 5432 }}
-        username: {{ .Values.postgresql.auth.username }}
-        database: ff-context
-        password: <%= ENV['PGPASSWORD'] %>
-        {{- end }}
-        {{- if eq .Values.forge.fileStore.context.options.type "sqlite" }}
-        storage: {{ .Values.forge.fileStore.context.options.storage }}
-        {{- end }}
-      {{- end }}
-    {{- end }}
-    logging:
-      level: info
-      http: info
----
 {{ if eq .Values.forge.fileStore.type "localfs" }}
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -81,6 +36,8 @@ spec:
         {{- with .Values.forge.fileStore.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/file-storage-configmap.yaml") . | sha256sum }}
     spec:
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
