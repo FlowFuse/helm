@@ -9,7 +9,7 @@ data:
   upgrade.sh: |
     #!/bin/sh
     apk add --no-cache postgresql14-client
-    psql -v ON_ERROR_STOP=1 -h {{ .Release.Name }}-postgresql -U postgres postgres <<-ESQL
+    psql -v ON_ERROR_STOP=1 -h {{ include "forge.databaseHost" . }} -U postgres postgres <<-ESQL
     SELECT datname FROM pg_database WHERE datistemplate = false;
     SELECT 'CREATE DATABASE "ff-context"' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'ff-context')\gexec
     GRANT ALL PRIVILEGES ON DATABASE "ff-context" TO "forge";
