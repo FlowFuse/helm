@@ -87,6 +87,12 @@ To use STMP to send email
   - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.labels` allows to add custom labels to the broker related objects (e.g. deployment, services, etc.) (default `{}`)
   - `forge.broker.podLabels` allows to add custom labels to the broker pod (default `{}`)
+  - `forge.broker.ingress.annotations` broker ingress annotations (default is `{}`)
+
+`forge.broker.ingress.annotations` values can contain the following tokens that will be replaced as follows:
+
+  - `{{ instanceHost }}` replaced by the hostname of the instance
+  - `{{ serviceName }}` replaced by the service name of the instance
 
 ### Telemetry
 
