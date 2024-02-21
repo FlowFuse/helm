@@ -313,6 +313,15 @@
                         },
                         "labels": {
                             "type": "object"
+                        },
+                        "ingress": {
+                            "type": "object",
+                            "properties": {
+                                "annotations": {
+                                    "type": "object",
+                                    "minProperties": 0
+                                }
+                            }
                         }
                     },
                     "required": [
