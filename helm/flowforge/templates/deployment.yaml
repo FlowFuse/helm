@@ -44,6 +44,12 @@ spec:
               secretKeyRef:
                 name: {{ include "forge.applicationSecretName" . }}
                 key: password
+          - name: SMTPPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.smtpSecretName" . }}
+                key: smtp-password
+                optional: true
       containers:
       - name: forge
         {{- if .Values.forge.image }}
