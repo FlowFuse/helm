@@ -45,12 +45,18 @@ spec:
               secretKeyRef:
                 name: {{ include "forge.applicationSecretName" . }}
                 key: password
+          - name: SMTPPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.smtpSecretName" . }}
+                key: smtp-password
+                optional: true
       containers:
       - name: forge
         {{- if .Values.forge.image }}
         image: {{ .Values.forge.image }}
         {{ else }}
-        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/forge-k8s:{{ .Chart.AppVersion }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/forge-k8s:{{ .Chart.AppVersion }}
         {{ end -}}
         imagePullPolicy: Always
         env:

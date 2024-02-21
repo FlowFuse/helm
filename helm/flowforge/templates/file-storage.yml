@@ -61,7 +61,7 @@ spec:
         {{- if .Values.forge.fileStore.image }}
         image: {{ .Values.forge.fileStore.image }}
         {{ else }}
-        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/file-server:{{ .Chart.AppVersion }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/file-server:{{ .Chart.AppVersion }}
         {{end -}}
         imagePullPolicy: Always
         env:

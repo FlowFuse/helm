@@ -52,6 +52,9 @@
                                 },
                                 "password": {
                                     "type": "string"
+                                },
+                                "existingSecret": {
+                                    "type": "string"
                                 }
                             },
                             "required": [

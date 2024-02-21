@@ -75,7 +75,7 @@ data:
         {{- if or ( .Values.forge.email.smtp.user ) ( .Values.forge.email.smtp.password ) }}
         auth:
           user: {{ .Values.forge.email.smtp.user }}
-          pass: {{ .Values.forge.email.smtp.password }}
+          pass: <%= ENV['SMTPPASSWORD'] %>
         {{- end }}
     {{- end }}
     {{- if .Values.forge.email.ses }}
