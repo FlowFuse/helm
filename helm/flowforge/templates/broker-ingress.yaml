@@ -1,5 +1,5 @@
 {{- if .Values.forge.broker.enabled -}}
-{{- $brokerHostname := or (.Values.forge.entryPoint) (printf "%s%s" "mqtt." .Values.forge.domain) -}}
+{{- $brokerHostname := (printf "%s%s" "mqtt." .Values.forge.domain) -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
