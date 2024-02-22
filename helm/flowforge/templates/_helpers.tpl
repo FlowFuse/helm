@@ -78,3 +78,59 @@ Get the flowfuse secret object name.
     {{- printf "flowfuse-secrets" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Get the database host name.
+*/}}
+{{- define "forge.databaseHost" -}}
+{{- if not .Values.postgresql.host -}}
+    {{- printf "%s-%s" .Release.Name "postgresql" }}
+{{- else -}}
+    {{- .Values.postgresql.host }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the secret object name with smtp password.
+*/}}
+{{- define "forge.smtpSecretName" -}}
+{{- if and .Values.forge.email .Values.forge.email.smtp .Values.forge.email.smtp.existingSecret -}}
+    {{- tpl .Values.forge.email.smtp.existingSecret $ -}}
+{{- else -}}
+    {{- printf "flowfuse-secrets" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Define if secret object should be created
+
+Note: The value for key .Values.postgresql.auth.existingSecret is inherited from sub-chart.
+*/}}
+
+{{- define "forge.createSecret" -}}
+{{- if not (and .Values.postgresql.auth.existingSecret 
+    (not (and .Values.forge.email (not .Values.forge.email.smtp.existingSecret)))) -}}
+true
+{{- else -}}
+false
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create SMTP password 
+*/}}
+{{- define "forge.smtpPassword" -}}
+{{- if and ( hasKey .Values.forge "email" ) (hasKey .Values.forge.email "smtp") .Values.forge.email.smtp.password -}}
+smtp-password: {{ .Values.forge.email.smtp.password | b64enc | quote}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create PostgreSQL passwords
+*/}}
+{{- define "forge.postgresqlPasswords" -}}
+{{- if not .Values.postgresql.auth.existingSecret -}}
+password: {{ .Values.postgresql.auth.password | b64enc | quote }}
+postgres-password: {{ .Values.postgresql.auth.postgresPassword | b64enc | quote }}
+{{- end -}}
+{{- end -}}
