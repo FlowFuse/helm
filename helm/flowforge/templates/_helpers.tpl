@@ -80,6 +80,17 @@ Get the flowfuse secret object name.
 {{- end -}}
 
 {{/*
+Get the database host name.
+*/}}
+{{- define "forge.databaseHost" -}}
+{{- if not .Values.postgresql.host -}}
+    {{- printf "%s-%s" .Release.Name "postgresql" }}
+{{- else -}}
+    {{- .Values.postgresql.host }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Get the secret object name with smtp password.
 */}}
 {{- define "forge.smtpSecretName" -}}

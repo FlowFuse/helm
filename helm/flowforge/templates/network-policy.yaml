@@ -1,16 +1,4 @@
 {{- if not .Values.forge.localPostgresql }}
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-  {{- include "forge.labels" . | nindent 4 }}
-  name: {{ .Release.Name }}-postgresql
-spec:
-  externalName: {{ .Values.postgresql.host }}
-  type: ExternalName
-status:
-  loadBalancer: {}
----
 {{- if .Values.forge.cloudProvider }}
 {{- if eq .Values.forge.cloudProvider "aws" }}
 apiVersion: networking.k8s.io/v1

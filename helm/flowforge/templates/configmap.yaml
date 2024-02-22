@@ -20,7 +20,7 @@ data:
     api_url: http://forge.{{ .Release.Namespace }}
     db:
       type: postgres
-      host: {{ .Release.Name }}-postgresql
+      host: {{ include "forge.databaseHost" . }}
       {{- if and (not .Values.forge.localPostgresql) (.Values.postgresql) }}
       port: {{ .Values.postgresql.port | default 5432 }}
       {{- end }}
