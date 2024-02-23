@@ -43,6 +43,7 @@ forge:
       readOnlyRootFilesystem: true
     labels: {}
     podLabels: {}
+    ingress.annotations: {}
 
   fileStore:
     enabled: false

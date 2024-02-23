@@ -1,5 +1,4 @@
 {{- if .Values.forge.broker.enabled -}}
-{{- $brokerHostname := or (.Values.forge.entryPoint) (printf "%s%s" "mqtt." .Values.forge.domain) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -163,53 +162,4 @@ spec:
     name: mqtt-ws
   selector:
     {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: flowforge-broker
-  labels:
-    {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
-  annotations:
-  {{- if .Values.ingress.certManagerIssuer }}
-    cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
-  {{- end }}
-  {{- if .Values.ingress.annotations }}
-{{ toYaml .Values.ingress.annotations | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
-  {{- end }}
-spec:
-  {{- if $.Values.ingress.className }}
-  ingressClassName: {{ $.Values.ingress.className }}
-  {{- end }}
-  rules:
-    - host: mqtt.{{ .Values.forge.domain }}
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: flowforge-broker
-                port:
-                  number: 1884
-  {{- if .Values.ingress.certManagerIssuer }}
-  tls:
-  - hosts:
-    - mqtt.{{ .Values.forge.domain }}
-    secretName: mqtt.{{ .Values.forge.domain }}
-  {{- end }}
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: flowforge-broker-native
-# spec:
-#   type: LoadBalancer
-#   ports:
-#   - port: 1883
-#     targetPort: mqtt-native
-#     protocol: TCP
-#     name: mqtt-native
-#   selector:
-#     app: flowforge-broker
 {{- end -}}
