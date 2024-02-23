@@ -1,3 +1,5 @@
+remote: origin
+target-branch: main
 charts:
   - ./helm/flowforge
 validate-maintainers: false
