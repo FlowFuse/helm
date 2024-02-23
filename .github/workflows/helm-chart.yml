@@ -53,8 +53,8 @@ jobs:
             kubectl label --overwrite $node "role=management"
           done
 
-      - name: Run chart-testing (install)
-        run: ct install --config ./.github/configs/chart-testing.yaml
+      - name: Run chart-testing (install and upgrade)
+        run: ct install --upgrade --config ./.github/configs/chart-testing.yaml
   
   validate:
     name: Validate chart against kubernetes API
