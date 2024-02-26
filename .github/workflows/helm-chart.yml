@@ -52,18 +52,21 @@ jobs:
           for node in $(kubectl get nodes -o name); do
             kubectl label --overwrite $node "role=management"
           done
-      
-      - name: Set application version
-        run: |
-          echo APP_VERSION=$(helm show chart ./helm/flowforge | awk -F': ' '/appVersion/ {print $2}') >> $GITHUB_ENV
 
-      - name: Wait for application public image
-        uses: PaulLesur/wait-docker-image-github-action@v1.0
-        with:
-          image: docker.io/flowfuse/forge-k8s
-          tag: ${{ env.APP_VERSION }}
-          timeout: 300
-          fail-on-timeout: true
+      - name: Wait for forge application public image
+        run: |
+          IMAGE="flowfuse/forge-k8s:${{ env.APP_VERSION }}"
+          TAG=$(helm show chart ./helm/flowforge | awk -F': ' '/appVersion/ {print $2}')
+          ATTEMPTS=0
+          until docker pull $IMAGE:$TAG || [ $ATTEMPTS -eq 10 ]; do
+            ATTEMPTS=$((ATTEMPTS+1))
+            echo "Attempt $ATTEMPTS failed! Trying again in 30 seconds..."
+            sleep 30
+          done
+          if [ $ATTEMPTS -eq 10 ]; then
+            echo "Failed to pull $IMAGE:$TAG after $ATTEMPTS attempts!"
+            exit 1
+          fi
 
       - name: Run chart-testing (install and upgrade)
         run: ct install --upgrade --config ./.github/configs/chart-testing.yaml
