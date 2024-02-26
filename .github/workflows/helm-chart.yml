@@ -60,7 +60,7 @@ jobs:
       - name: Wait for application public image
         uses: PaulLesur/wait-docker-image-github-action@v1.0
         with:
-          image: flowfuse/forge-k8s
+          image: docker.io/flowfuse/forge-k8s
           tag: ${{ env.APP_VERSION }}
           timeout: 300
           fail-on-timeout: true
