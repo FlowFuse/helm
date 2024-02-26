@@ -53,6 +53,7 @@ jobs:
             kubectl label --overwrite $node "role=management"
           done
 
+
       - name: Wait for forge application public image
         run: |
           IMAGE="flowfuse/forge-k8s:${{ env.APP_VERSION }}"
