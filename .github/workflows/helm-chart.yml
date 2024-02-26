@@ -56,7 +56,7 @@ jobs:
 
       - name: Wait for forge application public image
         run: |
-          IMAGE="flowfuse/forge-k8s:${{ env.APP_VERSION }}"
+          IMAGE="flowfuse/forge-k8s"
           TAG=$(helm show chart ./helm/flowforge | awk -F': ' '/appVersion/ {print $2}')
           ATTEMPTS=0
           until docker pull $IMAGE:$TAG || [ $ATTEMPTS -eq 10 ]; do
