@@ -1,4 +1,4 @@
-{{- if .Values.forge.projectNetworkPolicy.enabled }}
+{{- if .Values.forge.projectNetworkPolicy.enabled | default false }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
