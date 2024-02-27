@@ -94,6 +94,20 @@
                 "projectSelector": {
                     "type": "object"
                 },
+                "projectNetworkPolicy": {
+                    "type": "object",
+                    "properties": {
+                        "egress": {
+                            "type": "array"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "ingress": {
+                            "type": "array"
+                        }
+                    }
+                },
                 "projectDeploymentTolerations": {
                     "type": "array",
                     "items": {
