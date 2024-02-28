@@ -39,6 +39,10 @@ spec:
             mountPath: /tmpl
           - name: configdir
             mountPath: /config
+        securityContext:
+          capabilities:
+            drop:
+              - ALL
         env:
           - name: PGPASSWORD
             valueFrom:
