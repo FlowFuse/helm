@@ -1,3 +1,14 @@
+#### 2.1.1: Release
+
+ - ci: Wait for forge app public image to become available (#329) @ppawlowski
+ - ci: Update containers build/deploy reusable workflows to `v0.5.1` (#328) @ppawlowski
+ - ci: Bump workflows to `v0.5.0` (#327) @ppawlowski
+ - ci: Test helm chart upgrade process against version in `main` branch (#325) @ppawlowski
+ - feat: Add possibility to configure unique annotations for each ingress object (#324) @ppawlowski
+ - fix: Removal of redundant service used for communication with database (#323) @ppawlowski
+ - fix: Keep e-mail password in secret object (#321) @ppawlowski
+ - refactor: Container rename 2 (#274) @hardillb
+ 
 #### 2.1.0: Release
 
  - fix: Update liveness and readiness probe timeout values for broker pod (#316) @ppawlowski
