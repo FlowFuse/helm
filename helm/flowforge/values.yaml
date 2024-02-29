@@ -97,6 +97,9 @@ forge:
   containerSecurityContext:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
 
   livenessProbe:
     initialDelaySeconds: 10
