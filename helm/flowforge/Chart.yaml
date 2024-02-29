@@ -1,10 +1,10 @@
 apiVersion: "v2"
 name: "flowforge"
-version: "2.0.1"
-description: "FlowForge"
+version: "2.1.1"
+description: "FlowFuse"
 type: "application"
-home: "https://flowforge.com"
-icon: "https://flowforge.com/apple-touch-icon.png"
+home: "https://flowfuse.com"
+icon: "https://flowfuse.com/apple-touch-icon.png"
 keywords:
   - flowforge
   - node-red
@@ -18,5 +18,5 @@ dependencies:
         parent: postgresql.image
 maintainers:
   - name: "FlowForge Inc"
-    url: "https://flowforge.com"
-appVersion: "2.0.1"
+    url: "https://flowfuse.com"
+appVersion: "2.1.1"

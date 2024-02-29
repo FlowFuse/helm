@@ -26,16 +26,19 @@ For other values please refer to the documentation below.
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` if the admin app is hosted on a different domain
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
- - `forge.registry` the container registry to find Project templates (default Docker Hub)
+ - `forge.registry` the hostname for the container registry to find Project stacks (default Docker Hub)
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
+ - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
+ - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
+ - `forge.projectNetworkPolicy.enabled` specified if [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) should be created for project pods ( default `false`)
+ - `forge.projectNetworkPolicy.ingress` a list of ingress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied on project pods ( default `[]`)
+ - `forge.projectNetworkPolicy.egress` a list of egress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied in project pods ( default `[]`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the core application pod
- - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.license` FlowForge EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
- - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
  - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  - `forge.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the core application container
  - `forge.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application pod
@@ -68,6 +71,10 @@ To use STMP to send email
  - `forge.email.smtp.tls` (default `false`)
  - `forge.email.smtp.user` If no set no credentials passed (required if password set)
  - `forge.email.smtp.password` (required if user set)
+ - `forge.email.smtp.existingSecret` the name of an Kubernetes secret object with email credentials (If `forge.email.smtp.existingSecret` is set, `forge.email.smtp.password` value is ignored; default not set)
+
+ Note: External secret must contain following keys:
+- `smtp-password` - the password to use to connect to the database (equivalent to `forge.email.smtp.password` key)
 
  To use AWS SES to send email
 
@@ -87,6 +94,12 @@ To use STMP to send email
   - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.labels` allows to add custom labels to the broker related objects (e.g. deployment, services, etc.) (default `{}`)
   - `forge.broker.podLabels` allows to add custom labels to the broker pod (default `{}`)
+  - `forge.broker.ingress.annotations` broker ingress annotations (default is `{}`)
+
+`forge.broker.ingress.annotations` values can contain the following tokens that will be replaced as follows:
+
+  - `{{ instanceHost }}` replaced by the hostname of the instance
+  - `{{ serviceName }}` replaced by the service name of the instance
 
 ### Telemetry
 
@@ -100,7 +113,10 @@ Enables FlowForge Telemetry
  - `forge.telemetry.sentry.backend_dsn` enables sentry reporting if set (default unset)
  - `forge.telemetry.sentry.production_mode` rate limit reporting (default `true`)
  - `forge.telemetry.sentry.environment` set SENTRY_ENV environment variable, which overrides NODE_ENV for the reported environment (default unset)
+ - `forge.telemetry.google.tag` a Google Analytics Tag Account ID (default unset)
+ - `forge.telemetry.google.events` an object containing keys matching events to track and values to be included (default unset)
  - `forge.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the forge app for scraping by Prometheus
+
 
  ### Support
 
@@ -128,6 +144,7 @@ Enables FlowForge Telemetry
 ### File Storage
 
 - `forge.fileStore.enabled` (default `false`)
+- `forge.fileStore.image` supply a fully qualified container image for the File Storage app (default `forge.registry`/flowforge/file-server:<App Version>)
 - `forge.fileStore.type` Choice of backends to store files `localfs` or `s3` (default `localfs`)
 - `forge.fileStore.options` Options to pass to the backend storage driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
 - `forge.fileStore.quota` Sets the maximum number of bytes that a project can store as files (default `104857600`)
@@ -214,11 +231,11 @@ Note: External secret must contain following keys:
 
 Following values can be used to configure the liveness, readiness and startup probes for all pods:
 
-- `initialDelaySeconds` (default `10`) - number of seconds after the container has started before liveness or readiness probes are initiated
-- `periodSeconds` (default `10`) - how often (in seconds) to perform the probe
-- `timeoutSeconds` (default `5`) - number of seconds after which the probe times out
-- `successThreshold` (default `1`) - minimum consecutive successes for the probe to be considered successful after having failed
-- `failureThreshold` (default `3`) - minimum consecutive failures for the probe to be considered failed after having succeeded
+- `initialDelaySeconds` - number of seconds after the container has started before liveness or readiness probes are initiated
+- `periodSeconds` - how often (in seconds) to perform the probe
+- `timeoutSeconds` - number of seconds after which the probe times out
+- `successThreshold` - minimum consecutive successes for the probe to be considered successful after having failed
+- `failureThreshold` - minimum consecutive failures for the probe to be considered failed after having succeeded
 
 Example for readiness probe:
 ```yaml

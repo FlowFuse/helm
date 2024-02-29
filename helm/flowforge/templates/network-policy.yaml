@@ -1,41 +1,4 @@
-{{- if not .Values.forge.localPostgresql }}
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-  {{- include "forge.labels" . | nindent 4 }}
-  name: {{ .Release.Name }}-postgresql
-spec:
-  externalName: {{ .Values.postgresql.host }}
-  type: ExternalName
-status:
-  loadBalancer: {}
----
-{{- if .Values.forge.cloudProvider }}
-{{- if eq .Values.forge.cloudProvider "aws" }}
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: flowforge-database-policy
-  namespace: {{ .Release.Namespace }}
-  labels:
-  {{- include "forge.labels" . | nindent 4 }}
-spec:
-  podSelector:
-    matchLabels:
-      nodered: "true"
-      role: projects
-  policyTypes:
-  - Egress
-  egress:
-  - to:
-    - ipBlock:
-        cidr: 0.0.0.0/0
-        except:
-        - 10.0.0.0/24
-{{- end }}
-{{- end }}
-{{- else }}
+{{- if .Values.forge.localPostgresql }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:

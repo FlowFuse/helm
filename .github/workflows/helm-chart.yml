@@ -53,8 +53,23 @@ jobs:
             kubectl label --overwrite $node "role=management"
           done
 
-      - name: Run chart-testing (install)
-        run: ct install --config ./.github/configs/chart-testing.yaml
+      - name: Wait for forge application public image
+        run: |
+          IMAGE="flowfuse/forge-k8s"
+          TAG=$(helm show chart ./helm/flowforge | awk -F': ' '/appVersion/ {print $2}')
+          ATTEMPTS=0
+          until docker manifest inspect $IMAGE:$TAG || [ $ATTEMPTS -eq 10 ]; do
+            ATTEMPTS=$((ATTEMPTS+1))
+            echo "Attempt $ATTEMPTS failed! Trying again in 30 seconds..."
+            sleep 30
+          done
+          if [ $ATTEMPTS -eq 10 ]; then
+            echo "Failed to inspect remote $IMAGE:$TAG after $ATTEMPTS attempts!"
+            exit 1
+          fi
+
+      - name: Run chart-testing (install and upgrade)
+        run: ct install --upgrade --config ./.github/configs/chart-testing.yaml
   
   validate:
     name: Validate chart against kubernetes API

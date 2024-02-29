@@ -5,10 +5,8 @@ forge:
   projectSelector:
     role: projects
   projectDeploymentTolerations: []
-  #    - key: purpose
-  #      operator: Equal
-  #      value: flowforge-projects
-  #      effect: NoSchedule
+  projectNetworkPolicy:
+    enabled: false
   managementSelector:
     role: management
   telemetry:
@@ -29,17 +27,21 @@ forge:
     livenessProbe:
       initialDelaySeconds: 10
       periodSeconds: 10
-      timeoutSeconds: 5
+      timeoutSeconds: 15
       successThreshold: 1
-      failureThreshold: 3
+      failureThreshold: 5
     readinessProbe:
       initialDelaySeconds: 10
       periodSeconds: 10
-      timeoutSeconds: 5
+      timeoutSeconds: 15
       successThreshold: 1
       failureThreshold: 3
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
     labels: {}
     podLabels: {}
+    ingress.annotations: {}
 
   fileStore:
     enabled: false
@@ -110,6 +112,8 @@ forge:
   logPassthrough: false
 
 postgresql:
+  image:
+    tag: "14.10.0-debian-11-r30"
   auth:
     postgresPassword: Moomiet0
     username: forge

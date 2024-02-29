@@ -1,0 +1,37 @@
+{{- if .Values.forge.broker.enabled -}}
+{{- $brokerHostname := (printf "%s%s" "mqtt." .Values.forge.domain) -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flowforge-broker
+  labels:
+    {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
+  annotations:
+  {{- if .Values.ingress.certManagerIssuer }}
+    cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
+  {{- end }}
+  {{- if and .Values.forge.broker.enabled .Values.forge.broker.ingress (hasKey .Values.forge.broker.ingress "annotations") }}
+{{ toYaml .Values.forge.broker.ingress.annotations | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
+  {{- end }}
+spec:
+  {{- if $.Values.ingress.className }}
+  ingressClassName: {{ $.Values.ingress.className }}
+  {{- end }}
+  rules:
+    - host: mqtt.{{ .Values.forge.domain }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: flowforge-broker
+                port:
+                  number: 1884
+  {{- if .Values.ingress.certManagerIssuer }}
+  tls:
+  - hosts:
+    - mqtt.{{ .Values.forge.domain }}
+    secretName: mqtt.{{ .Values.forge.domain }}
+  {{- end }}
+{{- end }}

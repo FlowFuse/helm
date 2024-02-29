@@ -20,6 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
         prometheus.io/scrape: "true"
         prometheus.io/port: "3000"
@@ -38,18 +39,28 @@ spec:
             mountPath: /tmpl
           - name: configdir
             mountPath: /config
+        securityContext:
+          capabilities:
+            drop:
+              - ALL
         env:
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ include "forge.applicationSecretName" . }}
                 key: password
+          - name: SMTPPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.smtpSecretName" . }}
+                key: smtp-password
+                optional: true
       containers:
       - name: forge
         {{- if .Values.forge.image }}
         image: {{ .Values.forge.image }}
         {{ else }}
-        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowforge/forge-k8s:{{ .Chart.AppVersion }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/forge-k8s:{{ .Chart.AppVersion }}
         {{ end -}}
         imagePullPolicy: Always
         env:

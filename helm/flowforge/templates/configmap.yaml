@@ -20,7 +20,7 @@ data:
     api_url: http://forge.{{ .Release.Namespace }}
     db:
       type: postgres
-      host: {{ .Release.Name }}-postgresql
+      host: {{ include "forge.databaseHost" . }}
       {{- if and (not .Values.forge.localPostgresql) (.Values.postgresql) }}
       port: {{ .Values.postgresql.port | default 5432 }}
       {{- end }}
@@ -75,7 +75,7 @@ data:
         {{- if or ( .Values.forge.email.smtp.user ) ( .Values.forge.email.smtp.password ) }}
         auth:
           user: {{ .Values.forge.email.smtp.user }}
-          pass: {{ .Values.forge.email.smtp.password }}
+          pass: <%= ENV['SMTPPASSWORD'] %>
         {{- end }}
     {{- end }}
     {{- if .Values.forge.email.ses }}
@@ -164,6 +164,14 @@ data:
           production_mode: true
           {{ end }}
         {{ end -}}
+        {{ if and (hasKey .Values.forge.telemetry "google") (hasKey .Values.forge.telemetry.google "tag") }}
+        google:
+          tag: {{ .Values.forge.telemetry.google.tag }}
+          {{ if hasKey .Values.forge.telemetry.google "events" }}
+          events:
+{{ toYaml .Values.forge.telemetry.google.events | indent 12 }}
+          {{ end }}
+        {{ end }}
       {{- end }}
       backend:
         {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}

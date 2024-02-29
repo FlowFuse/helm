@@ -52,6 +52,9 @@
                                 },
                                 "password": {
                                     "type": "string"
+                                },
+                                "existingSecret": {
+                                    "type": "string"
                                 }
                             },
                             "required": [
@@ -90,6 +93,20 @@
                 },
                 "projectSelector": {
                     "type": "object"
+                },
+                "projectNetworkPolicy": {
+                    "type": "object",
+                    "properties": {
+                        "egress": {
+                            "type": "array"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "ingress": {
+                            "type": "array"
+                        }
+                    }
                 },
                 "projectDeploymentTolerations": {
                     "type": "array",
@@ -313,6 +330,15 @@
                         },
                         "labels": {
                             "type": "object"
+                        },
+                        "ingress": {
+                            "type": "object",
+                            "properties": {
+                                "annotations": {
+                                    "type": "object",
+                                    "minProperties": 0
+                                }
+                            }
                         }
                     },
                     "required": [
@@ -361,6 +387,20 @@
                                     "type": "string"
                                 }
                             }
+                        },
+                        "google": {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string"
+                                },
+                                "events": {
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "tag"
+                            ]
                         },
                         "backend": {
                             "type": "object",
@@ -509,6 +549,9 @@
                         },
                         "labels": {
                             "type": "object"
+                        },
+                        "image": {
+                            "type": "string"
                         }
                     },
                     "required": [

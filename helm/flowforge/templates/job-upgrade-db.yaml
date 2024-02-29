@@ -1,4 +1,4 @@
-{{- if and .Values.forge.fileStore.context .Values.forge.localPostgresql -}}
+{{- if and .Values.forge.fileStore.enabled .Values.forge.localPostgresql -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
