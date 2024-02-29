@@ -13,6 +13,9 @@ dependencies:
     version: 11.9.13
     repository: https://charts.bitnami.com/bitnami
     condition: forge.localPostgresql
+    import-values:
+      - child: image
+        parent: postgresql.image
 maintainers:
   - name: "FlowForge Inc"
     url: "https://flowfuse.com"
