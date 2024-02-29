@@ -30,12 +30,15 @@ For other values please refer to the documentation below.
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
  - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
+ - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
+ - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
+ - `forge.projectNetworkPolicy.enabled` specified if [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) should be created for project pods ( default `false`)
+ - `forge.projectNetworkPolicy.ingress` a list of ingress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied on project pods ( default `[]`)
+ - `forge.projectNetworkPolicy.egress` a list of egress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied in project pods ( default `[]`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the core application pod
- - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.license` FlowForge EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
- - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
  - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  - `forge.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the core application container
  - `forge.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the core application pod

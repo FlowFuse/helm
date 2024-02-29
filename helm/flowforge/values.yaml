@@ -5,10 +5,8 @@ forge:
   projectSelector:
     role: projects
   projectDeploymentTolerations: []
-  #    - key: purpose
-  #      operator: Equal
-  #      value: flowforge-projects
-  #      effect: NoSchedule
+  projectNetworkPolicy:
+    enabled: false
   managementSelector:
     role: management
   telemetry:
