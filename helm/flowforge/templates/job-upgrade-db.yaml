@@ -35,7 +35,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: add-context-db
-        image: {{ .Values.postgresql.image.registry }}/{{ .Values.postgresql.image.repository }}/{{ .Values.postgresql.image.tag }}
+        image: {{ .Values.postgresql.image.registry }}/{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
         env:
         - name: PGPASSWORD
           valueFrom:
