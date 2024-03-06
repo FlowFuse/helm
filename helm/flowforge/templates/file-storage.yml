@@ -56,6 +56,11 @@ spec:
               secretKeyRef:
                 name: {{ include "forge.applicationSecretName" . }}
                 key: password
+        securityContext:
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
       containers:
       - name: file-storage
         {{- if .Values.forge.fileStore.image }}
