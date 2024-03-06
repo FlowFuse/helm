@@ -10,22 +10,15 @@ COPY healthcheck.js /healthcheck.js
 
 COPY package.json /data
 WORKDIR /data
-RUN mkdir node_modules
 RUN npm install
 
 USER root
 
 WORKDIR /usr/src/flowforge-nr-launcher
-RUN chown -R node-red:node-red /usr/src/flowforge-nr-launcher
+RUN chown node-red:node-red /data/* /usr/src/flowforge-nr-launcher
 
 USER node-red
 RUN npm install @flowfuse/nr-launcher@${BUILD_TAG}
-
-USER root
-RUN chmod -R g+w /data/* /data/.npm/* 
-RUN chown -R node-red:root /data/* /data/.npm/* 
-
-USER node-red
 
 ENV NODE_PATH=/usr/src/node-red
 ENV HOME=/usr/src/node-red
