@@ -21,7 +21,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,pattern=${{ github.event.inputs.version }}
+            type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
           flavor: |
             latest=true
           images: |
