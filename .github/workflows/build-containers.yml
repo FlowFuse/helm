@@ -1,7 +1,6 @@
-on: 
-  push: 
-    tags:
-      - "v*.*.*"
+name: Release container images
+on:
+  workflow_dispatch:
 
 jobs:
   build_application_container:
