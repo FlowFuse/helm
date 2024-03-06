@@ -41,6 +41,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       # builds container
       - name: Build and push FlowForge Application container
+        if: false
         uses: docker/build-push-action@v3.2.0
         with:
           context: helm/flowforge-container
@@ -49,6 +50,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
+        if: false
         uses: peter-evans/dockerhub-description@v3
         with:
           repository: flowforge/forge-k8s
@@ -56,6 +58,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/flowforge-container/README.md
       - name: Push README flowfuse
+        if: false
         uses: peter-evans/dockerhub-description@v3
         with:
           repository: flowfuse/forge-k8s
@@ -64,6 +67,7 @@ jobs:
           readme-filepath: ./helm/flowforge-container/README.md
 
   build_nodered_container:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -114,6 +118,7 @@ jobs:
           readme-filepath: ./helm/node-red-container/README.md
 
   build_nodered_container_223:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -150,6 +155,7 @@ jobs:
           push: true
 
   build_nodered_container_31:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -186,6 +192,7 @@ jobs:
           push: true
 
   build_file_server_container:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
