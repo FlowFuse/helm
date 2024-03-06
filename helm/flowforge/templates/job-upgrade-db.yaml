@@ -50,11 +50,9 @@ spec:
         - /usr/local/upgrade.sh
         resources:
           requests:
-            ephemeral-storage: "100Mi"
             cpu: 100m
             memory: 128Mi
           limits:
-            ephemeral-storage: "100Mi"
             cpu: 100m
             memory: 128Mi
       volumes:
