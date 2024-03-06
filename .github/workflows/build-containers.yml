@@ -158,7 +158,6 @@ jobs:
           push: true
 
   build_nodered_container_31:
-    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -170,22 +169,26 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern=${{ github.event.inputs.version }}-3.1.x
+            type=raw,enable=true,priority=200,prefix=,suffix=-3.1.x,value=${{ github.event.inputs.version }}
           flavor: |
             latest=false
           images: |
             flowforge/node-red
             flowfuse/node-red
       - name: Setup QEMU
+        if: false
         uses: docker/setup-qemu-action@v3
       - name: Setup Docker buildx
+        if: false
         uses: docker/setup-buildx-action@v3
       - name: docker login
+        if: false
         uses: docker/login-action@v3
         with:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
+        if: false
         uses: docker/build-push-action@v3.2.0
         with:
           context: helm/node-red-container
@@ -207,7 +210,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern=${{ github.event.inputs.version }}
+            type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
           flavor: |
             latest=true
           images: |
