@@ -1,6 +1,10 @@
 name: Release container images
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
 
 jobs:
   build_application_container:
@@ -11,13 +15,13 @@ jobs:
           repository: 'flowfuse/helm'
           path: 'helm'
       # sets options for Docker build
-      # will tag contianers with GH tag name
+      # will tag contianers with ${{ github.event.inputs.version }}
       - name: Docker Meta Data
         id: meta
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern={{version}}
+            type=semver,event=tag,pattern=${{ github.event.inputs.version }}
           flavor: |
             latest=true
           images: |
@@ -71,7 +75,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern={{version}}
+            type=semver,event=tag,pattern=${{ github.event.inputs.version }}
           flavor: |
             latest=true
           images: |
@@ -121,7 +125,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern={{version}}-2.2.3
+            type=semver,event=tag,pattern=${{ github.event.inputs.version }}-2.2.3
           flavor: |
             latest=false
           images: |
@@ -157,7 +161,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern={{version}}-3.1.x
+            type=semver,event=tag,pattern=${{ github.event.inputs.version }}-3.1.x
           flavor: |
             latest=false
           images: |
@@ -193,7 +197,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=semver,event=tag,pattern={{version}}
+            type=semver,event=tag,pattern=${{ github.event.inputs.version }}
           flavor: |
             latest=true
           images: |
@@ -230,4 +234,3 @@ jobs:
           username: flowfuse
           password: ${{ secrets.DOCKER_HUB_PASSWORD_FLOWFUSE }}
           readme-filepath: ./helm/file-server/README.md
-
