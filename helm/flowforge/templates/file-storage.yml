@@ -44,6 +44,7 @@ spec:
       initContainers:
       - name: config
         image: "ruby:2.7-slim"
+        imagePullPolicy: Always
         command: ['sh', '-c', 'erb /tmpl/flowforge-storage.yml > /config/flowforge-storage.yml' ]
         volumeMounts:
           - name: configtemplate

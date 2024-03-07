@@ -33,6 +33,7 @@ spec:
       initContainers:
       - name: config
         image: "ruby:2.7-slim"
+        imagePullPolicy: Always
         command: ['sh', '-c', 'erb /tmpl/flowforge.yml > /config/flowforge.yml']
         volumeMounts:
           - name: configtemplate
