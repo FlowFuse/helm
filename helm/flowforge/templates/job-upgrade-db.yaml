@@ -21,11 +21,8 @@ metadata:
   name: {{ .Release.Name }}-db-upgrade
   labels:
   {{- include "forge.labels" . | nindent 4 }}
-  annotations:
-    "helm.sh/hook": post-upgrade,post-install
-    "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
+  ttlSecondsAfterFinished: 120
   template:
     metadata:
       name:
