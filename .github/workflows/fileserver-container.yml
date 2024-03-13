@@ -53,7 +53,7 @@ jobs:
   upload-stage-image:
     name: Upload image to staging registry
     needs: build-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.5.1
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-ecr-image-output
     with:
       environment: stage
       service_name: 'file-server'
@@ -69,9 +69,7 @@ jobs:
 
   update-stage-image:
     name: Update staging deployment
-    needs: 
-      - build-multi-architecture
-      - upload-stage-image
+    needs: upload-stage-image
     runs-on: ubuntu-latest
     steps:
       - name: Generate a token
@@ -86,15 +84,13 @@ jobs:
           repository: 'FlowFuse/CloudProject'
           ref: 'ci-flowfuse-helm'
           token: ${{ steps.generate_token.outputs.token }}
-          path: 'cloudproject'
       - name: Install yq
         uses: alexellis/arkade-get@master
         with:
           yq: v4.42.1
       - name: Update staging deployment
         run: |
-          image_value="${{ needs.build-multi-architecture.outputs.image }}"
-          cd ./cloudproject
+          image_value="${{ needs.upload-stage-image.outputs.image }}"
           yq e ".forge.fileStore.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
@@ -103,7 +99,6 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
-          directory: './cloudproject'
           branch: ci-flowfuse-helm
           force: true
           github_token: ${{ steps.generate_token.outputs.token }}
