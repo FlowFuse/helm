@@ -90,6 +90,7 @@ jobs:
           yq: v4.42.1
       - name: Update staging deployment
         run: |
+          full_image_value="${{ needs.upload-stage-image.outputs.full_image }}"
           image_value="${{ needs.upload-stage-image.outputs.image }}"
           yq e ".forge.fileStore.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
           git config --global user.name 'GitHub Actions'
