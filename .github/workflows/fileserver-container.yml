@@ -95,7 +95,9 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git add ./staging/flowfuse-values.yaml
-          git commit -m "Update staging image value"
+          git commit -m "Update file-server staging image"
+          git remote -v
+          git status
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
