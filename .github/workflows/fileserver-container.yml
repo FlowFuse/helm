@@ -72,12 +72,18 @@ jobs:
     needs: upload-stage-image
     runs-on: ubuntu-latest
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_BOT_APP_ID }}
+          private_key: ${{ secrets.GH_BOT_APP_KEY }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
           repository: 'FlowFuse/CloudProject'
           ref: 'ci-flowfuse-helm'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           path: 'cloudproject'
       - name: Install yq
         uses: alexellis/arkade-get@master
@@ -86,14 +92,18 @@ jobs:
       - name: Update staging deployment
         run: |
           image_value="${{ needs.build-multi-architecture.outputs.image }}"
-          cd cloudproject
-          yq e ".forge.fileStore.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
+          yq e ".forge.fileStore.image = \"$image_value\"" -i ./cloudproject/staging/flowfuse-values.yaml
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git add ./cloudproject/staging/flowfuse-values.yaml
           git commit -m "Update staging image value"
-          git push
-  
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          directory: './cloudproject'
+          branch: ci-flowfuse-helm
+          force: true
+          github_token: ${{ steps.generate_token.outputs.token }}
 
   deploy-stage:
     if: github.ref_name == 'main'
