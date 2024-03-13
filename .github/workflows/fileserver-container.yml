@@ -88,7 +88,7 @@ jobs:
       - name: Install yq
         uses: alexellis/arkade-get@master
         with:
-          yq: 4.42.1
+          yq: v4.42.1
       - name: Update staging deployment
         run: |
           image_value="${{ needs.build-multi-architecture.outputs.image }}"
