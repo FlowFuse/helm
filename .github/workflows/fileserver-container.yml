@@ -75,7 +75,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: 'flowfuse/CloudProject'
+          repository: 'FlowFuse/CloudProject'
           ref: 'ci-flowfuse-helm'
           token: ${{ secrets.GITHUB_TOKEN }}
           path: 'cloudproject'
