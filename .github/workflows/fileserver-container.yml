@@ -50,6 +50,51 @@ jobs:
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
+  upload-stage-image:
+    name: Upload image to staging registry
+    needs: build-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.5.1
+    with:
+      environment: stage
+      service_name: 'file-server'
+      deployment_name: 'flowforge-file'
+      container_name: 'file-storage'
+      deploy: false
+      image: ${{ needs.build-multi-architecture.outputs.image }}
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+
+  update-stage-image:
+    name: Update staging deployment
+    needs: upload-stage-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: 'flowfuse/CloudProject'
+          ref: 'ci-flowfuse-helm'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: 'cloudproject'
+      - name: Install yq
+        uses: alexellis/arkade-get@master
+        with:
+          yq: 4.42.1
+      - name: Update staging deployment
+        run: |
+          image_value="${{ needs.build-multi-architecture.outputs.image }}"
+          cd cloudproject
+          yq e ".forge.fileStore.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@github.com'
+          git add ./cloudproject/staging/flowfuse-values.yaml
+          git commit -m "Update staging image value"
+          git push
+  
+
   deploy-stage:
     if: github.ref_name == 'main'
     name: Deploy to staging environment
