@@ -69,7 +69,9 @@ jobs:
 
   update-stage-image:
     name: Update staging deployment
-    needs: upload-stage-image
+    needs: 
+      - build-multi-architecture
+      - upload-stage-image
     runs-on: ubuntu-latest
     steps:
       - name: Generate a token
@@ -92,10 +94,11 @@ jobs:
       - name: Update staging deployment
         run: |
           image_value="${{ needs.build-multi-architecture.outputs.image }}"
-          yq e ".forge.fileStore.image = \"$image_value\"" -i ./cloudproject/staging/flowfuse-values.yaml
+          cd ./cloudproject
+          yq e ".forge.fileStore.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-          git add ./cloudproject/staging/flowfuse-values.yaml
+          git add ./staging/flowfuse-values.yaml
           git commit -m "Update staging image value"
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
