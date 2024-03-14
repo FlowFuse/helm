@@ -71,7 +71,16 @@ jobs:
     name: Update staging deployment
     needs: upload-stage-image
     runs-on: ubuntu-latest
+    environment: stage
     steps:
+      - name: Configure AWS credentials
+        id: aws-config
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: eu-west-1
+          mask-aws-account-id: true
       - name: Generate a token
         id: generate_token
         uses: tibdex/github-app-token@v1
@@ -90,8 +99,7 @@ jobs:
           yq: v4.42.1
       - name: Update staging deployment
         run: |
-          full_image_value="${{ needs.upload-stage-image.outputs.full_image }}"
-          image_value="${{ needs.upload-stage-image.outputs.image }}"
+          image_value="${{ steps.aws-config.outputs.aws-account-id }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.upload-stage-image.outputs.image }}"
           yq e ".forge.fileStore.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
@@ -103,6 +111,7 @@ jobs:
         uses: ad-m/github-push-action@v0.8.0
         with:
           branch: ci-flowfuse-helm
+          repository: 'FlowFuse/CloudProject'
           force: true
           github_token: ${{ steps.generate_token.outputs.token }}
 
