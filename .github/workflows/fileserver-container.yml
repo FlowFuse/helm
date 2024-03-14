@@ -51,6 +51,7 @@ jobs:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   upload-stage-image:
+    if: github.ref_name == 'main'
     name: Upload image to staging registry
     needs: build-multi-architecture
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-ecr-image-output
@@ -68,6 +69,7 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   update-stage-image:
+    if: github.ref_name == 'main'
     name: Update staging image
     needs: upload-stage-image
     runs-on: ubuntu-latest
@@ -105,8 +107,6 @@ jobs:
           git config --global user.email 'github-actions@github.com'
           git add ./staging/flowfuse-values.yaml
           git commit -m "Update file-server staging image"
-          git remote -v
-          git status
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
@@ -116,6 +116,7 @@ jobs:
           github_token: ${{ steps.generate_token.outputs.token }}
 
   upload-production-image:
+    if: github.ref_name == 'main'
     name: Upload image to production registry
     needs: build-multi-architecture
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@feat-ecr-image-output
@@ -133,6 +134,7 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   update-production-image:
+    if: github.ref_name == 'main'
     name: Update production image
     needs: upload-production-image
     runs-on: ubuntu-latest
@@ -170,8 +172,6 @@ jobs:
           git config --global user.email 'github-actions@github.com'
           git add ./production/flowfuse-values.yaml
           git commit -m "Update file-server staging image"
-          git remote -v
-          git status
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
