@@ -209,3 +209,64 @@ jobs:
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+
+  build-40:
+    name: Build 4.0.x container images
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.8.0
+    with:
+      image_name: 'node-red'
+      dockerfile_path: Dockerfile-4.0
+      image_tag_prefix: '4.0.x-'
+      package_dependencies: |
+        @flowforge/nr-project-nodes
+      build_context: 'node-red-container'
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: true
+    secrets:
+      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  build-40-multi-architecture:
+    name: Build multi-architecture container image
+    needs: build-40
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.8.0
+    with:
+      image_name: 'node-red'
+      image_tag_prefix: '4.0.x-'
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  upload-40-stage:
+    name: Upload image to staging ECR
+    if: github.ref_name == 'main'
+    needs: build-40-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.8.0
+    with:
+      environment: stage
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-40-multi-architecture.outputs.image }}
+      image_tag_prefix: '4.0.x-'
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+  upload-40-prod:
+    name: Upload image to production ECR
+    if: github.ref_name == 'main'
+    needs: build-40-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.8.0
+    with:
+      environment: production
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-40-multi-architecture.outputs.image }}
+      image_tag_prefix: '4.0.x-'
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
