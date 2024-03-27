@@ -20,6 +20,9 @@
                 "image": {
                     "type": "string"
                 },
+                "replicas": {
+                    "type": "integer"
+                },
                 "registry": {
                     "type": "string"
                 },
