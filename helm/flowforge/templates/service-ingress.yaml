@@ -47,7 +47,7 @@ spec:
     - {{ $forgeHostname }}
     secretName: {{ $forgeHostname }}
   {{- end }}
-{{- if gt .Values.forge.replicas 1 -}}
+{{- if gt (int .Values.forge.replicas) 1 -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
