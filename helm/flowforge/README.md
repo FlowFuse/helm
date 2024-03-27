@@ -49,6 +49,7 @@ For other values please refer to the documentation below.
  - `forge.logPassthrough` Allows Node-RED Project pods to log in JSON format to standard out, allowing this to be ingested by a logging service (default `false`)
  - `forge.labels` allows to add custom labels to the core application related objects (e.g. deployment, services, etc.) (default `{}`)
  - `forge.podLabels` allows to add custom labels to the core application pod (default `{}`)
+ - `forge.replicas` allows the number of instances of the FlowFuse App to be set (default `1`)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
