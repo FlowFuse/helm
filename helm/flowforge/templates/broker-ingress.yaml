@@ -11,14 +11,14 @@ metadata:
     cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
   {{- end }}
   {{- if and .Values.forge.broker.enabled .Values.forge.broker.ingress (hasKey .Values.forge.broker.ingress "annotations") }}
-{{ toYaml .Values.forge.broker.ingress.annotations | replace "{{ instanceHost }}" $brokerHostname | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
+{{ toYaml .Values.forge.broker.ingress.annotations | replace "{{ instanceHost }}" "{{ include forge.brokerDomain . }}" | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
   {{- end }}
 spec:
   {{- if $.Values.ingress.className }}
   ingressClassName: {{ $.Values.ingress.className }}
   {{- end }}
   rules:
-    - host: mqtt.{{ .Values.forge.domain }}
+    - host: {{ include "forge.brokerDomain" . }}
       http:
         paths:
           - pathType: Prefix
@@ -31,7 +31,7 @@ spec:
   {{- if .Values.ingress.certManagerIssuer }}
   tls:
   - hosts:
-    - mqtt.{{ .Values.forge.domain }}
-    secretName: mqtt.{{ .Values.forge.domain }}
+    - {{ include "forge.brokerDomain" . }}
+    secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
 {{- end }}
