@@ -14,6 +14,7 @@ RUN mkdir node_modules
 RUN npm install
 
 USER root
+RUN mkdir -p /usr/local/ssl-certs
 
 WORKDIR /usr/src/flowforge-nr-launcher
 RUN chown -R node-red:node-red /usr/src/flowforge-nr-launcher
