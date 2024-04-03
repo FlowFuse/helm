@@ -207,6 +207,9 @@
                         "public_url": {
                             "type": "string"
                         },
+                        "domain": {
+                            "type": "string"
+                        },
                         "affinity": {
                             "type": "object"
                         },
