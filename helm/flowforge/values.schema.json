@@ -207,7 +207,7 @@
                         "public_url": {
                             "type": "string"
                         },
-                        "domain": {
+                        "hostname": {
                             "type": "string"
                         },
                         "affinity": {
