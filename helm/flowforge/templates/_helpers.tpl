@@ -140,8 +140,8 @@ postgres-password: {{ .Values.postgresql.auth.postgresPassword | b64enc | quote 
 Configure broker domain
 */}}
 {{- define "forge.brokerDomain" -}}
-{{- if (((.Values.forge).broker).domain) -}}
-    {{ .Values.forge.broker.domain }}
+{{- if (((.Values.forge).broker).hostname) -}}
+    {{ .Values.forge.broker.hostname }}
 {{- else -}}
     {{ printf "%s.%s" "mqtt" .Values.forge.domain }}
 {{- end -}}
