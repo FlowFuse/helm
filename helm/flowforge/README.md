@@ -86,7 +86,6 @@ To use STMP to send email
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` The custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mgtt.[forge.domain]`)
-  - `forge.broker.hostname` The custom Fully Qualified Domain Name (FQDN) where the broker will be hosted. By default, it's set to `mqtt.[forge.domain]`. Please ensure that the hostname is valid and correctly configured in your DNS settings to avoid any connectivity issues.
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
   - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod
