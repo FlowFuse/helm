@@ -129,7 +129,7 @@ data:
       {{ if .Values.forge.broker.public_url -}}
       public_url: {{ .Values.forge.broker.public_url }}
       {{ else -}}
-      public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://mqtt.{{ .Values.forge.domain }}
+      public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://{{ include "forge.brokerDomain" . }}
       {{ end -}}
     {{- end }}
     logging:

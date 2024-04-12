@@ -210,6 +210,9 @@
                         "public_url": {
                             "type": "string"
                         },
+                        "hostname": {
+                            "type": "string"
+                        },
                         "affinity": {
                             "type": "object"
                         },

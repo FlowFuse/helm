@@ -24,7 +24,7 @@ For other values please refer to the documentation below.
 
  - `forge.image` supply a fully qualified container image for the forge app (default `forge.registry`/flowforge/forge-k8s:<App Version>)
  - `forge.domain` the domain instances will be hosted on
- - `forge.entryPoint` if the admin app is hosted on a different domain
+ - `forge.entryPoint` the custom Fully Qualified Domain Name (FQDN) for the admin app (default `forge.[forge.domain]`)
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the hostname for the container registry to find Project stacks (default Docker Hub)
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
@@ -86,6 +86,7 @@ To use STMP to send email
   - `forge.broker.enabled` (default `false`)
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
+  - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
   - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod

@@ -134,3 +134,15 @@ password: {{ .Values.postgresql.auth.password | b64enc | quote }}
 postgres-password: {{ .Values.postgresql.auth.postgresPassword | b64enc | quote }}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Configure broker domain
+*/}}
+{{- define "forge.brokerDomain" -}}
+{{- if (((.Values.forge).broker).hostname) -}}
+    {{ .Values.forge.broker.hostname }}
+{{- else -}}
+    {{ printf "%s.%s" "mqtt" .Values.forge.domain }}
+{{- end -}}
+{{- end -}}
