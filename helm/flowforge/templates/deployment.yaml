@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flowforge
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "forge.labels" . | nindent 4 }}
     {{- with .Values.forge.labels }}
