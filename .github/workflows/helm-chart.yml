@@ -128,6 +128,8 @@ jobs:
           output_format: cli,sarif
           output_file_path: console,results.sarif
           soft_fail: true
+        env: 
+          HELM_NAMESPACE: no-default-namespace
 
       - name: Template chart
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
