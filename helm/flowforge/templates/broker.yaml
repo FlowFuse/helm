@@ -68,6 +68,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.forge.broker.podSecurityContext | nindent 8 }}
       containers:
