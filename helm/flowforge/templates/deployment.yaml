@@ -11,6 +11,8 @@ metadata:
   annotations:
     checkov.io/skip1: CKV_K8S_38=The service account token is required to schedule projects
     checkov.io/skip2: CKV_K8S_35=Current approach is a temporary one
+    checkov.io/skip3: CKV_K8S_11=We do not force default resources constraints
+    checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
 spec:
   replicas: {{ .Values.forge.replicas }}
   selector:
