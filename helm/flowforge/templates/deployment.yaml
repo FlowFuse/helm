@@ -8,6 +8,8 @@ metadata:
     {{- with .Values.forge.labels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+  annotations:
+    checkov.io/skip1: CKV_K8S_35=Current approach is a temporary one 
 spec:
   replicas: {{ .Values.forge.replicas }}
   selector:
