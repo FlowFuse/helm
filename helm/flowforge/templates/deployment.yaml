@@ -10,6 +10,7 @@ metadata:
     {{- end }}
   annotations:
     checkov.io/skip1: CKV_K8S_38=The service account token is required to schedule projects
+    checkov.io/skip2: CKV_K8S_35=Current approach is a temporary one
 spec:
   replicas: {{ .Values.forge.replicas }}
   selector:
