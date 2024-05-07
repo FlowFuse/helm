@@ -40,6 +40,7 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/file-storage-configmap.yaml") . | sha256sum }}
     spec:
+      automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
       initContainers:
@@ -60,6 +61,7 @@ spec:
                 key: password
         securityContext:
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
           capabilities:
             drop:
               - ALL
