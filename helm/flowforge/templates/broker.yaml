@@ -56,8 +56,10 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
   annotations:
-    checkov.io/skip1: CKV_K8S_11=We do not force default resources constraints
-    checkov.io/skip2: CKV_K8S_13=We do not force default resources constraints
+    checkov.io/skip1: CKV_K8S_10=We do not force default resources constraints
+    checkov.io/skip2: CKV_K8S_11=We do not force default resources constraints
+    checkov.io/skip3: CKV_K8S_12=We do not force default resources constraints
+    checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
 spec:
   selector:
     matchLabels:
