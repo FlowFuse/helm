@@ -12,15 +12,15 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'helm/**'
-      - '.github/workflows/helm*'
+    paths:
+      - 'flowforge-container/**'
+      - '.github/workflows/flowforge-container.yml'
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - 'helm/**'
-      - '.github/workflows/helm*'
+    paths:
+      - 'flowforge-container/**'
+      - '.github/workflows/flowforge-container.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
