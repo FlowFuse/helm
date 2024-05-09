@@ -27,6 +27,13 @@
       {
         "changelogFile": "helm/flowforge/CHANGELOG.md"
       }
+    ],
+    [
+      "semantic-release-helm3",
+      {
+          "chartPath": "helm/flowforge",
+          "onlyUpdateVersion": true
+      }
     ]
   ]
 }
