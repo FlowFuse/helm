@@ -23,6 +23,12 @@ metadata:
     {{- with .Values.forge.fileStore.labels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+  annotations:
+    checkov.io/skip1: CKV_K8S_10=We do not force default resources constraints
+    checkov.io/skip2: CKV_K8S_11=We do not force default resources constraints
+    checkov.io/skip3: CKV_K8S_12=We do not force default resources constraints
+    checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
+    checkov.io/skip5: CKV_K8S_35=Current approach is a temporary one
 spec:
   selector:
     matchLabels:
@@ -38,6 +44,7 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/file-storage-configmap.yaml") . | sha256sum }}
     spec:
+      automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
       initContainers:
@@ -58,6 +65,7 @@ spec:
                 key: password
         securityContext:
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
           capabilities:
             drop:
               - ALL

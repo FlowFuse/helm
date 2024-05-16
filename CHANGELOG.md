@@ -1,3 +1,60 @@
+#### 2.6.0: Release
+
+ - ci: Fix CHANGELOG.md path in .releaserc (#385) @Piwero
+ - ci: Bump workflow versions to v0.10.0 (#383) @ppawlowski
+ - ci: Narrow down container build triggers (#384) @ppawlowski
+ - fix: Skip CKV_K8S_10 and CKV_K8S_12 checks (#382) @ppawlowski
+ - fix: Skip CKV_K8S_11 and CKV_K8S_13 checks (#380) @ppawlowski
+ - fix: Add temporary annotation to skip CKV_K8S_35 check (#381) @ppawlowski
+ - fix: Temporarily skip CKV_K8S_35 for forge and file-server deployments (#379) @ppawlowski
+ - fix: Disable automounting of service account tokens (#375) @ppawlowski
+ - ci: Exclude advanced Helm chart validation on release (#377) @ppawlowski
+ - ci: Wait for container images build pipeline before running Helm chart release flow (#376) @ppawlowski
+ - feat: Disable `allowPrivilegeEscalation` for init containers (#368) @ppawlowski
+ - ci: Enable dependabot for GitHub Actions (#369) @ppawlowski
+ - fix: role binding references (#367) @ppawlowski
+ - fix: Bind resources to the namespace (#365) @ppawlowski
+ - ci: Update checkov-action to use v12 version (#364) @ppawlowski
+ - chore: Update 3.1.x container to use NR 3.1.9 (#363) @hardillb
+ - feat: Allow number of forge app replicas to be set (#357) @hardillb
+
+#### 2.5.0: Release
+
+ - feat: Add possibility to customize domain for MQTT broker (#359) @ppawlowski
+
+#### 2.4.1: Release
+
+ - chore: Bump for 2.4.2 release (#361) @hardillb
+ - fix: Ensure ssl-certs dir exists (#360) @hardillb
+ - chore: Update Dockerfile-3.1 for NR 3.1.8 (#358) @knolleary
+
+#### 2.4.0: Release
+
+ - fix: Only build NR 4.0 for amd64 and arm64 (#354) @hardillb
+ - feat: upgrade to FlowFuse 2.2.1 (#353) @hardillb
+ - ci: Add Node-RED 4.0 public container build job into existing workflow (#352) @ppawlowski
+ - ci: Introduce Node-RED `4.0.0-beta` container images (#351) @ppawlowski
+
+#### 2.3.0: Release
+
+ - chore: Update Dockerfile-3.1 to pull 3.1.7 (#348) @knolleary
+
+#### 2.2.0: Release
+
+ - feat: Add imagePullPolicy to initContainers (#342) @ppawlowski
+ - fix: Remove helm annotation hooks from `upgrade-db` job (#344) @ppawlowski
+ - ci: Enable manual release of container images (#341) @ppawlowski
+ - feat: Openshift container changes (#340) @hardillb
+ - feat: All containers should use read-only file system (#339) @ppawlowski
+ - ci: Allow to manually trigger Helm chart release pipeline (#338) @ppawlowski
+ - ci: Validate Helm chart against full stack deployment (#337) @ppawlowski
+ - fix: db-upgrade job image URL (#336) @ppawlowski
+ - Update to NR 3.1.6 (#335) @hardillb
+ - feat: Drop all forge container capabilities (#334) @ppawlowski
+ - fix: Use file-server container for db upgrade job (#307) @hardillb
+ - feat: Add possibility to create custom Network Policies for project pods (#331) @ppawlowski
+ - fix: Drop all capabilities for init container (#333) @ppawlowski
+
 #### 2.1.1: Release
 
  - ci: Wait for forge app public image to become available (#329) @ppawlowski
