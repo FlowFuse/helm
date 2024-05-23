@@ -62,6 +62,14 @@ data:
         {{- if .Values.forge.logPassthrough }}
         logPassthrough: {{ .Values.forge.logPassthrough }}
         {{- end }}
+        {{- if .Values.customHostname }}
+        customHostname:
+        {{- if .Values.customHostname.enabled }}
+          enabled: {{ .Values.customHostname.enabled }}
+        {{- end }}
+        {{- if .Values.customHostname.certManagerIssuer }}
+          certManagerIssuer: {{ .Values.customHostname.certManagerIssuer }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true

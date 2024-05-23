@@ -114,6 +114,8 @@ forge:
     failureThreshold: 3
 
   logPassthrough: false
+  customHostname:
+    enabled: false
 
 postgresql:
   image:

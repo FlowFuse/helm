@@ -772,6 +772,17 @@
                 },
                 "logPassthrough": {
                     "type": "boolean"
+                },
+                "customeHostname": {
+                    "type": "object",
+                    "properties": {
+                        "enabled" {
+                            "type": "boolean"
+                        },
+                        "certManagerIssuer": {
+                            "type": "string"
+                        }
+                    }
                 }
             },
             "required": [
