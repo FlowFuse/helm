@@ -166,6 +166,11 @@ Enables FlowForge Telemetry
 
  - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)
  - `forge.privateCA.certs` base64 encoded CA certificate PEM bundle of trusted certificates. This needs to be generated without line breaks e.g. `base64 -w 0 certs.pem` (default not set)
+
+ ### Instance Custom Hostnames
+
+ - `forge.customHostname.enabled` activates the custom hostname feature (default `false`)
+ - `forge.customHostname.certManagerIssuer` name of CertManager ClusterIssuer to use to request HTTPS certificates for custom hostnames (default is not set)
  
  ### Rate Limiting
 

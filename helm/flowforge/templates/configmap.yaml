@@ -70,6 +70,7 @@ data:
         {{- if .Values.customHostname.certManagerIssuer }}
           certManagerIssuer: {{ .Values.customHostname.certManagerIssuer }}
         {{- end }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true

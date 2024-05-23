@@ -776,7 +776,7 @@
                 "customeHostname": {
                     "type": "object",
                     "properties": {
-                        "enabled" {
+                        "enabled": {
                             "type": "boolean"
                         },
                         "certManagerIssuer": {
