@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.10.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.11.0
     with:
       image_name: 'forge-k8s'
       package_dependencies: |
@@ -45,7 +45,7 @@ jobs:
   build-multi-architecture:
     name: Build multi-architecture container image
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.10.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.11.0
     with:
       image_name: 'forge-k8s'
     secrets:
@@ -55,7 +55,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Deploy to staging environment
     needs: build-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.10.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.11.0
     with:
       environment: stage
       service_name: 'forge-k8s'
@@ -72,7 +72,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Deploy to production environment
     needs: [build-multi-architecture, deploy-stage]
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.10.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.11.0
     with:
       environment: production
       service_name: 'forge-k8s'
