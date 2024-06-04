@@ -62,13 +62,14 @@ data:
         {{- if .Values.forge.logPassthrough }}
         logPassthrough: {{ .Values.forge.logPassthrough }}
         {{- end }}
-        {{- if .Values.customHostname }}
+        {{- if .Values.forge.customHostname }}
         customHostname:
-        {{- if .Values.customHostname.enabled }}
-          enabled: {{ .Values.customHostname.enabled }}
+          enabled: {{ .Values.forge.customHostname.enabled }}
+        {{- if .Values.forge.customHostname.certManagerIssuer }}
+          certManagerIssuer: {{ .Values.forge.customHostname.certManagerIssuer }}
         {{- end }}
-        {{- if .Values.customHostname.certManagerIssuer }}
-          certManagerIssuer: {{ .Values.customHostname.certManagerIssuer }}
+        {{- if .Values.forge.customHostname.ingressClass }}
+          ingressClass: {{ .Values.forge.customHostname.ingressClass }}
         {{- end }}
         {{- end }}
     {{- if .Values.forge.email }}

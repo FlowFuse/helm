@@ -171,6 +171,7 @@ Enables FlowForge Telemetry
 
  - `forge.customHostname.enabled` activates the custom hostname feature (default `false`)
  - `forge.customHostname.certManagerIssuer` name of CertManager ClusterIssuer to use to request HTTPS certificates for custom hostnames (default is not set)
+ - `forge.customHostname.ingressClass` name of the IngressClass to use for exposing the custom hostname (default is not set)
  
  ### Rate Limiting
 
