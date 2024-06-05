@@ -65,6 +65,9 @@ data:
         {{- if .Values.forge.customHostname }}
         customHostname:
           enabled: {{ .Values.forge.customHostname.enabled }}
+        {{- if .Values.forge.customHostname.cnameTarget }}
+          cnameTarget: {{ .Values.forge.customHostname.cnameTarget }}
+        {{- end }}
         {{- if .Values.forge.customHostname.certManagerIssuer }}
           certManagerIssuer: {{ .Values.forge.customHostname.certManagerIssuer }}
         {{- end }}
