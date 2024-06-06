@@ -781,6 +781,12 @@
                         },
                         "certManagerIssuer": {
                             "type": "string"
+                        },
+                        "ingressClass": {
+                            "type": "string"
+                        },
+                        "cnameTarget": {
+                            "type": "string"
                         }
                     }
                 }
