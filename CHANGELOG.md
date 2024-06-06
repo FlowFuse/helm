@@ -1,3 +1,8 @@
+#### 2.7.0: Release
+
+ - fix: Add cnameTarget @hardillb
+ - feat: Custom Hostname config @hardillb
+
 #### 2.6.0: Release
 
  - ci: Fix CHANGELOG.md path in .releaserc (#385) @Piwero
