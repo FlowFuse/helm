@@ -1,0 +1,69 @@
+{{- if .Values.forge.broker.enabled -}}
+{{- $metrics := .Values.forge.broker.metrics | default dict }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-broker-config
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  mosquitto.conf: |
+    per_listener_settings false
+    allow_anonymous false
+
+    listener 1883 0.0.0.0
+    listener 1884 0.0.0.0
+    protocol websockets
+    http_dir /http
+
+    auth_plugin /mosquitto/go-auth.so
+    auth_opt_backends files, http
+    auth_opt_hasher bcrypt
+    auth_opt_cache true
+    auth_opt_auth_cache_seconds 120
+    auth_opt_acl_cache_seconds 300
+    auth_opt_auth_jitter_second 3
+    auth_opt_acl_jitter_seconds 5
+
+    auth_opt_http_host forge.{{ .Release.Namespace }}
+    auth_opt_http_port 80
+    auth_opt_http_getuser_uri /api/comms/auth/client
+    auth_opt_http_aclcheck_uri /api/comms/auth/acl
+
+    # Enable prefix checking
+    auth_opt_check_prefix true
+    # Set prefixes for the backends
+    auth_opt_prefixes ops, ff
+
+    # File backend options - points to password/acl files
+    auth_opt_files_password_path /etc/mosquitto/password_file
+    auth_opt_files_acl_path /etc/mosquitto/acl_file
+  mqtt_acl_file: |
+    user {{ $metrics.user | default "metricsuser" }}
+    topic read $SYS/#
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-broker-ping
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  ping.html: |
+    <html>
+      <head>
+        <title>Mosquitto Liveness Check</title>
+        <body>
+          <h1>HelloWorld</h1>
+        </body>
+      </head>
+    </html>
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: broker-secrets
+type: Opaque
+data:
+  mqtt_password_file: {{ htpasswd ($metrics.user | default "metricsuser") ($metrics.password | default "metricsPassword!" ) | b64enc | quote }}
+{{- end }}
