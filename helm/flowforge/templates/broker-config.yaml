@@ -39,7 +39,7 @@ data:
     auth_opt_files_password_path /etc/mosquitto/password_file
     auth_opt_files_acl_path /etc/mosquitto/acl_file
   mqtt_acl_file: |
-    user {{ $metrics.user | default "metricsuser" }}
+    user {{ $metrics.user | default "ops_metricsuser" }}
     topic read $SYS/#
 ---
 apiVersion: v1
@@ -65,5 +65,5 @@ metadata:
   name: broker-secrets
 type: Opaque
 data:
-  mqtt_password_file: {{ htpasswd ($metrics.user | default "metricsuser") ($metrics.password | default "metricsPassword!" ) | b64enc | quote }}
+  mqtt_password_file: {{ htpasswd ($metrics.user | default "ops_metricsuser") ($metrics.password | default "metricsPassword!" ) | b64enc | quote }}
 {{- end }}
