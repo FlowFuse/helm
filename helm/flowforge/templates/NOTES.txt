@@ -1,3 +1,10 @@
 Thank you for installing {{ .Chart.Name }} v{{ .Chart.AppVersion }}
 
 You can complete the setup wizard at {{ if .Values.forge.entryPoint }}http{{- if .Values.forge.https -}}s{{- end -}}://{{ .Values.forge.entryPoint }}{{- else }}http{{- if .Values.forge.https -}}s{{- end -}}://forge.{{ .Values.forge.domain }}{{- end }}
+
+{{- if .Values.forge.broker.createMetricsUser }}
+You configured the installation to create a dedicated MQTT user for collecting broker's metrics. 
+You can access the generated values by executing:
+kubectl -n {{ .Release.Namespace }} get secret flowfuse-broker-secrets -o jsonpath='{.data.metrics_password}' | base64 -d
+kubectl -n {{ .Release.Namespace }} get secret flowfuse-broker-secrets -o jsonpath='{.data.metrics_user}' | base64 -d
+{{- end }}
