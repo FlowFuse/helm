@@ -39,15 +39,17 @@ spec:
         - name: config
           mountPath: /etc/mosquitto/mosquitto.conf
           subPath: mosquitto.conf
+        - name: ping
+          mountPath: /http
+        {{- if .Values.forge.broker.createMetricsUser }}
         - name: config
           mountPath: /etc/mosquitto/acl_file
           subPath: mqtt_acl_file
-        - name: ping
-          mountPath: /http
         - name: secrets
           mountPath: /etc/mosquitto/password_file
           subPath: mqtt_password_file
           readOnly: true
+        {{- end }}
         ports:
         - containerPort: 1883
           name: mqtt-native
@@ -103,9 +105,11 @@ spec:
       - name: ping
         configMap:
           name: flowforge-broker-ping
+      {{- if .Values.forge.broker.createMetricsUser }}
       - name: secrets
         secret:
-          secretName: broker-secrets
+          secretName: flowfuse-broker-secrets
+      {{- end }}
       {{- if .Values.forge.managementSelector }}
       nodeSelector:
         {{- range $key, $value := .Values.forge.managementSelector }}
