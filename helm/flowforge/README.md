@@ -87,6 +87,7 @@ To use STMP to send email
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
+  - `forge.broker.createMetricsUser` defines if a dedicated MQTT user with broker metrics collection permissions should be created (default `true`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
   - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod
@@ -102,6 +103,8 @@ To use STMP to send email
 
   - `{{ instanceHost }}` replaced by the hostname of the instance
   - `{{ serviceName }}` replaced by the service name of the instance
+
+`forge.broker.createMetricsUser` parameter controlls if a dedicated MQTT user with broker metrics collection permissions should be created. This user can by used by the tools like [Mosquitto Exporter](https://github.com/sapcc/mosquitto-exporter) to expose broker's metrics for Prometheus scrapper. 
 
 ### Telemetry
 

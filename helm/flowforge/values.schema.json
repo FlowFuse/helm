@@ -345,6 +345,9 @@
                                     "minProperties": 0
                                 }
                             }
+                        },
+                        "createMetricsUser": {
+                            "type": "boolean"
                         }
                     },
                     "required": [

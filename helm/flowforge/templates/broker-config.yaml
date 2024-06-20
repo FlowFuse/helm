@@ -1,0 +1,95 @@
+{{- if .Values.forge.broker.enabled -}}
+{{- $metricsUser := "metrics_reader" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-broker-config
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  mosquitto.conf: |
+    per_listener_settings false
+    allow_anonymous false
+
+    listener 1883 0.0.0.0
+    listener 1884 0.0.0.0
+    protocol websockets
+    http_dir /http
+
+    auth_plugin /mosquitto/go-auth.so
+    auth_opt_hasher bcrypt
+    auth_opt_cache true
+    auth_opt_auth_cache_seconds 120
+    auth_opt_acl_cache_seconds 300
+    auth_opt_auth_jitter_second 3
+    auth_opt_acl_jitter_seconds 5
+    auth_opt_check_prefix true
+    {{- if .Values.forge.broker.createMetricsUser }}
+    auth_opt_backends files, http
+    auth_opt_prefixes metrics, forge
+
+    auth_opt_files_password_path /etc/mosquitto/password_file
+    auth_opt_files_acl_path /etc/mosquitto/acl_file
+    {{- else }}
+    auth_opt_backends http
+    auth_opt_prefixes forge
+    {{- end }}
+
+    auth_opt_http_host forge.{{ .Release.Namespace }}
+    auth_opt_http_port 80
+    auth_opt_http_getuser_uri /api/comms/auth/client
+    auth_opt_http_aclcheck_uri /api/comms/auth/acl
+
+  {{- if .Values.forge.broker.createMetricsUser }}
+  mqtt_acl_file: |
+    user {{ $metricsUser }}
+    topic read $SYS/#
+  {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-broker-ping
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  ping.html: |
+    <html>
+      <head>
+        <title>Mosquitto Liveness Check</title>
+        <body>
+          <h1>HelloWorld</h1>
+        </body>
+      </head>
+    </html>
+{{- if .Values.forge.broker.createMetricsUser }}
+{{- $secretName := "flowfuse-broker-secrets" }}
+{{- $existingSecret := (lookup "v1" "Secret" .Release.Namespace $secretName) | default dict }}
+{{- $metricsPassword := "" }}
+{{- $metricsPassword := "" }}
+{{- $mqttPasswordFile := "" }}
+{{- if and $existingSecret.data (hasKey $existingSecret.data "metrics_password") }}
+{{- $metricsPassword = $existingSecret.data.metrics_password | b64dec }}
+{{- else }}
+{{- $metricsPassword = randAlphaNum 32 }}
+{{- end }}
+{{- if and $existingSecret.data (hasKey $existingSecret.data "mqtt_password_file") }}
+{{- $mqttPasswordFile = $existingSecret.data.mqtt_password_file | b64dec }}
+{{- else }}
+{{- $mqttPasswordFile = htpasswd $metricsUser $metricsPassword }}
+{{- end }}
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: {{ $secretName }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  metrics_user: {{ $metricsUser | b64enc | quote }}
+  metrics_password: {{ $metricsPassword | b64enc | quote }}
+  mqtt_password_file: {{ $mqttPasswordFile | b64enc | quote }}
+
+{{- end }}
+{{- end }}
