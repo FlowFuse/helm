@@ -19,6 +19,7 @@ forge:
   podLabels: {}
   broker:
     enabled: false
+    createMetricsUser: false
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
