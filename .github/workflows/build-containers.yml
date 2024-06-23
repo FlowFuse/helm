@@ -10,7 +10,7 @@ jobs:
   build_application_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -66,7 +66,7 @@ jobs:
   build_nodered_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -116,7 +116,7 @@ jobs:
   build_nodered_container_223:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -152,7 +152,7 @@ jobs:
   build_nodered_container_31:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -224,7 +224,7 @@ jobs:
   build_file_server_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
