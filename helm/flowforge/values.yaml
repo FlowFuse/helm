@@ -19,6 +19,7 @@ forge:
   podLabels: {}
   broker:
     enabled: false
+    createMetricsUser: false
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
@@ -114,6 +115,8 @@ forge:
     failureThreshold: 3
 
   logPassthrough: false
+  customHostname:
+    enabled: false
 
 postgresql:
   image:
