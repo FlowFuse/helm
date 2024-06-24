@@ -104,8 +104,8 @@ jobs:
         run: |
           image_value="${{ steps.aws-config.outputs.aws-account-id }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.upload-stage-image.outputs.image }}"
           yq e ".forge.image = \"$image_value\"" -i ./staging/flowfuse-values.yaml
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github-actions@github.com'
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ./staging/flowfuse-values.yaml
           git commit -m "Update forge staging image to ${{ needs.upload-stage-image.outputs.image }}"
       - name: Push changes
@@ -169,8 +169,8 @@ jobs:
         run: |
           image_value="${{ steps.aws-config.outputs.aws-account-id }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.upload-production-image.outputs.image }}"
           yq e ".forge.image = \"$image_value\"" -i ./production/flowfuse-values.yaml
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github-actions@github.com'
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ./production/flowfuse-values.yaml
           git commit -m "Update forge production image to ${{ needs.upload-production-image.outputs.image }}"
       - name: Push changes
