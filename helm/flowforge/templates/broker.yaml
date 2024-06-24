@@ -1,51 +1,4 @@
 {{- if .Values.forge.broker.enabled -}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: flowforge-broker-config
-  labels:
-    {{- include "forge.labels" . | nindent 4 }}
-data:
-  mosquitto.conf: |
-    per_listener_settings false
-    allow_anonymous false
-
-    listener 1883 0.0.0.0
-    listener 1884 0.0.0.0
-    protocol websockets
-    http_dir /http
-
-    auth_plugin /mosquitto/go-auth.so
-    auth_opt_backends http
-    auth_opt_hasher bcrypt
-    auth_opt_cache true
-    auth_opt_auth_cache_seconds 120
-    auth_opt_acl_cache_seconds 300
-    auth_opt_auth_jitter_second 3
-    auth_opt_acl_jitter_seconds 5
-
-    auth_opt_http_host forge.{{ .Release.Namespace }}
-    auth_opt_http_port 80
-    auth_opt_http_getuser_uri /api/comms/auth/client
-    auth_opt_http_aclcheck_uri /api/comms/auth/acl
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: flowforge-broker-ping
-  labels:
-    {{- include "forge.labels" . | nindent 4 }}
-data:
-  ping.html: |
-    <html>
-      <head>
-        <title>Mosquitto Liveness Check</title>
-        <body>
-          <h1>HelloWorld</h1>
-        </body>
-      </head>
-    </html>
----
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
@@ -67,6 +20,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/broker-config.yaml") . | sha256sum }}
       labels:
         {{- include "forge.brokerSelectorLabels" . | nindent 8 }}
         {{- with .Values.forge.broker.podLabels }}
@@ -82,9 +37,19 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
         - name: config
-          mountPath: /etc/mosquitto
+          mountPath: /etc/mosquitto/mosquitto.conf
+          subPath: mosquitto.conf
         - name: ping
           mountPath: /http
+        {{- if .Values.forge.broker.createMetricsUser }}
+        - name: config
+          mountPath: /etc/mosquitto/acl_file
+          subPath: mqtt_acl_file
+        - name: secrets
+          mountPath: /etc/mosquitto/password_file
+          subPath: mqtt_password_file
+          readOnly: true
+        {{- end }}
         ports:
         - containerPort: 1883
           name: mqtt-native
@@ -140,6 +105,11 @@ spec:
       - name: ping
         configMap:
           name: flowforge-broker-ping
+      {{- if .Values.forge.broker.createMetricsUser }}
+      - name: secrets
+        secret:
+          secretName: flowfuse-broker-secrets
+      {{- end }}
       {{- if .Values.forge.managementSelector }}
       nodeSelector:
         {{- range $key, $value := .Values.forge.managementSelector }}
