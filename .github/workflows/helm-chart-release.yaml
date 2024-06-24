@@ -9,6 +9,33 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      - name: Wait for container images build
+        run: |
+          while :; do
+            result=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/${{ github.repository }}/actions/runs | \
+              jq -r '.workflow_runs | map(select(.name == "Release container images")) | sort_by(.created_at) | reverse | .[0]')
+            status=$(echo "$result" | jq -r '.status')
+            conclusion=$(echo "$result" | jq -r '.conclusion')
+            if [[ "$status" == "completed" ]]; then
+              if [[ "$conclusion" == "success" ]]; then
+                echo "Release container images workflow completed successfully"
+                break
+              else
+                echo "Release container images workflow failed"
+                exit 1
+              fi
+            elif [[ "$status" == "in_progress" ]]; then
+              echo "Release container images workflow is still running"
+              sleep 60
+            else
+              echo "Release container images workflow returned unexpected status: $status"
+              exit 1
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -16,7 +43,7 @@ jobs:
 
       - name: Install Helm
         if: true
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4
         with:
           token: ${{ github.token }}
 

@@ -25,12 +25,12 @@ jobs:
           fetch-depth: 0
 
       - name: Install Helm
-        uses: azure/setup-helm@v3.5
+        uses: azure/setup-helm@v4
         with:
           version: v3.13.2
 
       - name: Install Python
-        uses: actions/setup-python@v4.7.1
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: 3.9
 
@@ -45,30 +45,18 @@ jobs:
           ct lint --config ./.github/configs/chart-testing.yaml
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.8.0
+        if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
+        uses: helm/kind-action@v1.10.0
 
       - name: Label cluster nodes
+        if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
         run: |
           for node in $(kubectl get nodes -o name); do
             kubectl label --overwrite $node "role=management"
           done
 
-      - name: Wait for forge application public image
-        run: |
-          IMAGE="flowfuse/forge-k8s"
-          TAG=$(helm show chart ./helm/flowforge | awk -F': ' '/appVersion/ {print $2}')
-          ATTEMPTS=0
-          until docker manifest inspect $IMAGE:$TAG || [ $ATTEMPTS -eq 10 ]; do
-            ATTEMPTS=$((ATTEMPTS+1))
-            echo "Attempt $ATTEMPTS failed! Trying again in 30 seconds..."
-            sleep 30
-          done
-          if [ $ATTEMPTS -eq 10 ]; then
-            echo "Failed to inspect remote $IMAGE:$TAG after $ATTEMPTS attempts!"
-            exit 1
-          fi
-
       - name: Run chart-testing (install and upgrade)
+        if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
         run: ct install --upgrade --config ./.github/configs/chart-testing.yaml
   
   validate:
@@ -82,12 +70,12 @@ jobs:
           fetch-depth: 0
       
       - name: Install Helm
-        uses: azure/setup-helm@v3.5
+        uses: azure/setup-helm@v4
         with:
           version: v3.13.2
       
       - name: Create kind cluster
-        uses: helm/kind-action@v1.8.0
+        uses: helm/kind-action@v1.10.0
 
       - name: Validate chart
         run: |
@@ -113,13 +101,13 @@ jobs:
           fetch-depth: 0
     
       - name: Install Helm
-        uses: azure/setup-helm@v3.5
+        uses: azure/setup-helm@v4
         with:
           version: v3.13.2
     
       - name: Scan chart with checkov
         if: matrix.tool == 'checkov'
-        uses: bridgecrewio/checkov-action@v12.2655.0
+        uses: bridgecrewio/checkov-action@v12
         with:
           directory: ${{ github.workspace }}/helm
           var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
@@ -128,6 +116,8 @@ jobs:
           output_format: cli,sarif
           output_file_path: console,results.sarif
           soft_fail: true
+        env: 
+          HELM_NAMESPACE: no-default-namespace
 
       - name: Template chart
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
@@ -138,7 +128,7 @@ jobs:
       - name: Install kube-score
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
         if: false
-        uses: yokawasa/action-setup-kube-tools@v0.9.3
+        uses: yokawasa/action-setup-kube-tools@v0.11.1
         with:
           setup-tools: "kube-score"
           kube-score: '1.17.0'

@@ -20,6 +20,9 @@
                 "image": {
                     "type": "string"
                 },
+                "replicas": {
+                    "type": "integer"
+                },
                 "registry": {
                     "type": "string"
                 },
@@ -207,6 +210,9 @@
                         "public_url": {
                             "type": "string"
                         },
+                        "hostname": {
+                            "type": "string"
+                        },
                         "affinity": {
                             "type": "object"
                         },
@@ -339,6 +345,9 @@
                                     "minProperties": 0
                                 }
                             }
+                        },
+                        "createMetricsUser": {
+                            "type": "boolean"
                         }
                     },
                     "required": [
@@ -766,6 +775,23 @@
                 },
                 "logPassthrough": {
                     "type": "boolean"
+                },
+                "customeHostname": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "certManagerIssuer": {
+                            "type": "string"
+                        },
+                        "ingressClass": {
+                            "type": "string"
+                        },
+                        "cnameTarget": {
+                            "type": "string"
+                        }
+                    }
                 }
             },
             "required": [

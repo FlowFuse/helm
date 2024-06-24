@@ -3,7 +3,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: flowforge-database-policy
-  namespace: {{ .Release.Namespace }}
   labels:
   {{- include "forge.labels" . | nindent 4 }}
 spec:

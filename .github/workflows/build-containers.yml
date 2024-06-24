@@ -10,7 +10,7 @@ jobs:
   build_application_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -18,7 +18,7 @@ jobs:
       # will tag contianers with ${{ github.event.inputs.version }} and latest
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       # builds container
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/flowforge-container
           file: helm/flowforge-container/Dockerfile
@@ -49,14 +49,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           repository: flowforge/forge-k8s
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/flowforge-container/README.md
       - name: Push README flowfuse
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           repository: flowfuse/forge-k8s
           username: flowfuse
@@ -66,13 +66,13 @@ jobs:
   build_nodered_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
@@ -91,7 +91,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile
@@ -99,14 +99,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           repository: flowforge/node-red
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/node-red-container/README.md
       - name: Push README flowfuse
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           repository: flowfuse/node-red
           username: flowfuse
@@ -116,13 +116,13 @@ jobs:
   build_nodered_container_223:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-2.2.3,value=${{ github.event.inputs.version }}
@@ -141,7 +141,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-2.2.x
@@ -152,13 +152,13 @@ jobs:
   build_nodered_container_31:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-3.1.x,value=${{ github.event.inputs.version }}
@@ -177,7 +177,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-3.1
@@ -194,7 +194,7 @@ jobs:
           path: 'helm'
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-4.0.x,value=${{ github.event.inputs.version }}
@@ -213,24 +213,24 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-4.0
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
 
   build_file_server_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
@@ -249,7 +249,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge File Server container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/file-server
           file: helm/file-server/Dockerfile
@@ -257,14 +257,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           repository: flowforge/file-server
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/file-server/README.md
       - name: Push README flowfuse
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           repository: flowfuse/file-server
           username: flowfuse
