@@ -107,7 +107,7 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git add ./staging/flowfuse-values.yaml
-          git commit -m "Update forge staging image"
+          git commit -m "Update forge staging image to ${{ needs.upload-stage-image.outputs.image }}"
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
@@ -172,7 +172,7 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git add ./production/flowfuse-values.yaml
-          git commit -m "Update forge production image"
+          git commit -m "Update forge production image to ${{ needs.upload-production-image.outputs.image }}"
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
