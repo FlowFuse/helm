@@ -15,6 +15,11 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Wait for container images build
         run: |
           while :; do
@@ -39,12 +44,6 @@ jobs:
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout
-        if: false
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Install Helm
         if: false
