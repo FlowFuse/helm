@@ -2,6 +2,9 @@ name: Release Helm Chart
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   release:
@@ -46,27 +49,30 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout
+        if: false
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install Helm
-        if: true
+        if: false
         uses: azure/setup-helm@v4
         with:
           token: ${{ github.token }}
 
       - name: Add dependencies
-        if: true
+        if: false
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
 
       - name: Configure git
+        if: false
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Semantic Release
+        if: false
         id: semantic-release
         uses: cycjimmy/semantic-release-action@v4
         env:
@@ -78,6 +84,7 @@ jobs:
             semantic-release-helm3@2.9.3
 
       - name: Run chart-releaser
+        if: false
         uses: helm/chart-releaser-action@v1.6.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
