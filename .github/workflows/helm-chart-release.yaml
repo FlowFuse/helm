@@ -9,12 +9,21 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
+
+      - name: Authenticate GitHub CLI
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo $GITHUB_TOKEN | gh auth login --with-token
+
       - name: Wait for container images build
         run: |
           while :; do
-            result=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              https://api.github.com/repos/${{ github.repository }}/actions/runs | \
-              jq -r '.workflow_runs | map(select(.name == "Release container images")) | sort_by(.created_at) | reverse | .[0]')
+            result=$(gh api repos/:owner/:repo/actions/workflows | jq -r '.workflows[] | select(.name=="Release container images") | .id' | xargs -I {} gh api repos/:owner/:repo/actions/workflows/{}/runs --jq '.workflow_runs | max_by(.run_number)')
             status=$(echo "$result" | jq -r '.status')
             conclusion=$(echo "$result" | jq -r '.conclusion')
             if [[ "$status" == "completed" ]]; then
