@@ -46,7 +46,7 @@ jobs:
 
       - name: Create kind cluster
         if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
-        uses: helm/kind-action@v1.8.0
+        uses: helm/kind-action@v1.10.0
 
       - name: Label cluster nodes
         if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
@@ -75,7 +75,7 @@ jobs:
           version: v3.13.2
       
       - name: Create kind cluster
-        uses: helm/kind-action@v1.8.0
+        uses: helm/kind-action@v1.10.0
 
       - name: Validate chart
         run: |

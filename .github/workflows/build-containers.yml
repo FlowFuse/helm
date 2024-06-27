@@ -10,7 +10,7 @@ jobs:
   build_application_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       # builds container
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/flowforge-container
           file: helm/flowforge-container/Dockerfile
@@ -66,7 +66,7 @@ jobs:
   build_nodered_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -91,7 +91,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile
@@ -116,7 +116,7 @@ jobs:
   build_nodered_container_223:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -141,7 +141,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-2.2.x
@@ -152,7 +152,7 @@ jobs:
   build_nodered_container_31:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -177,7 +177,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-3.1
@@ -213,7 +213,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-4.0
@@ -224,7 +224,7 @@ jobs:
   build_file_server_container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
@@ -249,7 +249,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge File Server container
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v6.0.0
         with:
           context: helm/file-server
           file: helm/file-server/Dockerfile
