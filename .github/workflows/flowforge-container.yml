@@ -171,7 +171,8 @@ jobs:
           git push origin main
   
   deploy-stage:
-    if: github.ref_name == 'main'
+    # if: github.ref_name == 'main'
+    if: false
     name: Deploy to staging environment
     needs: build-multi-architecture
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.19.0
@@ -188,7 +189,8 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   
   deploy-prod:
-    if: github.ref_name == 'main'
+    # if: github.ref_name == 'main'
+    if: false
     name: Deploy to production environment
     needs: [build-multi-architecture, deploy-stage]
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.19.0
