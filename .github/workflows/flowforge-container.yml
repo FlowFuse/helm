@@ -132,7 +132,7 @@ jobs:
   update-production-image:
     if: github.ref_name == 'main'
     name: Update production image
-    needs: upload-production-image
+    needs: [upload-production-image, update-stage-image]
     runs-on: ubuntu-latest
     environment: production
     steps:
