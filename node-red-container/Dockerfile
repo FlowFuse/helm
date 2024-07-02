@@ -23,6 +23,7 @@ USER node-red
 RUN npm install @flowfuse/nr-launcher@${BUILD_TAG}
 
 USER root
+RUN mkdir -p /data/storage
 RUN chmod -R g+w /data/* /data/.npm/* 
 RUN chown -R node-red:root /data/* /data/.npm/* 
 
