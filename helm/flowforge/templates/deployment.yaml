@@ -67,6 +67,14 @@ spec:
                 name: {{ include "forge.smtpSecretName" . }}
                 key: smtp-password
                 optional: true
+        {{- if (.Values.forge.assistant).enabled }}
+          - name: ASSISTANT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.assistantSecretName" . }}
+                key: token
+                optional: true
+        {{- end }}
       containers:
       - name: forge
         {{- if .Values.forge.image }}
