@@ -165,6 +165,17 @@ Enables FlowForge Telemetry
 - `forge.fileStore.labels` allows to add custom labels to the file-server related objects (e.g. deployment, services, etc.) (default `{}`)
 - `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
 
+### Persistent Storage
+
+This is a replacement for the File Storage, both can be run at once to enable migration
+
+- `forge.persistentStorage.enabled` (default `false`)
+- `forge.persistentStorage.size` The size of the Persistent Volume that will be mounted into each instance e.g. `5Gi` (default not set)
+- `forge.persistentStorage.storageClass` The name of the Kubernetes Storage Class used to provision the volumes (default not set)
+- `forge.persistentStorage.storageClassEFSTag` The name of a AWS Tag used to find EFS Volumes when needing to scale (default not set)
+
+One of either `storageClass` or `storageClassEFSTag` needs to be set.
+
 ### Private Certificate Authority
 
  - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)

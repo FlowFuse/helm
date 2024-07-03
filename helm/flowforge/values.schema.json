@@ -426,6 +426,24 @@
                         }
                     }
                 },
+                "persistentStorage": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "storageClass": {
+                            "type": "string"
+                        },
+                        "storageClassEFSTag": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [ "enabled" ]
+                },
                 "fileStore": {
                     "type": "object",
                     "properties": {

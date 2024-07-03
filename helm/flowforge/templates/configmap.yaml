@@ -75,6 +75,19 @@ data:
           ingressClass: {{ .Values.forge.customHostname.ingressClass }}
         {{- end }}
         {{- end }}
+        {{- if .Values.forge.persistentStorage }}
+        storage:
+          enabled: {{ .Values.forge.persistentStorage.enabled | default false }}
+          {{- if .Values.forge.persistentStorage.storageClass }}
+          storageClass: {{ .Values.forge.persistentStorage.storageClass }}
+          {{- end }}
+          {{- if .Values.forge.persistentStorage.storageClassEFSTag }}
+          storageClassEFSTag: {{ .Values.forge.persistentStorage.storageClassEFSTag }}
+          {{- end }}
+          {{- if .Values.forge.persistentStorage.size }}
+          size: {{ .Values.forge.persistentStorage.size }}
+          {{- end }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true
