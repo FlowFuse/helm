@@ -792,6 +792,30 @@
                             "type": "string"
                         }
                     }
+                },
+                "assistant": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "service": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "token": {
+                                    "type": "string"
+                                },
+                                "requestTimeout": {
+                                    "type": "integer"
+                                }
+                            },
+                        "required": ["url", "token"]
+                        }
+                    }
                 }
             },
             "required": [

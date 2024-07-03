@@ -117,6 +117,15 @@ false
 {{- end -}}
 
 {{/*
+Get the secret object name with assistant token.
+*/}}
+{{- define "forge.assistantSecretName" -}}
+{{- if (.Values.forge.assistant).enabled -}}
+    {{- printf "flowfuse-secrets" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create SMTP password 
 */}}
 {{- define "forge.smtpPassword" -}}
@@ -132,6 +141,23 @@ Create PostgreSQL passwords
 {{- if not .Values.postgresql.auth.existingSecret -}}
 password: {{ .Values.postgresql.auth.password | b64enc | quote }}
 postgres-password: {{ .Values.postgresql.auth.postgresPassword | b64enc | quote }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create assistant token
+*/}}
+{{/*
+{{- define "forge.assistantToken" -}}
+{{- if ((.Values.forge.assistant).service).token -}}
+token: {{ .Values.forge.assistant.service.token | b64enc | quote }}
+{{- end -}}
+{{- end -}}
+*/}}
+{{- define "forge.assistantToken" -}}
+{{- if (.Values.forge.assistant).enabled -}}
+{{- $token := required "A valid .Values.forge.assistant.service.token is required!" ((.Values.forge.assistant).service).token -}}
+token: {{ $token | b64enc | quote }}
 {{- end -}}
 {{- end -}}
 
