@@ -228,3 +228,13 @@ data:
       {{- end}}
     {{- end }}
     {{- end }}
+    {{- if .Values.forge.assistant }}
+    assistant:
+      enabled: {{ .Values.forge.assistant.enabled | default false }}
+      {{- if .Values.forge.assistant.enabled }}
+      service:
+        url: {{ required "A value is required for forge.assistant.service.url" ((.Values.forge.assistant).service).url }}
+        token: <%= ENV['ASSISTANT_TOKEN'] %>
+        requestTimeout: {{ .Values.forge.assistant.requestTimeout | default 5000 }}
+      {{- end }}
+    {{- end }}
