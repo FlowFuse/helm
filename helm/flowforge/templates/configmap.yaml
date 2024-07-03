@@ -64,7 +64,7 @@ data:
         {{- end }}
         {{- if .Values.forge.customHostname }}
         customHostname:
-          enabled: {{ .Values.forge.customHostname.enabled | default false }}
+          enabled: {{ .Values.forge.customHostname.enabled }}
           {{ if default false .Values.forge.customHostname.enabled -}}
           cnameTarget: {{ required "A value is required for .Values.forge.customHostname.cnameTarget" .Values.forge.customHostname.cnameTarget }}
           {{- end -}}
@@ -77,7 +77,7 @@ data:
         {{- end }}
         {{- if .Values.forge.persistentStorage }}
         storage:
-          enabled: {{ .Values.forge.persistentStorage.enabled }}
+          enabled: {{ .Values.forge.persistentStorage.enabled | default false }}
           {{- if .Values.forge.persistentStorage.storageClass }}
           storageClass: {{ .Values.forge.persistentStorage.storageClass }}
           {{- end }}
