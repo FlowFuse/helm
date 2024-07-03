@@ -64,7 +64,7 @@ data:
         {{- end }}
         {{- if .Values.forge.customHostname }}
         customHostname:
-          enabled: {{ .Values.forge.customHostname.enabled }}
+          enabled: {{ .Values.forge.customHostname.enabled | default false }}
           {{ if default false .Values.forge.customHostname.enabled -}}
           cnameTarget: {{ required "A value is required for .Values.forge.customHostname.cnameTarget" .Values.forge.customHostname.cnameTarget }}
           {{- end -}}
@@ -74,6 +74,19 @@ data:
         {{- if .Values.forge.customHostname.ingressClass }}
           ingressClass: {{ .Values.forge.customHostname.ingressClass }}
         {{- end }}
+        {{- end }}
+        {{- if .Values.forge.persistentStorage }}
+        storage:
+          enabled: {{ .Values.forge.persistentStorage.enabled }}
+          {{- if .Values.forge.persistentStorage.storageClass }}
+          storageClass: {{ .Values.forge.persistentStorage.storageClass }}
+          {{- end }}
+          {{- if .Values.forge.persistentStorage.storageClassEFSTag }}
+          storageClassEFSTag: {{ .Values.forge.persistentStorage.storageClassEFSTag }}
+          {{- end }}
+          {{- if .Values.forge.persistentStorage.size }}
+          size: {{ .Values.forge.persistentStorage.size }}
+          {{- end }}
         {{- end }}
     {{- if .Values.forge.email }}
     email:
