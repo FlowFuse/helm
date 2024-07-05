@@ -45,6 +45,9 @@ forge:
     podLabels: {}
     ingress.annotations: {}
 
+  persistentStorage:
+    enabled: false
+
   fileStore:
     enabled: false
     type: localfs
@@ -117,6 +120,8 @@ forge:
   logPassthrough: false
   customHostname:
     enabled: false
+
+  assistant: {}
 
 postgresql:
   image:

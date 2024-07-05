@@ -1,3 +1,19 @@
+#### 2.10.0: Release
+
+- feat: 2.6.0 application release (#429) @cstns
+
+#### 2.9.0: Release
+
+ - fix: avoid parallel images update (#419) @ppawlowski
+ - feat: Add helm config for PersistentStorge (#427) @hardillb
+ - feat: introduce nr-assistant configuration (#426) @ppawlowski
+ - feat: Update ClusterRoll and add /data/storage dir (#407) @hardillb
+
+#### 2.8.0: Release
+
+ - fix: indentation within custom hostname configuration (#413) @ppawlowski
+ - feat: Add possibility to collect MQTT broker metrics (#412) @ppawlowski
+
 #### 2.7.0: Release
 
  - fix: Add cnameTarget @hardillb

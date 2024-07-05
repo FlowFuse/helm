@@ -426,6 +426,24 @@
                         }
                     }
                 },
+                "persistentStorage": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "storageClass": {
+                            "type": "string"
+                        },
+                        "storageClassEFSTag": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [ "enabled" ]
+                },
                 "fileStore": {
                     "type": "object",
                     "properties": {
@@ -790,6 +808,30 @@
                         },
                         "cnameTarget": {
                             "type": "string"
+                        }
+                    }
+                },
+                "assistant": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "service": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "token": {
+                                    "type": "string"
+                                },
+                                "requestTimeout": {
+                                    "type": "integer"
+                                }
+                            },
+                        "required": ["url", "token"]
                         }
                     }
                 }

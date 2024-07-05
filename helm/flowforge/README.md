@@ -165,6 +165,17 @@ Enables FlowForge Telemetry
 - `forge.fileStore.labels` allows to add custom labels to the file-server related objects (e.g. deployment, services, etc.) (default `{}`)
 - `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
 
+### Persistent Storage
+
+This is a replacement for the File Storage, both can be run at once to enable migration
+
+- `forge.persistentStorage.enabled` (default `false`)
+- `forge.persistentStorage.size` The size of the Persistent Volume that will be mounted into each instance e.g. `5Gi` (default not set)
+- `forge.persistentStorage.storageClass` The name of the Kubernetes Storage Class used to provision the volumes (default not set)
+- `forge.persistentStorage.storageClassEFSTag` The name of a AWS Tag used to find EFS Volumes when needing to scale (default not set)
+
+One of either `storageClass` or `storageClassEFSTag` needs to be set.
+
 ### Private Certificate Authority
 
  - `forge.privateCA.configMapName` name of ConfigMap to store the CA Cert bundle (default `ff-ca-certs`)
@@ -193,6 +204,13 @@ Enables FlowForge Telemetry
  - `forge.contentSecurityPolicy.directives` a JSON object that overrides the platform defaults. Uses format defined by HelmetJS [here](https://helmetjs.github.io/#content-security-policy)
 
 Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plugin, further options can be found [here](https://github.com/fastify/fastify-rate-limit#options) and can be included.
+
+ ### Nore-RED Assistant
+
+ - `forge.assistant.enabled` Enable/disable the Node-RED Assistant (default `false`)
+ - `forge.assistant.service.url` URL to the Node-RED Assistant service
+ - `forge.assistant.service.token` Token to authenticate with the Node-RED Assistant service
+ - `forge.assistant.service.requestTimeout` Timeout for the Node-RED Assistant service (default `60000`)
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.

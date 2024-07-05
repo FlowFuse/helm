@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.19.0
     with:
       image_name: 'file-server'
       package_dependencies: |
@@ -50,11 +50,84 @@ jobs:
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy-stage:
+  upload-stage-image:
     if: github.ref_name == 'main'
+    name: Upload image to staging registry
+    needs: build-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.19.0
+    with:
+      environment: stage
+      service_name: 'file-server'
+      deployment_name: 'flowforge-file'
+      container_name: 'file-storage'
+      deploy: false
+      image: ${{ needs.build-multi-architecture.outputs.image }}
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+
+  upload-production-image:
+    if: github.ref_name == 'main'
+    name: Upload image to production registry
+    needs: build-multi-architecture
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.19.0
+    with:
+      environment: production
+      service_name: 'file-server'
+      deployment_name: 'flowforge-file'
+      container_name: 'file-storage'
+      deploy: false
+      image: ${{ needs.build-multi-architecture.outputs.image }}
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+
+  update-images:
+    if: github.ref_name == 'main'
+    name: Update images
+    needs: [upload-production-image, upload-stage-image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate a token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_BOT_APP_ID }}
+          private_key: ${{ secrets.GH_BOT_APP_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: 'FlowFuse/CloudProject'
+          ref: 'main'
+          token: ${{ steps.generate_token.outputs.token }}
+      - name: Install yq
+        uses: alexellis/arkade-get@master
+        with:
+          yq: v4.42.1
+      - name: Update images
+        run: |
+          production_image_value="${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.upload-production-image.outputs.image }}"
+          staging_image_value="${{ secrets.STAGING_AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/flowforge/${{ needs.upload-stage-image.outputs.image }}"
+          yq e ".forge.fileStore.image = \"$production_image_value\"" -i ./production/flowfuse-values.yaml
+          yq e ".forge.fileStore.image = \"$staging_image_value\"" -i ./staging/flowfuse-values.yaml
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ./staging/flowfuse-values.yaml
+          git commit -m "Update file-server staging image to ${{ needs.upload-stage-image.outputs.image }}"
+          git add ./production/flowfuse-values.yaml
+          git commit -m "Update file-server production image to ${{ needs.upload-production-image.outputs.image }}"
+          git push origin main
+
+  deploy-stage:
+    # if: github.ref_name == 'main'
+    if: false
     name: Deploy to staging environment
     needs: build-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.19.0
     with:
       environment: stage
       service_name: 'file-server'
@@ -68,10 +141,11 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   deploy-prod:
-    if: github.ref_name == 'main'
+    # if: github.ref_name == 'main'
+    if: false
     name: Deploy to production environment
     needs: [build-multi-architecture, deploy-stage]
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.19.0
     with:
       environment: production
       service_name: 'file-server'
