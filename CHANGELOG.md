@@ -1,6 +1,10 @@
+#### 2.10.1: Release
+
+ - feat: 2.6.1 application release @hardillb
+
 #### 2.10.0: Release
 
-- feat: 2.6.0 application release (#429) @cstns
+ - feat: 2.6.0 application release (#429) @cstns
 
 #### 2.9.0: Release
 
