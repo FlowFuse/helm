@@ -1,0 +1,24 @@
+{{- $replicaCount := .Values.replicaCount | int -}}
+
+{{- $context := . -}}
+
+{{- range $index := until $replicaCount -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "flowforge-device.fullname" $context }}-{{ $index }}
+  labels:
+    {{- include "flowforge-device.labels" $context | nindent 4 }}
+spec:
+  type: {{ $context.Values.service.type }}
+  ports:
+    - port: {{ $context.Values.service.port }}
+      targetPort: {{ $context.Values.service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "flowforge-device.selectorLabels" $context | nindent 4 }}
+    statefulset.kubernetes.io/pod-name: flowforge-device-{{ $index }}
+---
+{{- end }}
