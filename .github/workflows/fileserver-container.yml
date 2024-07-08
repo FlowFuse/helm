@@ -35,6 +35,7 @@ jobs:
       package_dependencies: |
         @flowfuse/file-server
       build_context: 'file-server'
+      build_platforms: '["linux/amd64"]'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
     secrets:
@@ -47,6 +48,8 @@ jobs:
     uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.10.0
     with:
       image_name: 'file-server'
+      architecture_suffixes: |
+        -linux-amd64
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
