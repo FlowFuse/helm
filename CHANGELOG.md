@@ -8,10 +8,6 @@
  - ci: Generate main changelog after Helm chart release (#431) @ppawlowski
  - chore: Update the main changlog for `2.10.0` release (#430) @ppawlowski
 
-#### 2.10.1: Release
-
- - feat: 2.6.1 application release @hardillb
-
 #### 2.10.0: Release
 
  - feat: 2.6.0 application release (#429) @cstns
