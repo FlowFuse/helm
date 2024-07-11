@@ -1,5 +1,15 @@
 #### 2.10.1: Release
 
+ - fix: Add `VERSIONING.md` to helm ignored files (#436) @ppawlowski
+ - chore: rebrand working directory (#434) @hardillb
+ - ci: Build amd64 images only for FFC (#435) @ppawlowski
+ - ci: Push updated CHANGELOG.md (#432) @ppawlowski
+ - chore: Bump for 2.6.1 (#433) @hardillb
+ - ci: Generate main changelog after Helm chart release (#431) @ppawlowski
+ - chore: Update the main changlog for `2.10.0` release (#430) @ppawlowski
+
+#### 2.10.1: Release
+
  - feat: 2.6.1 application release @hardillb
 
 #### 2.10.0: Release
