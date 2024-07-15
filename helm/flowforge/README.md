@@ -80,6 +80,7 @@ To use STMP to send email
  To use AWS SES to send email
 
  - `forge.email.ses.region` the AWS region the SES service is enabled
+ - `forge.email.ses.sourceArn` the AWS ARN for the identity to send email as (optional, default not set)
 
  ### MQTT Broker
 

@@ -108,6 +108,9 @@ data:
     {{- if .Values.forge.email.ses }}
       ses:
         region: {{ .Values.forge.email.ses.region }}
+        {{- if .Values.forge.email.ses.sourceArn }}
+        sourceArn: {{ .Values.forge.email.ses.sourceArn }}
+        {{- end }}
     {{- end }}
     {{- else }}
     email:
