@@ -111,6 +111,9 @@ data:
         {{- if .Values.forge.email.ses.sourceArn }}
         sourceArn: {{ .Values.forge.email.ses.sourceArn }}
         {{- end }}
+        {{- if .Values.forge.email.ses.fromArn }}
+        fromArn: {{ .Values.forge.email.ses.fromArn }}
+        {{- end }}
     {{- end }}
     {{- else }}
     email:
