@@ -69,6 +69,12 @@
                             "properties": {
                                 "region": {
                                     "type": "string"
+                                },
+                                "sourceArn": {
+                                    "type": "string"
+                                },
+                                "fromArn": {
+                                    "type": "string"
                                 }
                             },
                             "required": [
