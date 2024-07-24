@@ -198,6 +198,11 @@ One of either `storageClass` or `storageClassEFSTag` needs to be set.
  - `forge.rate_limits.max` Max requests per timeWindow (default 1000)
  - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default `forge.rate_limits.max`)
 
+ ### Session limts
+
+ - `forge.sessions.maxDuration` Maximum time in seconds a user session can last (default 604800 )
+ - `forge.sessions.maxIdleDuration` Maximum time in seconds a user session can be idle, must be less than `maxDuration` (default 115200)
+
  ### Content Security Policy
 
  - `forge.contentSecurityPolicy.enabled` Enabled HTTP header from Forge app (default `false`)
