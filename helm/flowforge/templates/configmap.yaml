@@ -232,6 +232,10 @@ data:
     rate_limits:
 {{ toYaml .Values.forge.rate_limits | indent 6 }}
     {{- end }}
+    {{- if .Values.forge.sessions }}
+    sessions:
+{{ toYaml .Values.forge.sessions | indent 6}}
+    {{- end }}
     {{- if and (hasKey .Values.forge "contentSecurityPolicy") (hasKey .Values.forge.contentSecurityPolicy "enabled") }}
     {{- if .Values.forge.contentSecurityPolicy.enabled }}
     content_security_policy:
