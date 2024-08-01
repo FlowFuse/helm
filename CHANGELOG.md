@@ -1,3 +1,12 @@
+#### 2.11.0: Release
+
+ - feat: Release 2.7.0 (#444) @cstns
+ - feat: Allow Session limits to be set (#443) @hardillb
+ - feat: Allow SES SourceARN to be set (#438) @hardillb
+ - chore(deps): bump tibdex/github-app-token from 1 to 2 (#423) @app/dependabot
+ - chore(deps): bump actions/setup-python from 5.1.0 to 5.1.1 (#440) @app/dependabot
+ - docs: align changelog entries for `2.10.1` release (#437) @ppawlowski
+
 #### 2.10.1: Release
 
  - fix: Add `VERSIONING.md` to helm ignored files (#436) @ppawlowski
