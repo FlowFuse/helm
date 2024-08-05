@@ -70,6 +70,10 @@ forge:
       readOnlyRootFilesystem: true
     labels: {}
     podLabels: {}
+    telemetry:
+      backend:
+        prometheus:
+          enabled: false
 
   support:
     enabled: false
