@@ -43,7 +43,7 @@ data:
     telemetry:
       backend:
         prometheus:
-          enabled: {{ .Values.forge.fileStore.telemetry.backend.prometheus.enabled }}
+          enabled: {{ (((.Values.forge.fileStore.telemetry).backend).prometheus).enabled | default false}}
     logging:
       level: info
       http: info
