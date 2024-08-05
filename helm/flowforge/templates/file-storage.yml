@@ -45,7 +45,7 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/file-storage-configmap.yaml") . | sha256sum }}
         {{- if default false (((.Values.forge.fileStore.telemetry).backend).prometheus).enabled }}
         prometheus.io/scrape: "true"
-        prometheus.io/port: "3000"
+        prometheus.io/port: "3001"
         prometheus.io/path: "/metrics"
         {{- end  }}
     spec:
