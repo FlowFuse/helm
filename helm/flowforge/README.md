@@ -166,6 +166,7 @@ Enables FlowForge Telemetry
 - `forge.fileStore.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 - `forge.fileStore.labels` allows to add custom labels to the file-server related objects (e.g. deployment, services, etc.) (default `{}`)
 - `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
+- `forge.fileStore.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the fileStore app for scraping by Prometheus
 
 ### Persistent Storage
 
