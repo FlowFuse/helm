@@ -585,6 +585,22 @@
                         },
                         "image": {
                             "type": "string"
+                        },
+                        "telemetry": {
+                            "type": "object",
+                            "backend": {
+                                "type": "object",
+                                "properties": {
+                                    "prometheus": {
+                                        "type": "object",
+                                        "properties": {
+                                            "enabled": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "required": [
