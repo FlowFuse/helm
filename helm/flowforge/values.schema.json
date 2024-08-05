@@ -586,7 +586,7 @@
                         "image": {
                             "type": "string"
                         },
-                        "telemetry" {
+                        "telemetry": {
                             "type": "object",
                             "backend": {
                                 "type": "object",
