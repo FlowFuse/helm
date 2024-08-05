@@ -40,6 +40,10 @@ data:
         {{- end }}
       {{- end }}
     {{- end }}
+    telemetry:
+      backend:
+        prometheus:
+          enabled: {{ .Values.forge.fileStore.telemetry.backend.prometheus.enabled }}
     logging:
       level: info
       http: info
