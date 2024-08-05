@@ -1,3 +1,7 @@
+#### 2.12.0: Release
+
+ - feat: Add possibility to configure Prometheus endpoint for FileStore app (#445) @ppawlowski
+
 #### 2.11.0: Release
 
  - feat: Release 2.7.0 (#444) @cstns
