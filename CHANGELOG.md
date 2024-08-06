@@ -1,3 +1,7 @@
+#### 2.12.1: Release
+
+ - fix: Set prometheus scrape port for `flowforge-file` to `3001` (#446) @ppawlowski
+
 #### 2.12.0: Release
 
  - feat: Add possibility to configure Prometheus endpoint for FileStore app (#445) @ppawlowski
