@@ -91,6 +91,9 @@ data:
     {{- if .Values.forge.email }}
     email:
       enabled: true
+      {{- if .Values.forge.email.debug }}
+      debug: {{ .Values.forge.email.debug | default false }}
+      {{- end }}
       {{- if .Values.forge.email.from }}
       from: {{ .Values.forge.email.from | quote }}
       {{- end}}
