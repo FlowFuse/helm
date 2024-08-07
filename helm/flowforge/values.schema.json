@@ -38,6 +38,9 @@
                         "from": {
                             "type": "string"
                         },
+                        "debug": {
+                            "type": "boolean"
+                        },
                         "smtp": {
                             "type": "object",
                             "properties":{
