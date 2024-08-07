@@ -67,6 +67,7 @@ If `forge.cloudProvider` is set to `aws` then the following should be set
 To use STMP to send email
 
  - `forge.email.from` email address to send mail as can include name e.g. "\"FlowForge\" <flowforge@example.com>"
+ - `forge.email.debug` prints emails to stdout, useful for debugging email problems (default false)
  - `forge.email.smtp.host` if not set email is disabled
  - `forge.email.smtp.port` (default `587`)
  - `forge.email.smtp.tls` (default `false`)
