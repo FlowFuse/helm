@@ -54,7 +54,7 @@ data:
         cloudProvider: {{ .Values.forge.cloudProvider }}
         {{- end }}
         {{- if .Values.forge.privateCA }}
-        privateCA: {{ .Values.forge.privateCA.configMapName }}
+        privateCA: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certts" }}
         {{- end }}
         {{- if .Values.ingress.certManagerIssuer }}
         certManagerIssuer: {{ .Values.ingress.certManagerIssuer }}
