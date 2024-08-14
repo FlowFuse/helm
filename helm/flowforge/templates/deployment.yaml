@@ -176,7 +176,7 @@ spec:
       {{- if .Values.forge.privateCA }}
       - name: cacert
         configMap:
-          name: {{ .Values.forge.privateCA.configMapName }}
+          name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certts" }}
       {{- end }}
       {{- if .Values.forge.managementSelector }}
       nodeSelector:
