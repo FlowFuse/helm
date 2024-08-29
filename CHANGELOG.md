@@ -1,3 +1,10 @@
+#### 2.13.0: Release
+
+ - feat: Release 2.8.0 (#453) @Steve-Mcl
+ - fix: Ensure default private ca cert cm name (#451) @hardillb
+ - docs: Add release versioning documentation (#448) @ppawlowski
+ - fix: Add Email debug (#447) @hardillb
+
 #### 2.12.1: Release
 
  - fix: Set prometheus scrape port for `flowforge-file` to `3001` (#446) @ppawlowski
