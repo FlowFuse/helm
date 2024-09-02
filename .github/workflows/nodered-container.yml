@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.28.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -37,6 +37,7 @@ jobs:
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
+      build_platforms: '["linux/arm64"]'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
     secrets:
@@ -45,17 +46,19 @@ jobs:
   build-302-multi-architecture:
     name: Build multi-architecture container image
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.28.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '3.0.2-'
+      architecture_suffixes: |
+        -linux-arm64
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-302-stage:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-302-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -73,7 +76,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-302-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: production
       service_name: 'node-red'
@@ -90,7 +93,7 @@ jobs:
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.28.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
@@ -98,6 +101,7 @@ jobs:
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
+      build_platforms: '["linux/arm64"]'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
     secrets:
@@ -106,17 +110,19 @@ jobs:
   build-223-multi-architecture:
     name: Build multi-architecture container image
     needs: build-223
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.28.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '2.2.3-'
+      architecture_suffixes: |
+        -linux-arm64
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-223-stage:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-223-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -134,7 +140,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-223-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: production
       service_name: 'node-red'
@@ -151,7 +157,7 @@ jobs:
 
   build-310:
     name: Build 3.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.28.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
@@ -159,6 +165,7 @@ jobs:
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
+      build_platforms: '["linux/arm64"]'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
     secrets:
@@ -167,17 +174,19 @@ jobs:
   build-310-multi-architecture:
     name: Build multi-architecture container image
     needs: build-310
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.28.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '3.1.x-'
+      architecture_suffixes: |
+        -linux-arm64
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-310-stage:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-310-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -195,7 +204,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-310-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: production
       service_name: 'node-red'
@@ -212,7 +221,7 @@ jobs:
 
   build-40:
     name: Build 4.0.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.28.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-4.0
@@ -220,6 +229,7 @@ jobs:
       package_dependencies: |
         @flowforge/nr-project-nodes
       build_context: 'node-red-container'
+      build_platforms: '["linux/arm64"]'
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
     secrets:
@@ -228,17 +238,19 @@ jobs:
   build-40-multi-architecture:
     name: Build multi-architecture container image
     needs: build-40
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.28.0
     with:
       image_name: 'node-red'
       image_tag_prefix: '4.0.x-'
+      architecture_suffixes: |
+        -linux-arm64
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
   upload-40-stage:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-40-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -256,7 +268,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-40-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.14.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: production
       service_name: 'node-red'
