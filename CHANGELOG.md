@@ -1,6 +1,40 @@
+#### 2.13.0: Release
+
+ - feat: Release 2.8.0 (#453) @Steve-Mcl
+ - fix: Ensure default private ca cert cm name (#451) @hardillb
+ - docs: Add release versioning documentation (#448) @ppawlowski
+ - fix: Add Email debug (#447) @hardillb
+
+#### 2.12.1: Release
+
+ - fix: Set prometheus scrape port for `flowforge-file` to `3001` (#446) @ppawlowski
+
+#### 2.12.0: Release
+
+ - feat: Add possibility to configure Prometheus endpoint for FileStore app (#445) @ppawlowski
+
+#### 2.11.0: Release
+
+ - feat: Release 2.7.0 (#444) @cstns
+ - feat: Allow Session limits to be set (#443) @hardillb
+ - feat: Allow SES SourceARN to be set (#438) @hardillb
+ - chore(deps): bump tibdex/github-app-token from 1 to 2 (#423) @app/dependabot
+ - chore(deps): bump actions/setup-python from 5.1.0 to 5.1.1 (#440) @app/dependabot
+ - docs: align changelog entries for `2.10.1` release (#437) @ppawlowski
+
+#### 2.10.1: Release
+
+ - fix: Add `VERSIONING.md` to helm ignored files (#436) @ppawlowski
+ - chore: rebrand working directory (#434) @hardillb
+ - ci: Build amd64 images only for FFC (#435) @ppawlowski
+ - ci: Push updated CHANGELOG.md (#432) @ppawlowski
+ - chore: Bump for 2.6.1 (#433) @hardillb
+ - ci: Generate main changelog after Helm chart release (#431) @ppawlowski
+ - chore: Update the main changlog for `2.10.0` release (#430) @ppawlowski
+
 #### 2.10.0: Release
 
-- feat: 2.6.0 application release (#429) @cstns
+ - feat: 2.6.0 application release (#429) @cstns
 
 #### 2.9.0: Release
 

@@ -67,6 +67,7 @@ If `forge.cloudProvider` is set to `aws` then the following should be set
 To use STMP to send email
 
  - `forge.email.from` email address to send mail as can include name e.g. "\"FlowForge\" <flowforge@example.com>"
+ - `forge.email.debug` prints emails to stdout, useful for debugging email problems (default false)
  - `forge.email.smtp.host` if not set email is disabled
  - `forge.email.smtp.port` (default `587`)
  - `forge.email.smtp.tls` (default `false`)
@@ -79,7 +80,9 @@ To use STMP to send email
 
  To use AWS SES to send email
 
- - `forge.email.ses.region` the AWS region the SES service is enabled
+ - `forge.email.ses.region` the AWS region the SES service is enabled (required to enable AWS SES)
+ - `forge.email.ses.sourceArn` the AWS ARN for the identity to send email as (optional, default not set)
+ - `forge.email.ses.fromArn` the AWS ARN for the identity to place in From field(optional, default same as `forge.email.ses.sourceArn`)
 
  ### MQTT Broker
 
@@ -164,6 +167,7 @@ Enables FlowForge Telemetry
 - `forge.fileStore.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 - `forge.fileStore.labels` allows to add custom labels to the file-server related objects (e.g. deployment, services, etc.) (default `{}`)
 - `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
+- `forge.fileStore.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the fileStore app for scraping by Prometheus
 
 ### Persistent Storage
 
@@ -195,6 +199,11 @@ One of either `storageClass` or `storageClassEFSTag` needs to be set.
  - `forge.rate_limits.timeWindow` Time in milliseconds to evaluate requests over (default 60000)
  - `forge.rate_limits.max` Max requests per timeWindow (default 1000)
  - `forge.rate_limits.maxAnonymous` Max anonymous requests per timeWindow (default `forge.rate_limits.max`)
+
+ ### Session limts
+
+ - `forge.sessions.maxDuration` Maximum time in seconds a user session can last (default 604800 )
+ - `forge.sessions.maxIdleDuration` Maximum time in seconds a user session can be idle, must be less than `maxDuration` (default 115200)
 
  ### Content Security Policy
 

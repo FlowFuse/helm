@@ -38,6 +38,9 @@
                         "from": {
                             "type": "string"
                         },
+                        "debug": {
+                            "type": "boolean"
+                        },
                         "smtp": {
                             "type": "object",
                             "properties":{
@@ -68,6 +71,12 @@
                             "type": "object",
                             "properties": {
                                 "region": {
+                                    "type": "string"
+                                },
+                                "sourceArn": {
+                                    "type": "string"
+                                },
+                                "fromArn": {
                                     "type": "string"
                                 }
                             },
@@ -579,6 +588,22 @@
                         },
                         "image": {
                             "type": "string"
+                        },
+                        "telemetry": {
+                            "type": "object",
+                            "backend": {
+                                "type": "object",
+                                "properties": {
+                                    "prometheus": {
+                                        "type": "object",
+                                        "properties": {
+                                            "enabled": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "required": [
@@ -624,7 +649,7 @@
                 "branding": {
                     "type": "object"
                 },
-                "rateLimits": {
+                "rate_limits": {
                     "type": "object",
                     "properties": {
                         "enabled": {
@@ -832,6 +857,17 @@
                                 }
                             },
                         "required": ["url", "token"]
+                        }
+                    }
+                },
+                "sessions": {
+                    "type": "object",
+                    "properties": {
+                        "maxDuration": {
+                            "type": "integer"
+                        },
+                        "maxIdleDuration": {
+                            "type": "integer"
                         }
                     }
                 }

@@ -1,2 +1,3 @@
 .helmignore
 tests/
+VERSIONING.md

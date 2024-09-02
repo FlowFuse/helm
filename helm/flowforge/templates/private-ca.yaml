@@ -12,7 +12,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certts" }} 
+  name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs" }} 
   namespace: {{ .Values.forge.projectNamespace | default "flowforge" }}
   labels:
   {{- include "forge.labels" . | nindent 4 }}

@@ -54,7 +54,7 @@ data:
         cloudProvider: {{ .Values.forge.cloudProvider }}
         {{- end }}
         {{- if .Values.forge.privateCA }}
-        privateCA: {{ .Values.forge.privateCA.configMapName }}
+        privateCA: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs" }}
         {{- end }}
         {{- if .Values.ingress.certManagerIssuer }}
         certManagerIssuer: {{ .Values.ingress.certManagerIssuer }}
@@ -91,6 +91,9 @@ data:
     {{- if .Values.forge.email }}
     email:
       enabled: true
+      {{- if .Values.forge.email.debug }}
+      debug: {{ .Values.forge.email.debug | default false }}
+      {{- end }}
       {{- if .Values.forge.email.from }}
       from: {{ .Values.forge.email.from | quote }}
       {{- end}}
@@ -108,6 +111,12 @@ data:
     {{- if .Values.forge.email.ses }}
       ses:
         region: {{ .Values.forge.email.ses.region }}
+        {{- if .Values.forge.email.ses.sourceArn }}
+        sourceArn: {{ .Values.forge.email.ses.sourceArn }}
+        {{- end }}
+        {{- if .Values.forge.email.ses.fromArn }}
+        fromArn: {{ .Values.forge.email.ses.fromArn }}
+        {{- end }}
     {{- end }}
     {{- else }}
     email:
@@ -225,6 +234,10 @@ data:
     {{- if .Values.forge.rate_limits }}
     rate_limits:
 {{ toYaml .Values.forge.rate_limits | indent 6 }}
+    {{- end }}
+    {{- if .Values.forge.sessions }}
+    sessions:
+{{ toYaml .Values.forge.sessions | indent 6}}
     {{- end }}
     {{- if and (hasKey .Values.forge "contentSecurityPolicy") (hasKey .Values.forge.contentSecurityPolicy "enabled") }}
     {{- if .Values.forge.contentSecurityPolicy.enabled }}
