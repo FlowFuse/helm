@@ -87,7 +87,8 @@ jobs:
       deployment_name: flowforge
       container_name: forge
       deploy: false
-      image: ${{ needs.build-multi-architecture.outputs.image }}
+      # image: ${{ needs.build-multi-architecture.outputs.image }}
+      image: ${{ needs.build.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
@@ -134,7 +135,7 @@ jobs:
     # if: github.ref_name == 'main'
     if: false
     name: Deploy to staging environment
-    needs: build-multi-architecture
+    needs: build
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: stage
@@ -152,7 +153,7 @@ jobs:
     # if: github.ref_name == 'main'
     if: false
     name: Deploy to production environment
-    needs: [build-multi-architecture, deploy-stage]
+    needs: [build, deploy-stage]
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: production
