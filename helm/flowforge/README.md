@@ -76,7 +76,7 @@ To use STMP to send email
  - `forge.email.smtp.existingSecret` the name of an Kubernetes secret object with email credentials (If `forge.email.smtp.existingSecret` is set, `forge.email.smtp.password` value is ignored; default not set)
 
  Note: External secret must contain following keys:
-- `smtp-password` - the password to use to connect to the database (equivalent to `forge.email.smtp.password` key)
+- `smtp-password` - the password to use to connect to the mail server (equivalent to `forge.email.smtp.password` key)
 
  To use AWS SES to send email
 
