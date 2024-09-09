@@ -36,7 +36,6 @@ jobs:
         @flowfuse/flowfuse
         @flowfuse/driver-kubernetes
       build_context: 'flowforge-container'
-      # build_platforms: '["linux/amd64"]'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
@@ -44,19 +43,8 @@ jobs:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
-  # build-multi-architecture:
-  #   name: Build multi-architecture container image
-  #   needs: build
-  #   uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.14.0
-  #   with:
-  #     image_name: 'forge-k8s'
-  #     architecture_suffixes: |
-  #       -linux-amd64
-  #   secrets:
-  #     temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
-
   upload-stage-image:
-    # if: github.ref_name == 'main'
+    if: github.ref_name == 'main'
     name: Upload image to staging registry
     needs: build
     # needs: build-multi-architecture
