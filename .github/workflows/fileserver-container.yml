@@ -29,42 +29,31 @@ concurrency:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.28.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.29.0
     with:
       image_name: 'file-server'
       package_dependencies: |
         @flowfuse/file-server
       build_context: 'file-server'
-      build_platforms: '["linux/amd64"]'
+      build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: true
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
-  build-multi-architecture:
-    name: Build multi-architecture container image
-    needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/merge_multiarch_images.yml@v0.14.0
-    with:
-      image_name: 'file-server'
-      architecture_suffixes: |
-        -linux-amd64
-    secrets:
-      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
-
   upload-stage-image:
     if: github.ref_name == 'main'
     name: Upload image to staging registry
-    needs: build-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
+    needs: build
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.29.0
     with:
       environment: stage
       service_name: 'file-server'
       deployment_name: 'flowforge-file'
       container_name: 'file-storage'
       deploy: false
-      image: ${{ needs.build-multi-architecture.outputs.image }}
+      image: ${{ needs.build.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
@@ -74,15 +63,15 @@ jobs:
   upload-production-image:
     if: github.ref_name == 'main'
     name: Upload image to production registry
-    needs: build-multi-architecture
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
+    needs: build
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.29.0
     with:
       environment: production
       service_name: 'file-server'
       deployment_name: 'flowforge-file'
       container_name: 'file-storage'
       deploy: false
-      image: ${{ needs.build-multi-architecture.outputs.image }}
+      image: ${{ needs.build.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
@@ -129,14 +118,14 @@ jobs:
     # if: github.ref_name == 'main'
     if: false
     name: Deploy to staging environment
-    needs: build-multi-architecture
+    needs: build
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: stage
       service_name: 'file-server'
       deployment_name: 'flowforge-file'
       container_name: 'file-storage'
-      image: ${{ needs.build-multi-architecture.outputs.image }}
+      image: ${{ needs.build.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
@@ -147,14 +136,14 @@ jobs:
     # if: github.ref_name == 'main'
     if: false
     name: Deploy to production environment
-    needs: [build-multi-architecture, deploy-stage]
+    needs: [build, deploy-stage]
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
     with:
       environment: production
       service_name: 'file-server'
       deployment_name: 'flowforge-file'
       container_name: 'file-storage'
-      image: ${{ needs.build-multi-architecture.outputs.image }}
+      image: ${{ needs.build.outputs.image }}
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
