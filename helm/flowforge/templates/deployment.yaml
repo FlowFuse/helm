@@ -161,6 +161,10 @@ spec:
         resources: {{- toYaml .Values.forge.resources | nindent 12 }}
         {{- end }}
         securityContext: {{- toYaml .Values.forge.containerSecurityContext | nindent 10 }}
+      {{- if .Values.forge.tolerations}}
+      tolerations:
+      {{ toYaml .Values.forge.tolerations | nindent 8 }}
+      {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}

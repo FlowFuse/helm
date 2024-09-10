@@ -50,6 +50,7 @@ For other values please refer to the documentation below.
  - `forge.labels` allows to add custom labels to the core application related objects (e.g. deployment, services, etc.) (default `{}`)
  - `forge.podLabels` allows to add custom labels to the core application pod (default `{}`)
  - `forge.replicas` allows the number of instances of the FlowFuse App to be set. Scaling only supported with ingress-nginx controller (default `1`)
+ - `forge.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the core application deployment (default `[]`)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
@@ -100,6 +101,7 @@ To use STMP to send email
   - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.labels` allows to add custom labels to the broker related objects (e.g. deployment, services, etc.) (default `{}`)
   - `forge.broker.podLabels` allows to add custom labels to the broker pod (default `{}`)
+  - `forge.broker.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the broker deployment (default `[]`)
   - `forge.broker.ingress.annotations` broker ingress annotations (default is `{}`)
 
 `forge.broker.ingress.annotations` values can contain the following tokens that will be replaced as follows:
@@ -167,6 +169,7 @@ Enables FlowForge Telemetry
 - `forge.fileStore.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the flowforge-file pod (check [here](#liveness-readiness-and-startup-probes) for more details)
 - `forge.fileStore.labels` allows to add custom labels to the file-server related objects (e.g. deployment, services, etc.) (default `{}`)
 - `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
+- `forge.fileStore.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the file-server deployment (default `[]`)
 - `forge.fileStore.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the fileStore app for scraping by Prometheus
 
 ### Persistent Storage
