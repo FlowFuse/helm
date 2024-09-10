@@ -92,6 +92,10 @@ spec:
         {{- if .Values.forge.broker.resources }}
         resources: {{- toYaml .Values.forge.broker.resources | nindent 12 }}
         {{- end }}
+      {{- if .Values.forge.broker.tolerations}}
+      tolerations:
+      {{ toYaml .Values.forge.broker.tolerations | nindent 8 }}
+      {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}

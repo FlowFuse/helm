@@ -131,6 +131,10 @@ spec:
         {{- if .Values.forge.fileStore.resources }}
         resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
         {{- end }}
+      {{- if .Values.forge.fileStore.tolerations}}
+      tolerations:
+      {{ toYaml .Values.forge.fileStore.tolerations | nindent 8 }}
+      {{- end }}
       {{- if .Values.forge.registrySecrets }}
       imagePullSecrets:
       {{- range .Values.forge.registrySecrets }}
