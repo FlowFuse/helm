@@ -1,3 +1,13 @@
+#### 2.14.0: Release
+
+ - feat: add possibility to configure tolerations (#464) @ppawlowski
+ - fix: relicense helm chart to Apache-2.0 (#461) @hardillb
+ - fix: Update README.md (#458) @hardillb
+ - ci: Revert `merge_multiarch_images` workflow version bump (#457) @ppawlowski
+ - chore(deps): bump flowfuse/github-actions-workflows from 0.14.0 to 0.28.0 (#454) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 6.0.0 to 6.7.0 (#452) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows from 0.10.0 to 0.28.0 (#408) @app/dependabot
+
 #### 2.13.0: Release
 
  - feat: Release 2.8.0 (#453) @Steve-Mcl

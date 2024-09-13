@@ -43,6 +43,7 @@ forge:
       readOnlyRootFilesystem: true
     labels: {}
     podLabels: {}
+    tolerations: []
     ingress.annotations: {}
 
   persistentStorage:
@@ -70,6 +71,7 @@ forge:
       readOnlyRootFilesystem: true
     labels: {}
     podLabels: {}
+    tolerations: []
     telemetry:
       backend:
         prometheus:
@@ -120,6 +122,8 @@ forge:
     timeoutSeconds: 5
     successThreshold: 1
     failureThreshold: 3
+
+  tolerations: []
 
   logPassthrough: false
   customHostname:
