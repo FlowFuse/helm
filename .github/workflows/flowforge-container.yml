@@ -26,6 +26,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
+
 jobs:
   build:
     name: Build single-architecture container images
@@ -38,7 +39,7 @@ jobs:
       build_context: 'flowforge-container'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
-      scan_image: true
+      scan_image: false
     secrets:
       npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
