@@ -119,7 +119,7 @@ jobs:
     if: false
     name: Deploy to staging environment
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
     with:
       environment: stage
       service_name: 'file-server'
@@ -137,7 +137,7 @@ jobs:
     if: false
     name: Deploy to production environment
     needs: [build, deploy-stage]
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.28.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
     with:
       environment: production
       service_name: 'file-server'
