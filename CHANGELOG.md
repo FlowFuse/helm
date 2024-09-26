@@ -1,3 +1,10 @@
+#### 2.15.0: Release
+
+ - feat: Release 2.9.0 (#470) @cstns
+ - ci: temporarily disable container scan with Trivy (#468) @ppawlowski
+ - chore: bump Node-RED containers (#467) @hardillb
+ - ci: Bump containers reusable workflow version to `v0.29.0` (#459) @ppawlowski
+
 #### 2.14.0: Release
 
  - feat: add possibility to configure tolerations (#464) @ppawlowski
