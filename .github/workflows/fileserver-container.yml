@@ -33,7 +33,7 @@ jobs:
     with:
       image_name: 'file-server'
       package_dependencies: |
-        @flowfuse/file-server=nightly
+        @flowfuse/file-server
       build_context: 'file-server'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
