@@ -29,17 +29,16 @@ concurrency:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@refactor-container-build
     with:
       image_name: 'file-server'
       package_dependencies: |
-        @flowfuse/file-server
+        @flowfuse/file-server=nightly
       build_context: 'file-server'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
-      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   upload-stage-image:
