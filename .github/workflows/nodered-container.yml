@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.33.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -48,7 +48,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -66,7 +66,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: production
       service_name: 'node-red'
@@ -83,7 +83,7 @@ jobs:
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.33.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
@@ -101,7 +101,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-223
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -119,7 +119,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-223
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: production
       service_name: 'node-red'
@@ -136,7 +136,7 @@ jobs:
 
   build-310:
     name: Build 3.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.33.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
@@ -154,7 +154,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-310
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -172,7 +172,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-310
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: production
       service_name: 'node-red'
@@ -189,7 +189,7 @@ jobs:
 
   build-40:
     name: Build 4.0.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.33.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-4.0
@@ -207,7 +207,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-40
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -225,7 +225,7 @@ jobs:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-40
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.30.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.33.0
     with:
       environment: production
       service_name: 'node-red'
