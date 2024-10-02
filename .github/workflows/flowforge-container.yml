@@ -34,14 +34,13 @@ jobs:
     with:
       image_name: 'forge-k8s'
       package_dependencies: |
-        @flowfuse/flowfuse
-        @flowfuse/driver-kubernetes
+        @flowfuse/flowfuse=nightly
+        @flowfuse/driver-kubernetes=nightly
       build_context: 'flowforge-container'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
-      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   upload-stage-image:

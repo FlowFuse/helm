@@ -33,13 +33,12 @@ jobs:
     with:
       image_name: 'file-server'
       package_dependencies: |
-        @flowfuse/file-server
+        @flowfuse/file-server=nightly
       build_context: 'file-server'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
-      npm_registry_auth_token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   upload-stage-image:
