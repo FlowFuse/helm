@@ -35,9 +35,11 @@ jobs:
       dockerfile_path: Dockerfile
       image_tag_prefix: '3.0.2-'
       package_dependencies: |
-        @flowforge/nr-project-nodes
+        @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
+      build-args: |
+        BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
@@ -89,9 +91,11 @@ jobs:
       dockerfile_path: Dockerfile-2.2.x
       image_tag_prefix: '2.2.3-'
       package_dependencies: |
-        @flowforge/nr-project-nodes
+        @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
+      build-args: |
+        BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
@@ -142,9 +146,11 @@ jobs:
       dockerfile_path: Dockerfile-3.1
       image_tag_prefix: '3.1.x-'
       package_dependencies: |
-        @flowforge/nr-project-nodes
+        @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
+      build-args: |
+        BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
@@ -195,9 +201,11 @@ jobs:
       dockerfile_path: Dockerfile-4.0
       image_tag_prefix: '4.0.x-'
       package_dependencies: |
-        @flowforge/nr-project-nodes
+        @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
+      build-args: |
+        BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
     secrets:
