@@ -38,7 +38,7 @@ jobs:
         @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
-      build-args: |
+      build_arguments: |
         BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
@@ -93,7 +93,7 @@ jobs:
         @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
-      build-args: |
+      build_arguments: |
         BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
@@ -147,7 +147,7 @@ jobs:
         @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
-      build-args: |
+      build_arguments: |
         BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
@@ -201,7 +201,7 @@ jobs:
         @flowforge/nr-project-nodes=nightly
       build_context: 'node-red-container'
       build_platform: "linux/arm64"
-      build-args: |
+      build_arguments: |
         BUILD_TAG=nightly
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
