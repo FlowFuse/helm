@@ -225,6 +225,14 @@
                         "affinity": {
                             "type": "object"
                         },
+                        "teamBroker": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
                         "resources": {
                             "type": "object",
                             "properties": {

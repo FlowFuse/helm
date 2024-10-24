@@ -167,6 +167,10 @@ data:
       {{ else -}}
       public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://{{ include "forge.brokerDomain" . }}
       {{ end -}}
+      {{ if .Values.forge.broker.teamBroker.enabled }}
+      teamBroker:
+        enabled: true 
+      {{ end -}}
     {{- end }}
     logging:
       level: info
