@@ -1,3 +1,7 @@
+#### 2.17.0: Release
+
+ - feat: Release 2.10.0 (#483) @knolleary
+
 #### 2.16.0: Release
 
  - feat: Team broker flag (#482) @hardillb
