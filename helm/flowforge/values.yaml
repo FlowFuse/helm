@@ -47,6 +47,11 @@ forge:
     podLabels: {}
     tolerations: []
     ingress.annotations: {}
+    emqx:
+      enabled: false
+      persistence:
+        storageClassName: ''
+
 
   persistentStorage:
     enabled: false

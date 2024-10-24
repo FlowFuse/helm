@@ -1,0 +1,228 @@
+{{- if .Values.forge.broker.emqx.enabled -}}
+apiVersion: apps.emqx.io/v2beta1
+kind: EMQX
+metadata:
+    name: emqx
+spec:
+    image: emqx:5
+    imagePullPolicy: IfNotPresent
+    coreTemplate:
+        spec:
+            volumeClaimTemplates:
+                {{ if .Values.forge.broker.emqx.storageClassName}}
+                storageClassName: {{ .Values.forge.broker.emqx.storageClassName }}
+                {{ end}}
+                resources:
+                    requests:
+                        storage: 10Gi
+                accessModes:
+                    - ReadWriteOnce
+            replicaCount: 1 
+    config:
+        data: |
+            authentication = [
+                {
+                    backend = http
+                    body = {
+                        clientId = "${clientid}"
+                        username = "${username}"
+                        password = "${password}"
+                    }
+                    enable = true
+                    connect_timeout = "15s"
+                    enable_pipelining = 100
+                    headers {
+                        content-type = "application/json"
+                    }
+                    mechanism = password_based
+                    method = post
+                    pool_size = 8
+                    request_timeout = "8s"
+                    ssl {
+                        enable = false
+                    }
+                    url = "http://forge.default/api/comms/v2/auth"
+                }
+            ]
+            authorization {
+                cache {
+                    enable = true
+                    excludes = []
+                    max_size = 32
+                    ttl = "1m"
+                }
+                deny_action = ignore
+                no_match = allow
+                sources = [
+                    {
+                        enable = true
+                        enable_pipelining = 100
+                        connect_timeout = "15s"
+                        request_timeout = "30s"
+                        pool_size = 8
+                        body {
+                            action = "${action}"
+                            topic = "${topic}"
+                            username = "${username}"
+                        }
+                        headers {
+                            content-type = "application/json"
+                        }
+                        method = post
+                        type = http
+                        ssl {
+                            enable = false
+                        }
+                        url = "http://forge.default/api/comms/v2/acls"
+                    }
+                ]
+            }
+            listeners {
+                tcp {
+                    default {
+                        bind = "0.0.0.0:1883"
+                        access_rules = [
+                            "allow all"
+                        ]
+                        enable = true
+                        enable_authn = true
+                        mountpoint = "${client_attrs.team}"
+                        max_connections = infinity
+                        acceptors = 16
+                        proxy_protocol = false
+                        proxy_protocol_timeout = 3s
+                        tcp_options {
+                            backlog = 1024
+                            send_timeout = 15s
+                            recbuf = 2KB
+                            sndbuf = 4KB
+                            buffer = 4KB
+                            high_watermark = 1MB
+                            nodelay = true
+                            reuseaddr = true
+                            keepalive = "none"
+                        }
+                    }
+                }
+                ssl {
+                    default {
+                        enable = false
+                    }
+                }
+                wss {
+                    default {
+                        enable = false
+                    }
+                }
+                ws {
+                    default {
+                        bind = "0.0.0.0:8080"
+                        access_rules = [
+                            "allow all"
+                        ]
+                        enable = true
+                        enable_authn = true
+                        mountpoint = "${client_attrs.team}"
+                        max_connections = infinity
+                        proxy_protocol = false
+                        proxy_protocol_timeout = 3s
+                        tcp_options {
+                            backlog = 1024
+                            send_timeout = 15s
+                            recbuf = 2KB
+                            sndbuf = 4KB
+                            buffer = 4KB
+                            high_watermark = 1MB
+                            nodelay = true
+                            reuseaddr = true
+                            keepalive = "none"
+                        }
+                        websocket {
+                            mqtt_path = "/"
+                            allow_origin_absence = true
+                            check_origin_enable = false
+                            fail_if_no_subprotocol = true
+                            supported_subprotocols = "mqtt, mqtt-v3, mqtt-v3.1.1 mqtt-v5"
+                            mqtt_piggyback = multiple
+                            compress = false
+                            idle_timeout = 7200s
+                            max_frame_size = infinity
+                            proxy_address_header = "x-forwarded-for"
+                            proxy_port_header = "x-forwarded-port"
+                        }
+                    }
+                }
+            }
+            dashboard {
+                default_password = topSecret
+            }
+            api_key {
+              bootstrap_file = "/mounted/config/api-keys"
+            }
+    coreTemplate:
+        spec:
+            volumeClaimTemaples:
+                resources:
+                    requests:
+                        storage: 5Gi
+                accessModes:
+                    - ReadWriteOnce
+            extraVolumes:
+                - name: config
+                    secret:
+                        name: emqx-config
+            extraVolumeMounts:
+                - name: config
+                    mountPath: /mounted/config
+    listenersServiceTemplate:
+        spec:
+            type: ClusterIP
+    dashboardServiceTemplate:
+        spec:
+            type: ClusterIP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: emqx-config
+  namespace: {{ .Release.Namespace }}
+stringData:
+  api-keys: |
+    flowforge:verySecret:administrator
+  
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: flowforge-broker
+    labels:
+      {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
+    annotations:
+    {{- if .Values.ingress.certManagerIssuer }}
+        cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
+    {{- end }}
+    {{- if and .Values.forge.broker.enabled .Values.forge.broker.ingress (hasKey .Values.forge.broker.ingress "annotations") }}
+{{ toYaml .Values.forge.broker.ingress.annotations | replace "{{ instanceHost }}" "{{ include forge.brokerDomain . }}" | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
+    {{- end }}
+spec:
+    {{- if $.Values.ingress.className }}
+    ingressClassName: {{ $.Values.ingress.className }}
+    {{- end }}
+    rules:
+      - host: {{ include "forge.brokerDomain" . }}
+        http:
+            paths:
+              - pathType: Prefix
+                path: /
+                backend:
+                    service:
+                        name: emqx-listeners
+                        port:
+                            number: 8080
+  {{- if .Values.ingress.certManagerIssuer }}
+    tls:
+    - hosts:
+        - {{ include "forge.brokerDomain" . }}
+        secretName: {{ include "forge.brokerDomain" . }}
+  {{- end }}
+{{- end }}
