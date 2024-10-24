@@ -1,3 +1,9 @@
+#### 2.16.0: Release
+
+ - feat: Team broker flag (#482) @hardillb
+ - chore: Update for new Node-RED releases (#478) @knolleary
+ - chore: Bump Node-RED container to 4.0.4 (#477) @knolleary
+
 #### 2.15.0: Release
 
  - feat: Release 2.9.0 (#470) @cstns
