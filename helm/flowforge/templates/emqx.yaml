@@ -149,6 +149,12 @@ spec:
             }
     coreTemplate:
         spec:
+            {{- if .Values.forge.registrySecrets }}
+            imagePullSecrets:
+            {{- range .Values.forge.registrySecrets }}
+            - name: {{ . }}
+            {{- end }}
+            {{- end }}
             volumeClaimTemplates:
                 {{- if .Values.forge.broker.teamBroker.storageClassName }}
                 storageClassName: {{ .Values.forge.broker.teamBroker.storageClassName }}
@@ -165,18 +171,25 @@ spec:
             extraVolumeMounts:
               - name: config
                 mountPath: /mounted/config
+            {{- if .Values.forge.broker.affinity }}
+            affinity: {{ toYaml .Values.forge.broker.affinity | indent 12 }}
+            {{- end }}
+            {{- if .Values.forge.broker.tolerations}}
+            tolerations:
+            {{ toYaml .Values.forge.broker.tolerations | nindent 12 }}
+            {{- end }}
     listenersServiceTemplate:
-        {{- if .Values.forge.broker.teamBroker.listenersServiceTemplate }}
-{{ toYaml .Values.forge.broker.teamBroker.listenersServiceTemplate | indent 8 }}
-        {{ else }}
         spec:
+        {{- if .Values.forge.broker.teamBroker.listenersServiceTemplate }}
+{{ toYaml .Values.forge.broker.teamBroker.listenersServiceTemplate | indent 12 }}
+        {{ else }}
             type: ClusterIP
         {{- end }}
     dashboardServiceTemplate:
-        {{- if .Values.forge.broker.teamBroker.dashboardServiceTemplate }}
-{{ toYaml .Values.forge.broker.teamBroker.dashboardServiceTemplate | indent 8 }}
-        {{ else }}
         spec:
+        {{- if .Values.forge.broker.teamBroker.dashboardServiceTemplate }}
+{{ toYaml .Values.forge.broker.teamBroker.dashboardServiceTemplate | indent 12 }}
+        {{ else }}
             type: ClusterIP
         {{- end }}
 ---

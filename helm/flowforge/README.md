@@ -92,6 +92,9 @@ To use STMP to send email
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
   - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`)
+  - `forge.broker.teamBroker.storageClass` the StorageClass to use for the teamBroker persistent Storage
+  - `forge.broker.teamBroker.listenersServiceTemplate` Service spec for the MQTT listeners
+  - `forge.broker.teamBroker.dashboardServiceTemplate` Service spec for the teamBroker admin console
   - `forge.broker.createMetricsUser` defines if a dedicated MQTT user with broker metrics collection permissions should be created (default `true`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
