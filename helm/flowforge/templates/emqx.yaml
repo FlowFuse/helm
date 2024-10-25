@@ -1,4 +1,4 @@
-{{- if .Values.forge.broker.emqx.enabled -}}
+{{- if .Values.forge.broker.teamBroker.enabled -}}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
