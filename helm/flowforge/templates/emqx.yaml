@@ -1,4 +1,4 @@
-{{- if .Values.forge.broker.teamBroker.enabled -}}
+{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true ) -}}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
@@ -6,18 +6,6 @@ metadata:
 spec:
     image: emqx:5
     imagePullPolicy: IfNotPresent
-    coreTemplate:
-        spec:
-            volumeClaimTemplates:
-                {{ if .Values.forge.broker.emqx.storageClassName}}
-                storageClassName: {{ .Values.forge.broker.emqx.storageClassName }}
-                {{ end}}
-                resources:
-                    requests:
-                        storage: 10Gi
-                accessModes:
-                    - ReadWriteOnce
-            replicaCount: 1 
     config:
         data: |
             authentication = [
@@ -41,7 +29,7 @@ spec:
                     ssl {
                         enable = false
                     }
-                    url = "http://forge.default/api/comms/v2/auth"
+                    url = "http://forge.{{ .Release.Namespace }}/api/comms/v2/auth"
                 }
             ]
             authorization {
@@ -73,7 +61,7 @@ spec:
                         ssl {
                             enable = false
                         }
-                        url = "http://forge.default/api/comms/v2/acls"
+                        url = "http://forge.{{ .Release.Namespace }}/api/comms/v2/acls"
                     }
                 ]
             }
@@ -161,25 +149,36 @@ spec:
             }
     coreTemplate:
         spec:
-            volumeClaimTemaples:
+            volumeClaimTemplates:
+                {{- if .Values.forge.broker.teamBroker.storageClassName }}
+                storageClassName: {{ .Values.forge.broker.teamBroker.storageClassName }}
+                {{- end}}
                 resources:
                     requests:
                         storage: 5Gi
                 accessModes:
                     - ReadWriteOnce
             extraVolumes:
-                - name: config
-                    secret:
-                        name: emqx-config
+              - name: config
+                secret:
+                    secretName: emqx-config
             extraVolumeMounts:
-                - name: config
-                    mountPath: /mounted/config
+              - name: config
+                mountPath: /mounted/config
     listenersServiceTemplate:
+        {{- if .Values.forge.broker.teamBroker.listenersServiceTemplate }}
+{{ toYaml .Values.forge.broker.teamBroker.listenersServiceTemplate | indent 8 }}
+        {{ else }}
         spec:
             type: ClusterIP
+        {{- end }}
     dashboardServiceTemplate:
+        {{- if .Values.forge.broker.teamBroker.dashboardServiceTemplate }}
+{{ toYaml .Values.forge.broker.teamBroker.dashboardServiceTemplate | indent 8 }}
+        {{ else }}
         spec:
             type: ClusterIP
+        {{- end }}
 ---
 apiVersion: v1
 kind: Secret
