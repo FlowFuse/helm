@@ -22,8 +22,8 @@ forge:
     teamBroker:
       enabled: false
       storageClassName: ''
-      listenersServiceTemplate: ''
-      dashboardServiceTemplate: ''
+      listenersServiceTemplate: {}
+      dashboardServiceTemplate: {}
     createMetricsUser: false
     podSecurityContext:
       runAsUser: 1000
