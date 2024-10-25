@@ -230,6 +230,15 @@
                             "properties": {
                                 "enabled": {
                                     "type": "boolean"
+                                },
+                                "storageClass": {
+                                    "type": "string"
+                                },
+                                "listenersServiceTemplate": {
+                                    "type": "object"
+                                },
+                                "dashboardServiceTemplate": {
+                                    "type": "object"
                                 }
                             }
                         },

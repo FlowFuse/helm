@@ -21,6 +21,9 @@ forge:
     enabled: false
     teamBroker:
       enabled: false
+      storageClassName: ''
+      listenersServiceTemplate: ''
+      dashboardServiceTemplate: ''
     createMetricsUser: false
     podSecurityContext:
       runAsUser: 1000
@@ -47,11 +50,6 @@ forge:
     podLabels: {}
     tolerations: []
     ingress.annotations: {}
-    emqx:
-      enabled: false
-      persistence:
-        storageClassName: ''
-
 
   persistentStorage:
     enabled: false
