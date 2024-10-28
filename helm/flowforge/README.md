@@ -51,6 +51,7 @@ For other values please refer to the documentation below.
  - `forge.podLabels` allows to add custom labels to the core application pod (default `{}`)
  - `forge.replicas` allows the number of instances of the FlowFuse App to be set. Scaling only supported with ingress-nginx controller (default `1`)
  - `forge.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the core application deployment (default `[]`)
+ - `forge.priorityClassName` allows to set [priorityClassName](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/) for all deployments created by this Helm chart (default not set)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.

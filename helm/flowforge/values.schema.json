@@ -528,6 +528,9 @@
                                 }
                             }
                         },
+                        "priorityClassName": {
+                            "type": "string"
+                        },
                         "livenessProbe": {
                             "type": "object",
                             "properties": {

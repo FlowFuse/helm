@@ -127,6 +127,8 @@ forge:
 
   tolerations: []
 
+  priorityClassName: ""
+
   logPassthrough: false
   customHostname:
     enabled: false

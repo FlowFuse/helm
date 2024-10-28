@@ -35,6 +35,9 @@ spec:
         prometheus.io/path: "/metrics"
         {{- end  }}
     spec:
+      {{- if .Values.forge.priorityClassName }}
+      priorityClassName: "{{ .Values.forge.priorityClassName}}"
+      {{- end }}
       serviceAccountName: flowforge
       automountServiceAccountToken: true 
       securityContext:
