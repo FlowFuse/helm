@@ -160,8 +160,8 @@ spec:
                         name: emqx-config-secrets
                         key: EMQX_DASHBOARD__DEFAULT_PASSWORD
             volumeClaimTemplates:
-                {{- if .Values.forge.broker.teamBroker.storageClassName }}
-                storageClassName: {{ .Values.forge.broker.teamBroker.storageClassName }}
+                {{- if .Values.broker.storageClassName }}
+                storageClassName: {{ .Values.broker.storageClassName }}
                 {{- end}}
                 resources:
                     requests:
@@ -185,15 +185,15 @@ spec:
             {{- end }}
     listenersServiceTemplate:
         spec:
-        {{- if .Values.forge.broker.teamBroker.listenersServiceTemplate }}
-{{ toYaml .Values.forge.broker.teamBroker.listenersServiceTemplate | indent 12 }}
+        {{- if .Values.broker.listenersServiceTemplate }}
+{{ toYaml .Values.broker.listenersServiceTemplate | indent 12 }}
         {{ else }}
             type: ClusterIP
         {{- end }}
     dashboardServiceTemplate:
         spec:
-        {{- if .Values.forge.broker.teamBroker.dashboardServiceTemplate }}
-{{ toYaml .Values.forge.broker.teamBroker.dashboardServiceTemplate | indent 12 }}
+        {{- if .Values.broker.dashboardServiceTemplate }}
+{{ toYaml .Values.broker.dashboardServiceTemplate | indent 12 }}
         {{ else }}
             type: ClusterIP
         {{- end }}

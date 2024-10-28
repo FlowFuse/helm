@@ -21,9 +21,6 @@ forge:
     enabled: false
     teamBroker:
       enabled: false
-      storageClassName: ''
-      listenersServiceTemplate: {}
-      dashboardServiceTemplate: {}
     createMetricsUser: false
     podSecurityContext:
       runAsUser: 1000
@@ -154,3 +151,8 @@ editors:
     create: true
     annotations: {}
     name: editors
+
+broker:
+  storageClassName: ''
+  listenersServiceTemplate: {}
+  dashboardServiceTemplate: {}
