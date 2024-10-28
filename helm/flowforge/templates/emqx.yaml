@@ -204,7 +204,10 @@ metadata:
     name: emqx-config-secrets
     namespace: {{ .Release.Namespace }}
 type: Opaque
-stringData:
+data:
+    EMQX_DASHBOARD__DEFAULT_PASSWORD: {{ "topSecret" | b64enc | quote }}
+     api-keys: |
+         {{ "flowfuse:verySecret:administrator" | b64enc | quote }} 
     EMQX_DASHBOARD__DEFAULT_PASSWORD: topSecret
     api-keys: |
         flowfuse:verySecret:administrator
