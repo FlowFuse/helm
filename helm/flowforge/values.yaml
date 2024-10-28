@@ -156,3 +156,4 @@ broker:
   storageClassName: ''
   listenersServiceTemplate: {}
   dashboardServiceTemplate: {}
+  existingSecret: ''

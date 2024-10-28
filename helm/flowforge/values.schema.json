@@ -975,6 +975,9 @@
                 },
                 "dashboardServiceTemplate": {
                     "type": "object"
+                },
+                "existingSecret": {
+                    "type": "string"
                 }
             }
         }

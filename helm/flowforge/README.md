@@ -117,6 +117,7 @@ To use STMP to send email
   - `broker.storageClassName` the StorageClass to use for the teamBroker persistent Storage
   - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
+  - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
 
 ### Telemetry
 
