@@ -1,4 +1,5 @@
-{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true ) -}}
+{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true )  -}}
+{{- if .Capabilities.APIVersions.Has "apps.emqx.io/v2beta1" }}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
@@ -141,9 +142,6 @@ spec:
                     }
                 }
             }
-            dashboard {
-                default_password = topSecret
-            }
             api_key {
               bootstrap_file = "/mounted/config/api-keys"
             }
@@ -152,9 +150,15 @@ spec:
             {{- if .Values.forge.registrySecrets }}
             imagePullSecrets:
             {{- range .Values.forge.registrySecrets }}
-            - name: {{ . }}
+              - name: {{ . }}
             {{- end }}
             {{- end }}
+            env:
+              - name: EMQX_DASHBOARD__DEFAULT_PASSWORD
+                valueFrom:
+                    secretKeyRef:
+                        name: emqx-config-secrets
+                        key: EMQX_DASHBOARD__DEFAULT_PASSWORD
             volumeClaimTemplates:
                 {{- if .Values.forge.broker.teamBroker.storageClassName }}
                 storageClassName: {{ .Values.forge.broker.teamBroker.storageClassName }}
@@ -167,10 +171,11 @@ spec:
             extraVolumes:
               - name: config
                 secret:
-                    secretName: emqx-config
+                    secretName: emqx-config-secrets
             extraVolumeMounts:
               - name: config
-                mountPath: /mounted/config
+                mountPath: /mounted/config/api-keys
+                subPath: api-keys
             {{- if .Values.forge.broker.affinity }}
             affinity: {{ toYaml .Values.forge.broker.affinity | indent 12 }}
             {{- end }}
@@ -196,11 +201,13 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: emqx-config
-  namespace: {{ .Release.Namespace }}
+    name: emqx-config-secrets
+    namespace: {{ .Release.Namespace }}
+type: Opaque
 stringData:
-  api-keys: |
-    flowforge:verySecret:administrator
+    EMQX_DASHBOARD__DEFAULT_PASSWORD: topSecret
+    api-keys: |
+        flowfuse:verySecret:administrator
   
 ---
 apiVersion: networking.k8s.io/v1
@@ -237,4 +244,7 @@ spec:
         - {{ include "forge.brokerDomain" . }}
         secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
+{{- end }}
+{{- else }}
+  {{- fail "EMQX Operator not installed" }}
 {{- end }}
