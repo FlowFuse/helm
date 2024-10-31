@@ -1,3 +1,7 @@
+#### 2.18.2: Release
+
+ - fix: EMQX service templates (#489) @ppawlowski
+
 #### 2.18.1: Release
 
  - fix: Change the way of handling EMQX secrets object (#488) @ppawlowski
