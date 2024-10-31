@@ -1,3 +1,7 @@
+#### 2.18.1: Release
+
+ - fix: Change the way of handling EMQX secrets object (#488) @ppawlowski
+
 #### 2.18.0: Release
 
  - feat: Add possibility to apply `priorityClassName` to all deployments (#485) @ppawlowski
