@@ -153,3 +153,9 @@ editors:
     create: true
     annotations: {}
     name: editors
+
+broker:
+  storageClassName: ''
+  listenersServiceTemplate: {}
+  dashboardServiceTemplate: {}
+  existingSecret: ''

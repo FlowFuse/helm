@@ -1,4 +1,4 @@
-{{- if .Values.forge.broker.enabled -}}
+{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
 {{- $metricsUser := "metrics_reader" }}
 apiVersion: v1
 kind: ConfigMap

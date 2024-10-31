@@ -160,14 +160,18 @@ data:
       {{ if .Values.forge.broker.url -}}
       url: {{ .Values.forge.broker.url }}
       {{ else -}}
+      {{ if .Values.forge.broker.teamBroker }}
+      url: mqtt://emqx-listeners.{{ .Release.Namespace }}:1883
+      {{ else -}}
       url: mqtt://flowforge-broker.{{ .Release.Namespace }}:1883
+      {{end -}}
       {{ end -}}
       {{ if .Values.forge.broker.public_url -}}
       public_url: {{ .Values.forge.broker.public_url }}
       {{ else -}}
       public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://{{ include "forge.brokerDomain" . }}
       {{ end -}}
-      {{ if .Values.forge.broker.teamBroker.enabled }}
+      {{ if or .Values.forge.broker.teamBroker.enabled .Values.forge.broker.teamBroker.uiOnly }}
       teamBroker:
         enabled: true 
       {{ end -}}

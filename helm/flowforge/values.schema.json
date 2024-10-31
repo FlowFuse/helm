@@ -966,6 +966,23 @@
                     "required": ["username", "password", "database"]
                 }
             }
+        },
+        "broker": {
+            "type": "object",
+            "properties": {
+                "storageClassName": {
+                    "type": "string"
+                },
+                "listenersServiceTemplate": {
+                    "type": "object"
+                },
+                "dashboardServiceTemplate": {
+                    "type": "object"
+                },
+                "existingSecret": {
+                    "type": "string"
+                }
+            }
         }
     },
     "if": {

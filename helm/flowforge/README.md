@@ -113,6 +113,13 @@ To use STMP to send email
 
 `forge.broker.createMetricsUser` parameter controlls if a dedicated MQTT user with broker metrics collection permissions should be created. This user can by used by the tools like [Mosquitto Exporter](https://github.com/sapcc/mosquitto-exporter) to expose broker's metrics for Prometheus scrapper. 
 
+### Team Broker
+
+  - `broker.storageClassName` the StorageClass to use for the teamBroker persistent Storage
+  - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
+  - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
+  - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
+
 ### Telemetry
 
 Enables FlowForge Telemetry

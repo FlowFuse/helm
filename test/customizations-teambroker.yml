@@ -1,0 +1,104 @@
+forge:
+  domain: example.com
+  entryPoint: app.example
+  https: true
+  localPostgresql: false
+  cloudProvider: aws
+  managementSelector:
+    role: management
+  projectSelector:
+    role: projects
+  aws:
+    IAMRole: arn:aws:iam::xxxxxxxxxxxxxxxxxxx:role/flowforge_service_account_role
+  email:
+    from: "\"FlowForge\" <flowforge@flowforge.cloud>"
+    ses:
+      region: eu-west-1
+  broker:
+    enabled: true
+    url: mqtt://flowforge-broker.default:1883
+    public_url: wss://mqtt.example.com
+    teamBroker:
+      enabled: true
+
+  ee:
+    billing:
+      stripe:
+        key: sk_live_dfadfsajflsadfafsafsajfdsfdsflfdladjfjf
+        wh_secret: whsec_fkjdflksajflgljfajfdlahfdkhflksahfhf
+        team_price: price_123456
+        team_product: prod_123456
+        project_price: price_1123456
+        project_product: prod_123456
+        device_price: price_8888
+        device_product: prod_8888
+        new_customer_free_credit: 1500
+        teams:
+          starter:
+            price: price_123456
+            product: prod_123456
+            userCost: 0
+  telemetry:
+    enabled: true
+    posthog: 
+      capture_pageview: false
+      apikey: phc_fdlksajfdfadfsafsaf
+    sentry:
+      production_mode: false
+      frontend_dsn: 'https://sentry.io/flowforge/flowforge-frontend'
+      backend_dsn: 'https://sentry.io/flowforge/flowforge-backend'
+    backend:
+      prometheus:
+        enabled: true
+  support:
+    enabled: true
+    hubspot: 12345678
+  fileStore:
+    enabled: true
+    type: s3
+    options:
+      bucket: flowforge-production-files
+      forcePathStyle: true
+      region: eu-west-1
+      credentials:
+        accessKeyId: ACCESSKEY
+        secretAccessKey: SECRETKEY
+    context:
+      type: sequelize
+      options:
+        type: postgres
+  branding:
+    account:
+      signUpTopBanner: HelloWorld
+  rate_limits:
+    enabled: true
+
+postgresql:
+  host: flowforge-postgresql
+  auth:
+    username: forge
+    password: password
+    database: flowforge
+    postgresPassword: postgres-password
+
+broker:
+  listenersServiceTemplate:
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb
+        service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:eu-west-1:xxxxxxxxxx:certificate/4d561d45-35e4-4bef-9aac-07bfb13e5fdd
+        service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "8883,443"
+        service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-0e44de88ccacc13be,eipalloc-0e9e5f05c5d860ff9,eipalloc-08a3321a6b27e6d26
+    spec:
+      type: LoadBalancer
+      ports:
+        - name: wss-wrap
+          protocol: TCP
+          port: 443
+          targetPort: 8080
+        - name: tls-wrap
+          protocol: TCP
+          port: 8883
+          targetPort: 1883
