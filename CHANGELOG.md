@@ -1,3 +1,7 @@
+#### 2.18.0: Release
+
+ - feat: Add possibility to apply `priorityClassName` to all deployments (#485) @ppawlowski
+
 #### 2.17.0: Release
 
  - feat: Release 2.10.0 (#483) @knolleary
