@@ -192,17 +192,17 @@ spec:
             {{ toYaml .Values.forge.broker.tolerations | nindent 12 }}
             {{- end }}
     listenersServiceTemplate:
-        spec:
         {{- if .Values.broker.listenersServiceTemplate }}
-{{ toYaml .Values.broker.listenersServiceTemplate | indent 12 }}
+{{ toYaml .Values.broker.listenersServiceTemplate | indent 8 }}
         {{ else }}
+        spec:
             type: ClusterIP
         {{- end }}
     dashboardServiceTemplate:
-        spec:
         {{- if .Values.broker.dashboardServiceTemplate }}
-{{ toYaml .Values.broker.dashboardServiceTemplate | indent 12 }}
+{{ toYaml .Values.broker.dashboardServiceTemplate | indent 8 }}
         {{ else }}
+        spec:
             type: ClusterIP
         {{- end }}
 ---
