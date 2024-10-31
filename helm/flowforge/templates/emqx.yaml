@@ -215,8 +215,7 @@ metadata:
 type: Opaque
 data:
     EMQX_DASHBOARD__DEFAULT_PASSWORD: {{ "topSecret" | b64enc | quote }}
-    api-keys: |
-         {{ "flowfuse:verySecret:administrator" | b64enc | quote }} 
+    api-keys: {{ "flowfuse:verySecret:administrator" | b64enc | quote }} 
 ---
 {{- end }}
 apiVersion: networking.k8s.io/v1
