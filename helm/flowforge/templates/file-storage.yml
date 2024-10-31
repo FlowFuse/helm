@@ -49,6 +49,9 @@ spec:
         prometheus.io/path: "/metrics"
         {{- end  }}
     spec:
+      {{- if .Values.forge.priorityClassName }}
+      priorityClassName: "{{ .Values.forge.priorityClassName}}"
+      {{- end }}
       automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
