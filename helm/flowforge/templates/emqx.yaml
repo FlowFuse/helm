@@ -193,14 +193,14 @@ spec:
             {{- end }}
     listenersServiceTemplate:
         {{- if .Values.broker.listenersServiceTemplate }}
-{{ toYaml .Values.broker.listenersServiceTemplate | indent 12 }}
+{{ toYaml .Values.broker.listenersServiceTemplate | indent 8 }}
         {{ else }}
         spec:
             type: ClusterIP
         {{- end }}
     dashboardServiceTemplate:
         {{- if .Values.broker.dashboardServiceTemplate }}
-{{ toYaml .Values.broker.dashboardServiceTemplate | indent 12 }}
+{{ toYaml .Values.broker.dashboardServiceTemplate | indent 8 }}
         {{ else }}
         spec:
             type: ClusterIP
