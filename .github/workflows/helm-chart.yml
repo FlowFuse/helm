@@ -128,7 +128,7 @@ jobs:
       - name: Install kube-score
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
         if: false
-        uses: yokawasa/action-setup-kube-tools@v0.11.1
+        uses: yokawasa/action-setup-kube-tools@v0.11.2
         with:
           setup-tools: "kube-score"
           kube-score: '1.17.0'
