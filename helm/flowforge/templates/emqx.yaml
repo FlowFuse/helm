@@ -142,9 +142,14 @@ spec:
                     }
                 }
             }
-            api_key {
-              bootstrap_file = "/mounted/config/api-keys"
-            }
+    bootstrapAPIKeys:
+      - secretRef:
+        key:
+            secretName: emqx-config-secrets
+            secretKey: api-key-name
+        secret:
+            secretName: emqx-config-secrets
+            secretKey: api-key-secret
     coreTemplate:
         spec:
             {{- if .Values.forge.registrySecrets }}
@@ -215,7 +220,8 @@ metadata:
 type: Opaque
 data:
     EMQX_DASHBOARD__DEFAULT_PASSWORD: {{ "topSecret" | b64enc | quote }}
-    api-keys: {{ "flowfuse:verySecret:administrator" | b64enc | quote }} 
+    api-key-name: {{ "flowfuse" | b64enc | quote }} 
+    apit-key-secret:  {{ "verySecret" | b64enc | quote }} 
 ---
 {{- end }}
 apiVersion: networking.k8s.io/v1
