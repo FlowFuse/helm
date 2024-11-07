@@ -19,14 +19,14 @@ spec:
                     }
                     enable = true
                     connect_timeout = "15s"
-                    enable_pipelining = 100
+                    enable_pipelining = 1
                     headers {
                         content-type = "application/json"
                     }
                     mechanism = password_based
                     method = post
                     pool_size = 8
-                    request_timeout = "8s"
+                    request_timeout = "15s"
                     ssl {
                         enable = false
                     }
@@ -45,7 +45,7 @@ spec:
                 sources = [
                     {
                         enable = true
-                        enable_pipelining = 100
+                        enable_pipelining = 1
                         connect_timeout = "15s"
                         request_timeout = "30s"
                         pool_size = 8
