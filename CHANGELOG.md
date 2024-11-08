@@ -1,3 +1,7 @@
+#### 2.18.5: Release
+
+ - fix: emqx secret key name typo (#496) @ppawlowski
+
 #### 2.18.4: Release
 
 
