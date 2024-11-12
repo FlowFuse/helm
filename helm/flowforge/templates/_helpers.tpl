@@ -109,7 +109,7 @@ Note: The value for key .Values.postgresql.auth.existingSecret is inherited from
 
 {{- define "forge.createSecret" -}}
 {{- if not (and .Values.postgresql.auth.existingSecret 
-    (not (and .Values.forge.email (not .Values.forge.email.smtp.existingSecret)))) -}}
+    (not (and .Values.forge.email ((and .Values.forge.email.smtp (not .Values.forge.email.smtp.existingSecret)))))) -}}
 true
 {{- else -}}
 false
