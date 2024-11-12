@@ -144,12 +144,12 @@ spec:
             }
     bootstrapAPIKeys:
       - secretRef:
-        key:
-            secretName: emqx-config-secrets
-            secretKey: api-key-name
-        secret:
-            secretName: emqx-config-secrets
-            secretKey: api-key-secret
+            key:
+                secretName: emqx-config-secrets
+                secretKey: api-key-name
+            secret:
+                secretName: emqx-config-secrets
+                secretKey: api-key-secret
     coreTemplate:
         spec:
             {{- if .Values.forge.registrySecrets }}
