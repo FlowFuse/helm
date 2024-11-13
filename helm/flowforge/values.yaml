@@ -160,5 +160,5 @@ broker:
   dashboardServiceTemplate: {}
   existingSecret: ''
   monitoring:
-    emqxExporter: 
+    emqxExporter:
       enabled: false
