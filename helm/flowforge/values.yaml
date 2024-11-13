@@ -159,3 +159,6 @@ broker:
   listenersServiceTemplate: {}
   dashboardServiceTemplate: {}
   existingSecret: ''
+  monitoring:
+    emqxExporter: 
+      enabled: false
