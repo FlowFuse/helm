@@ -1,5 +1,7 @@
 {{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true )  -}}
-{{- if .Capabilities.APIVersions.Has "apps.emqx.io/v2beta1" }}
+{{- if not (.Capabilities.APIVersions.Has "apps.emqx.io/v2beta1") }}
+{{- fail "EMQX Operator not installed. Please install it or disable team broker before continuing" }}
+{{- end }}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
@@ -144,12 +146,12 @@ spec:
             }
     bootstrapAPIKeys:
       - secretRef:
-        key:
-            secretName: emqx-config-secrets
-            secretKey: api-key-name
-        secret:
-            secretName: emqx-config-secrets
-            secretKey: api-key-secret
+            key:
+                secretName: emqx-config-secrets
+                secretKey: api_key_name
+            secret:
+                secretName: emqx-config-secrets
+                secretKey: api_key_secret
     coreTemplate:
         spec:
             {{- if .Values.forge.registrySecrets }}
@@ -220,8 +222,8 @@ metadata:
 type: Opaque
 data:
     EMQX_DASHBOARD__DEFAULT_PASSWORD: {{ "topSecret" | b64enc | quote }}
-    api-key-name: {{ "flowfuse" | b64enc | quote }} 
-    apit-key-secret:  {{ "verySecret" | b64enc | quote }} 
+    api_key_name: {{ "flowfuse" | b64enc | quote }} 
+    api_key_secret: {{ include "emqx.bootstrapApiKeySecret" . | b64enc | quote }}
 ---
 {{- end }}
 apiVersion: networking.k8s.io/v1
@@ -258,7 +260,4 @@ spec:
         - {{ include "forge.brokerDomain" . }}
         secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
-{{- else }}
-  {{- fail "EMQX Operator not installed" }}
-{{- end }}
 {{- end }}
