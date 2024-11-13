@@ -2,16 +2,19 @@
 suite: test deployment object
 templates:
   - deployment.yaml
+  - configmap.yaml
 set:
   forge.domain: "chart-unit-tests.com"
 tests:
   - it: should create a deployment
+    template: deployment.yaml
     asserts:
       - hasDocuments:
           count: 1
       - isKind:
           of: Deployment
   - it: should create a deployment with init container
+    template: deployment.yaml
     asserts:
       - isNotNullOrEmpty:
           path: spec.template.spec.initContainers
@@ -20,6 +23,7 @@ tests:
           count: 1
 
   - it: should create an init container with two secrets
+    template: deployment.yaml
     asserts:
       - isNotNullOrEmpty:
           path: spec.template.spec.initContainers[0].env
