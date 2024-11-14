@@ -981,6 +981,19 @@
                 },
                 "existingSecret": {
                     "type": "string"
+                },
+                "monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "emqxExporter": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

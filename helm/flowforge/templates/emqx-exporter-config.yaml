@@ -1,0 +1,17 @@
+{{- if .Values.broker.monitoring.emqxExporter.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: emqx-exporter-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "forge.emqxExporterSelectorLabels" . | nindent 4 }}
+data:
+  config.yaml: |
+    metrics:
+      target: emqx-dashboard.{{ .Release.Namespace }}:18083
+      api_key: "flowfuse"
+      api_secret: <%= ENV['BOOTSTRAP_API_KEY'] %>
+    probes:
+      - target: emqx-listeners.default.svc.cluster.local:1883
+{{- end }}

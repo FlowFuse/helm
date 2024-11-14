@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test emqx-exporter deployment object
+templates:
+  - emqx-exporter.yaml
+  - emqx-exporter-config.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+  broker.monitoring.emqxExporter.enabled: true
+tests:
+  - it: should create a service for emqx-exporter
+    templates: 
+      - emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter-service
+    asserts:
+      - isKind:
+          of: Service
+      - matchRegex:
+          path: metadata.name
+          pattern: ^emqx-exporter-service$
+  - it: should create a deployment for emqx-exporter
+    templates: 
+      - emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    asserts:
+      - isKind:
+          of: Deployment
+      - matchRegex:
+          path: metadata.name
+          pattern: ^emqx-exporter$
+      - lengthEqual:
+          path: spec.template.spec.containers
+          count: 1
+  - it: should create a configmap for emqx-exporter
+    templates: 
+      - emqx-exporter-config.yaml
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: metadata.name
+          value: emqx-exporter-config
+  - it: should create an init container with one secret
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    asserts:
+      - isNotNullOrEmpty:
+          path: spec.template.spec.initContainers[0].env
+      - lengthEqual:
+          path: spec.template.spec.initContainers[0].env
+          count: 1
+      - equal:
+          path: spec.template.spec.initContainers[0].env[0].name
+          value: BOOTSTRAP_API_KEY
+      - equal:
+          path: spec.template.spec.initContainers[0].env[*].valueFrom.secretKeyRef.name
+          value: emqx-config-secrets
