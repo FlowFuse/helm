@@ -1,3 +1,6 @@
+#### 2.19.0: Release
+
+
 #### 2.18.6: Release
 
  - fix: secret reference indentation in EMQX definition (#497) @ppawlowski
