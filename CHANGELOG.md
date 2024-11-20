@@ -1,5 +1,6 @@
 #### 2.19.0: Release
 
+ - feat: add possibility to deploy emqx-exporter with FlowFuse helm chart (#500) @ppawlowski
 
 #### 2.18.6: Release
 
@@ -11,9 +12,12 @@
 
 #### 2.18.4: Release
 
+- fix: Fix generating api secrets for Team Broker on deploy (#491) @hardillb
 
 #### 2.18.3: Release
 
+- fix: Ensure EMQX only used if teambroker enabeld (#494) @hardillb
+- chore(deps): bump yokawasa/action-setup-kube-tools from 0.11.1 to 0.11.2 (#493) @app/dependabot
 
 #### 2.18.2: Release
 
