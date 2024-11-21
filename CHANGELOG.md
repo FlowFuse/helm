@@ -1,3 +1,9 @@
+#### 2.20.0: Release
+
+ - 
+ - 
+ - 
+
 #### 2.19.0: Release
 
  - feat: add possibility to deploy emqx-exporter with FlowFuse helm chart (#500) @ppawlowski
