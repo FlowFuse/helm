@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test broker deployment
+templates:
+  - broker.yaml
+  - broker-config.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+  forge.broker.enabled: true
+tests:
+  - it: should create a mosquitto broker deployment
+    template: broker.yaml
+    documentIndex: 0
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: spec.template.spec.containers[?(@.name == "broker")].image
+          value: iegomez/mosquitto-go-auth
+      - lengthEqual:
+          path: spec.template.spec.containers
+          count: 1
+
+  - it: should create a broker service for mosquitto broker deployment 
+    template: broker.yaml
+    documentIndex: 1
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: spec.selector
+          value: 
+            app: flowforge-broker
+      - not: true
+        equal:
+          path: spec.selector
+          value: apps.emqx.io/instance
+
+  - it: should create a broker service for emqx deployment
+    template: broker.yaml
+    documentIndex: 0
+    set:
+      forge.broker.teamBroker.enabled: true
+    asserts:
+      - isKind:
+          of: Service
+      - notExists:
+          path: spec.selector.app
+      - equal:
+          path: spec.selector
+          value:
+            apps.emqx.io/db-role: core
+            apps.emqx.io/instance: emqx
+            apps.emqx.io/managed-by: emqx-operator
