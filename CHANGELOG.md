@@ -1,12 +1,12 @@
 #### 2.20.1: Release
 
- - 
+- fix: Allow MQTT broker container config (#506) @hardillb
 
 #### 2.20.0: Release
 
- - 
- - 
- - 
+ - feat: Release 2.11.0 (#505) @hardillb
+ - fix: creation of flowforge-broker service (#504) @ppawlowski
+ - chore(ci): Improve changelog entry collection and add missing entries (#503) @ppawlowski
 
 #### 2.19.0: Release
 
