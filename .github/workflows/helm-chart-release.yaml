@@ -93,7 +93,7 @@ jobs:
           PR_IDS=$(git log ${previous_release_tag}..${latest_release_tag} --pretty=format:%s | grep -oE '\(#[0-9]+\)$' | sed -E 's/\(#([0-9]+)\)/\1/')
           for PR_ID in $PR_IDS
           do
-            echo " - "$(gh pr view $logEntry --json title,number,author -t "{{.title}} (#{{.number}}) @{{.author.login}}") >> CHANGELOG.new
+            echo " - "$(gh pr view $PR_ID --json title,number,author -t "{{.title}} (#{{.number}}) @{{.author.login}}") >> CHANGELOG.new
           done
           echo >> CHANGELOG.new
           if [ -e CHANGELOG.md ]
