@@ -127,7 +127,7 @@ spec:
       affinity: {{ toYaml .Values.forge.broker.affinity | nindent 8 }}
       {{- end }}
 {{- end }}
-{{- if  eq .Values.forge.broker.enabled true -}}
+{{- if .Values.forge.broker.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -148,7 +148,7 @@ spec:
   selector:
     {{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
     {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
-    {{- else -}}
+    {{- else }}
     apps.emqx.io/db-role: core
     apps.emqx.io/instance: emqx
     apps.emqx.io/managed-by: emqx-operator
