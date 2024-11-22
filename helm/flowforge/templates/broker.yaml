@@ -126,6 +126,8 @@ spec:
       {{- if .Values.forge.broker.affinity }}
       affinity: {{ toYaml .Values.forge.broker.affinity | nindent 8 }}
       {{- end }}
+{{- end }}
+{{- if  eq .Values.forge.broker.enabled true -}}
 ---
 apiVersion: v1
 kind: Service
@@ -144,5 +146,11 @@ spec:
     protocol: TCP
     name: mqtt-ws
   selector:
+    {{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
     {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
+    {{- else -}}
+    apps.emqx.io/db-role: core
+    apps.emqx.io/instance: emqx
+    apps.emqx.io/managed-by: emqx-operator
+    {{- end }}
 {{- end -}}
