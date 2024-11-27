@@ -12,7 +12,7 @@ tests:
     documentIndex: 0
     asserts:
       - isKind:
-          of: Deployment
+          of: Secret
       - equal:
           path: spec.template.spec.containers[?(@.name == "broker")].image
           value: iegomez/mosquitto-go-auth
