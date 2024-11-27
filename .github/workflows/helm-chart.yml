@@ -81,6 +81,31 @@ jobs:
         run: |
           helm template flowforge ./helm/flowforge --set forge.domain=example.com | kubectl apply --validate=true -f -
 
+  unit-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+      
+      - name: Install unittest plugin
+        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git
+
+      - name: Run unit tests
+        run: |
+          helm unittest ./helm/flowforge -t JUnit -o junit-results.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-tests-results
+          path: junit-results.xml
+
+
   scan:
     name: Scan chart
     runs-on: ubuntu-latest
