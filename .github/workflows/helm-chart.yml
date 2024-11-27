@@ -98,12 +98,11 @@ jobs:
         run: |
           helm unittest ./helm/flowforge -t JUnit -o junit-results.xml
 
-      - name: Upload test results
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: unit-tests-results
-          path: junit-results.xml
+          report_paths: 'junit-results.xml'
 
 
   scan:
