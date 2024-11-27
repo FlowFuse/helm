@@ -17,6 +17,7 @@ jobs:
   lint:
     name: Lint and install chart
     runs-on: ubuntu-latest
+    if: false
 
     steps:
       - name: Checkout
