@@ -35,6 +35,9 @@ spec:
                     url = "http://forge.{{ .Release.Namespace }}/api/comms/v2/auth"
                 }
             ]
+            mqtt {
+                max_packet_size: 128MB
+            }
             authorization {
                 cache {
                     enable = true
