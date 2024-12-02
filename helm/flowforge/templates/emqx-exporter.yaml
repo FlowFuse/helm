@@ -1,0 +1,90 @@
+{{- if .Values.broker.monitoring.emqxExporter.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{ include "forge.emqxExporterSelectorLabels" . | nindent 4 }}
+  name: emqx-exporter-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+    - name: metrics
+      port: 8085
+      targetPort: metrics
+  selector:
+    {{ include "forge.emqxExporterSelectorLabels" . | nindent 6 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emqx-exporter
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "forge.emqxExporterSelectorLabels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "forge.emqxExporterSelectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{ include "forge.emqxExporterSelectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/emqx-exporter-config.yaml") . | sha256sum }}
+    spec:
+      securityContext:
+        runAsUser: 1000
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'erb /tmpl/config.yaml > /config/config.yaml' ]
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        env:
+          - name: BOOTSTRAP_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: emqx-config-secrets
+                key: api_key_secret
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+      containers:
+        - name: exporter
+          image: emqx/emqx-exporter:0.2
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config.file
+            - /etc/emqx-exporter/config.yaml
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+          ports:
+            - containerPort: 8085
+              name: metrics
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 20Mi
+          volumeMounts:
+            - name: configdir
+              mountPath: /etc/emqx-exporter/
+      volumes:
+        - name: configdir
+          emptyDir: {}
+        - name: configtemplate
+          configMap: 
+            name: emqx-exporter-config
+{{- end }}

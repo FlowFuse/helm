@@ -1,3 +1,34 @@
+#### 2.20.1: Release
+
+- fix: Allow MQTT broker container config (#506) @hardillb
+
+#### 2.20.0: Release
+
+ - feat: Release 2.11.0 (#505) @hardillb
+ - fix: creation of flowforge-broker service (#504) @ppawlowski
+ - chore(ci): Improve changelog entry collection and add missing entries (#503) @ppawlowski
+
+#### 2.19.0: Release
+
+ - feat: add possibility to deploy emqx-exporter with FlowFuse helm chart (#500) @ppawlowski
+
+#### 2.18.6: Release
+
+ - fix: secret reference indentation in EMQX definition (#497) @ppawlowski
+
+#### 2.18.5: Release
+
+ - fix: emqx secret key name typo (#496) @ppawlowski
+
+#### 2.18.4: Release
+
+- fix: Fix generating api secrets for Team Broker on deploy (#491) @hardillb
+
+#### 2.18.3: Release
+
+- fix: Ensure EMQX only used if teambroker enabeld (#494) @hardillb
+- chore(deps): bump yokawasa/action-setup-kube-tools from 0.11.1 to 0.11.2 (#493) @app/dependabot
+
 #### 2.18.2: Release
 
  - fix: EMQX service templates (#489) @ppawlowski

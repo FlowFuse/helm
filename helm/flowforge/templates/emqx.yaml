@@ -1,5 +1,7 @@
 {{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true )  -}}
-{{- if .Capabilities.APIVersions.Has "apps.emqx.io/v2beta1" }}
+{{- if not (.Capabilities.APIVersions.Has "apps.emqx.io/v2beta1") }}
+{{- fail "EMQX Operator not installed. Please install it or disable team broker before continuing" }}
+{{- end }}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
@@ -19,20 +21,23 @@ spec:
                     }
                     enable = true
                     connect_timeout = "15s"
-                    enable_pipelining = 100
+                    enable_pipelining = 1
                     headers {
                         content-type = "application/json"
                     }
                     mechanism = password_based
                     method = post
                     pool_size = 8
-                    request_timeout = "8s"
+                    request_timeout = "15s"
                     ssl {
                         enable = false
                     }
                     url = "http://forge.{{ .Release.Namespace }}/api/comms/v2/auth"
                 }
             ]
+            mqtt {
+                max_packet_size: 128MB
+            }
             authorization {
                 cache {
                     enable = true
@@ -45,7 +50,7 @@ spec:
                 sources = [
                     {
                         enable = true
-                        enable_pipelining = 100
+                        enable_pipelining = 1
                         connect_timeout = "15s"
                         request_timeout = "30s"
                         pool_size = 8
@@ -142,9 +147,14 @@ spec:
                     }
                 }
             }
-            api_key {
-              bootstrap_file = "/mounted/config/api-keys"
-            }
+    bootstrapAPIKeys:
+      - secretRef:
+            key:
+                secretName: emqx-config-secrets
+                secretKey: api_key_name
+            secret:
+                secretName: emqx-config-secrets
+                secretKey: api_key_secret
     coreTemplate:
         spec:
             {{- if .Values.forge.registrySecrets }}
@@ -215,7 +225,8 @@ metadata:
 type: Opaque
 data:
     EMQX_DASHBOARD__DEFAULT_PASSWORD: {{ "topSecret" | b64enc | quote }}
-    api-keys: {{ "flowfuse:verySecret:administrator" | b64enc | quote }} 
+    api_key_name: {{ "flowfuse" | b64enc | quote }} 
+    api_key_secret: {{ include "emqx.bootstrapApiKeySecret" . | b64enc | quote }}
 ---
 {{- end }}
 apiVersion: networking.k8s.io/v1
@@ -252,7 +263,5 @@ spec:
         - {{ include "forge.brokerDomain" . }}
         secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
-{{- else }}
-  {{- fail "EMQX Operator not installed" }}
-{{- end }}
+
 {{- end }}

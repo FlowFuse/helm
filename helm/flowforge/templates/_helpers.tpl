@@ -58,6 +58,14 @@ app: flowforge-file
 {{- end }}
 
 {{/*
+emqx-exporter Selector labels
+*/}}
+{{- define "forge.emqxExporterSelectorLabels" -}}
+{{ include "forge.commonSelectorLabels" . }}
+app.kubernetes.io/component: "emqx-exporter"
+{{- end -}}
+
+{{/*
 Get the postgresql secret object name.
 */}}
 {{- define "forge.secretName" -}}
@@ -109,7 +117,7 @@ Note: The value for key .Values.postgresql.auth.existingSecret is inherited from
 
 {{- define "forge.createSecret" -}}
 {{- if not (and .Values.postgresql.auth.existingSecret 
-    (not (and .Values.forge.email (not .Values.forge.email.smtp.existingSecret)))) -}}
+    (not (and .Values.forge.email ((and .Values.forge.email.smtp (not .Values.forge.email.smtp.existingSecret)))))) -}}
 true
 {{- else -}}
 false
@@ -171,4 +179,17 @@ Configure broker domain
 {{- else -}}
     {{ printf "%s.%s" "mqtt" .Values.forge.domain }}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Configure emqx bootstrap api secret
+*/}}
+{{- define "emqx.bootstrapApiKeySecret" -}}
+{{- $secretName := "emqx-config-secrets" }}
+{{- $existingSecret := (lookup "v1" "Secret" .Release.Namespace $secretName) | default dict }}
+{{- if and $existingSecret.data (hasKey $existingSecret.data "api_key_secret") }}
+{{- printf $existingSecret.data.api_key_secret | b64dec }}
+{{- else }}
+{{- randAlphaNum 32 -}}
+{{- end }}
 {{- end -}}

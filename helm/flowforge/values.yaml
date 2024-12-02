@@ -19,6 +19,7 @@ forge:
   podLabels: {}
   broker:
     enabled: false
+    image: iegomez/mosquitto-go-auth
     teamBroker:
       enabled: false
     createMetricsUser: false
@@ -159,3 +160,6 @@ broker:
   listenersServiceTemplate: {}
   dashboardServiceTemplate: {}
   existingSecret: ''
+  monitoring:
+    emqxExporter:
+      enabled: false

@@ -89,6 +89,7 @@ To use STMP to send email
  ### MQTT Broker
 
   - `forge.broker.enabled` (default `false`)
+  - `forge.broker.image` Allows the mosquitto broker container image to be overidden (default `iegomez/mosquitto-go-auth`)
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
@@ -119,6 +120,7 @@ To use STMP to send email
   - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
   - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
+  - `broker.monitoring.emqxExporter.enabled` controls deployment of [emqx-exporter](https://github.com/emqx/emqx-exporter) (default `false`)
 
 ### Telemetry
 
