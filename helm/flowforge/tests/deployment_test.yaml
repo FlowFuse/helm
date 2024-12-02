@@ -13,6 +13,7 @@ tests:
           count: 1
       - isKind:
           of: Deployment
+
   - it: should create a deployment with init container
     template: deployment.yaml
     asserts:
@@ -39,3 +40,36 @@ tests:
       - equal:
           path: spec.template.spec.initContainers[0].env[*].valueFrom.secretKeyRef.name
           value: flowfuse-secrets
+
+  - it: should create a deployment without INGRESS_ANNOTATIONS environmental variable
+    template: deployment.yaml
+    asserts:
+      - notExists:
+          path: spec.template.spec.containers[0].env[?(@.name == "INGRESS_ANNOTATIONS")]
+    
+  - it: should create container with INGRESS_ANNOTATIONS env and value from `ingress.annotations` 
+    template: deployment.yaml
+    set:
+      ingress.annotations:
+        customIngressAnnotation: "true"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: INGRESS_ANNOTATIONS
+            value: '{"customIngressAnnotation":"true"}'
+
+  - it: should create container with INGRESS_ANNOTATIONS env and value `forge.projectIngressAnnotations`
+    template: deployment.yaml
+    set:
+      ingress.annotations:
+        customIngressAnnotation: "false"
+      forge.projectIngressAnnotations:
+        customProjectAnnotation: "true"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: INGRESS_ANNOTATIONS
+            value: '{"customProjectAnnotation":"true"}'
+  
