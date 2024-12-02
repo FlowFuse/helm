@@ -87,7 +87,10 @@ spec:
         {{ end -}}
         imagePullPolicy: Always
         env:
-        {{- if .Values.ingress.annotations }}
+        {{- if .Values.forge.projectIngressAnnotations }}
+        - name: INGRESS_ANNOTATIONS
+          value: {{ .Values.forge.projectIngressAnnotations | toJson | quote }}
+        {{- else if .Values.ingress.annotations }}
         - name: INGRESS_ANNOTATIONS
           value: {{ .Values.ingress.annotations | toJson | quote }}
         {{- end }}
