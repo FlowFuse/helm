@@ -8,6 +8,7 @@ forge:
   projectDeploymentTolerations: []
   projectNetworkPolicy:
     enabled: false
+  projectIngressAnnotations: {}
   managementSelector:
     role: management
   telemetry:

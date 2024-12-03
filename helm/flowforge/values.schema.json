@@ -142,6 +142,9 @@
                     },
                     "default": []
                 },
+                "projectIngressAnnotations": {
+                    "type": "object"
+                },
                 "managementSelector": {
                     "type": "object"
                 },
