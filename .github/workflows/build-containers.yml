@@ -76,6 +76,7 @@ jobs:
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
+            type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=3.0.x
           flavor: |
             latest=true
           images: |
@@ -126,6 +127,7 @@ jobs:
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-2.2.3,value=${{ github.event.inputs.version }}
+            type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=2.2.x
           flavor: |
             latest=false
           images: |
@@ -162,6 +164,7 @@ jobs:
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-3.1.x,value=${{ github.event.inputs.version }}
+            type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=3.1.x
           flavor: |
             latest=false
           images: |
@@ -198,6 +201,7 @@ jobs:
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-4.0.x,value=${{ github.event.inputs.version }}
+            type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=4.0.x
           flavor: |
             latest=false
           images: |
