@@ -1,5 +1,5 @@
 {{- if .Values.forge.fileStore.enabled -}}
-{{ if eq .Values.forge.fileStore.type "localfs" }}
+{{- if eq .Values.forge.fileStore.type "localfs" -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -77,13 +77,58 @@ spec:
           capabilities:
             drop:
               - ALL
+      {{ if .Values.forge.localPostgresql -}}
+      - name: wait-for-local-db
+        image: "postgres:14"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'until pg_isready -h {{ include "forge.databaseHost" . }} -U {{ .Values.postgresql.auth.username }} -d {{ .Values.postgresql.auth.database }}; do sleep 2; done;']
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.secretName" . }}
+                key: postgres-password
+      - name: add-context-db
+        image: {{ .Values.postgresql.image.registry }}/{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
+        command:
+        - /bin/sh
+        - /usr/local/upgrade.sh
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.secretName" . }}
+                key: postgres-password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+          - name: upgrade-script
+            mountPath: /usr/local
+      {{- end }}
       containers:
       - name: file-storage
         {{- if .Values.forge.fileStore.image }}
         image: {{ .Values.forge.fileStore.image }}
-        {{ else }}
+        {{- else }}
         image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/file-server:{{ .Chart.AppVersion }}
-        {{end -}}
+        {{- end }}
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
@@ -150,7 +195,12 @@ spec:
       - name: configtemplate
         configMap: 
           name: flowforge-file-config
-      {{ if eq .Values.forge.fileStore.type "localfs" -}}
+      {{- if .Values.forge.localPostgresql }}
+      - name: upgrade-script
+        configMap:
+          name: upgrade.sh
+      {{- end }}
+      {{- if eq .Values.forge.fileStore.type "localfs" }}
       - name: root
         persistentVolumeClaim:
           claimName: file-storage-pvc
