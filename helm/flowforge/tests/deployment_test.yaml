@@ -14,8 +14,20 @@ tests:
       - isKind:
           of: Deployment
 
-  - it: should create a deployment with init container
+  - it: should create a deployment with config and wait-for-db init containers
     template: deployment.yaml
+    asserts:
+      - isNotNullOrEmpty:
+          path: spec.template.spec.initContainers
+      - lengthEqual:
+          path: spec.template.spec.initContainers
+          count: 2
+
+  - it: should create a deployment with config init container
+    template: deployment.yaml
+    set:
+      forge.localPostgresql: false
+      postgresql.host: external-postgresql.host
     asserts:
       - isNotNullOrEmpty:
           path: spec.template.spec.initContainers
