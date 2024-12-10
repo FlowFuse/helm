@@ -1,0 +1,148 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test file-storage deployment object
+templates:
+  - file-storage.yml
+  - file-storage-configmap.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+  forge.fileStore.enabled: true
+tests:
+  - it: should create PVC when localfs is enabled
+    template: file-storage.yml
+    set:
+      forge.fileStore.type: localfs
+    documentIndex: 0
+    asserts:
+      - isKind:
+          of: PersistentVolumeClaim
+      - equal:
+          path: metadata.name
+          value: file-storage-pvc
+      - equal:
+          path: spec.resources.requests.storage
+          value: 10Gi
+
+
+  - it: should not create PVC when not using localfs
+    template: file-storage.yml
+    set:
+      forge.fileStore.type: s3
+    asserts:
+      - hasDocuments:
+          count: 2
+
+  - it: should create deployment with correct security context
+    template: file-storage.yml
+    set:
+      forge.fileStore.podSecurityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: spec.template.spec.securityContext.runAsNonRoot
+          value: true
+      - equal:
+          path: spec.template.spec.securityContext.runAsUser
+          value: 1000
+
+  - it: should configure probes when enabled
+    template: file-storage.yml
+    set:
+      forge.fileStore.livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 10
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - exists:
+          path: spec.template.spec.containers[*].livenessProbe
+      - equal:
+          path: spec.template.spec.containers[*].livenessProbe.initialDelaySeconds
+          value: 30
+
+  - it: should create service with correct selectors
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Service
+    asserts:
+      - isKind:
+          of: Service
+      - exists:
+          path: spec.selector
+      - equal:
+          path: spec.ports[0].port
+          value: 80
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 3001
+
+  - it: should set correct image when custom image provided
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.fileStore.image: custom/image:tag
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: custom/image:tag
+
+  - it: should configure volumes correctly for localfs type
+    template: file-storage.yml
+    set:
+      forge.fileStore.type: localfs
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - exists:
+          path: spec.template.spec.volumes
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 4
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content: 
+            name: root
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content: 
+            name: configdir
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content: 
+            name: upgrade-script
+      - contains:
+          path: spec.template.spec.volumes
+          any: true
+          content: 
+            name: configtemplate
+
+  - it: should configure volumes correctly for s3 type
+    template: file-storage.yml
+    set:
+      forge.fileStore.type: s3
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - exists:
+          path: spec.template.spec.volumes
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 3
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: root
