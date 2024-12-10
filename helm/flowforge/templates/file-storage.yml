@@ -204,8 +204,8 @@ spec:
       - name: root
         persistentVolumeClaim:
           claimName: file-storage-pvc
-      {{ end -}}
-      {{- if .Values.forge.managementSelector -}}
+      {{- end }}
+      {{- if .Values.forge.managementSelector }}
       nodeSelector:
         {{- range $key, $value := .Values.forge.managementSelector }}
         {{ $key }}: {{ $value }}
