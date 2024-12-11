@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: flowforge-file-config
+  name: flowfuse-file-config
   labels:
   {{- include "forge.labels" . | nindent 4 }}
 data:
@@ -52,7 +52,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: upgrade.sh
+  name: flowfuse-file-db-upgrade
   labels:
   {{- include "forge.labels" . | nindent 4 }}
 data:

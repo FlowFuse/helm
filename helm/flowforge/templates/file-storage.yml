@@ -194,11 +194,11 @@ spec:
         emptyDir: {}
       - name: configtemplate
         configMap: 
-          name: flowforge-file-config
+          name: flowfuse-file-config
       {{- if .Values.forge.localPostgresql }}
       - name: upgrade-script
         configMap:
-          name: upgrade.sh
+          name: flowfuse-file-db-upgrade
       {{- end }}
       {{- if eq .Values.forge.fileStore.type "localfs" }}
       - name: root
