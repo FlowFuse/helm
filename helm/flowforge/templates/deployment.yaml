@@ -78,6 +78,24 @@ spec:
                 key: token
                 optional: true
         {{- end }}
+      {{- if .Values.forge.localPostgresql }}
+      - name: wait-for-local-db
+        image: "postgres:14"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'until pg_isready -h {{ include "forge.databaseHost" . }} -U {{ .Values.postgresql.auth.username }} -d {{ .Values.postgresql.auth.database }}; do sleep 2; done;']
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.secretName" . }}
+                key: password
+      {{- end }}
       containers:
       - name: forge
         {{- if .Values.forge.image }}
