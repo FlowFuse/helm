@@ -11,6 +11,10 @@ RUN apk add --no-cache --virtual build-base g++ make py3-pip sqlite-dev python3
 
 WORKDIR /usr/src/forge
 RUN mkdir app bin etc var
+WORKDIR /usr/src/forge/var
+COPY install-device-cache.sh .
+RUN ./install-device-cache.sh && rm install-device.sh
+WORKDIR /usr/src/forge
 COPY package.json /usr/src/forge/app
 WORKDIR /usr/src/forge/app
 # RUN if [[ -z "$TAG" ]]; then npm install --production --no-audit --no-fund ; else npm install --production --no-audit --no-fund --tag $TAG; fi
