@@ -12,7 +12,7 @@ do
   echo $V
   mkdir $V
   ls -l
-  npm install --production --no-audit --no-fund --prefix "$V" "@node-red/editor-client@$V"
+  npm install --omit=dev --omit=optional --no-audit --no-fund --prefix "$V" "@node-red/editor-client@$V"
 done
 
 pwd

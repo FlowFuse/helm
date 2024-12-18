@@ -13,7 +13,7 @@ WORKDIR /usr/src/forge
 RUN mkdir app bin etc var
 WORKDIR /usr/src/forge/var
 COPY install-device-cache.sh .
-RUN ./install-device-cache.sh && rm install-device.sh
+RUN ./install-device-cache.sh && rm install-device-cache.sh
 WORKDIR /usr/src/forge
 COPY package.json /usr/src/forge/app
 WORKDIR /usr/src/forge/app
