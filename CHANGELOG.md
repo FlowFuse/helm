@@ -1,3 +1,21 @@
+#### 2.21.0: Release
+
+ - feat: Release 2.12.0 (#522) @cstns
+ - chore: Bump to NR 4.0.7 (#520) @hardillb
+ - feat: Add Node-RED client for device editor cache (#521) @hardillb
+ - chore(deps): bump helm/kind-action from 1.10.0 to 1.11.0 (#518) @app/dependabot
+ - chore: Update NR versions in Docker containers (3.1.15 & 4.0.6) (#517) @hardillb
+ - feat: Wait for local database before starting services (#516) @ppawlowski
+ - chore(deps): bump flowfuse/github-actions-workflows from 0.37.0 to 0.38.0 (#515) @app/dependabot
+ - chore(ci): Remove unused deployment jobs (#513) @ppawlowski
+ - ci: Add stable tags for different NR versions (#514) @hardillb
+ - fix: Separate project's and core app ingress annotations (#511) @ppawlowski
+ - chore(deps): bump docker/build-push-action from 6.9.0 to 6.10.0 (#512) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows from 0.36.0 to 0.37.0 (#492) @app/dependabot
+ - ci: Add helm chart unit tests to `Helm chart validation` workflow (#510) @ppawlowski
+ - fix: Add default MQTT max packet (#509) @hardillb
+ - ci: Fix typo in changelog update script (#508) @ppawlowski
+
 #### 2.20.1: Release
 
 - fix: Allow MQTT broker container config (#506) @hardillb
