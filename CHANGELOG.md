@@ -1,3 +1,7 @@
+#### 2.21.1: Release
+
+ - fix: 2.12.1 point release (#523) @hardillb
+
 #### 2.21.0: Release
 
  - feat: Release 2.12.0 (#522) @cstns
