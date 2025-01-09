@@ -122,6 +122,7 @@ To use STMP to send email
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
   - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
   - `broker.monitoring.emqxExporter.enabled` controls deployment of [emqx-exporter](https://github.com/emqx/emqx-exporter) (default `false`)
+  - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
 
 ### Telemetry
 

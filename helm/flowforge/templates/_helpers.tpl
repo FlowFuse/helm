@@ -182,6 +182,17 @@ Configure broker domain
 {{- end -}}
 
 {{/*
+Team Broker default Hostname
+*/}}
+{{- define "forge.teamBrokerHost" -}}
+{{- if (.Values.broker).hostname  -}}
+    {{ .Values.broker.hostname }}
+{{- else -}}
+    {{ printf "%s.%s" "broker" .Values.forge.domain }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Configure emqx bootstrap api secret
 */}}
 {{- define "emqx.bootstrapApiKeySecret" -}}

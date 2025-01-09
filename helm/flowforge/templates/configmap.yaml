@@ -173,7 +173,8 @@ data:
       {{ end -}}
       {{ if or .Values.forge.broker.teamBroker.enabled .Values.forge.broker.teamBroker.uiOnly }}
       teamBroker:
-        enabled: true 
+        enabled: true
+        host: {{ include "forge.teamBrokerHost" . }}
       {{ end -}}
     {{- end }}
     logging:
