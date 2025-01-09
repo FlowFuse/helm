@@ -95,7 +95,6 @@ To use STMP to send email
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
   - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`)
-  - `forge.broker.teamBroker.host` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
   - `forge.broker.createMetricsUser` defines if a dedicated MQTT user with broker metrics collection permissions should be created (default `true`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
@@ -123,6 +122,7 @@ To use STMP to send email
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
   - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
   - `broker.monitoring.emqxExporter.enabled` controls deployment of [emqx-exporter](https://github.com/emqx/emqx-exporter) (default `false`)
+  - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
 
 ### Telemetry
 

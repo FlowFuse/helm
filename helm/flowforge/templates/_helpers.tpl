@@ -185,8 +185,8 @@ Configure broker domain
 Team Broker default Hostname
 */}}
 {{- define "forge.teamBrokerHost" -}}
-{{- if (((.Values.forge).broker).teamBroker).host  -}}
-    {{ .Values.forge.broker.teamBroker.host }}
+{{- if ((.Values.broker).teamBroker).host  -}}
+    {{ .Values.broker.teamBroker.host }}
 {{- else -}}
     {{ printf "%s.%s" "broker" .Values.forge.domain }}
 {{- end -}}
