@@ -28,7 +28,7 @@ For other values please refer to the documentation below.
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the hostname for the container registry to find Project stacks (default Docker Hub)
  - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
- - `forge.cloudProvider` currently only accepts `aws` but will include more as needed (default not set)
+ - `forge.cloudProvider` can be `aws` or `openshift` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
