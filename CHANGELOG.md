@@ -1,3 +1,10 @@
+#### 2.22.0: Release
+
+ - feat: Release 2.13.0 (#529) @ppawlowski
+ - docs: Add OpenShift to cloudProvider docs (#528) @hardillb
+ - chore(deps): bump docker/build-push-action from 6.10.0 to 6.11.0 (#527) @app/dependabot
+ - chore: Add config option for team broker hostname (#525) @hardillb
+
 #### 2.21.1: Release
 
  - fix: 2.12.1 point release (#523) @hardillb
