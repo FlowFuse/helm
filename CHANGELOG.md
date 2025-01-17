@@ -1,3 +1,7 @@
+#### 2.23.0: Release
+
+ - feat: 2.13.1 Release (#530) @hardillb
+
 #### 2.22.0: Release
 
  - feat: Release 2.13.0 (#529) @ppawlowski
