@@ -32,8 +32,10 @@ spec:
       priorityClassName: "{{ .Values.forge.priorityClassName}}"
       {{- end }}
       automountServiceAccountToken: false
+      {{- if .Values.forge.broker.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.forge.broker.podSecurityContext | nindent 8 }}
+      {{- end }}
       containers:
       - name: broker
         image: {{ .Values.forge.broker.image }}
