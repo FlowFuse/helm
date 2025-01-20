@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       # builds container
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v6.11.0
+        uses: docker/build-push-action@v6.12.0
         with:
           context: helm/flowforge-container
           file: helm/flowforge-container/Dockerfile
@@ -92,7 +92,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v6.11.0
+        uses: docker/build-push-action@v6.12.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile
@@ -143,7 +143,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v6.11.0
+        uses: docker/build-push-action@v6.12.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-2.2.x
@@ -180,7 +180,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v6.11.0
+        uses: docker/build-push-action@v6.12.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-3.1
@@ -217,7 +217,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge Application container
-        uses: docker/build-push-action@v6.11.0
+        uses: docker/build-push-action@v6.12.0
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-4.0
@@ -253,7 +253,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push FlowForge File Server container
-        uses: docker/build-push-action@v6.11.0
+        uses: docker/build-push-action@v6.12.0
         with:
           context: helm/file-server
           file: helm/file-server/Dockerfile
