@@ -53,8 +53,10 @@ spec:
       priorityClassName: "{{ .Values.forge.priorityClassName}}"
       {{- end }}
       automountServiceAccountToken: false
+      {{- if .Values.forge.fileStore.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
+      {{- end }}
       initContainers:
       - name: config
         image: "ruby:2.7-slim"

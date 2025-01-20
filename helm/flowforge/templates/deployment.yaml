@@ -40,8 +40,10 @@ spec:
       {{- end }}
       serviceAccountName: flowforge
       automountServiceAccountToken: true 
+      {{- if .Values.forge.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.forge.podSecurityContext | nindent 8 }}
+      {{- end }}
       initContainers:
       - name: config
         image: "ruby:2.7-slim"
