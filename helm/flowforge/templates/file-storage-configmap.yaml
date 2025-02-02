@@ -32,7 +32,7 @@ data:
         host: {{ include "forge.databaseHost" . }}
         port: {{ .Values.postgresql.port | default 5432 }}
         username: {{ .Values.postgresql.auth.username }}
-        database: ff-context
+        database: {{ .Values.postgresql.auth.fileStoreDatabase }}
         password: <%= ENV['PGPASSWORD'] %>
         {{- end }}
         {{- if eq .Values.forge.fileStore.context.options.type "sqlite" }}
@@ -61,8 +61,8 @@ data:
     # apk add --no-cache postgresql14-client
     psql -v ON_ERROR_STOP=1 -h {{ .Release.Name }}-postgresql -U postgres postgres <<-ESQL
     SELECT datname FROM pg_database WHERE datistemplate = false;
-    SELECT 'CREATE DATABASE "ff-context"' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'ff-context')\gexec
-    GRANT ALL PRIVILEGES ON DATABASE "ff-context" TO "forge";
+    SELECT 'CREATE DATABASE "{{ .Values.postgresql.auth.fileStoreDatabase }}"' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '{{ .Values.postgresql.auth.fileStoreDatabase }}')\gexec
+    GRANT ALL PRIVILEGES ON DATABASE "{{ .Values.postgresql.auth.fileStoreDatabase }}" TO "{{ .Values.postgresql.auth.username }}";
     ESQL
 {{- end }}
 {{- end -}}
