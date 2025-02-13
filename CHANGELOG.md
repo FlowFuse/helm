@@ -1,3 +1,12 @@
+#### 2.24.0: Release
+
+ - feat: Release 2.14.0 (#538) @knolleary
+ - chore(deps): bump docker/build-push-action from 6.12.0 to 6.13.0 (#535) @app/dependabot
+ - feat: Allow File Storage database name to be customised (#536) @ppawlowski
+ - chore(deps): bump actions/setup-python from 5.3.0 to 5.4.0 (#537) @app/dependabot
+ - fix: Allow to set empty `securityContext` for all deployments (#534) @ppawlowski
+ - chore(deps): bump docker/build-push-action from 6.11.0 to 6.12.0 (#531) @app/dependabot
+
 #### 2.23.0: Release
 
  - feat: 2.13.1 Release (#530) @hardillb
