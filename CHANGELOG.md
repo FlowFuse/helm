@@ -1,3 +1,8 @@
+#### 2.25.0: Release
+
+ - feat: Release 2.14.1 (#541) @hardillb
+ - chore: Bump Stack Container to Node-RED 4.0.9 (#540) @hardillb
+
 #### 2.24.0: Release
 
  - feat: Release 2.14.0 (#538) @knolleary
