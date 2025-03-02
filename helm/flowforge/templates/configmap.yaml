@@ -54,9 +54,6 @@ data:
         service:
           type: {{ .Values.forge.projectServiceType }}
         {{- end }}
-        {{- if and (eq .Values.forge.projectServiceType "NodePort") (.Values.forge.projectServiceNodePort) }}
-          nodePort: {{ .Values.forge.projectServiceNodePort }}
-        {{- end }}
         {{- if .Values.forge.cloudProvider }}
         cloudProvider: {{ .Values.forge.cloudProvider }}
         {{- end }}
