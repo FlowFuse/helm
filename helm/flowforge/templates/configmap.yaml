@@ -273,11 +273,13 @@ data:
         requestTimeout: {{ .Values.forge.assistant.requestTimeout | default 60000 }}
       {{- end }}
     {{- end }}
-    {{- if and  (hasKey .Values.forge "npmRegistry") (.Values.forge.npmRegistry.enabled | default false) }}
+    {{- if and  (hasKey .Values.forge "npmRegistry") (hasKey .Values.forge.npmRegistry "enabled") }}
+    {{- if .Values.forge.npmRegistry.enabled | default false }}
     npmRegistry:
       enabled: true
       url: {{ .Values.forge.npmRegistry.url }}
       admin:
         username: {{ .Values.forge.npmRegistry.admin.username }}
         password: {{ .Values.forge.npmRegistry.admin.password }}
+    {{- end }}
     {{- end }}
