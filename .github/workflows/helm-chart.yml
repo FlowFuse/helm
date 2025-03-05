@@ -35,7 +35,7 @@ jobs:
           python-version: 3.9
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.6.1
+        uses: helm/chart-testing-action@v2.7.0
 
       - name: Add bitami repo
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
