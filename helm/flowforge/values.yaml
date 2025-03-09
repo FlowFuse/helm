@@ -137,6 +137,9 @@ forge:
 
   assistant: {}
 
+  service:
+    type: ClusterIP
+
 postgresql:
   image:
     tag: "14.10.0-debian-11-r30"
@@ -165,3 +168,5 @@ broker:
   monitoring:
     emqxExporter:
       enabled: false
+  service:
+    type: ClusterIP

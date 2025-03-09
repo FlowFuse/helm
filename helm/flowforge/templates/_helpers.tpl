@@ -43,7 +43,13 @@ Broker Selector labels
 {{ include "forge.commonSelectorLabels" . }}
 app.kubernetes.io/component: "broker"
 */}}
+{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
 app: flowforge-broker
+{{- else -}}
+apps.emqx.io/db-role: core
+apps.emqx.io/instance: emqx
+apps.emqx.io/managed-by: emqx-operator
+{{- end -}}
 {{- end }}
 
 {{/*
