@@ -36,6 +36,7 @@ For other values please refer to the documentation below.
  - `forge.projectNetworkPolicy.ingress` a list of ingress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied on project pods ( default `[]`)
  - `forge.projectNetworkPolicy.egress` a list of egress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied in project pods ( default `[]`)
  - `forge.projectIngressAnnotations` ingress annotations for project instances (default is `{}`)
+ - `forge.projectServiceType` service type for project instances (allowed `ClusterIP` or `NodePort`, default is `ClusterIP`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the core application pod
  - `forge.license` FlowForge EE license string (optional, default not set)
