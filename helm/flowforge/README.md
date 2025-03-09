@@ -231,12 +231,19 @@ One of either `storageClass` or `storageClassEFSTag` needs to be set.
 
 Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plugin, further options can be found [here](https://github.com/fastify/fastify-rate-limit#options) and can be included.
 
- ### Nore-RED Assistant
+ ### Node-RED Assistant
 
  - `forge.assistant.enabled` Enable/disable the Node-RED Assistant (default `false`)
  - `forge.assistant.service.url` URL to the Node-RED Assistant service
  - `forge.assistant.service.token` Token to authenticate with the Node-RED Assistant service
  - `forge.assistant.service.requestTimeout` Timeout for the Node-RED Assistant service (default `60000`)
+
+ ### FlowFuse private NPM Registry
+
+ - `forge.npmRegistry.enabled` Enable/disable support for Per Team Private NPM Registry (default `false`)
+ - `forge.npmRegistry.url` URL for the registry (default not set, required if enabled)
+ - `forge.npmRegistry.admin.username` Username for a admin user on the registry (default not set, required if enabled)
+ - `forge.npmRegistry.admin.password` Password for a admin user on the registry (default not set, required if enabled)
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.

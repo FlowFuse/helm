@@ -896,6 +896,39 @@
                             "type": "integer"
                         }
                     }
+                },
+                "npmRegistry": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "url": {
+                            "type": "string"
+                        },
+                        "admin": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["username", "password"]
+                        }
+                    },
+                    "if": {
+                        "properties": {
+                            "enabled": {
+                                "enum": [ true ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["url", "admin"]
+                    }
                 }
             },
             "required": [
