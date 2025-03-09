@@ -51,3 +51,44 @@ tests:
             apps.emqx.io/db-role: core
             apps.emqx.io/instance: emqx
             apps.emqx.io/managed-by: emqx-operator
+
+  - it: should create a NodePort-type broker service
+    template: broker.yaml
+    documentIndex: 1
+    set:
+      broker.service.type: NodePort
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: flowforge-broker
+      - equal:
+          path: spec.type
+          value: NodePort
+
+  - it: should create a NodePort-type broker service with custom mqtt and ws NodePorts
+    template: broker.yaml
+    documentIndex: 1
+    set:
+      broker.service:
+        type: NodePort
+        mqtt:
+          nodePort: 30001
+        ws:
+          nodePort: 30002
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: flowforge-broker
+      - equal:
+          path: spec.type
+          value: NodePort
+      - equal:
+          path: spec.ports[?(@.name == "mqtt-native")].nodePort
+          value: 30001
+      - equal:
+          path: spec.ports[?(@.name == "mqtt-ws")].nodePort
+          value: 30002
