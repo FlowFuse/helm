@@ -1,0 +1,101 @@
+{{- if and  (hasKey .Values "npmRegistry") (hasKey .Values.npmRegistry "enabled") }}
+{{- if .Values.npmRegistry.enabled | default false}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowfuse-npm-registry
+data:
+  config.yaml: |
+    storage: /verdaccio/storage
+    web:
+      enable: false
+    auth:
+      flowfuse-auth:
+        baseURL: http://forge.{{ .Release.Namespace }}
+        adminSecret: secret
+    packages:
+      '@*/*':
+        access: $authenticated
+    log: { type: stdout, format: pretty, level: http }
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flowfuse-npm-registry
+spec:
+  selector:
+    matchLabels:
+      app: flowfuse-npm-registry
+  serviceName: flowfuse-npm-registry
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flowfuse-npm-registry
+    spec:
+      containers:
+      - name: flowfuse-npm-registry
+        {{- if .Values.npmRegistry.image }}
+        image: {{ .value.npmRegistry.image }}
+        {{ else }}
+        image: flowfuse-npm-registry:latest
+        {{ end -}}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4873
+        volumeMounts:
+        - name: flowfuse-npm-registry-storage
+          mountPath: /verdaccio/storage
+        - name: config
+          mountPath: /verdaccio/conf
+      volumes:
+      - name: config
+        configMap:
+          name: flowfuse-npm-registry
+  volumeClaimTemplates:
+  - metadata:
+      name: flowfuse-npm-registry-storage
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowfuse-npm-registry
+spec:
+  clusterIP: None
+  selector:
+    app: flowfuse-npm-registry
+  ports:
+  - port: 4873
+    targetPort: 4873
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flowfuse-npm-registry
+  labels:
+    name: flowfuse-npm-registry
+spec:
+  rules:
+  - host: {{ .Values.npmRegistry.hostname }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: flowfuse-npm-registry
+            port: 
+              number: 4873
+{{- end }}
+{{- end }}
