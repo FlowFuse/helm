@@ -929,6 +929,18 @@
                     "then": {
                         "required": ["url", "admin"]
                     }
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        },
+                        "nodePort": {
+                            "type": "integer"
+                        }
+                    },
+                    "required": ["type"]
                 }
             },
             "required": [
@@ -1033,6 +1045,31 @@
                             }
                         }
                     }
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        },
+                        "mqtt": {
+                            "type": "object",
+                            "properties": {
+                                "nodePort": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "ws": {
+                            "type": "object",
+                            "properties": {
+                                "nodePort": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "required": ["type"]
                 }
             }
         }

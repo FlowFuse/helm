@@ -54,6 +54,8 @@ For other values please refer to the documentation below.
  - `forge.replicas` allows the number of instances of the FlowFuse App to be set. Scaling only supported with ingress-nginx controller (default `1`)
  - `forge.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the core application deployment (default `[]`)
  - `forge.priorityClassName` allows to set [priorityClassName](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/) for all deployments created by this Helm chart (default not set)
+ - `forge.service.type` allows to set the service type for the core application service (default `ClusterIP`)
+ - `forge.service.nodePort` allows to set custom nodePort value when `forge.service.type` value is set to `NodePort` (default not set)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
@@ -124,6 +126,9 @@ To use STMP to send email
   - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
   - `broker.monitoring.emqxExporter.enabled` controls deployment of [emqx-exporter](https://github.com/emqx/emqx-exporter) (default `false`)
   - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
+  - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
+  - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
+  - `broker.service.ws.nodePort` allows to set custom nodePort value for `ws` port when `broker.service.type` value is set to `NodePort` (default not set)
 
 ### Telemetry
 

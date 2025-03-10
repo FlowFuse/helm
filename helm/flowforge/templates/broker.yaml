@@ -138,6 +138,24 @@ metadata:
   labels:
   {{- include "forge.labels" . | nindent 4 }}
 spec:
+  type: {{ .Values.broker.service.type }}
+  {{- if eq .Values.broker.service.type "NodePort" }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+    {{- if (.Values.broker.service.mqtt).nodePort }}
+    nodePort: {{ .Values.broker.service.mqtt.nodePort }}
+    {{- end }}
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+    {{- if (.Values.broker.service.ws).nodePort }}
+    nodePort: {{ .Values.broker.service.ws.nodePort }}
+    {{- end }}
+  {{- else }}
   ports:
   - port: 1883
     targetPort: 1883
@@ -147,12 +165,7 @@ spec:
     targetPort: 1884
     protocol: TCP
     name: mqtt-ws
+  {{- end }}
   selector:
-    {{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
     {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
-    {{- else }}
-    apps.emqx.io/db-role: core
-    apps.emqx.io/instance: emqx
-    apps.emqx.io/managed-by: emqx-operator
-    {{- end }}
 {{- end -}}

@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test forge service object
+templates:
+  - service-ingress.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should create a NodePort-type forge service
+    documentIndex: 0
+    set:
+      forge.service.type: NodePort
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: forge
+      - equal:
+          path: spec.type
+          value: NodePort
+
+  - it: should create a NodePort-type forge service with custom NodePort value
+    documentIndex: 0
+    set:
+      forge.service:
+        type: NodePort
+        nodePort: 30001
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: forge
+      - equal:
+          path: spec.type
+          value: NodePort
+      - equal:
+          path: spec.ports[0].nodePort
+          value: 30001
