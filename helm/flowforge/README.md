@@ -54,7 +54,7 @@ For other values please refer to the documentation below.
  - `forge.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the core application deployment (default `[]`)
  - `forge.priorityClassName` allows to set [priorityClassName](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/) for all deployments created by this Helm chart (default not set)
  - `forge.service.type` allows to set the service type for the core application service (default `ClusterIP`)
- - `forge.servvide.nodePort` allows to set custom nodePort value when `forge.service.type` value is set to `NodePort` (default not set)
+ - `forge.service.nodePort` allows to set custom nodePort value when `forge.service.type` value is set to `NodePort` (default not set)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
