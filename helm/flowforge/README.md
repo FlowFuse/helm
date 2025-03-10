@@ -290,6 +290,10 @@ editors:
 - `postgresql.auth.fileStoreDatabase` - the database to use bt the File Storage servive (default `ff-context`)
 - `postgresql.auth.existingSecret` - the name of an Kubernetes secret object with database credentials (If `postgresql.auth.existingSecret` is set, `postgresql.auth.password` and `postgresql.auth.postgresPassword` values are ignored; default not set)
 
+### Team Private NPM Registry
+- `npmRegistry.enabled` - enables hosting a private NPM Registry in Kubernetes. Used with `forge.npmRegistry.*` (default false)
+- `npmRegistry.image` - the container to use for the registry (default `flowfuse/flowfuse-npm-registry:latest`)
+- `npmRegistry.hostname` - the hostname to pass to the ingress object. Should link to `forge.npmRegistry.url` (default not set)
 
 Note: External secret must contain following keys:
 - `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)

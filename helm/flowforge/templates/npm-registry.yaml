@@ -38,7 +38,7 @@ spec:
         {{- if .Values.npmRegistry.image }}
         image: {{ .value.npmRegistry.image }}
         {{ else }}
-        image: flowfuse-npm-registry:latest
+        image: flowfuse/flowfuse-npm-registry:latest
         {{ end -}}
         imagePullPolicy: Always
         resources:
