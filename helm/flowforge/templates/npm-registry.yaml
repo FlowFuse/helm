@@ -4,8 +4,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: flowfuse-npm-registry
-  app.kubernetes.io/name: flowfuse-npm-registry
-  app.kubernetes.io/part-of: flowfuse
+  labels:
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
 data:
   config.yaml: |
     storage: /verdaccio/storage
