@@ -71,6 +71,8 @@ jobs:
 
   build_nodered_container:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
