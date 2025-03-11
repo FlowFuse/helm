@@ -26,8 +26,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: flowfuse-npm-registry
-  app.kubernetes.io/name: flowfuse-npm-registry
-  app.kubernetes.io/part-of: flowfuse
+  labels:
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
 spec:
   selector:
     matchLabels:
