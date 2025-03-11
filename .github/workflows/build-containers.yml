@@ -110,7 +110,8 @@ jobs:
           flavor: |
             latest=true
           images: |
-            devopswizard/node-red
+            flowforge/node-red
+            flowfuse/node-red
             ${{ steps.login-ecr.outputs.registry}}/${{ env.AWS_ECR_NODE_RED_REPOSITORY_NAME }}
 
       - name: Setup QEMU
