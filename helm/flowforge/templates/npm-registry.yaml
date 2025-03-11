@@ -1,9 +1,11 @@
 {{- if and  (hasKey .Values "npmRegistry") (hasKey .Values.npmRegistry "enabled") }}
-{{- if .Values.npmRegistry.enabled | default false}}
+{{- if .Values.npmRegistry.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: flowfuse-npm-registry
+  app.kubernetes.io/name: flowfuse-npm-registry
+  app.kubernetes.io/part-of: flowfuse
 data:
   config.yaml: |
     storage: /verdaccio/storage
@@ -12,7 +14,8 @@ data:
     auth:
       flowfuse-auth:
         baseURL: http://forge.{{ .Release.Namespace }}
-        adminSecret: secret
+        adminUser: {{ .Values.forge.npmRegistry.admin.username }}
+        adminSecret: {{ .Values.forge.npmRegistry.admin.password }}
     packages:
       '@*/*':
         access: $authenticated
@@ -22,16 +25,23 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: flowfuse-npm-registry
+  app.kubernetes.io/name: flowfuse-npm-registry
+  app.kubernetes.io/part-of: flowfuse
 spec:
   selector:
     matchLabels:
       app: flowfuse-npm-registry
+      app.kubernetes.io/name: flowfuse-npm-registry
+      app.kubernetes.io/part-of: flowfuse
   serviceName: flowfuse-npm-registry
   replicas: 1
   template:
     metadata:
       labels:
         app: flowfuse-npm-registry
+        app.kubernetes.io/name: flowfuse-npm-registry
+        app.kubernetes.io/component: registry
+        app.kubernetes.io/part-of: flowfuse
     spec:
       containers:
       - name: flowfuse-npm-registry
@@ -41,6 +51,19 @@ spec:
         image: flowfuse/flowfuse-npm-registry:latest
         {{ end -}}
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 4873
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 4873
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        automountServiceAccountToken: false
         resources:
           limits:
             memory: "128Mi"
@@ -75,6 +98,8 @@ spec:
   clusterIP: None
   selector:
     app: flowfuse-npm-registry
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
   ports:
   - port: 4873
     targetPort: 4873
@@ -85,6 +110,9 @@ metadata:
   name: flowfuse-npm-registry
   labels:
     name: flowfuse-npm-registry
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/component: registry
+    app.kubernetes.io/part-of: flowfuse
 spec:
   rules:
   - host: {{ .Values.npmRegistry.hostname }}

@@ -170,3 +170,6 @@ broker:
       enabled: false
   service:
     type: ClusterIP
+
+npmRegistry:
+  enabled: false
