@@ -6,6 +6,11 @@ on:
         description: 'Version to release'
         required: true
 
+env:
+  AWS_ECR_ROLE_NAME: "ECR_push_pull_images"
+  AWS_ECR_REGION: "eu-west-1"
+  AWS_ECR_NODE_RED_REPOSITORY_NAME: "flowforge/node-red"
+
 jobs:
   build_application_container:
     runs-on: ubuntu-latest
@@ -65,11 +70,35 @@ jobs:
 
   build_nodered_container:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_ECR_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
+          role-session-name: GithubActionsRoleSession
+          role-duration-seconds: 900
+        
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
       - name: Docker Meta Data
         id: meta
         uses: docker/metadata-action@v5
@@ -82,16 +111,15 @@ jobs:
           images: |
             flowforge/node-red
             flowfuse/node-red
+            ${{ steps.login-ecr.outputs.registry}}/${{ env.AWS_ECR_NODE_RED_REPOSITORY_NAME }}
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push FlowForge Application container
+  
+      - name: Build and push Node-RED container
         uses: docker/build-push-action@v6.14.0
         with:
           context: helm/node-red-container
@@ -99,6 +127,7 @@ jobs:
           platforms: linux/amd64, linux/arm64, linux/arm/v7 
           tags: ${{ steps.meta.outputs.tags }}
           push: true
+
       - name: Push README
         uses: peter-evans/dockerhub-description@v4
         with:
@@ -106,6 +135,7 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/node-red-container/README.md
+
       - name: Push README flowfuse
         uses: peter-evans/dockerhub-description@v4
         with:
@@ -116,11 +146,35 @@ jobs:
 
   build_nodered_container_223:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_ECR_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
+          role-session-name: GithubActionsRoleSession
+          role-duration-seconds: 900
+        
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
       - name: Docker Meta Data
         id: meta
         uses: docker/metadata-action@v5
@@ -133,16 +187,15 @@ jobs:
           images: |
             flowforge/node-red
             flowfuse/node-red
+            ${{ steps.login-ecr.outputs.registry}}/${{ env.AWS_ECR_NODE_RED_REPOSITORY_NAME }}
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push FlowForge Application container
+
+      - name: Build and push Node-RED container
         uses: docker/build-push-action@v6.14.0
         with:
           context: helm/node-red-container
@@ -153,11 +206,35 @@ jobs:
 
   build_nodered_container_31:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_ECR_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
+          role-session-name: GithubActionsRoleSession
+          role-duration-seconds: 900
+        
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
       - name: Docker Meta Data
         id: meta
         uses: docker/metadata-action@v5
@@ -170,16 +247,15 @@ jobs:
           images: |
             flowforge/node-red
             flowfuse/node-red
+            ${{ steps.login-ecr.outputs.registry}}/${{ env.AWS_ECR_NODE_RED_REPOSITORY_NAME }}
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push FlowForge Application container
+
+      - name: Build and push Node-RED container
         uses: docker/build-push-action@v6.14.0
         with:
           context: helm/node-red-container
@@ -190,11 +266,35 @@ jobs:
 
   build_nodered_container_40:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           repository: 'flowfuse/helm'
           path: 'helm'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_ECR_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
+          role-session-name: GithubActionsRoleSession
+          role-duration-seconds: 900
+        
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: flowforge
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
       - name: Docker Meta Data
         id: meta
         uses: docker/metadata-action@v5
@@ -207,16 +307,15 @@ jobs:
           images: |
             flowforge/node-red
             flowfuse/node-red
+            ${{ steps.login-ecr.outputs.registry}}/${{ env.AWS_ECR_NODE_RED_REPOSITORY_NAME }}
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          username: flowforge
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push FlowForge Application container
+
+      - name: Build and push Node-RED container
         uses: docker/build-push-action@v6.14.0
         with:
           context: helm/node-red-container
