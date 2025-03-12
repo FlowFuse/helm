@@ -1,12 +1,13 @@
 {{- if .Values.npmRegistry.enabled }}
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
+type: Opaque
 metadata:
   name: flowfuse-npm-registry
   labels:
     app.kubernetes.io/name: flowfuse-npm-registry
     app.kubernetes.io/part-of: flowfuse
-data:
+stringData:
   config.yaml: |
     storage: /verdaccio/storage
     web:
@@ -78,8 +79,8 @@ spec:
           mountPath: /verdaccio/conf
       volumes:
       - name: config
-        configMap:
-          name: flowfuse-npm-registry
+        secret:
+          secretName: flowfuse-npm-registry
   volumeClaimTemplates:
   - metadata:
       name: flowfuse-npm-registry-storage
