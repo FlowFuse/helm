@@ -66,8 +66,10 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         automountServiceAccountToken: false
+        {{- if .Values.npmRegistry.podSecurityContext }}
         securityContext:
-          fsGroupChangePolicy: "OnRootMismatch"
+          {{- toYaml .Values.npmRegistry.podSecurityContext | nindent 10 }}
+        {{- end }}
         resources:
           limits:
             memory: "128Mi"
