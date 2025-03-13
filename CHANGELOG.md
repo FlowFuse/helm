@@ -1,3 +1,7 @@
+#### 2.26.2: Release
+
+ - fix: npm registry auth config (#555) @ppawlowski
+
 #### 2.26.1: Release
 
  - fix: typo in `npmRegistry.image` reference (#554) @ppawlowski
