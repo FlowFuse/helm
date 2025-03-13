@@ -1,3 +1,7 @@
+#### 2.26.1: Release
+
+ - fix: typo in `npmRegistry.image` reference (#554) @ppawlowski
+
 #### 2.26.0: Release
 
  - feat: Release 2.15.0 (#553) @hardillb
