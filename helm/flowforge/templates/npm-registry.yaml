@@ -55,13 +55,13 @@ spec:
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
-            path: /
+            path: /-/all
             port: 4873
           initialDelaySeconds: 5
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /
+            path: /-/all
             port: 4873
           initialDelaySeconds: 5
           periodSeconds: 10
