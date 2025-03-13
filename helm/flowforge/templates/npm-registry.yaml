@@ -48,7 +48,7 @@ spec:
       containers:
       - name: flowfuse-npm-registry
         {{- if .Values.npmRegistry.image }}
-        image: {{ .value.npmRegistry.image }}
+        image: {{ .Values.npmRegistry.image }}
         {{ else }}
         image: flowfuse/npm-registry:latest
         {{ end -}}
