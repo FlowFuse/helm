@@ -13,7 +13,7 @@ stringData:
     web:
       enable: false
     auth:
-      flowfuse-auth:
+      ff-auth:
         baseURL: http://forge.{{ .Release.Namespace }}
         adminUser: {{ .Values.forge.npmRegistry.admin.username }}
         adminSecret: {{ .Values.forge.npmRegistry.admin.password }}
