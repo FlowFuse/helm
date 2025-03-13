@@ -173,3 +173,4 @@ broker:
 
 npmRegistry:
   enabled: false
+  podSecurityContext: {}
