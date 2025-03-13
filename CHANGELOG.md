@@ -1,3 +1,7 @@
+#### 2.26.3: Release
+
+ - fix: Add better healthcheck probe path (#556) @hardillb
+
 #### 2.26.2: Release
 
  - fix: npm registry auth config (#555) @ppawlowski
