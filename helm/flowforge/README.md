@@ -294,6 +294,7 @@ editors:
 - `npmRegistry.enabled` - enables hosting a private NPM Registry in Kubernetes. Used with `forge.npmRegistry.*` (default false)
 - `npmRegistry.image` - the container to use for the registry (default `flowfuse/flowfuse-npm-registry:latest`)
 - `npmRegistry.hostname` - the hostname to pass to the ingress object. Should link to `forge.npmRegistry.url` (default not set)
+- `npmRegistry.affinity` - allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the npmRegistry application pod
 
 Note: External secret must contain following keys:
 - `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)

@@ -81,6 +81,9 @@ spec:
       - name: config
         secret:
           secretName: flowfuse-npm-registry
+      {{- if .Values.npmRegistry.affinity }}
+      affinity: {{ toYaml .Values.npmRegistry.affinity | nindent 8 }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: flowfuse-npm-registry-storage
