@@ -1,3 +1,15 @@
+#### 2.26.0: Release
+
+ - feat: Release 2.15.0 (#553) @hardillb
+ - chore: Add NR 4.0.9 to device agent cache (#552) @hardillb
+ - feat: Add template for npm registry (#549) @hardillb
+ - ci: Add possibility to push Node-RED container images to private ECR (#550) @ppawlowski
+ - feat: Add possibility to create NodePort-type services for forge and broker deployments (#547) @ppawlowski
+ - feat: Add possibility to customise service type created for project deployment (#544) @ppawlowski
+ - feat: Allow configuring the npm private registry (#546) @hardillb
+ - chore(deps): bump docker/build-push-action from 6.13.0 to 6.14.0 (#543) @app/dependabot
+ - ci: Do not fail Helm chart release if container images workflow returns `queued` status (#542) @ppawlowski
+
 #### 2.25.0: Release
 
  - feat: Release 2.14.1 (#541) @hardillb
