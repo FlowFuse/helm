@@ -1,3 +1,7 @@
+#### 2.26.4: Release
+
+ - fix: Fix npm reg pv (#557) @hardillb
+
 #### 2.26.3: Release
 
  - fix: Add better healthcheck probe path (#556) @hardillb
