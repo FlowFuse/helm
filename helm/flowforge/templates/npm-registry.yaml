@@ -45,6 +45,11 @@ spec:
         app.kubernetes.io/component: registry
         app.kubernetes.io/part-of: flowfuse
     spec:
+      automountServiceAccountToken: false
+      {{- if .Values.npmRegistry.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.npmRegistry.podSecurityContext | nindent 8 }}
+      {{- end }}    
       containers:
       - name: flowfuse-npm-registry
         {{- if .Values.npmRegistry.image }}
@@ -65,7 +70,6 @@ spec:
             port: 4873
           initialDelaySeconds: 5
           periodSeconds: 10
-        automountServiceAccountToken: false
         resources:
           limits:
             memory: "128Mi"
