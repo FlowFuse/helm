@@ -73,6 +73,11 @@ forge:
     containerSecurityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: true
+    serviceAccount:
+      create: false
+      name: flowfuse-file-sa
+      annotations: {}
+    automountServiceAccountToken: false
     labels: {}
     podLabels: {}
     tolerations: []
