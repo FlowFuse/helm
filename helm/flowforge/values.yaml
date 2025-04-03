@@ -76,6 +76,7 @@ forge:
     serviceAccount:
       create: false
       name: flowfuse-file-sa
+      automountServiceAccountToken: true
       annotations: {}
     automountServiceAccountToken: false
     labels: {}
