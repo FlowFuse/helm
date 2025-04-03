@@ -190,6 +190,11 @@ Enables FlowForge Telemetry
 - `forge.fileStore.podLabels` allows to add custom labels to the file-server pod (default `{}`)
 - `forge.fileStore.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the file-server deployment (default `[]`)
 - `forge.fileStore.telemetry.backend.prometheus.enabled` enables the `/metrics` endpoint on the fileStore app for scraping by Prometheus
+- `forge.fileStore.serviceAccount.create` flag, indicates whether service account for File Storage should be provisioned (default `false`)
+- `forge.fileStore.serviceAccount.name` name of the service account for File Storage
+- `forge.fileStore.serviceAccount.annotations` File Storage service account annotations
+- `forge.fileStore.serviceAccount.automountServiceAccountToken` defines automount API credentials for a Service Account
+- `forge.fileStore.automountServiceAccountToken` defines automount API credentials for a pod (default `false`)
 
 ### Persistent Storage
 

@@ -627,6 +627,26 @@
                                     }
                                 }
                             }
+                        },
+                        "serviceAccount": {
+                            "type": "object",
+                            "properties": {
+                                "annotations": {
+                                    "type": "object"
+                                },
+                                "create": {
+                                    "type": "boolean"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "automountServiceAccountToken" : {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "automountServiceAccountToken" : {
+                            "type": "boolean"
                         }
                     },
                     "required": [

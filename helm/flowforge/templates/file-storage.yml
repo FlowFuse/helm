@@ -52,7 +52,10 @@ spec:
       {{- if .Values.forge.priorityClassName }}
       priorityClassName: "{{ .Values.forge.priorityClassName}}"
       {{- end }}
-      automountServiceAccountToken: false
+      {{- if .Values.forge.fileStore.serviceAccount.create }}
+      serviceAccountName: {{ .Values.forge.fileStore.serviceAccount.name }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.forge.fileStore.automountServiceAccountToken }}
       {{- if .Values.forge.fileStore.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
