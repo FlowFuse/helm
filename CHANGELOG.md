@@ -1,3 +1,10 @@
+#### 2.27.0: Release
+
+ - feat: Add possibility to create service account for fileStore service (#565) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.2982.0 to 12.2985.0 (#564) @app/dependabot
+ - chore(deps): bump peter-evans/dockerhub-description from 4.0.0 to 4.0.1 (#563) @app/dependabot
+ - chore: Pin external actions to commit hash (#559) @ppawlowski
+
 #### 2.26.4: Release
 
  - fix: Fix npm reg pv (#557) @hardillb
