@@ -54,14 +54,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
-        uses: peter-evans/dockerhub-description@0505d8b04853a30189aee66f5bb7fd1511bbac71 # v4.0.1
+        uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowforge/forge-k8s
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/flowforge-container/README.md
       - name: Push README flowfuse
-        uses: peter-evans/dockerhub-description@0505d8b04853a30189aee66f5bb7fd1511bbac71 # v4.0.1
+        uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowfuse/forge-k8s
           username: flowfuse
@@ -129,7 +129,7 @@ jobs:
           push: true
 
       - name: Push README
-        uses: peter-evans/dockerhub-description@0505d8b04853a30189aee66f5bb7fd1511bbac71 # v4.0.1
+        uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowforge/node-red
           username: flowforge
@@ -137,7 +137,7 @@ jobs:
           readme-filepath: ./helm/node-red-container/README.md
 
       - name: Push README flowfuse
-        uses: peter-evans/dockerhub-description@0505d8b04853a30189aee66f5bb7fd1511bbac71 # v4.0.1
+        uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowfuse/node-red
           username: flowfuse
@@ -360,14 +360,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
-        uses: peter-evans/dockerhub-description@0505d8b04853a30189aee66f5bb7fd1511bbac71 # v4.0.1
+        uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowforge/file-server
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           readme-filepath: ./helm/file-server/README.md
       - name: Push README flowfuse
-        uses: peter-evans/dockerhub-description@0505d8b04853a30189aee66f5bb7fd1511bbac71 # v4.0.1
+        uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowfuse/file-server
           username: flowfuse
