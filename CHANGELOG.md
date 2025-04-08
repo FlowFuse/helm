@@ -1,3 +1,12 @@
+#### 2.28.0: Release
+
+ - feat: Add writable `/tmp` directory for forge pod (#570) @ppawlowski
+ - chore(deps): bump peter-evans/dockerhub-description from 4.0.1 to 4.0.2 (#566) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.2985.0 to 12.2990.0 (#567) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.13 to 3.28.14 (#568) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 5.5.0 to 5.5.1 (#569) @app/dependabot
+ - feat: Add git command line tool (#562) @hardillb
+
 #### 2.27.0: Release
 
  - feat: Add possibility to create service account for fileStore service (#565) @ppawlowski
