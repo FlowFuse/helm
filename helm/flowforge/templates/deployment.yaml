@@ -141,6 +141,8 @@ spec:
         - name: NODE_ENV
           value: production
         volumeMounts:
+        - name: tempdir
+          mountPath: /tmp
         - name: configdir
           mountPath: /usr/src/forge/etc
         {{- if .Values.forge.privateCA }}
@@ -198,6 +200,9 @@ spec:
       {{- end }}
       {{- end }}
       volumes:
+      - name: tempdir
+        emptyDir: {}
+        sizeLimit: 1Gi      
       - name: configdir
         emptyDir: {}
       - name: configtemplate
