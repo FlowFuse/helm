@@ -201,8 +201,8 @@ spec:
       {{- end }}
       volumes:
       - name: tempdir
-        emptyDir: {}
-        sizeLimit: 1Gi      
+        emptyDir: 
+          sizeLimit: 1Gi      
       - name: configdir
         emptyDir: {}
       - name: configtemplate
