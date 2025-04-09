@@ -14,7 +14,7 @@ This container holds the FlowFuse App and the Kubernetes Driver
 
 ### Node-RED container
 
-This is a basic Node-RED image with the FlowFuse Lanucher and the required Node-RED plugins to talk to the FlowFuse Platform
+This is a basic Node-RED image with the FlowFuse Launcher and the required Node-RED plugins to talk to the FlowFuse Platform
 
 ### File Server container
 
