@@ -936,7 +936,7 @@
                                     "type": "string"
                                 }
                             },
-                            "required": ["username", "password"]
+                            "required": ["username"]
                         }
                     },
                     "if": {
