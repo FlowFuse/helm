@@ -284,6 +284,6 @@ data:
       url: {{ .Values.forge.npmRegistry.url }}
       admin:
         username: {{ .Values.forge.npmRegistry.admin.username }}
-        password: {{ .Values.forge.npmRegistry.admin.password }}
+        password: {{ include "forge.npmRegistryAdminPassword" . }}
     {{- end }}
     {{- end }}
