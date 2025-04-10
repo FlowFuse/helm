@@ -253,7 +253,7 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.npmRegistry.enabled` Enable/disable support for Per Team Private NPM Registry (default `false`)
  - `forge.npmRegistry.url` URL for the registry (default not set, required if enabled)
  - `forge.npmRegistry.admin.username` Username for a admin user on the registry (default not set, required if enabled)
- - `forge.npmRegistry.admin.password` Password for a admin user on the registry (default not set, required if enabled)
+ - `forge.npmRegistry.admin.password` Password for a admin user on the registry (default not set)
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.

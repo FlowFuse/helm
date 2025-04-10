@@ -209,4 +209,16 @@ Configure emqx bootstrap api secret
 {{- else }}
 {{- randAlphaNum 32 -}}
 {{- end }}
+{{- end }}
+
+{{/*
+Generate NPM registry admin password if not provided
+*/}}
+{{- define "forge.npmRegistryAdminPassword" -}}
+{{- if and (hasKey .Values.forge "npmRegistry") (hasKey .Values.forge.npmRegistry "admin") (hasKey .Values.forge.npmRegistry.admin "password") }}
+{{- .Values.forge.npmRegistry.admin.password }}
+{{- else }}
+{{- $seed := printf "%s-%s-%s" .Release.Name .Release.Namespace "npm-registry-secret" }}
+{{- sha256sum $seed | trunc 25 }}
+{{- end }}
 {{- end -}}

@@ -16,7 +16,7 @@ stringData:
       ff-auth:
         baseURL: http://forge.{{ .Release.Namespace }}
         adminUser: {{ .Values.forge.npmRegistry.admin.username }}
-        adminSecret: {{ .Values.forge.npmRegistry.admin.password }}
+        adminSecret: {{ include "forge.npmRegistryAdminPassword" . }}
     packages:
       '@*/*':
         access: $authenticated
