@@ -1,3 +1,8 @@
+#### 2.29.0: Release
+
+ - feat: Release 2.16.0 (#572) @cstns
+ - feat: Change the flowfuse/node-red:latest tag to Node-RED 4.0.x (#560) @hardillb
+
 #### 2.28.0: Release
 
  - feat: Add writable `/tmp` directory for forge pod (#570) @ppawlowski
