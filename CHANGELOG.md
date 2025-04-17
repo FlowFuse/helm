@@ -1,3 +1,7 @@
+#### 2.30.1: Release
+
+ - fix: Update name and keywords in `chart.yaml` for flowfuse chart (#577) @ppawlowski
+
 #### 2.30.0: Release
 
  - feat: depreciate flowforge helm chart (#576) @ppawlowski
