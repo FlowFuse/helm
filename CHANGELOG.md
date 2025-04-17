@@ -1,3 +1,7 @@
+#### 2.30.3: Release
+
+ - fix: Rollback flowforge chart depreciation (#580) @ppawlowski
+
 #### 2.30.2: Release
 
  - fix: Remove deprecated `token` parameter from `setup-helm` in `Release Helm Chart` workflow (#579) @ppawlowski
