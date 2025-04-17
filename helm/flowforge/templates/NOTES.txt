@@ -1,11 +1,3 @@
-╔═══════════════════════════════════════ WARNING ═══════════════════════════════════════╗
-║                                                                                       ║
-║        This Helm chart is deprecated. Please use flowfuse/flowfuse helm chart         ║
-║                    to install latest FlowFuse platform version                        ║
-║                                                                                       ║
-╚═══════════════════════════════════════════════════════════════════════════════════════╝
-
-
 Thank you for installing {{ .Chart.Name }} v{{ .Chart.AppVersion }}
 
 You can complete the setup wizard at {{ if .Values.forge.entryPoint }}http{{- if .Values.forge.https -}}s{{- end -}}://{{ .Values.forge.entryPoint }}{{- else }}http{{- if .Values.forge.https -}}s{{- end -}}://forge.{{ .Values.forge.domain }}{{- end }}
