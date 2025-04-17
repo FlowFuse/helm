@@ -1,3 +1,8 @@
+#### 2.30.2: Release
+
+ - fix: Remove deprecated `token` parameter from `setup-helm` in `Release Helm Chart` workflow (#579) @ppawlowski
+ - fix: Disable skipping existing package release (#578) @ppawlowski
+
 #### 2.30.1: Release
 
  - fix: Update name and keywords in `chart.yaml` for flowfuse chart (#577) @ppawlowski
