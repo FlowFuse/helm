@@ -1,0 +1,22 @@
+{{- if .Values.forge.privateCA -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs"}}
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+data:
+  chain.pem: |
+{{ toYaml .Values.forge.privateCA.certs | b64dec | indent 4}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs" }} 
+  namespace: {{ .Values.forge.projectNamespace | default "flowforge" }}
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+data:
+  chain.pem: |
+{{ toYaml .Values.forge.privateCA.certs | b64dec | indent 4}}
+{{- end -}}

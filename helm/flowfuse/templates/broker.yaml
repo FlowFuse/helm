@@ -1,0 +1,171 @@
+{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: flowforge-broker
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.broker.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    checkov.io/skip1: CKV_K8S_10=We do not force default resources constraints
+    checkov.io/skip2: CKV_K8S_11=We do not force default resources constraints
+    checkov.io/skip3: CKV_K8S_12=We do not force default resources constraints
+    checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
+spec:
+  selector:
+    matchLabels:
+     {{- include "forge.brokerSelectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/broker-config.yaml") . | sha256sum }}
+      labels:
+        {{- include "forge.brokerSelectorLabels" . | nindent 8 }}
+        {{- with .Values.forge.broker.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.forge.priorityClassName }}
+      priorityClassName: "{{ .Values.forge.priorityClassName}}"
+      {{- end }}
+      automountServiceAccountToken: false
+      {{- if .Values.forge.broker.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.forge.broker.podSecurityContext | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: broker
+        image: {{ .Values.forge.broker.image }}
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config
+          mountPath: /etc/mosquitto/mosquitto.conf
+          subPath: mosquitto.conf
+        - name: ping
+          mountPath: /http
+        {{- if .Values.forge.broker.createMetricsUser }}
+        - name: config
+          mountPath: /etc/mosquitto/acl_file
+          subPath: mqtt_acl_file
+        - name: secrets
+          mountPath: /etc/mosquitto/password_file
+          subPath: mqtt_password_file
+          readOnly: true
+        {{- end }}
+        ports:
+        - containerPort: 1883
+          name: mqtt-native
+        - containerPort: 1884
+          name: mqtt-ws
+        securityContext: {{- toYaml .Values.forge.broker.containerSecurityContext | nindent 10 }}
+        {{- if .Values.forge.broker.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /ping.html
+            port: 1884
+          initialDelaySeconds: {{ .Values.forge.broker.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.broker.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.broker.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.broker.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.broker.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.broker.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /ping.html
+            port: 1884
+          initialDelaySeconds: {{ .Values.forge.broker.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.broker.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.broker.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.broker.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.broker.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.broker.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /ping.html
+            port: 1884
+          initialDelaySeconds: {{ .Values.forge.broker.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.broker.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.broker.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.broker.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.broker.startupProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.broker.resources }}
+        resources: {{- toYaml .Values.forge.broker.resources | nindent 12 }}
+        {{- end }}
+      {{- if .Values.forge.broker.tolerations}}
+      tolerations:
+      {{ toYaml .Values.forge.broker.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.forge.registrySecrets }}
+      imagePullSecrets:
+      {{- range .Values.forge.registrySecrets }}
+      - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      volumes:
+      - name: config
+        configMap:
+          name: flowforge-broker-config
+      - name: ping
+        configMap:
+          name: flowforge-broker-ping
+      {{- if .Values.forge.broker.createMetricsUser }}
+      - name: secrets
+        secret:
+          secretName: flowfuse-broker-secrets
+      {{- end }}
+      {{- if .Values.forge.managementSelector }}
+      nodeSelector:
+        {{- range $key, $value := .Values.forge.managementSelector }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.forge.broker.affinity }}
+      affinity: {{ toYaml .Values.forge.broker.affinity | nindent 8 }}
+      {{- end }}
+{{- end }}
+{{- if .Values.forge.broker.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowforge-broker
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.broker.service.type }}
+  {{- if eq .Values.broker.service.type "NodePort" }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+    {{- if (.Values.broker.service.mqtt).nodePort }}
+    nodePort: {{ .Values.broker.service.mqtt.nodePort }}
+    {{- end }}
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+    {{- if (.Values.broker.service.ws).nodePort }}
+    nodePort: {{ .Values.broker.service.ws.nodePort }}
+    {{- end }}
+  {{- else }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+  {{- end }}
+  selector:
+    {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
+{{- end -}}

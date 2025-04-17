@@ -1,0 +1,224 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowforge
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    checkov.io/skip1: CKV_K8S_10=We do not force default resources constraints
+    checkov.io/skip2: CKV_K8S_11=We do not force default resources constraints
+    checkov.io/skip3: CKV_K8S_12=We do not force default resources constraints
+    checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
+    checkov.io/skip5: CKV_K8S_38=The service account token is required to schedule projects
+    checkov.io/skip6: CKV_K8S_35=Current approach is a temporary one
+spec:
+  replicas: {{ .Values.forge.replicas }}
+  selector:
+    matchLabels:
+      {{- include "forge.forgeSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "forge.forgeSelectorLabels" . | nindent 8 }}
+        {{- with .Values.forge.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if .Values.forge.telemetry.backend.prometheus.enabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+        {{- end  }}
+    spec:
+      {{- if .Values.forge.priorityClassName }}
+      priorityClassName: "{{ .Values.forge.priorityClassName}}"
+      {{- end }}
+      serviceAccountName: flowforge
+      automountServiceAccountToken: true 
+      {{- if .Values.forge.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.forge.podSecurityContext | nindent 8 }}
+      {{- end }}
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'erb /tmpl/flowforge.yml > /config/flowforge.yml']
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.applicationSecretName" . }}
+                key: password
+          - name: SMTPPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.smtpSecretName" . }}
+                key: smtp-password
+                optional: true
+        {{- if (.Values.forge.assistant).enabled }}
+          - name: ASSISTANT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.assistantSecretName" . }}
+                key: token
+                optional: true
+        {{- end }}
+      {{- if .Values.forge.localPostgresql }}
+      - name: wait-for-local-db
+        image: "postgres:14"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'until pg_isready -h {{ include "forge.databaseHost" . }} -U {{ .Values.postgresql.auth.username }} -d {{ .Values.postgresql.auth.database }}; do sleep 2; done;']
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.secretName" . }}
+                key: password
+      {{- end }}
+      containers:
+      - name: forge
+        {{- if .Values.forge.image }}
+        image: {{ .Values.forge.image }}
+        {{ else }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/forge-k8s:{{ .Chart.AppVersion }}
+        {{ end -}}
+        imagePullPolicy: Always
+        env:
+        {{- if .Values.forge.projectIngressAnnotations }}
+        - name: INGRESS_ANNOTATIONS
+          value: {{ .Values.forge.projectIngressAnnotations | toJson | quote }}
+        {{- else if .Values.ingress.annotations }}
+        - name: INGRESS_ANNOTATIONS
+          value: {{ .Values.ingress.annotations | toJson | quote }}
+        {{- end }}
+        {{- if .Values.ingress.className }}
+        - name: INGRESS_CLASS_NAME
+          value: {{ .Values.ingress.className }}
+        {{- end }}
+        {{- if .Values.editors.serviceAccount }}
+        - name: EDITOR_SERVICE_ACCOUNT
+          value: {{ .Values.editors.serviceAccount.name }}
+        {{- end }}
+        {{- if .Values.forge.projectDeploymentTolerations }}
+        - name: DEPLOYMENT_TOLERATIONS
+          value: {{ .Values.forge.projectDeploymentTolerations | toJson | quote }}
+        {{- end }}
+        {{- if .Values.forge.cloudProvider }}
+        - name: FLOWFORGE_CLOUD_PROVIDER
+          value: {{ .Values.forge.cloudProvider }}
+        {{- end }}
+        {{- if .Values.forge.privateCA }}
+        - name: NODE_EXTRA_CA_CERTS
+          value: /usr/local/ssl-certs/chain.pem
+        {{- end }}
+        {{- if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "environment") }}
+        - name: SENTRY_ENV
+          value: {{ .Values.forge.telemetry.sentry.environment }}
+        {{- end }}
+        - name: NODE_ENV
+          value: production
+        volumeMounts:
+        - name: tempdir
+          mountPath: /tmp
+        - name: configdir
+          mountPath: /usr/src/forge/etc
+        {{- if .Values.forge.privateCA }}
+        - name: cacert
+          mountPath: /usr/local/ssl-certs
+          readOnly: true
+        {{- end }}
+        ports:
+        - containerPort: 3000        
+        {{- if .Values.forge.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: {{ .Values.forge.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: {{ .Values.forge.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: {{ .Values.forge.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.startupProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.resources }}
+        resources: {{- toYaml .Values.forge.resources | nindent 12 }}
+        {{- end }}
+        securityContext: {{- toYaml .Values.forge.containerSecurityContext | nindent 10 }}
+      {{- if .Values.forge.tolerations}}
+      tolerations:
+      {{ toYaml .Values.forge.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.forge.registrySecrets }}
+      imagePullSecrets:
+      {{- range .Values.forge.registrySecrets }}
+      - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      volumes:
+      - name: tempdir
+        emptyDir: 
+          sizeLimit: 1Gi      
+      - name: configdir
+        emptyDir: {}
+      - name: configtemplate
+        configMap:
+          name: flowforge-config
+      {{- if .Values.forge.privateCA }}
+      - name: cacert
+        configMap:
+          name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs" }}
+      {{- end }}
+      {{- if .Values.forge.managementSelector }}
+      nodeSelector:
+        {{- range $key, $value := .Values.forge.managementSelector }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.forge.affinity }}
+      affinity: {{ toYaml .Values.forge.affinity | nindent 8 }}
+      {{- end }}

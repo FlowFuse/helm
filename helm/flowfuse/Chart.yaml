@@ -1,0 +1,22 @@
+apiVersion: "v2"
+name: "flowforge"
+version: "2.29.0"
+description: "FlowFuse"
+type: "application"
+home: "https://flowfuse.com"
+icon: "https://flowfuse.com/apple-touch-icon.png"
+keywords:
+  - flowforge
+  - node-red
+dependencies:
+  - name: postgresql
+    version: 11.9.13
+    repository: https://charts.bitnami.com/bitnami
+    condition: forge.localPostgresql
+    import-values:
+      - child: image
+        parent: postgresql.image
+maintainers:
+  - name: "FlowFuse Inc"
+    url: "https://flowfuse.com"
+appVersion: "2.16.0"
