@@ -1,3 +1,10 @@
+#### 2.30.0: Release
+
+ - feat: depreciate flowforge helm chart (#576) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.2990.0 to 12.2994.0 (#575) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.14 to 3.28.15 (#574) @app/dependabot
+ - feat: Remove hardcoded private npm registry credentials (#571) @ppawlowski
+
 #### 2.29.0: Release
 
  - feat: Release 2.16.0 (#572) @cstns
