@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test forge ingress objects
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should create forge ingress object
+    template: service-ingress.yaml
+    asserts:
+      - containsDocument:
+          kind: Ingress
+          name: flowforge-ingress
+          apiVersion: networking.k8s.io/v1
+          any: true
+  - it: should create forge and broker ingress objects
+    set:
+      forge.broker.enabled: true
+    asserts:
+      - containsDocument:
+          kind: Ingress
+          name: flowforge-ingress
+          apiVersion: networking.k8s.io/v1
+          any: true
+        template: service-ingress.yaml
+      - containsDocument:
+          kind: Ingress
+          name: flowforge-broker
+          apiVersion: networking.k8s.io/v1
+          any: true
+        template: broker-ingress.yaml
+  - it: should create forge ingress object with annotations
+    template: service-ingress.yaml
+    documentSelector: 
+      path: metadata.name
+      value: flowforge-ingress   
+    set:
+      ingress.annotations:
+        customForgeAnnotation: "true"
+    asserts:
+      - isNotNullOrEmpty:
+          path: metadata.annotations
+      - equal:
+          path: metadata.annotations.customForgeAnnotation
+          value: "true"
+  - it: should create forge ingress object without annotations
+    template: service-ingress.yaml
+    documentSelector: 
+      path: metadata.name
+      value: flowforge-ingress
+    asserts:
+      - isNullOrEmpty:
+          path: metadata.annotations
+  - it: should create broker ingress object with annotations
+    templates: 
+      - broker-ingress.yaml
+    set:
+      forge.broker:
+        enabled: true
+        ingress:
+          annotations:
+            customBrokerAnnotation: "true"
+    asserts:
+      - isNotNullOrEmpty:
+          path: metadata.annotations
+      - equal:
+          path: metadata.annotations.customBrokerAnnotation
+          value: "true"
+  - it: should create broker ingress object without annotations
+    templates: 
+    - broker-ingress.yaml
+    set:
+      ingress.annotations:
+        customForgeAnnotation: "true"
+      forge.broker:
+        enabled: true
+    asserts:
+      - isNullOrEmpty:
+          path: metadata.annotations
+  - it: should create forge and broker ingress object with different annotations
+    set:
+      forge.broker:
+        enabled: true
+        ingress:
+          annotations:
+            customBrokerAnnotation: "true"
+      ingress.annotations:
+        customForgeAnnotation: "true"
+    asserts:
+      - isNotNullOrEmpty:
+          path: metadata.annotations
+        template: broker-ingress.yaml
+      - equal:
+          path: metadata.annotations.customBrokerAnnotation
+          value: "true"
+        template: broker-ingress.yaml
+      - isNotNullOrEmpty:
+          path: metadata.annotations
+        template: service-ingress.yaml
+        documentSelector: 
+          path: metadata.name
+          value: flowforge-ingress 
+      - equal:
+          path: metadata.annotations.customForgeAnnotation
+          value: "true"
+        template: service-ingress.yaml
+        documentSelector: 
+          path: metadata.name
+          value: flowforge-ingress 

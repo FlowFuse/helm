@@ -1,8 +1,7 @@
-deprecated: true
 apiVersion: "v2"
 name: "flowforge"
-version: "2.1.1"
-description: "DEPRECATED FlowFuse"
+version: "2.29.0"
+description: "FlowFuse"
 type: "application"
 home: "https://flowfuse.com"
 icon: "https://flowfuse.com/apple-touch-icon.png"
@@ -18,6 +17,6 @@ dependencies:
       - child: image
         parent: postgresql.image
 maintainers:
-  - name: "FlowForge Inc"
+  - name: "FlowFuse Inc"
     url: "https://flowfuse.com"
 appVersion: "2.16.0"

@@ -1,0 +1,234 @@
+{{- if .Values.forge.fileStore.enabled -}}
+{{- if eq .Values.forge.fileStore.type "localfs" -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: file-storage-pvc
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowforge-file
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.fileStore.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    checkov.io/skip1: CKV_K8S_10=We do not force default resources constraints
+    checkov.io/skip2: CKV_K8S_11=We do not force default resources constraints
+    checkov.io/skip3: CKV_K8S_12=We do not force default resources constraints
+    checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
+    checkov.io/skip5: CKV_K8S_35=Current approach is a temporary one
+spec:
+  selector:
+    matchLabels:
+      {{- include "forge.fileStoreSelectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "forge.fileStoreSelectorLabels" . | nindent 8 }}
+        {{- with .Values.forge.fileStore.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/file-storage-configmap.yaml") . | sha256sum }}
+        {{- if default false (((.Values.forge.fileStore.telemetry).backend).prometheus).enabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3001"
+        prometheus.io/path: "/metrics"
+        {{- end  }}
+    spec:
+      {{- if .Values.forge.priorityClassName }}
+      priorityClassName: "{{ .Values.forge.priorityClassName}}"
+      {{- end }}
+      {{- if .Values.forge.fileStore.serviceAccount.create }}
+      serviceAccountName: {{ .Values.forge.fileStore.serviceAccount.name }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.forge.fileStore.automountServiceAccountToken }}
+      {{- if .Values.forge.fileStore.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.forge.fileStore.podSecurityContext | nindent 8 }}
+      {{- end }}
+      initContainers:
+      - name: config
+        image: "ruby:2.7-slim"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'erb /tmpl/flowforge-storage.yml > /config/flowforge-storage.yml' ]
+        volumeMounts:
+          - name: configtemplate
+            mountPath: /tmpl
+          - name: configdir
+            mountPath: /config
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.applicationSecretName" . }}
+                key: password
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+      {{ if .Values.forge.localPostgresql -}}
+      - name: wait-for-local-db
+        image: "postgres:14"
+        imagePullPolicy: Always
+        command: ['sh', '-c', 'until pg_isready -h {{ include "forge.databaseHost" . }} -U {{ .Values.postgresql.auth.username }} -d {{ .Values.postgresql.auth.database }}; do sleep 2; done;']
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.secretName" . }}
+                key: postgres-password
+      - name: add-context-db
+        image: {{ .Values.postgresql.image.registry }}/{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
+        command:
+        - /bin/sh
+        - /usr/local/upgrade.sh
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.secretName" . }}
+                key: postgres-password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+          - name: upgrade-script
+            mountPath: /usr/local
+      {{- end }}
+      containers:
+      - name: file-storage
+        {{- if .Values.forge.fileStore.image }}
+        image: {{ .Values.forge.fileStore.image }}
+        {{- else }}
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/file-server:{{ .Chart.AppVersion }}
+        {{- end }}
+        imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          value: production
+        volumeMounts:
+        - name: configdir
+          mountPath: /usr/src/flowforge-file-server/etc
+        {{ if eq .Values.forge.fileStore.type "localfs" -}}
+        - name: root
+          mountPath: /usr/src/flowforge-file-server/var
+        {{ end -}}
+        ports:
+        - containerPort: 3001
+        {{- if .Values.forge.fileStore.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.fileStore.readinessProbe }}
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.readinessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.forge.fileStore.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: {{ .Values.forge.fileStore.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.forge.fileStore.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.forge.fileStore.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.forge.fileStore.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.forge.fileStore.startupProbe.failureThreshold }}
+        {{- end }}
+        securityContext: {{- toYaml .Values.forge.fileStore.containerSecurityContext | nindent 10 }}
+        {{- if .Values.forge.fileStore.resources }}
+        resources: {{- toYaml .Values.forge.fileStore.resources | nindent 12 }}
+        {{- end }}
+      {{- if .Values.forge.fileStore.tolerations}}
+      tolerations:
+      {{ toYaml .Values.forge.fileStore.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.forge.registrySecrets }}
+      imagePullSecrets:
+      {{- range .Values.forge.registrySecrets }}
+      - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      volumes:
+      - name: configdir
+        emptyDir: {}
+      - name: configtemplate
+        configMap: 
+          name: flowfuse-file-config
+      {{- if .Values.forge.localPostgresql }}
+      - name: upgrade-script
+        configMap:
+          name: flowfuse-file-db-upgrade
+      {{- end }}
+      {{- if eq .Values.forge.fileStore.type "localfs" }}
+      - name: root
+        persistentVolumeClaim:
+          claimName: file-storage-pvc
+      {{- end }}
+      {{- if .Values.forge.managementSelector }}
+      nodeSelector:
+        {{- range $key, $value := .Values.forge.managementSelector }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowforge-file
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+spec:
+  ports:
+  - port: 80
+    targetPort: 3001
+    protocol: TCP
+    name: web
+  selector:
+    {{- include "forge.fileStoreSelectorLabels" . | nindent 4 }}
+{{- end -}}

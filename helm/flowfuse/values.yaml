@@ -1,0 +1,182 @@
+forge:
+  replicas: 1
+  localPostgresql: true
+  https: true
+  projectNamespace: flowforge
+  projectSelector:
+    role: projects
+  projectDeploymentTolerations: []
+  projectNetworkPolicy:
+    enabled: false
+  projectIngressAnnotations: {}
+  managementSelector:
+    role: management
+  telemetry:
+    enabled: true
+    backend:
+      prometheus:
+        enabled: false
+  labels: {}
+  podLabels: {}
+  broker:
+    enabled: false
+    image: iegomez/mosquitto-go-auth
+    teamBroker:
+      enabled: false
+    createMetricsUser: false
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    livenessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 15
+      successThreshold: 1
+      failureThreshold: 5
+    readinessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 15
+      successThreshold: 1
+      failureThreshold: 3
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    labels: {}
+    podLabels: {}
+    tolerations: []
+    ingress.annotations: {}
+
+  persistentStorage:
+    enabled: false
+
+  fileStore:
+    enabled: false
+    type: localfs
+    quota: 104857600
+    options:
+      root: var/root
+    context:
+      type: sequelize
+      quota: 1048576
+      options:
+        type: postgres
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    serviceAccount:
+      create: false
+      name: flowfuse-file-sa
+      automountServiceAccountToken: true
+      annotations: {}
+    automountServiceAccountToken: false
+    labels: {}
+    podLabels: {}
+    tolerations: []
+    telemetry:
+      backend:
+        prometheus:
+          enabled: false
+
+  support:
+    enabled: false
+
+  rate_limits:
+    enabled: false
+    global: true
+    max: 1000
+    timeWindow: 60000
+
+  domain: ""
+  entryPoint: ""
+  environment: {}
+  image: ""
+  registry: ""
+
+  contentSecurityPolicy:
+    enabled: false
+    reportOnly: false
+
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+  tolerations: []
+
+  priorityClassName: ""
+
+  logPassthrough: false
+  customHostname:
+    enabled: false
+
+  assistant: {}
+
+  service:
+    type: ClusterIP
+
+postgresql:
+  image:
+    tag: "14.10.0-debian-11-r30"
+  auth:
+    postgresPassword: Moomiet0
+    username: forge
+    password: Zai1Wied
+    database: flowforge
+    fileStoreDatabase: ff-context
+
+ingress:
+  annotations: {}
+  className: ""
+
+editors:
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: editors
+
+broker:
+  storageClassName: ''
+  listenersServiceTemplate: {}
+  dashboardServiceTemplate: {}
+  existingSecret: ''
+  monitoring:
+    emqxExporter:
+      enabled: false
+  service:
+    type: ClusterIP
+
+npmRegistry:
+  enabled: false
+  podSecurityContext: {}

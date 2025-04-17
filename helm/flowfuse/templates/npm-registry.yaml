@@ -1,0 +1,140 @@
+{{- if .Values.npmRegistry.enabled }}
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: flowfuse-npm-registry
+  labels:
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
+stringData:
+  config.yaml: |
+    storage: /verdaccio/storage
+    web:
+      enable: false
+    auth:
+      ff-auth:
+        baseURL: http://forge.{{ .Release.Namespace }}
+        adminUser: {{ .Values.forge.npmRegistry.admin.username }}
+        adminSecret: {{ include "forge.npmRegistryAdminPassword" . }}
+    packages:
+      '@*/*':
+        access: $authenticated
+    log: { type: stdout, format: pretty, level: http }
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flowfuse-npm-registry
+  labels:
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
+spec:
+  selector:
+    matchLabels:
+      app: flowfuse-npm-registry
+      app.kubernetes.io/name: flowfuse-npm-registry
+      app.kubernetes.io/part-of: flowfuse
+  serviceName: flowfuse-npm-registry
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flowfuse-npm-registry
+        app.kubernetes.io/name: flowfuse-npm-registry
+        app.kubernetes.io/component: registry
+        app.kubernetes.io/part-of: flowfuse
+    spec:
+      automountServiceAccountToken: false
+      {{- if .Values.npmRegistry.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.npmRegistry.podSecurityContext | nindent 8 }}
+      {{- end }}    
+      containers:
+      - name: flowfuse-npm-registry
+        {{- if .Values.npmRegistry.image }}
+        image: {{ .Values.npmRegistry.image }}
+        {{ else }}
+        image: flowfuse/npm-registry:latest
+        {{ end -}}
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /-/all
+            port: 4873
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /-/all
+            port: 4873
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4873
+        volumeMounts:
+        - name: flowfuse-npm-registry-storage
+          mountPath: /verdaccio/storage
+        - name: config
+          mountPath: /verdaccio/conf
+      volumes:
+      - name: config
+        secret:
+          secretName: flowfuse-npm-registry
+      {{- if .Values.npmRegistry.affinity }}
+      affinity: {{ toYaml .Values.npmRegistry.affinity | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: flowfuse-npm-registry-storage
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowfuse-npm-registry
+  labels:
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
+spec:
+  clusterIP: None
+  selector:
+    app: flowfuse-npm-registry
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/part-of: flowfuse
+  ports:
+  - port: 4873
+    targetPort: 4873
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flowfuse-npm-registry
+  labels:
+    name: flowfuse-npm-registry
+    app.kubernetes.io/name: flowfuse-npm-registry
+    app.kubernetes.io/component: registry
+    app.kubernetes.io/part-of: flowfuse
+spec:
+  rules:
+  - host: {{ .Values.npmRegistry.hostname }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: flowfuse-npm-registry
+            port: 
+              number: 4873
+{{- end }}

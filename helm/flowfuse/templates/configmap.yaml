@@ -1,0 +1,289 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowforge-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  flowforge.yml: |
+    port: 3000
+    host: 0.0.0.0
+    {{- if .Values.forge.license }}
+    license: {{ .Values.forge.license }}
+    {{- end}}
+    domain: {{ .Values.forge.domain }}
+    {{- if .Values.forge.entryPoint }}
+    base_url: http{{- if .Values.forge.https -}}s{{- end -}}://{{ .Values.forge.entryPoint }}
+    {{- else }}
+    base_url: http{{- if .Values.forge.https -}}s{{- end -}}://forge.{{ .Values.forge.domain }}
+    {{- end }}
+    api_url: http://forge.{{ .Release.Namespace }}
+    db:
+      type: postgres
+      host: {{ include "forge.databaseHost" . }}
+      {{- if and (not .Values.forge.localPostgresql) (.Values.postgresql) }}
+      port: {{ .Values.postgresql.port | default 5432 }}
+      {{- end }}
+      user: {{ .Values.postgresql.auth.username }}
+      password: <%= ENV['PGPASSWORD'] %>
+      database: {{ .Values.postgresql.auth.database }}
+      {{- if .Values.postgresql.ssl }}
+      ssl: {{ .Values.postgresql.ssl }}
+      {{- end }}
+    driver:
+      type: kubernetes
+      options:
+        registry: {{ .Values.forge.registry }}
+        {{- if .Values.forge.registrySecrets }}
+        registrySecrets:
+          {{- range .Values.forge.registrySecrets }}
+          - {{ . }}
+          {{- end }}
+        {{- end}}
+        {{- if .Values.forge.projectSelector }}
+        projectSelector:
+          {{- range $key, $value := .Values.forge.projectSelector }}
+          {{ $key }}: {{ $value }}
+          {{- end}}
+        {{- end }}
+        {{- if .Values.forge.projectNamespace }}
+        projectNamespace: {{ .Values.forge.projectNamespace }}
+        {{- end }}
+        {{ if .Values.forge.projectServiceType }}
+        service:
+          type: {{ .Values.forge.projectServiceType }}
+        {{- end }}
+        {{- if .Values.forge.cloudProvider }}
+        cloudProvider: {{ .Values.forge.cloudProvider }}
+        {{- end }}
+        {{- if .Values.forge.privateCA }}
+        privateCA: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs" }}
+        {{- end }}
+        {{- if .Values.ingress.certManagerIssuer }}
+        certManagerIssuer: {{ .Values.ingress.certManagerIssuer }}
+        {{- end }}
+        {{- if .Values.forge.logPassthrough }}
+        logPassthrough: {{ .Values.forge.logPassthrough }}
+        {{- end }}
+        {{- if .Values.forge.customHostname }}
+        customHostname:
+          enabled: {{ .Values.forge.customHostname.enabled }}
+          {{ if default false .Values.forge.customHostname.enabled -}}
+          cnameTarget: {{ required "A value is required for .Values.forge.customHostname.cnameTarget" .Values.forge.customHostname.cnameTarget }}
+          {{- end -}}
+        {{- if .Values.forge.customHostname.certManagerIssuer }}
+          certManagerIssuer: {{ .Values.forge.customHostname.certManagerIssuer }}
+        {{- end }}
+        {{- if .Values.forge.customHostname.ingressClass }}
+          ingressClass: {{ .Values.forge.customHostname.ingressClass }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.forge.persistentStorage }}
+        storage:
+          enabled: {{ .Values.forge.persistentStorage.enabled | default false }}
+          {{- if .Values.forge.persistentStorage.storageClass }}
+          storageClass: {{ .Values.forge.persistentStorage.storageClass }}
+          {{- end }}
+          {{- if .Values.forge.persistentStorage.storageClassEFSTag }}
+          storageClassEFSTag: {{ .Values.forge.persistentStorage.storageClassEFSTag }}
+          {{- end }}
+          {{- if .Values.forge.persistentStorage.size }}
+          size: {{ .Values.forge.persistentStorage.size }}
+          {{- end }}
+        {{- end }}
+    {{- if .Values.forge.email }}
+    email:
+      enabled: true
+      {{- if .Values.forge.email.debug }}
+      debug: {{ .Values.forge.email.debug | default false }}
+      {{- end }}
+      {{- if .Values.forge.email.from }}
+      from: {{ .Values.forge.email.from | quote }}
+      {{- end}}
+    {{- if .Values.forge.email.smtp }}
+      smtp:
+        host: {{ .Values.forge.email.smtp.host }}
+        port: {{ .Values.forge.email.smtp.port | default 587  }}
+        secure: {{ .Values.forge.email.smtp.tls | default false  }}
+        {{- if or ( .Values.forge.email.smtp.user ) ( .Values.forge.email.smtp.password ) }}
+        auth:
+          user: {{ .Values.forge.email.smtp.user }}
+          pass: <%= ENV['SMTPPASSWORD'] %>
+        {{- end }}
+    {{- end }}
+    {{- if .Values.forge.email.ses }}
+      ses:
+        region: {{ .Values.forge.email.ses.region }}
+        {{- if .Values.forge.email.ses.sourceArn }}
+        sourceArn: {{ .Values.forge.email.ses.sourceArn }}
+        {{- end }}
+        {{- if .Values.forge.email.ses.fromArn }}
+        fromArn: {{ .Values.forge.email.ses.fromArn }}
+        {{- end }}
+    {{- end }}
+    {{- else }}
+    email:
+      enabled: false
+    {{- end }}
+    {{- if .Values.forge.ee }}
+    {{- if .Values.forge.ee.billing }}
+    billing:
+      {{- if .Values.forge.ee.billing.stripe }}
+      stripe:
+        key: {{ .Values.forge.ee.billing.stripe.key }}
+        wh_secret: {{ .Values.forge.ee.billing.stripe.wh_secret }}
+        team_price: {{ .Values.forge.ee.billing.stripe.team_price }}
+        team_product: {{ .Values.forge.ee.billing.stripe.team_product }}
+        project_price: {{ .Values.forge.ee.billing.stripe.project_price }}
+        project_product: {{ .Values.forge.ee.billing.stripe.project_product }}
+        {{ if .Values.forge.ee.billing.stripe.device_price -}}
+        device_price: {{ .Values.forge.ee.billing.stripe.device_price }}
+        {{- end}}
+        {{ if .Values.forge.ee.billing.stripe.device_product -}}
+        device_product: {{ .Values.forge.ee.billing.stripe.device_product }}
+        {{- end}}
+        {{ if .Values.forge.ee.billing.stripe.deviceCost -}}
+        deviceCost: {{ .Values.forge.ee.billing.stripe.deviceCost }}
+        {{- end}}
+        {{ if .Values.forge.ee.billing.stripe.new_customer_free_credit -}}
+        new_customer_free_credit: {{ .Values.forge.ee.billing.stripe.new_customer_free_credit | int }}
+        {{- end -}}
+        {{- if .Values.forge.ee.billing.stripe.teams }}
+        teams:
+        {{- range $key, $value := $.Values.forge.ee.billing.stripe.teams }}
+          {{ $key }}:
+{{ toYaml $value | indent 12 -}}
+        {{ end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- if .Values.forge.broker.enabled }}
+    broker:
+      {{ if .Values.forge.broker.url -}}
+      url: {{ .Values.forge.broker.url }}
+      {{ else -}}
+      {{ if .Values.forge.broker.teamBroker.enabled }}
+      url: mqtt://emqx-listeners.{{ .Release.Namespace }}:1883
+      {{ else -}}
+      url: mqtt://flowforge-broker.{{ .Release.Namespace }}:1883
+      {{end -}}
+      {{ end -}}
+      {{ if .Values.forge.broker.public_url -}}
+      public_url: {{ .Values.forge.broker.public_url }}
+      {{ else -}}
+      public_url: ws{{- if .Values.forge.https -}}s{{- end -}}://{{ include "forge.brokerDomain" . }}
+      {{ end -}}
+      {{ if or .Values.forge.broker.teamBroker.enabled .Values.forge.broker.teamBroker.uiOnly }}
+      teamBroker:
+        enabled: true
+        host: {{ include "forge.teamBrokerHost" . }}
+      {{ end -}}
+    {{- end }}
+    logging:
+      level: info
+      http: info
+    telemetry:
+      enabled: {{ .Values.forge.telemetry.enabled }}
+      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn")) }}
+      frontend:
+        {{ if .Values.forge.telemetry.plausible -}}
+        plausible:
+          domain: {{ .Values.forge.telemetry.plausible }}
+        {{ end -}}
+        {{ if and (hasKey .Values.forge.telemetry "posthog") (hasKey .Values.forge.telemetry.posthog "apikey") -}}
+        posthog:
+          {{ if .Values.forge.telemetry.posthog.apiurl -}}
+          apiurl: {{ .Values.forge.telemetry.posthog.apiurl }}
+          {{- end }}
+          apikey: {{ .Values.forge.telemetry.posthog.apikey}}
+          {{ if hasKey .Values.forge.telemetry.posthog "capture_pageview" }}
+          capture_pageview: {{ .Values.forge.telemetry.posthog.capture_pageview }}
+          {{ else }}
+          capture_pageview: true
+          {{ end }}
+        {{ end -}}
+        {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn") -}}
+        sentry:
+          dsn: {{ .Values.forge.telemetry.sentry.frontend_dsn}}
+          {{ if hasKey .Values.forge.telemetry.sentry "production_mode" }}
+          production_mode: {{ .Values.forge.telemetry.sentry.production_mode }}
+          {{ else }}
+          production_mode: true
+          {{ end }}
+        {{ end -}}
+        {{ if and (hasKey .Values.forge.telemetry "google") (hasKey .Values.forge.telemetry.google "tag") }}
+        google:
+          tag: {{ .Values.forge.telemetry.google.tag }}
+          {{ if hasKey .Values.forge.telemetry.google "events" }}
+          events:
+{{ toYaml .Values.forge.telemetry.google.events | indent 12 }}
+          {{ end }}
+        {{ end }}
+      {{- end }}
+      backend:
+        {{ if and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "backend_dsn") -}}
+        sentry:
+          dsn: {{ .Values.forge.telemetry.sentry.backend_dsn}}
+        {{- end }}
+        prometheus:
+          enabled: {{ .Values.forge.telemetry.backend.prometheus.enabled }}
+    {{- if .Values.forge.support.enabled }}
+    support:
+      enabled: true
+      frontend:
+        hubspot:
+          trackingcode: {{ .Values.forge.support.hubspot | int }}
+    {{- end }}
+    {{- if .Values.forge.fileStore.enabled }}
+    fileStore:
+      url: http://flowforge-file.{{ .Release.Namespace }}
+    {{- end }}
+    {{- if .Values.forge.branding }}
+    branding:
+{{ toYaml .Values.forge.branding | indent 6 }}
+    {{- end }}
+    {{- if .Values.forge.rate_limits }}
+    rate_limits:
+{{ toYaml .Values.forge.rate_limits | indent 6 }}
+    {{- end }}
+    {{- if .Values.forge.sessions }}
+    sessions:
+{{ toYaml .Values.forge.sessions | indent 6}}
+    {{- end }}
+    {{- if and (hasKey .Values.forge "contentSecurityPolicy") (hasKey .Values.forge.contentSecurityPolicy "enabled") }}
+    {{- if .Values.forge.contentSecurityPolicy.enabled }}
+    content_security_policy:
+      enabled: {{.Values.forge.contentSecurityPolicy.enabled}}
+      {{- if (hasKey .Values.forge.contentSecurityPolicy "directives")}}
+      directives: {{.Values.forge.contentSecurityPolicy.directives | toJson}}
+      {{- end }}
+      {{- if and (hasKey .Values.forge.contentSecurityPolicy "reportOnly") (.Values.forge.contentSecurityPolicy.reportOnly)}}
+      report_only: {{.Values.forge.contentSecurityPolicy.reportOnly}}
+      {{- if (hasKey .Values.forge.contentSecurityPolicy "reportUri")}}
+      report_uri: {{.Values.forge.contentSecurityPolicy.reportUri}}
+      {{- end }}
+      {{- end}}
+    {{- end }}
+    {{- end }}
+    {{- if .Values.forge.assistant }}
+    assistant:
+      enabled: {{ .Values.forge.assistant.enabled | default false }}
+      {{- if .Values.forge.assistant.enabled }}
+      service:
+        url: {{ required "A value is required for forge.assistant.service.url" ((.Values.forge.assistant).service).url }}
+        token: <%= ENV['ASSISTANT_TOKEN'] %>
+        requestTimeout: {{ .Values.forge.assistant.requestTimeout | default 60000 }}
+      {{- end }}
+    {{- end }}
+    {{- if and  (hasKey .Values.forge "npmRegistry") (hasKey .Values.forge.npmRegistry "enabled") }}
+    {{- if .Values.forge.npmRegistry.enabled | default false }}
+    npmRegistry:
+      enabled: true
+      url: {{ .Values.forge.npmRegistry.url }}
+      admin:
+        username: {{ .Values.forge.npmRegistry.admin.username }}
+        password: {{ include "forge.npmRegistryAdminPassword" . }}
+    {{- end }}
+    {{- end }}

@@ -1,0 +1,68 @@
+{{- if .Values.forge.fileStore.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowfuse-file-config
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+data:
+  flowforge-storage.yml: |
+    host: '0.0.0.0'
+    port: 3001
+    base_url: http://forge.{{ .Release.Namespace }}
+    driver:
+      type: {{ .Values.forge.fileStore.type }}
+      {{- if .Values.forge.fileStore.quota }}
+      quota: {{ .Values.forge.fileStore.quota }}
+      {{- end }}
+      {{- if .Values.forge.fileStore.options }}
+      options:
+{{ toYaml .Values.forge.fileStore.options | indent 8 -}}
+      {{- end }}
+    {{- if .Values.forge.fileStore.context }}
+    context:
+      type: {{ .Values.forge.fileStore.context.type }}
+      {{- if .Values.forge.fileStore.context.quota }}
+      quota: {{ .Values.forge.fileStore.context.quota }}
+      {{- end }}
+      {{- if .Values.forge.fileStore.context.options }}
+      options:
+        type: {{ .Values.forge.fileStore.context.options.type }}
+        {{- if eq .Values.forge.fileStore.context.options.type "postgres" }}
+        host: {{ include "forge.databaseHost" . }}
+        port: {{ .Values.postgresql.port | default 5432 }}
+        username: {{ .Values.postgresql.auth.username }}
+        database: {{ .Values.postgresql.auth.fileStoreDatabase }}
+        password: <%= ENV['PGPASSWORD'] %>
+        {{- end }}
+        {{- if eq .Values.forge.fileStore.context.options.type "sqlite" }}
+        storage: {{ .Values.forge.fileStore.context.options.storage }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+    telemetry:
+      backend:
+        prometheus:
+          enabled: {{ (((.Values.forge.fileStore.telemetry).backend).prometheus).enabled | default false}}
+    logging:
+      level: info
+      http: info
+{{- if .Values.forge.localPostgresql }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowfuse-file-db-upgrade
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+data:
+  upgrade.sh: |
+    #!/bin/sh
+    # apk add --no-cache postgresql14-client
+    psql -v ON_ERROR_STOP=1 -h {{ .Release.Name }}-postgresql -U postgres postgres <<-ESQL
+    SELECT datname FROM pg_database WHERE datistemplate = false;
+    SELECT 'CREATE DATABASE "{{ .Values.postgresql.auth.fileStoreDatabase }}"' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '{{ .Values.postgresql.auth.fileStoreDatabase }}')\gexec
+    GRANT ALL PRIVILEGES ON DATABASE "{{ .Values.postgresql.auth.fileStoreDatabase }}" TO "{{ .Values.postgresql.auth.username }}";
+    ESQL
+{{- end }}
+{{- end -}}
