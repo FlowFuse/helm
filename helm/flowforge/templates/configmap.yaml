@@ -92,6 +92,10 @@ data:
           size: {{ .Values.forge.persistentStorage.size }}
           {{- end }}
         {{- end }}
+        {{- if .Values.forge.projectPodSecurityContext }}
+        podSecurityContext:
+{{ toYaml .Values.forge.projectPodSecurityContext | indent 10 }}
+        {{- end }}
     {{- if .Values.forge.email }}
     email:
       enabled: true
