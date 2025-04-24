@@ -173,7 +173,7 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-310-prod:
     name: Upload image to production ECR
-    if: github.ref_name == 'main'
+    # if: github.ref_name == 'main'
     needs: build-310
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.39.0
     with:
