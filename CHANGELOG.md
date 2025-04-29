@@ -1,3 +1,12 @@
+#### 2.31.0: Release
+
+ - feat: Add possibility customize project's `podSecurityContext` (#584) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.2997.0 to 12.3001.0 (#585) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 6.15.0 to 6.16.0 (#586) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.15 to 3.28.16 (#587) @app/dependabot
+ - chore(deps): bump actions/setup-python from 5.5.0 to 5.6.0 (#588) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.2994.0 to 12.2997.0 (#582) @app/dependabot
+
 #### 2.30.3: Release
 
  - fix: Rollback flowforge chart depreciation (#580) @ppawlowski
