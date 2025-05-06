@@ -9,6 +9,10 @@ forge:
   projectNetworkPolicy:
     enabled: false
   projectIngressAnnotations: {}
+  projectPodSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
   managementSelector:
     role: management
   telemetry:
