@@ -1,3 +1,9 @@
+#### 2.32.0: Release
+
+ - feat: Release 2.17.0 (#595) @knolleary
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3001.0 to 12.3005.0 (#590) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.16 to 3.28.17 (#589) @app/dependabot
+
 #### 2.31.0: Release
 
  - feat: Add possibility customize project's `podSecurityContext` (#584) @ppawlowski
