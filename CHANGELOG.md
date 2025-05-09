@@ -1,3 +1,7 @@
+#### 2.35.0: Release
+
+ - feat: Bump app version in `flowfuse` helm chart to 2.17 (#598) @ppawlowski
+
 #### 2.34.0: Release
 
  - feat: adjust release config to release `flowfuse` only (part 3) (#593) @ppawlowski
