@@ -406,4 +406,4 @@ version you will need to update the repo.
 
 - Run `helm repo update flowfuse` to pull the latest version
 - Check the [README.md](https://github.com/FlowFuse/helm/blob/main/helm/flowfuse/README.md) for any new options to configure in `customization.yml`
-- Run the `helm upgrade --install flowfuse flowfuse -f customization.yml`
+- Run the `helm upgrade --install flowforge flowfuse/flowfuse -f customization.yml`
