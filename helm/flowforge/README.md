@@ -1,6 +1,7 @@
 > [!CAUTION]  
 > This helm chart is deprecated and no longer maintained.
 > Please use the [FlowFuse Helm Chart](https://github.com/FlowFuse/helm/blob/main/helm/flowfuse/README.md) instead.
+> The FlowFuse Helm Chart is a drop-in replacement for the FlowForge Helm Chart and is fully compatible with it.
 
 # FlowForge Helm Chart
 
