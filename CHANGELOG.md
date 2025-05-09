@@ -1,3 +1,8 @@
+#### 2.34.0: Release
+
+ - feat: adjust release config to release `flowfuse` only (part 3) (#593) @ppawlowski
+ - chore: Update helm chart release configuration (part 2.5) (#597) @ppawlowski
+
 #### 2.33.0: Release
 
  - feat: Update flowforge helm chart deprecation warning (#596) @ppawlowski
