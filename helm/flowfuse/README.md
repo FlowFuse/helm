@@ -256,6 +256,14 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.npmRegistry.admin.username` Username for a admin user on the registry (default not set, required if enabled)
  - `forge.npmRegistry.admin.password` Password for a admin user on the registry (default not set)
 
+ ### Import FlowFuse BluePrints
+
+ For licensed instances allow automatic importing of BluePrints from FlowFuse Cloud
+
+ - `forge.blueprintImport.enabled` Enable importing BluePrints (default `true`)
+ - `forge.blueprintImport.export` Enables the API endpoint allowing export of BluePrints (default `false`)
+ - `forge.blueprintImport.url` The URL to query (default `https://app.flowfuse.com/api/v1/flow-blueprints/export-public`)
+
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowFuse. 
