@@ -1,3 +1,24 @@
+#### 2.35.0: Release
+
+ - feat: Bump app version in `flowfuse` helm chart to 2.17 (#598) @ppawlowski
+
+#### 2.34.0: Release
+
+ - feat: adjust release config to release `flowfuse` only (part 3) (#593) @ppawlowski
+ - chore: Update helm chart release configuration (part 2.5) (#597) @ppawlowski
+
+#### 2.33.0: Release
+
+ - feat: Update flowforge helm chart deprecation warning (#596) @ppawlowski
+ - chore: Deprecate `flowforge` helm chart (part 2) (#592) @ppawlowski
+ - chore: Synchronize flowfuse with flowforge (part 1) (#591) @ppawlowski
+
+#### 2.32.0: Release
+
+ - feat: Release 2.17.0 (#595) @knolleary
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3001.0 to 12.3005.0 (#590) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.16 to 3.28.17 (#589) @app/dependabot
+
 #### 2.31.0: Release
 
  - feat: Add possibility customize project's `podSecurityContext` (#584) @ppawlowski
