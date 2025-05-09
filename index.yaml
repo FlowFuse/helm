@@ -2477,4 +2477,31 @@ entries:
     urls:
     - https://flowfuse.github.io/helm/flowforge-1.1.0.tgz
     version: 1.1.0
-generated: "2025-05-09T10:45:24.954698217Z"
+  flowfuse:
+  - apiVersion: v2
+    appVersion: 2.16.0
+    created: "2025-05-09T11:07:36.547951593Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      import-values:
+      - child: image
+        parent: postgresql.image
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    description: FlowFuse
+    digest: 9ac04040f949bd6f27981124e509b23001d13d9c6c5396298213502dfe0d3b90
+    home: https://flowfuse.com
+    icon: https://flowfuse.com/apple-touch-icon.png
+    keywords:
+    - flowfuse
+    - node-red
+    maintainers:
+    - name: FlowFuse Inc
+      url: https://flowfuse.com
+    name: flowfuse
+    type: application
+    urls:
+    - https://github.com/FlowFuse/helm/releases/download/v2.34.0/flowfuse-2.34.0.tgz
+    version: 2.34.0
+generated: "2025-05-09T11:07:36.548160562Z"
