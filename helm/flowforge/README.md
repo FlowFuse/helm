@@ -1,3 +1,7 @@
+> [!CAUTION]  
+> This helm chart is deprecated and no longer maintained.
+> Please use the [FlowFuse Helm Chart](https://github.com/FlowFuse/helm/blob/main/helm/flowfuse/README.md) instead.
+
 # FlowForge Helm Chart
 
 Access to FlowForge Management App via the host `forge` on what ever domain is passed. e.g. if `example.com` then `http://forge.exmaple.com`
