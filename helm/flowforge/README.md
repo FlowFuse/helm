@@ -1,4 +1,4 @@
-> [!IMPORTANT]  
+> [!CAUTION]  
 > This helm chart is deprecated and no longer maintained.
 > Please use the [FlowFuse Helm Chart](https://github.com/FlowFuse/helm/blob/main/helm/flowfuse/README.md) instead.
 
