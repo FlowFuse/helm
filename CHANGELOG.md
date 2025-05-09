@@ -1,3 +1,9 @@
+#### 2.33.0: Release
+
+ - feat: Update flowforge helm chart deprecation warning (#596) @ppawlowski
+ - chore: Deprecate `flowforge` helm chart (part 2) (#592) @ppawlowski
+ - chore: Synchronize flowfuse with flowforge (part 1) (#591) @ppawlowski
+
 #### 2.32.0: Release
 
  - feat: Release 2.17.0 (#595) @knolleary
