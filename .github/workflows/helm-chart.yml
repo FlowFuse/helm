@@ -79,7 +79,7 @@ jobs:
 
       - name: Validate chart
         run: |
-          helm template flowforge ./helm/flowforge --set forge.domain=example.com | kubectl apply --validate=true -f -
+          helm template flowfuse ./helm/flowfuse --set forge.domain=example.com | kubectl apply --validate=true -f -
 
   unit-tests:
     name: Run unit tests
@@ -96,7 +96,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          helm unittest ./helm/flowforge -t JUnit -o junit-results.xml
+          helm unittest ./helm/flowfuse -t JUnit -o junit-results.xml
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@cf701569b05ccdd861a76b8607a66d76f6fd4857 # v5.5.1
@@ -135,8 +135,8 @@ jobs:
         uses: bridgecrewio/checkov-action@0482f7fa9969ae210b3f8535b9a57348775130b7 # v12.3005.0
         with:
           directory: ${{ github.workspace }}/helm
-          var_file: ${{ github.workspace }}/helm/flowforge/ci/default-values.yaml
-          skip_path: /flowforge/charts/
+          var_file: ${{ github.workspace }}/helm/flowfuse/ci/default-values.yaml
+          skip_path: /flowfuse/charts/
           framework: helm
           output_format: cli,sarif
           output_file_path: console,results.sarif
@@ -148,7 +148,7 @@ jobs:
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
         if: false
         run: |
-          helm template flowforge ./helm/flowforge --set forge.domain=example.com > ${{ github.workspace }}/templated_chart.yaml
+          helm template flowfuse ./helm/flowfuse --set forge.domain=example.com > ${{ github.workspace }}/templated_chart.yaml
       
       - name: Install kube-score
         # temporary disabled due to https://github.com/zegl/kube-score/issues/559
