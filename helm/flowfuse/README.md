@@ -1,6 +1,6 @@
-# FlowForge Helm Chart
+# FlowFuse Helm Chart
 
-Access to FlowForge Management App via the host `forge` on what ever domain is passed. e.g. if `example.com` then `http://forge.exmaple.com`
+Access to FlowFuse Management App via the host `forge` on what ever domain is passed. e.g. if `example.com` then `http://forge.exmaple.com`
 
 ## Database
 
@@ -40,7 +40,7 @@ For other values please refer to the documentation below.
  - `forge.projectPodSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the project pods
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the core application pod
- - `forge.license` FlowForge EE license string (optional, default not set)
+ - `forge.license` FlowFuse EE license string (optional, default not set)
  - `forge.branding` Object holding branding inserts (default not set)
  - `forge.clusterRole.name` custom name for the ClusterRole (default `create-pod`)
  - `forge.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the core application container
@@ -69,11 +69,11 @@ If `forge.cloudProvider` is set to `aws` then the following should be set
 
 ### Email
 
- - `forge.email.from` the email address FlowForge will use to send email
+ - `forge.email.from` the email address FlowFuse will use to send email
 
 To use STMP to send email
 
- - `forge.email.from` email address to send mail as can include name e.g. "\"FlowForge\" <flowforge@example.com>"
+ - `forge.email.from` email address to send mail as can include name e.g. "\"FlowFuse\" <flowfuse@example.com>"
  - `forge.email.debug` prints emails to stdout, useful for debugging email problems (default false)
  - `forge.email.smtp.host` if not set email is disabled
  - `forge.email.smtp.port` (default `587`)
@@ -133,7 +133,7 @@ To use STMP to send email
 
 ### Telemetry
 
-Enables FlowForge Telemetry
+Enables FlowFuse Telemetry
 
  - `forge.telemetry.enabled` enables anonymized usage reporting (default `true`)
  - `forge.telemetry.posthog.apikey` enables posthog logging if set (not default)
@@ -150,14 +150,14 @@ Enables FlowForge Telemetry
 
  ### Support
 
- Enables HubSpot support widget in the FlowForge app
+ Enables HubSpot support widget in the FlowFuse app
 
  - `forge.support.enabled` enables support widget (default `false`)
  - `forge.support.hubspot` HubSpot tracking code
 
  ### Billing
 
- Enables FlowForge billing features using Stripe
+ Enables FlowFuse billing features using Stripe
 
  - `forge.ee.billing.stripe.key` Stripe API Key
  - `forge.ee.billing.stripe.wh_secret` Stripe Web Hook callback secret
@@ -176,10 +176,10 @@ Enables FlowForge Telemetry
 - `forge.fileStore.enabled` (default `false`)
 - `forge.fileStore.image` supply a fully qualified container image for the File Storage app (default `forge.registry`/flowforge/file-server:<App Version>)
 - `forge.fileStore.type` Choice of backends to store files `localfs` or `s3` (default `localfs`)
-- `forge.fileStore.options` Options to pass to the backend storage driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
+- `forge.fileStore.options` Options to pass to the backend storage driver (See [file-server](https://github.com/FlowFuse/file-server) for details)
 - `forge.fileStore.quota` Sets the maximum number of bytes that a project can store as files (default `104857600`)
 - `forge.fileStore.context.type` Choice of backends for Persistent Context `sequelize`
-- `forge.fileStore.context.options` Options to pass to Persistent Context Driver (See [file-server](https://github.com/flowforge/flowforge-file-server) for details)
+- `forge.fileStore.context.options` Options to pass to Persistent Context Driver (See [file-server](https://github.com/FlowFuse/file-server) for details)
 - `forge.fileStore.context.quota` Sets the maximum number of bytes that a project can store in Persistent Context (default `1048576`)
 - `forge.fileStore.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the file-server container
 - `forge.fileStore.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the flowforge-file pod
@@ -257,8 +257,8 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.npmRegistry.admin.password` Password for a admin user on the registry (default not set)
 
  ### Ingress
- - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowForge.
- - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowForge. 
+ - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
+ - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowFuse. 
  - `ingress.certManagerIssuer` the name of the CertManager Issuer to use to create HTTPS certificates. (default is not set)
 
  `ingress.annotations` values can contain the following tokens that will be replaced as follows:
@@ -358,14 +358,14 @@ If local PostgreSQL database instance is used, upgrading to this version, using 
       
       ```bash
       DBPASSWORD=$(kubectl get cm flowforge-config -o jsonpath='{.data.flowforge\.yml}' | yq ".db.password") 
-      kubectl run -it --rm db-backup --env="PGPASSWORD=$DBPASSWORD" --image ubuntu/postgres:14-22.04_edge -- bash -c "pg_dump -h flowforge-postgresql -U forge flowforge" | head -n -2 > db.sql
+      kubectl run -it --rm db-backup --env="PGPASSWORD=$DBPASSWORD" --image ubuntu/postgres:14-22.04_edge -- bash -c "pg_dump -h flowfuse-postgresql -U forge flowforge" | head -n -2 > db.sql
       ```
 
    For macOS/BSD:
 
       ```bash
       DBPASSWORD=$(kubectl get cm flowforge-config -o jsonpath='{.data.flowforge\.yml}' | yq ".db.password")
-      kubectl run -it --rm db-backup --env="PGPASSWORD=$DBPASSWORD" --image ubuntu/postgres:14-22.04_edge -- bash -c "pg_dump -h flowforge-postgresql -U forge flowforge" | ghead -n -2 > db.sql
+      kubectl run -it --rm db-backup --env="PGPASSWORD=$DBPASSWORD" --image ubuntu/postgres:14-22.04_edge -- bash -c "pg_dump -h flowfuse-postgresql -U forge flowforge" | ghead -n -2 > db.sql
       ```
 
 2. Obtain the PVC name which stores the database data
@@ -377,8 +377,8 @@ If local PostgreSQL database instance is used, upgrading to this version, using 
 3. Delete postgresql statefulset and secret
 
    ```bash
-   kubectl --namespace default delete statefulset.app flowforge-postgresql
-   kubectl --namespace default delete secret flowforge-postgresql
+   kubectl --namespace default delete statefulset.app flowfuse-postgresql
+   kubectl --namespace default delete secret flowfuse-postgresql
    ```
 
 4. Get database image version and perform the upgrade  
@@ -391,7 +391,7 @@ If local PostgreSQL database instance is used, upgrading to this version, using 
       --values $path/to/your/values.yaml \
       --set postgresql.primary.persistance.existingClaim=$POSTGRESQL_PVC \
       --set postgresql.image.tag=$CURRENT_VERSION \
-      flowforge flowforge/flowforge
+      flowforge flowfuse/flowfuse
    ```
 
 ### To 1.12.0
@@ -399,11 +399,11 @@ If local PostgreSQL database instance is used, upgrading to this version, using 
 As of FlowFuse v1.12.0 the URL used to host the helm chart changed, so in order to upgrade from a previous 
 version you will need to update the repo.
 
- - Run `helm repo remove flowforge`
- - Run `helm repo add flowforge https://flowfuse.github.io/helm`
+ - Run `helm repo remove flowfuse`
+ - Run `helm repo add flowfuse https://flowfuse.github.io/helm`
 
  You can then run the following:
 
-- Run `helm repo update flowforge` to pull the latest version
-- Check the [README.md](https://github.com/FlowFuse/helm/blob/main/helm/flowforge/README.md) for any new options to configure in `customization.yml`
-- Run the `helm upgrade --install flowforge flowforge -f customization.yml`
+- Run `helm repo update flowfuse` to pull the latest version
+- Check the [README.md](https://github.com/FlowFuse/helm/blob/main/helm/flowfuse/README.md) for any new options to configure in `customization.yml`
+- Run the `helm upgrade --install flowforge flowfuse/flowfuse -f customization.yml`
