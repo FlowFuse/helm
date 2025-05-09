@@ -3,6 +3,33 @@ entries:
   flowforge:
   - apiVersion: v2
     appVersion: 2.17.0
+    created: "2025-05-09T10:45:24.777426172Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      import-values:
+      - child: image
+        parent: postgresql.image
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    deprecated: true
+    description: DEPRECATED FlowFuse
+    digest: 7c863cd5aed69d25022c5740ed35a1d3317daa6770f472ff1904bbf54d53befd
+    home: https://flowfuse.com
+    icon: https://flowfuse.com/apple-touch-icon.png
+    keywords:
+    - flowforge
+    - node-red
+    maintainers:
+    - name: FlowForge Inc
+      url: https://flowfuse.com
+    name: flowforge
+    type: application
+    urls:
+    - https://github.com/FlowFuse/helm/releases/download/v2.33.0/flowforge-2.33.0.tgz
+    version: 2.33.0
+  - apiVersion: v2
+    appVersion: 2.17.0
     created: "2025-05-08T10:13:09.068255566Z"
     dependencies:
     - condition: forge.localPostgresql
@@ -2450,4 +2477,4 @@ entries:
     urls:
     - https://flowfuse.github.io/helm/flowforge-1.1.0.tgz
     version: 1.1.0
-generated: "2025-05-08T10:13:09.212234487Z"
+generated: "2025-05-09T10:45:24.954698217Z"
