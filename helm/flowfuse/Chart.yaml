@@ -6,7 +6,6 @@ type: "application"
 home: "https://flowfuse.com"
 icon: "https://flowfuse.com/apple-touch-icon.png"
 keywords:
-  - flowforge
   - flowfuse
   - node-red
 dependencies:
