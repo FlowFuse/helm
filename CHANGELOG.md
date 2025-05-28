@@ -1,3 +1,16 @@
+#### 2.36.0: Release
+
+ - feat: Add possibility to customise team broker image (#609) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3016.0 to 12.3023.0 (#608) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 4.2.0 to 4.2.1 (#607) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 6.16.0 to 6.17.0 (#606) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3007.0 to 12.3016.0 (#605) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.17 to 3.28.18 (#604) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3005.0 to 12.3007.0 (#602) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 4.1.0 to 4.2.0 (#603) @app/dependabot
+ - chore: Add `helm/flowforge` to gitignore (part 4) (#594) @ppawlowski
+ - ci: Run `Helm chart validation` pipeline against `flowfuse` helm chart (#599) @ppawlowski
+
 #### 2.35.0: Release
 
  - feat: Bump app version in `flowfuse` helm chart to 2.17 (#598) @ppawlowski
