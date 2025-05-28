@@ -121,6 +121,7 @@ To use STMP to send email
 
 ### Team Broker
 
+  - `broker.image` defines the container image for the Team Broker (default `emqx:5`)
   - `broker.storageClassName` the StorageClass to use for the teamBroker persistent Storage
   - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
