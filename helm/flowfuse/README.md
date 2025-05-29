@@ -360,7 +360,7 @@ In order to switch from `flowforge` to `flowfuse`, please follow these steps:
    flowfuse-helm-charts/flowfuse	2.35.0       	2.17.0     	FlowFuse
    ```
 
-3. Upgrade the release to use the `flowfuse` chart:
+3. Upgrade theexisting `my-flowfuse-release` release to use the `flowfuse` chart:
    ```bash
    helm upgrade --install my-flowfuse-release flowfuse-helm-charts/flowfuse --namespace default --values path/to/your/values.yaml
    ```
