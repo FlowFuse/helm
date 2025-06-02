@@ -291,3 +291,15 @@ data:
         password: {{ include "forge.npmRegistryAdminPassword" . }}
     {{- end }}
     {{- end }}
+    {{- if hasKey .Values.forge "blueprintImport" }}
+    blueprintImport:
+      {{- if hasKey .Values.forge.blueprintImport "enabled" }}
+      enabled: {{ .Values.forge.blueprintImport.enabled  }}
+      {{- end }}
+      {{- if hasKey .Values.forge.blueprintImport "export" }}
+      export: {{ .Values.forge.blueprintImport.export}}
+      {{- end -}}
+      {{- if hasKey .Values.forge.blueprintImport "url" }}
+      url: {{ .Values.forge.blueprintImport.url }}
+      {{- end -}}
+    {{- end -}}
