@@ -171,6 +171,7 @@ editors:
     name: editors
 
 broker:
+  image: emqx:5
   storageClassName: ''
   listenersServiceTemplate: {}
   dashboardServiceTemplate: {}

@@ -1058,6 +1058,9 @@
         "broker": {
             "type": "object",
             "properties": {
+                "image": {
+                    "type": "string"
+                },
                 "storageClassName": {
                     "type": "string"
                 },

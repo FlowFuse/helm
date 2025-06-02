@@ -121,6 +121,7 @@ To use STMP to send email
 
 ### Team Broker
 
+  - `broker.image` defines the container image for the Team Broker (default `emqx:5`)
   - `broker.storageClassName` the StorageClass to use for the teamBroker persistent Storage
   - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
@@ -337,6 +338,52 @@ readinessProbe:
 ```
 
 ## Upgrading Chart
+
+### To 2.35.0 (Rename helm chart from flowforge to flowfuse)
+
+This release deprecates the `flowforge` Helm chart in a favour of `flowfuse`. The `flowfuse` Helm chart is the one which will receive further updates.
+Please follow the instructions below to switch from `flowforge` to `flowfuse`. 
+
+Instruction assumes the following:
+- repository with both charts is called `flowfuse-helm-charts`
+- the relese name, used to deplpoy FlowFuse platform, is called `my-flowfuse-release`
+- the release is deployed in the `default` namespace
+
+
+In order to switch from `flowforge` to `flowfuse`, please follow these steps:
+
+1. Update the Helm repository:
+   ```bash
+   helm repo update flowfuse-helm-charts
+   ```
+
+2. Ensure that the `flowfuse` chart is available:
+   ```bash
+   helm search repo flowfuse-helm-charts/flowfuse
+   ```
+
+   Output should look like this:
+   ```
+   NAME                         	CHART VERSION	APP VERSION	DESCRIPTION
+   flowfuse-helm-charts/flowfuse	2.35.0       	2.17.0     	FlowFuse
+   ```
+
+3. Upgrade theexisting `my-flowfuse-release` release to use the `flowfuse` chart:
+   ```bash
+   helm upgrade --install my-flowfuse-release flowfuse-helm-charts/flowfuse --namespace default --values path/to/your/values.yaml
+   ```
+
+4. Confirm that the release is using the `flowfuse` chart:
+   ```bash
+   helm list --namespace default
+   ```
+
+   Output should look like this:
+   ```
+   NAME           	   NAMESPACE	REVISION	UPDATED                                	STATUS  	 CHART                APP VERSION
+   my-flowfuse-release	default    	2       	2025-05-29 22:16:59.827431 +0000 UTC	   deployed	 flowfuse-2.35.0    	 2.17.0
+   ```
+
 
 ### To 2.1.0
 
