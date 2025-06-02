@@ -132,7 +132,7 @@ jobs:
     
       - name: Scan chart with checkov
         if: matrix.tool == 'checkov'
-        uses: bridgecrewio/checkov-action@0482f7fa9969ae210b3f8535b9a57348775130b7 # v12.3005.0
+        uses: bridgecrewio/checkov-action@3ce3804400fc1d66d06663c7891840b4e549d199 # v12.3023.0
         with:
           directory: ${{ github.workspace }}/helm
           var_file: ${{ github.workspace }}/helm/flowfuse/ci/default-values.yaml
@@ -167,6 +167,6 @@ jobs:
 
       - name: "Upload SARIF file"
         if: success() || failure()
-        uses: github/codeql-action/upload-sarif@60168efe1c415ce0f5521ea06d5c2062adbeed1b # v3.28.17
+        uses: github/codeql-action/upload-sarif@ff0a06e83cb2de871e5a09832bc6a81e7276941f # v3.28.18
         with:
           sarif_file: results.sarif
