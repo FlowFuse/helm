@@ -964,6 +964,20 @@
                         }
                     },
                     "required": ["type"]
+                },
+                "blueprintImport": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "export": {
+                            "type": "boolean"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
+                    }
                 }
             },
             "required": [
