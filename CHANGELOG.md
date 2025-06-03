@@ -1,3 +1,11 @@
+#### 2.37.0: Release
+
+ - chore(deps): bump docker/build-push-action from 6.17.0 to 6.18.0 (#611) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3023.0 to 12.3026.0 (#612) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 5.5.1 to 5.6.0 (#613) @app/dependabot
+ - feat: add support for importing blueprints (#601) @hardillb
+ - docs: Add instructions on switching helm chart (#610) @ppawlowski
+
 #### 2.36.0: Release
 
  - feat: Add possibility to customise team broker image (#609) @ppawlowski
