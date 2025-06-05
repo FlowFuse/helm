@@ -1,3 +1,7 @@
+#### 2.38.0: Release
+
+ - feat: Release 2.18.0 (#615) @hardillb
+
 #### 2.37.0: Release
 
  - chore(deps): bump docker/build-push-action from 6.17.0 to 6.18.0 (#611) @app/dependabot
