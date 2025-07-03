@@ -1,3 +1,20 @@
+#### 2.39.0: Release
+
+ - feat: Release 2.19.0 (#630) @knolleary
+ - chore(deps): bump github/codeql-action from 3.29.0 to 3.29.2 (#627) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows from 0.39.0 to 0.40.0 (#628) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3034.0 to 12.3036.0 (#629) @app/dependabot
+ - feat: Update base container images to `node:20-alpine` (#626) @ppawlowski
+ - chore(deps): bump docker/setup-buildx-action from 3.11.0 to 3.11.1 (#625) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3031.0 to 12.3034.0 (#624) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.19 to 3.29.0 (#620) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3028.0 to 12.3031.0 (#621) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 3.10.0 to 3.11.0 (#622) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 5.6.0 to 5.6.1 (#623) @app/dependabot
+ - chore(deps): bump cycjimmy/semantic-release-action from 4.2.0 to 4.2.1 (#618) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.28.18 to 3.28.19 (#617) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3026.0 to 12.3028.0 (#616) @app/dependabot
+
 #### 2.38.0: Release
 
  - feat: Release 2.18.0 (#615) @hardillb
