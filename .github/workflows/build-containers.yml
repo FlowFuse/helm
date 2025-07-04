@@ -45,11 +45,11 @@ jobs:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       # builds container
-      - name: Build and push FlowForge Application container
+      - name: Build and push FlowFuse Application container
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
-          context: helm/flowforge-container
-          file: helm/flowforge-container/Dockerfile
+          context: helm/flowfuse-container
+          file: helm/flowfuse-container/Dockerfile
           platforms: linux/amd64, linux/arm64, linux/arm/v7 
           tags: ${{ steps.meta.outputs.tags }}
           push: true
@@ -59,14 +59,14 @@ jobs:
           repository: flowforge/forge-k8s
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          readme-filepath: ./helm/flowforge-container/README.md
+          readme-filepath: ./helm/flowfuse-container/README.md
       - name: Push README flowfuse
         uses: peter-evans/dockerhub-description@432a30c9e07499fd01da9f8a49f0faf9e0ca5b77 # v4.0.2
         with:
           repository: flowfuse/forge-k8s
           username: flowfuse
           password: ${{ secrets.DOCKER_HUB_PASSWORD_FLOWFUSE }}
-          readme-filepath: ./helm/flowforge-container/README.md
+          readme-filepath: ./helm/flowfuse-container/README.md
 
   build_nodered_container:
     runs-on: ubuntu-latest
@@ -351,7 +351,7 @@ jobs:
         with:
           username: flowforge
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and push FlowForge File Server container
+      - name: Build and push FlowFuse File Server container
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: helm/file-server
