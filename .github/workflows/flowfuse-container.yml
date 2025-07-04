@@ -2,12 +2,12 @@ name: Flowforge - build and deploy
 on:
   workflow_dispatch:
     inputs:
-      flowforge_release_name:
-        description: 'flowforge package version'
+      flowfuse_release_name:
+        description: 'flowfuse package version'
         required: false
         default: 'nightly'
-      flowforge_ref:
-        description: 'flowforge package ref'
+      flowfuse_ref:
+        description: 'flowfuse package ref'
         required: false
   push:
     branches:
