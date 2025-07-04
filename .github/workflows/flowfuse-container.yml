@@ -13,14 +13,14 @@ on:
     branches:
       - main
     paths:
-      - 'flowforge-container/**'
-      - '.github/workflows/flowforge-container.yml'
+      - 'flowfuse-container/**'
+      - '.github/workflows/flowfuse-container.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'flowforge-container/**'
-      - '.github/workflows/flowforge-container.yml'
+      - 'flowfuse-container/**'
+      - '.github/workflows/flowfuse-container.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -36,7 +36,7 @@ jobs:
       package_dependencies: |
         @flowfuse/flowfuse=nightly
         @flowfuse/driver-kubernetes=nightly
-      build_context: 'flowforge-container'
+      build_context: 'flowfuse-container'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
       scan_image: false
