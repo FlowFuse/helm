@@ -25,7 +25,7 @@ LABEL org.label-schema.name="FlowFuse Kubernetes" \
     org.label-schema.url="https://flowfuse.com" \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/flowfuse/helm" \
-    org.label-schema.docker.dockerfile="flowforge-container/Dockerfile" \
+    org.label-schema.docker.dockerfile="flowfuse-container/Dockerfile" \
     org.schema-label.description="Collaborative, low code integration and automation environment" \
     authors="FlowFuse Inc."
 
