@@ -147,6 +147,9 @@ forge:
 
   assistant: {}
 
+  tables:
+    enabled: false
+
   service:
     type: ClusterIP
 
