@@ -1,3 +1,9 @@
+#### 2.40.0: Release
+
+ - feat: Release 2.19.1 (#637) @knolleary
+ - chore(deps): bump cycjimmy/semantic-release-action from 4.2.1 to 4.2.2 (#632) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 5.6.1 to 5.6.2 (#633) @app/dependabot
+
 #### 2.39.0: Release
 
  - feat: Release 2.19.0 (#630) @knolleary
