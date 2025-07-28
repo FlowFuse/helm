@@ -305,7 +305,7 @@ data:
     {{- end -}}
     {{- if .Values.forge.tables.enabled  }}
     tables:
-      enabled: {{ .Values.forge.tables.enabled }
+      enabled: {{ .Values.forge.tables.enabled }}
       {{- if hasKey .Values.forge.tables "driver" }}
       driver:
 {{ toYaml .Values.forge.tables.driver | indent 8 }}
