@@ -1,3 +1,9 @@
+#### 2.41.0: Release
+
+ - feat: Add FlowFuse Tables Support (#635) @hardillb
+ - chore(deps): bump github/codeql-action from 3.29.2 to 3.29.3 (#636) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3036.0 to 12.3040.0 (#634) @app/dependabot
+
 #### 2.40.0: Release
 
  - feat: Release 2.19.1 (#637) @knolleary
