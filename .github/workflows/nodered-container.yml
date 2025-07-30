@@ -272,7 +272,7 @@ jobs:
       deployment_name: 'node-red'
       container_name: 'node-red'
       deploy: false
-      image: ${{ needs.build-40.outputs.image }}
+      image: ${{ needs.build-41.outputs.image }}
       image_tag_prefix: '4.1.x-'
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
