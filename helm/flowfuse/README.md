@@ -265,6 +265,12 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.blueprintImport.export` Enables the API endpoint allowing export of BluePrints (default `false`)
  - `forge.blueprintImport.url` The URL to query (default `https://app.flowfuse.com/api/v1/flow-blueprints/export-public`)
 
+ ### FlowFuse Tables
+
+ - `forge.tables.enabled` Enable FlowFuse Tables feature (default `false`)
+ - `forge.tables.driver.type` Which backend driver to use for the Tables feature (`postgres-localfs` or `postgres-supavisor`)
+ - `forge.tables.driver.options` Configuration for driver (default not set).
+
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowFuse. 
