@@ -303,7 +303,7 @@ jobs:
             type=raw,enable=true,priority=200,prefix=,suffix=-4.0.x,value=${{ github.event.inputs.version }}
             type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=4.0.x
           flavor: |
-            latest=true
+            latest=false
           images: |
             flowforge/node-red
             flowfuse/node-red
@@ -363,7 +363,7 @@ jobs:
             type=raw,enable=true,priority=200,prefix=,suffix=-4.1.x,value=${{ github.event.inputs.version }}
             type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=4.1.x
           flavor: |
-            latest=false
+            latest=true
           images: |
             flowforge/node-red
             flowfuse/node-red

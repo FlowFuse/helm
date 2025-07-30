@@ -243,3 +243,57 @@ jobs:
       aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+
+  build-41:
+    name: Build 4.1.x container images
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.40.0
+    with:
+      image_name: 'node-red'
+      dockerfile_path: Dockerfile-4.1
+      image_tag_prefix: '4.1.x-'
+      package_dependencies: |
+        @flowforge/nr-project-nodes=nightly
+      build_context: 'node-red-container'
+      build_platform: "linux/arm64"
+      build_arguments: |
+        BUILD_TAG=nightly
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: false
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  upload-41-stage:
+    name: Upload image to staging ECR
+    if: github.ref_name == 'main'
+    needs: build-41
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.40.0
+    with:
+      environment: stage
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-40.outputs.image }}
+      image_tag_prefix: '4.1.x-'
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+  upload-41-prod:
+    name: Upload image to production ECR
+    if: github.ref_name == 'main'
+    needs: build-41
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.40.0
+    with:
+      environment: production
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-41.outputs.image }}
+      image_tag_prefix: '4.1.x-'
+    secrets:
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
