@@ -1,3 +1,10 @@
+#### 2.42.0: Release
+
+ - feat: Release 2.20.0 (#641) @Steve-Mcl
+ - fix: Switch to `bitnamilegacy/postgresql` registry for local postgresql (#639) @ppawlowski
+ - fix: push 4.1.x to staging (#640) @hardillb
+ - feat: Add NR 4.1.x container to build (#619) @hardillb
+
 #### 2.41.0: Release
 
  - feat: Add FlowFuse Tables Support (#635) @hardillb
