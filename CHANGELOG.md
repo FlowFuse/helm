@@ -1,3 +1,7 @@
+#### 2.43.0: Release
+
+ - feat: update chart app version (#642) @hardillb
+
 #### 2.42.0: Release
 
  - feat: Release 2.20.0 (#641) @Steve-Mcl
