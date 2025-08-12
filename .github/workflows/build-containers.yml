@@ -23,7 +23,7 @@ jobs:
       # will tag contianers with ${{ github.event.inputs.version }} and latest
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
@@ -101,7 +101,7 @@ jobs:
 
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
@@ -177,7 +177,7 @@ jobs:
 
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-2.2.3,value=${{ github.event.inputs.version }}
@@ -237,7 +237,7 @@ jobs:
 
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-3.1.x,value=${{ github.event.inputs.version }}
@@ -297,7 +297,7 @@ jobs:
 
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-4.0.x,value=${{ github.event.inputs.version }}
@@ -357,7 +357,7 @@ jobs:
 
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=-4.1.x,value=${{ github.event.inputs.version }}
@@ -393,7 +393,7 @@ jobs:
           path: 'helm'
       - name: Docker Meta Data
         id: meta
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
           tags: |
             type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.event.inputs.version }}
