@@ -1,3 +1,7 @@
+#### 2.45.0: Release
+
+ - feat: Release 2.21.1 (#659) @hardillb
+
 #### 2.44.0: Release
 
  - feat: Release 2.21.0 (#658) @joepavitt
