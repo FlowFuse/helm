@@ -1,3 +1,22 @@
+#### 2.44.0: Release
+
+ - feat: Release 2.21.0 (#658) @joepavitt
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3050.0 to 12.3054.0 (#656) @app/dependabot
+ - chore(deps): bump amannn/action-semantic-pull-request from 6.0.1 to 6.1.1 (#657) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.29.10 to 3.29.11 (#655) @app/dependabot
+ - chore(deps): bump azure/setup-helm from 4.3.0 to 4.3.1 (#654) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3049.0 to 12.3050.0 (#650) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.29.8 to 3.29.10 (#651) @app/dependabot
+ - chore(deps): bump amannn/action-semantic-pull-request from 5.5.3 to 6.0.1 (#652) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 3.10.0 to 3.11.1 (#653) @app/dependabot
+ - chore(deps): bump docker/login-action from 3.4.0 to 3.5.0 (#648) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows from 0.40.0 to 0.42.0 (#649) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.29.3 to 3.29.8 (#643) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 4.2.1 to 4.3.1 (#645) @app/dependabot
+ - chore(deps): bump actions/checkout from 4.2.2 to 5.0.0 (#646) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3040.0 to 12.3049.0 (#644) @app/dependabot
+ - chore(deps): bump docker/metadata-action from 5.7.0 to 5.8.0 (#647) @app/dependabot
+
 #### 2.43.0: Release
 
  - feat: update chart app version (#642) @hardillb
