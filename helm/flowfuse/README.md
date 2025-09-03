@@ -131,6 +131,7 @@ To use STMP to send email
   - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.service.ws.nodePort` allows to set custom nodePort value for `ws` port when `broker.service.type` value is set to `NodePort` (default not set)
+  - `broker.config` allows to overwrite the default Team Broker configuration
 
 ### Telemetry
 
