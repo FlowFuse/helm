@@ -1,3 +1,18 @@
+#### 2.46.0: Release
+
+ - feat: Release 2.21.2 (#673) @hardillb
+ - chore(ci): Pin `actions/setup-node` action to a commit hash (#672) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3056.0 to 12.3057.0 (#667) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 4.3.1 to 5.0.0 (#668) @app/dependabot
+ - chore(deps): bump actions/setup-node from 4 to 5 (#669) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.30.0 to 3.30.1 (#670) @app/dependabot
+ - chore(deps): bump actions/setup-python from 5.6.0 to 6.0.0 (#671) @app/dependabot
+ - feat: Add possibility to overwrite team broker configuration (#665) @ppawlowski
+ - docs: Add generic helm chart upgrade instruction (#664) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3054.0 to 12.3056.0 (#663) @app/dependabot
+ - chore(deps): bump cycjimmy/semantic-release-action from 4.2.2 to 5.0.0 (#662) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.29.11 to 3.30.0 (#661) @app/dependabot
+
 #### 2.45.0: Release
 
  - feat: Release 2.21.1 (#659) @hardillb
