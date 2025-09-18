@@ -37,7 +37,7 @@ spec:
         runAsUser: 1000
       initContainers:
       - name: config
-        image: "ruby:2.7-slim"
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}ruby:2.7-slim
         imagePullPolicy: Always
         command: ['sh', '-c', 'erb /tmpl/config.yaml > /config/config.yaml' ]
         volumeMounts:
@@ -59,7 +59,7 @@ spec:
               - ALL
       containers:
         - name: exporter
-          image: emqx/emqx-exporter:0.2
+          image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}emqx/emqx-exporter:0.2
           imagePullPolicy: IfNotPresent
           args:
             - --config.file

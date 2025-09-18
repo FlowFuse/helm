@@ -55,7 +55,7 @@ spec:
         {{- if .Values.npmRegistry.image }}
         image: {{ .Values.npmRegistry.image }}
         {{ else }}
-        image: flowfuse/npm-registry:latest
+        image: {{ .Values.forge.registry }}{{- if .Values.forge.registry -}}/{{- end -}}flowfuse/npm-registry:latest
         {{ end -}}
         imagePullPolicy: Always
         livenessProbe:
