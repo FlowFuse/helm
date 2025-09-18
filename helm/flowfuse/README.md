@@ -131,6 +131,7 @@ To use STMP to send email
   - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.service.ws.nodePort` allows to set custom nodePort value for `ws` port when `broker.service.type` value is set to `NodePort` (default not set)
+  - `broker.config` allows to overwrite the default Team Broker configuration
 
 ### Telemetry
 
@@ -344,6 +345,29 @@ readinessProbe:
 ```
 
 ## Upgrading Chart
+
+### Generic upgrade instructions
+
+If there are no version-specific upgrade instructions for the release you are targeting, you can follow these general steps to upgrade the FlowFuse Helm chart:
+
+1. **Backup your data**
+
+   Ensure you create a backup of your database and any other critical data before proceeding.
+
+2. **Review release nortes**
+
+   Check the [FlowFuse Helm chart release notes](https://github.com/FlowFuse/helm/releases) for potential breaking changes or important upgrade considerations.
+
+3. **Update Helm repository**
+
+   ```bash
+   helm repo update
+   ```
+4. **Upgrade your Helm release to the latest version**
+
+   ```bash
+   helm upgrade --install flowfuse flowfuse/flowfuse --namespace default --values customization.yml
+   ```
 
 ### To 2.35.0 (Rename helm chart from flowforge to flowfuse)
 

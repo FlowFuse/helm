@@ -1152,6 +1152,10 @@
                         }
                     },
                     "required": ["type"]
+                },
+                "config": {
+                    "type": "string",
+                    "description": "EMQX configuration rendered into spec.config.data via tpl."
                 }
             }
         },
