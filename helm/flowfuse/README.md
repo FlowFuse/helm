@@ -1,6 +1,6 @@
 # FlowFuse Helm Chart
 
-Access to FlowFuse Management App via the host `forge` on what ever domain is passed. e.g. if `example.com` then `http://forge.exmaple.com`
+Access to FlowFuse Management App via the host `forge` on what ever domain is passed. e.g. if `example.com` then `http://forge.example.com`
 
 ## Database
 
@@ -26,8 +26,10 @@ For other values please refer to the documentation below.
  - `forge.domain` the domain instances will be hosted on
  - `forge.entryPoint` the custom Fully Qualified Domain Name (FQDN) for the admin app (default `forge.[forge.domain]`)
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
- - `forge.registry` the hostname for the container registry to find Project stacks (default Docker Hub)
- - `forge.localPostrgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
+ - `forge.registry` the hostname for the container registry used for FlowFuse images and as a fallback for init containers and other images in this chart (default: empty, meaning Docker Hub)
+ - `forge.localPostgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
+ - `forge.initContainers.config.image.registry` optional registry override used only for the "config" init container image; falls back to `forge.registry` when unset
+ - `forge.initContainers.waitForLocalDb.image.registry` optional registry override used only for the "wait-for-local-db" init container image; falls back to `forge.registry` when unset
  - `forge.cloudProvider` can be `aws` or `openshift` but will include more as needed (default not set)
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
@@ -127,6 +129,9 @@ To use STMP to send email
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
   - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
   - `broker.monitoring.emqxExporter.enabled` controls deployment of [emqx-exporter](https://github.com/emqx/emqx-exporter) (default `false`)
+   - `broker.monitoring.emqxExporter.image.registry` optional registry for the emqx-exporter image; falls back to `forge.registry` when unset
+   - `broker.monitoring.emqxExporter.image.repository` repository for the emqx-exporter image (default `emqx/emqx-exporter`)
+   - `broker.monitoring.emqxExporter.image.tag` tag for the emqx-exporter image (default `0.2`)
   - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
   - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
@@ -311,10 +316,13 @@ editors:
 - `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
 - `postgresql.auth.fileStoreDatabase` - the database to use bt the File Storage servive (default `ff-context`)
 - `postgresql.auth.existingSecret` - the name of an Kubernetes secret object with database credentials (If `postgresql.auth.existingSecret` is set, `postgresql.auth.password` and `postgresql.auth.postgresPassword` values are ignored; default not set)
+ - `postgresql.image.registry` - registry host for local PostgreSQL instance (default `docker.io`)
 
 ### Team Private NPM Registry
 - `npmRegistry.enabled` - enables hosting a private NPM Registry in Kubernetes. Used with `forge.npmRegistry.*` (default false)
-- `npmRegistry.image` - the container to use for the registry (default `flowfuse/flowfuse-npm-registry:latest`)
+- `npmRegistry.image.registry` - the container registry to use for the NPM Registry (default not set, meaning Docker Hub)
+- `npmRegistry.image.repository` - the container image repository to use for the NPM Registry (default `flowforge/npm-registry`
+- `npmRegistry.image.tag` - the container image tag to use for the NPM Registry (default `latest`)
 - `npmRegistry.hostname` - the hostname to pass to the ingress object. Should link to `forge.npmRegistry.url` (default not set)
 - `npmRegistry.affinity` - allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the npmRegistry application pod
 - `npmRegistry.podSecurityContext` - define SecurityContext for npmRegistry pod (default empty)
