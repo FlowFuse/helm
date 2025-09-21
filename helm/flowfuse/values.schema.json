@@ -26,6 +26,35 @@
                 "registry": {
                     "type": "string"
                 },
+                "initContainers": {
+                    "type": "object",
+                    "properties": {
+                        "config": {
+                            "type": "object",
+                            "properties": {
+                                "image": {
+                                    "type": "object",
+                                    "properties": {
+                                        "registry": { "type": "string" }
+                                    }
+                                }
+                            }
+                        },
+                        "waitForLocalDb": {
+                            "type": "object",
+                            "properties": {
+                                "image": {
+                                    "type": "object",
+                                    "properties": {
+                                        "registry": { "type": "string" },
+                                        "repository": { "type": "string" },
+                                        "tag": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "registrySecrets":{
                     "type": "array",
                     "items": {
@@ -1077,6 +1106,12 @@
                 "ssl": {
                     "type": "boolean"
                 },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": { "type": "string" }
+                    }
+                },
                 "auth": {
                     "type": "object",
                     "properties": {
@@ -1123,6 +1158,12 @@
                             "properties": {
                                 "enabled": {
                                     "type": "boolean"
+                                },
+                                "image": {
+                                    "type": "object",
+                                    "properties": {
+                                        "registry": { "type": "string" }
+                                    }
                                 }
                             }
                         }
@@ -1166,7 +1207,12 @@
                     "type": "boolean"
                 },
                 "image" :{
-                    "type": "string"
+                    "type": "object",
+                    "properties": {
+                        "registry": { "type": "string" },
+                        "repository": { "type": "string" },
+                        "tag": { "type": "string" }
+                    }
                 },
                 "hostname": {
                     "type": "string"
