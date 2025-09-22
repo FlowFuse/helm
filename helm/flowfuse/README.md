@@ -129,9 +129,9 @@ To use STMP to send email
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
   - `broker.existingSecret` name of existing Secret holding dashboard admin password and API key
   - `broker.monitoring.emqxExporter.enabled` controls deployment of [emqx-exporter](https://github.com/emqx/emqx-exporter) (default `false`)
-   - `broker.monitoring.emqxExporter.image.registry` optional registry for the emqx-exporter image; falls back to `forge.registry` when unset
-   - `broker.monitoring.emqxExporter.image.repository` repository for the emqx-exporter image (default `emqx/emqx-exporter`)
-   - `broker.monitoring.emqxExporter.image.tag` tag for the emqx-exporter image (default `0.2`)
+  - `broker.monitoring.emqxExporter.image.registry` optional registry for the emqx-exporter image; falls back to `forge.registry` when unset
+  - `broker.monitoring.emqxExporter.image.repository` repository for the emqx-exporter image (default `emqx/emqx-exporter`)
+  - `broker.monitoring.emqxExporter.image.tag` tag for the emqx-exporter image (default `0.2`)
   - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
   - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
@@ -316,7 +316,7 @@ editors:
 - `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
 - `postgresql.auth.fileStoreDatabase` - the database to use bt the File Storage servive (default `ff-context`)
 - `postgresql.auth.existingSecret` - the name of an Kubernetes secret object with database credentials (If `postgresql.auth.existingSecret` is set, `postgresql.auth.password` and `postgresql.auth.postgresPassword` values are ignored; default not set)
- - `postgresql.image.registry` - registry host for local PostgreSQL instance (default `docker.io`)
+- `postgresql.image.registry` - registry host for local PostgreSQL instance (default `docker.io`)
 
 ### Team Private NPM Registry
 - `npmRegistry.enabled` - enables hosting a private NPM Registry in Kubernetes. Used with `forge.npmRegistry.*` (default false)
