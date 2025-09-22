@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test npm-registry objects
+templates:
+  - npm-registry.yaml
+postRenderer:
+  cmd: "yq"
+  args:
+    - "eval"
+    - '.metadata.annotations.appended="new"'
+    - "-"
+set:
+  forge:
+    domain: "chart-unit-tests.com"
+    npmRegistry:
+      enabled: true
+      url: "npmregistry.chart-unit-tests.com"
+      admin:
+        username: "admin"
+  npmRegistry.enabled: true
+tests:
+  - it: should not use any specific registry for flowfuse-npm-registry image
+    documentSelector:
+      path: kind
+      value: StatefulSet
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "flowfuse-npm-registry")].image
+          pattern: ^flowfuse\/
+
+  - it: should use global registry for flowfuse-npm-registry image
+    documentSelector:
+      path: kind
+      value: StatefulSet
+    set:
+      forge:
+        domain: "chart-unit-tests.com"
+        npmRegistry:
+          enabled: true
+          url: "npmregistry.chart-unit-tests.com"
+          admin:
+            username: "admin"
+        registry: "docker.io"
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "flowfuse-npm-registry")].image
+          pattern: ^docker.io\/
+
+  - it: should use custom registry for flowfuse-npm-registry image
+    documentSelector:
+      path: kind
+      value: StatefulSet
+    set:
+      npmRegistry:
+        enabled: true
+        image:
+          registry: "npm-registry.io"
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "flowfuse-npm-registry")].image
+          pattern: ^npm-registry.io\/

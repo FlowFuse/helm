@@ -52,11 +52,8 @@ spec:
       {{- end }}    
       containers:
       - name: flowfuse-npm-registry
-        {{- if .Values.npmRegistry.image }}
-        image: {{ .Values.npmRegistry.image }}
-        {{ else }}
-        image: flowfuse/npm-registry:latest
-        {{ end -}}
+        {{- $npmRegistry := (or .Values.npmRegistry.image.registry .Values.forge.registry) }}
+        image: {{ $npmRegistry }}{{- if $npmRegistry -}}/{{- end -}}{{ .Values.npmRegistry.image.repository }}:{{ .Values.npmRegistry.image.tag }}
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

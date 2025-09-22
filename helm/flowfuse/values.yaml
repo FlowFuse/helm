@@ -106,6 +106,14 @@ forge:
   image: ""
   registry: ""
 
+  initContainers:
+    config:
+      image:
+        registry: ""
+    waitForLocalDb:
+      image:
+        registry: ""
+
   contentSecurityPolicy:
     enabled: false
     reportOnly: false
@@ -155,6 +163,7 @@ forge:
 
 postgresql:
   image:
+    registry: "docker.io"
     repository: bitnamilegacy/postgresql
     tag: "14.10.0-debian-11-r30"
   auth:
@@ -321,9 +330,17 @@ broker:
   monitoring:
     emqxExporter:
       enabled: false
+      image:
+        registry: ""
+        repository: emqx/emqx-exporter
+        tag: "0.2"
   service:
     type: ClusterIP
 
 npmRegistry:
   enabled: false
+  image:
+    registry: ""
+    repository: "flowfuse/npm-registry"
+    tag: "latest"
   podSecurityContext: {}

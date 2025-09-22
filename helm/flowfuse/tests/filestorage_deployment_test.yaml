@@ -146,3 +146,109 @@ tests:
           path: spec.template.spec.volumes
           content:
             name: root
+
+  - it: should not use any specific registry for images
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.localPostgresql: true
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "file-storage")].image
+          pattern: ^flowfuse\/.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^ruby\:.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^postgres\:.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "add-context-db")].image
+          pattern: ^docker\.io\/
+
+  - it: should use global registry for all containers except add-context-db init container
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.registry: "registry.io"
+      forge.localPostgresql: true
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "file-storage")].image
+          pattern: ^registry\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^registry\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^registry\.io\/
+      - notMatchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "add-context-db")].image
+          pattern: ^registry\.io\/
+
+  - it: should use custom registries for all containers
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.registry: "registry.io"
+      forge.localPostgresql: true
+      forge.initContainers:
+        config:
+          image:
+            registry: "config.io"
+        waitForLocalDb:
+          image:
+            registry: "wait-for-local-db.io"
+      postgresql:
+        image:
+          registry: "add-context-db.io"
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "file-storage")].image
+          pattern: ^registry\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^config\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^wait-for-local-db\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "add-context-db")].image
+          pattern: ^add-context-db\.io\/
+
+  - it: should use custom registry for init containers only
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.initContainers:
+        config:
+          image:
+            registry: "config.io"
+        waitForLocalDb:
+          image:
+            registry: "wait-for-local-db.io"
+      forge.localPostgresql: true
+      postgresql:
+        image:
+          registry: "add-context-db.io"
+    asserts:
+      - notMatchRegex:
+          path: spec.template.spec.containers[?(@.name == "file-storage")].image
+          pattern: ^docker.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^config.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^wait-for-local-db.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "add-context-db")].image
+          pattern: ^add-context-db\.io\/

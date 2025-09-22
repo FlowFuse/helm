@@ -46,7 +46,8 @@ spec:
       {{- end }}
       initContainers:
       - name: config
-        image: "ruby:2.7-slim"
+        {{- $initConfigRegistry := (or .Values.forge.initContainers.config.image.registry .Values.forge.registry) }}
+        image: {{ $initConfigRegistry }}{{- if $initConfigRegistry }}/{{- end -}}ruby:2.7-slim
         imagePullPolicy: Always
         command: ['sh', '-c', 'erb /tmpl/flowforge.yml > /config/flowforge.yml']
         volumeMounts:
@@ -82,7 +83,8 @@ spec:
         {{- end }}
       {{- if .Values.forge.localPostgresql }}
       - name: wait-for-local-db
-        image: "postgres:14"
+        {{- $initWaitForLocalDbRegistry := (or .Values.forge.initContainers.waitForLocalDb.image.registry .Values.forge.registry) }}
+        image: {{ $initWaitForLocalDbRegistry }}{{- if $initWaitForLocalDbRegistry }}/{{- end -}}postgres:14
         imagePullPolicy: Always
         command: ['sh', '-c', 'until pg_isready -h {{ include "forge.databaseHost" . }} -U {{ .Values.postgresql.auth.username }} -d {{ .Values.postgresql.auth.database }}; do sleep 2; done;']
         securityContext:
