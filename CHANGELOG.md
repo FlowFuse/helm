@@ -1,3 +1,10 @@
+#### 2.47.0: Release
+
+ - feat: Allow forge.registry to be used for init containers (#677) @hardillb
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.11.2 to 0.13.0 (#674) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3057.0 to 12.3058.0 (#675) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.30.1 to 3.30.3 (#676) @app/dependabot
+
 #### 2.46.0: Release
 
  - feat: Release 2.21.2 (#673) @hardillb
