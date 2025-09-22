@@ -85,3 +85,63 @@ tests:
             name: INGRESS_ANNOTATIONS
             value: '{"customProjectAnnotation":"true"}'
   
+  - it: should use global registry for all containers
+    template: deployment.yaml
+    set:
+      forge.registry: "docker.io"
+      forge.localPostgresql: true
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "forge")].image
+          pattern: ^docker\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^docker\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^docker\.io\/
+
+  - it: should use custom registries for all containers
+    template: deployment.yaml
+    set:
+      forge.registry: "docker.io"
+      forge.initContainers:
+        config:
+          image:
+            registry: "config.io"
+        waitForLocalDb:
+          image:
+            registry: "wait-for-local-db.io"
+      forge.localPostgresql: true
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "forge")].image
+          pattern: ^docker\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^config\.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^wait-for-local-db\.io\/
+
+  - it: should use custom registry for init containers only
+    template: deployment.yaml
+    set:
+      forge.initContainers:
+        config:
+          image:
+            registry: "config.io"
+        waitForLocalDb:
+          image:
+            registry: "wait-for-local-db.io"
+      forge.localPostgresql: true
+    asserts:
+      - notMatchRegex:
+          path: spec.template.spec.containers[?(@.name == "forge")].image
+          pattern: ^docker.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^config.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^wait-for-local-db.io\/

@@ -60,3 +60,47 @@ tests:
       - equal:
           path: spec.template.spec.initContainers[0].env[*].valueFrom.secretKeyRef.name
           value: emqx-config-secrets
+
+  - it: should use global registry for all containers in emqx-exporter deployment
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    set:
+      forge.registry: "exporter-registry.io"
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "exporter")].image
+          pattern: ^exporter-registry.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^exporter-registry.io\/
+  - it: should use custom registry for init container in emqx-exporter deployment
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    set:
+      forge.registry: "custom-registry.io"
+      forge.initContainers.config.image.registry: "config.io"
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "exporter")].image
+          pattern: ^custom-registry.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^config.io\/
+  - it: should use custom registry for init container only in emqx-exporter deployment
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    set:
+      forge.initContainers.config.image.registry: "config.io"
+    asserts:
+      - notMatchRegex:
+          path: spec.template.spec.containers[?(@.name == "exporter")].image
+          pattern: ^docker.io\/
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^config.io\/
