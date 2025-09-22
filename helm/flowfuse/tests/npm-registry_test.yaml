@@ -18,6 +18,15 @@ set:
         username: "admin"
   npmRegistry.enabled: true
 tests:
+  - it: should not use any specific registry for flowfuse-npm-registry image
+    documentSelector:
+      path: kind
+      value: StatefulSet
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "flowfuse-npm-registry")].image
+          pattern: ^flowfuse\/
+
   - it: should use global registry for flowfuse-npm-registry image
     documentSelector:
       path: kind

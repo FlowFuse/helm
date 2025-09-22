@@ -85,6 +85,21 @@ tests:
             name: INGRESS_ANNOTATIONS
             value: '{"customProjectAnnotation":"true"}'
   
+  - it: should not use any specific registry for images
+    template: deployment.yaml
+    set:
+      forge.localPostgresql: true
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "forge")].image
+          pattern: ^flowfuse\/.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^ruby\:.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^postgres\:.+$
+
   - it: should use global registry for all containers
     template: deployment.yaml
     set:

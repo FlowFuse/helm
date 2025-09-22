@@ -147,6 +147,27 @@ tests:
           content:
             name: root
 
+  - it: should not use any specific registry for images
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.localPostgresql: true
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "file-storage")].image
+          pattern: ^flowfuse\/.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^ruby\:.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
+          pattern: ^postgres\:.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "add-context-db")].image
+          pattern: ^docker\.io\/
+
   - it: should use global registry for all containers except add-context-db init container
     template: file-storage.yml
     documentSelector:

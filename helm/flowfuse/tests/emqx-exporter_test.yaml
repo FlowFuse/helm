@@ -61,6 +61,19 @@ tests:
           path: spec.template.spec.initContainers[0].env[*].valueFrom.secretKeyRef.name
           value: emqx-config-secrets
 
+  - it: should not use any specific registry for images
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[?(@.name == "exporter")].image
+          pattern: ^emqx\/.+$
+      - matchRegex:
+          path: spec.template.spec.initContainers[?(@.name == "config")].image
+          pattern: ^ruby\:.+$
+
   - it: should use global registry for all containers in emqx-exporter deployment
     template: emqx-exporter.yaml
     documentSelector:
