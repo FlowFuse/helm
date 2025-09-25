@@ -1,3 +1,8 @@
+#### 2.47.1: Release
+
+ - fix: Update verbs for deployments in ClusterRole to include 'update' (#680) @ppawlowski
+ - fix: Allow ClusterRole to manage secrets (#679) @ppawlowski
+
 #### 2.47.0: Release
 
  - feat: Allow forge.registry to be used for init containers (#677) @hardillb
