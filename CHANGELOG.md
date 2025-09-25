@@ -1,3 +1,7 @@
+#### 2.48.0: Release
+
+ - feat: Release 2.22.0 (#681) @ppawlowski
+
 #### 2.47.1: Release
 
  - fix: Update verbs for deployments in ClusterRole to include 'update' (#680) @ppawlowski
