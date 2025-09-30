@@ -22,5 +22,5 @@ This provides a custom Object Store to back the FlowFuse File System nodes
 
 ## Helm Chart
 
-More details can be found in the [README.md](helm/flowforge/README.md) file.
+More details can be found in the [README.md](helm/flowfuse/README.md) file.
 
