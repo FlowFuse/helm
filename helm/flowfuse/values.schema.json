@@ -135,6 +135,9 @@
                 "projectSelector": {
                     "type": "object"
                 },
+                "projectLabels": {
+                    "type": "object"
+                },
                 "projectNetworkPolicy": {
                     "type": "object",
                     "properties": {
