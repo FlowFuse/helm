@@ -50,6 +50,12 @@ data:
         {{- if .Values.forge.projectNamespace }}
         projectNamespace: {{ .Values.forge.projectNamespace }}
         {{- end }}
+        {{- if .Values.forge.projectLabels }}
+        projectLabels:
+          {{- range $key, $value := .Values.forge.projectLabels }}
+          {{ $key }}: {{ $value }}
+          {{- end}}
+        {{- end }}
         {{ if .Values.forge.projectServiceType }}
         service:
           type: {{ .Values.forge.projectServiceType }}
