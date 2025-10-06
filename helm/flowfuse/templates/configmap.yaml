@@ -56,6 +56,12 @@ data:
           {{ $key }}: {{ $value }}
           {{- end}}
         {{- end }}
+        {{- if .Values.forge.projectIngressAnnotations }}
+        projectIngressAnnotations:
+          {{- range $key, $value := .Values.forge.projectIngressAnnotations }}
+          {{ $key }}: {{ $value }}
+          {{- end}}
+        {{- end }}
         {{ if .Values.forge.projectServiceType }}
         service:
           type: {{ .Values.forge.projectServiceType }}
@@ -83,6 +89,10 @@ data:
         {{- end }}
         {{- if .Values.forge.customHostname.ingressClass }}
           ingressClass: {{ .Values.forge.customHostname.ingressClass }}
+        {{- end }}
+        {{- if .Values.forge.customHostname.ingressAnnotations }}
+          ingressAnnotations:
+{{ toYaml .Values.forge.customHostname.ingressAnnotations | indent 12 }}
         {{- end }}
         {{- end }}
         {{- if .Values.forge.persistentStorage }}
