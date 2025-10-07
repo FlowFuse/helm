@@ -227,6 +227,7 @@ One of either `storageClass` or `storageClassEFSTag` needs to be set.
  - `forge.customHostname.cnameTarget` the hostname of the ingress loadbalancer that custom hostnames must point to. Required (default not set)
  - `forge.customHostname.certManagerIssuer` name of CertManager ClusterIssuer to use to request HTTPS certificates for custom hostnames (default is not set)
  - `forge.customHostname.ingressClass` name of the IngressClass to use for exposing the custom hostname (default is not set)
+ - `forge.customHostname.ingressAnnotations` ingress annotations for custom hostname ingress (default is `{}`)
  
  ### Rate Limiting
 
