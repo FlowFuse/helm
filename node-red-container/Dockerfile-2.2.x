@@ -1,16 +1,12 @@
 FROM nodered/node-red:2.2.3-16
 
-ARG REGISTRY
-ARG REGISTRY_TOKEN
 ARG BUILD_TAG=latest
-RUN if [[ ! -z "$REGISTRY_TOKEN" ]]; then echo "//$REGISTRY/:_authToken=$REGISTRY_TOKEN" >> ~/.npmrc ; fi
-RUN if [[ ! -z "$REGISTRY" ]] ; then npm config set @flowfuse:registry "https://$REGISTRY"; fi
 
 COPY healthcheck.js /healthcheck.js
 
 COPY package.json /data
 WORKDIR /data
-RUN npm install
+RUN npm install --omit=dev --no-audit --no-fund
 
 USER root
 RUN mkdir -p /usr/local/ssl-certs
@@ -21,7 +17,7 @@ RUN chown node-red:node-red /data/* /usr/src/flowforge-nr-launcher
 RUN ln -s /usr/src/flowforge-nr-launcher /usr/src/flowfuse-nr-launcher
 
 USER node-red
-RUN npm install @flowfuse/nr-launcher@${BUILD_TAG}
+RUN --mount=type=secret,id=npm,target=/usr/src/node-red/.npmrc npm install npm install @flowfuse/nr-launcher@${BUILD_TAG} --omit=dev --no-audit --no-fund
 
 ENV NODE_PATH=/usr/src/node-red
 ENV HOME=/usr/src/node-red

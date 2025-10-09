@@ -1,10 +1,6 @@
 FROM node:20-alpine
 
-ARG REGISTRY
-ARG REGISTRY_TOKEN
 ARG TAG
-RUN if [[ ! -z "$REGISTRY_TOKEN" ]]; then echo "//$REGISTRY/:_authToken=$REGISTRY_TOKEN" >> ~/.npmrc ; fi
-RUN if [[ ! -z "$REGISTRY" ]] ; then npm config set @flowfuse:registry "https://$REGISTRY"; fi
 
 RUN apk add --no-cache --virtual build-base g++ make py3-pip sqlite-dev python3 git
 # RUN npm config set python `which python3` --global
@@ -14,11 +10,10 @@ RUN mkdir app bin etc var
 WORKDIR /usr/src/forge/var
 COPY install-device-cache.sh .
 RUN ./install-device-cache.sh && rm install-device-cache.sh
-WORKDIR /usr/src/forge
 COPY package.json /usr/src/forge/app
 WORKDIR /usr/src/forge/app
-# RUN if [[ -z "$TAG" ]]; then npm install --production --no-audit --no-fund ; else npm install --production --no-audit --no-fund --tag $TAG; fi
-RUN npm install --production --no-audit --no-fund
+
+RUN --mount=type=secret,id=npm,target=/root/.npmrc npm install --omit=dev --no-audit --no-fund
 ENV FLOWFORGE_HOME=/usr/src/forge
 
 LABEL org.label-schema.name="FlowFuse Kubernetes" \
