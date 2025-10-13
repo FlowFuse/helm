@@ -375,9 +375,9 @@ valkey:
 
   auth:
     enabled: false
-
+  
   metrics:
-    enabled: false
+    enabled: true
     serviceMonitor:
       enabled: true
 
@@ -385,3 +385,4 @@ valkey:
     maxMemory: 800mb
     maxMemoryPolicy: allkeys-lru
     save: 3600 1 300 100 60 10000
+
