@@ -356,3 +356,31 @@ npmRegistry:
     repository: "flowfuse/npm-registry"
     tag: "latest"
   podSecurityContext: {}
+
+valkey:
+  replicaCount: 1
+
+  persistence:
+    enabled: false
+    size: 20Gi
+
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+
+  auth:
+    enabled: false
+  
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+  config:
+    maxMemory: 800mb
+    maxMemoryPolicy: allkeys-lru
+    save: 3600 1 300 100 60 10000
