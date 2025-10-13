@@ -16,6 +16,10 @@ dependencies:
     import-values:
       - child: image
         parent: postgresql.image
+  - name: valkey
+    version: 0.4.1
+    repository: oci://registry-1.docker.io/cloudpirates
+    condition: forge.localValey
 maintainers:
   - name: "FlowFuse Inc"
     url: "https://flowfuse.com"
