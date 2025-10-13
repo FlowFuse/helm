@@ -374,7 +374,7 @@ valkey:
 
   auth:
     enabled: false
-  
+
   metrics:
     enabled: true
     serviceMonitor:
