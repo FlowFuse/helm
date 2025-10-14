@@ -19,7 +19,7 @@ dependencies:
   - name: valkey
     version: 0.4.1
     repository: oci://registry-1.docker.io/cloudpirates
-    condition: forge.localValey
+    condition: forge.localValkey
 maintainers:
   - name: "FlowFuse Inc"
     url: "https://flowfuse.com"

@@ -1,6 +1,7 @@
 forge:
   replicas: 1
   localPostgresql: true
+  localValkey: true
   https: true
   projectNamespace: flowforge
   projectSelector:
