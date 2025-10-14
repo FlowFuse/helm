@@ -1,3 +1,23 @@
+#### 2.49.0: Release
+
+ - feat: Release 2.22.1 (#706) @hardillb
+ - chore: Convert to using Docker secrets for private builds (#698) @hardillb
+ - chore(deps): bump github/codeql-action from 3.30.6 to 4.30.8 (#702) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3061.0 to 12.3064.0 (#703) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 5.6.2 to 6.0.0 (#704) @app/dependabot
+ - chore(deps): bump cycjimmy/semantic-release-action from 5.0.0 to 5.0.2 (#705) @app/dependabot
+ - chore: Update NR image to 4.1.1 (#701) @knolleary
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3059.0 to 12.3061.0 (#697) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.30.5 to 3.30.6 (#696) @app/dependabot
+ - chore(deps): bump peter-evans/dockerhub-description from 4.0.2 to 5.0.0 (#695) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 5.0.0 to 5.1.0 (#694) @app/dependabot
+ - feat: allow to configure custom labels for project resources (#692) @ppawlowski
+ - chore: Update README.md to point and new helm readme (#691) @hardillb
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3058.0 to 12.3059.0 (#690) @app/dependabot
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.13.0 to 0.13.1 (#689) @app/dependabot
+ - chore(deps): bump docker/login-action from 3.5.0 to 3.6.0 (#688) @app/dependabot
+ - chore(deps): bump github/codeql-action from 3.30.3 to 3.30.5 (#687) @app/dependabot
+
 #### 2.48.0: Release
 
  - feat: Release 2.22.0 (#681) @ppawlowski
