@@ -358,10 +358,12 @@ data:
       driver:
 {{ toYaml .Values.forge.tables.driver | indent 8 }}
       {{- end -}}
-    {{- end -}}
-    {{- if gt (int .Values.forge.replicas) 1 }}
+    {{- end }}
     cache:
       driver: 'redis'
       options:
+        {{- if .Values.valkey.url }}
+        url: {{ .Values.valkey.url }}
+        {{ else }}
         url: redis://{{ include "forge.valkeyHost" . }}:{{ include "forge.valkeyPort" . }}
-    {{- end -}}
+        {{- end -}}

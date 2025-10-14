@@ -28,6 +28,7 @@ For other values please refer to the documentation below.
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the hostname for the container registry used for FlowFuse images and as a fallback for init containers and other images in this chart (default: empty, meaning Docker Hub)
  - `forge.localPostgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
+ - `forge.localValkey` Deploy a Valkey Cache instacne (default `true`)
  - `forge.initContainers.config.image.registry` optional registry override used only for the "config" init container image; falls back to `forge.registry` when unset
  - `forge.initContainers.waitForLocalDb.image.registry` optional registry override used only for the "wait-for-local-db" init container image; falls back to `forge.registry` when unset
  - `forge.cloudProvider` can be `aws` or `openshift` but will include more as needed (default not set)
@@ -356,7 +357,10 @@ Note: External secret must contain following keys:
 
 
 ### Valkey Shared Cache
-- `valkey.replicaCount` Number of Redis instances (default `1`)
+- `valkey.host` Hostname for external Valkey/Redis instance (default empty)
+- `valkey.port` Port for external Valkey/Redis instance (default empty)
+- `valkey.url` Full URL for an external Valkey/Redis instance (default empty)
+- `valkey.replicaCount` Number of Valkey instances (default `1`)
 - `valkey.persistence.enabled` Should Valkey persist to disk (default `false`)
 - `valkey.persistence.size` How large a storage volume should be created if enabled (default `20Gi`)
 - `valkey.auth.enabled` Should Valkey require authentication (default `false`)

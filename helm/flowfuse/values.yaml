@@ -2,6 +2,7 @@ forge:
   replicas: 1
   revisionHistoryLimit: 10
   localPostgresql: true
+  localValkey: true
   https: true
   projectNamespace: flowforge
   projectSelector:
