@@ -34,10 +34,11 @@ metadata:
   {{- include "forge.labels" . | nindent 4 }}
   annotations:
   {{- if .Values.ingress.certManagerIssuer }}
-    cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certManagerIssuer }}
   {{- end }}
-  {{- if .Values.ingress.annotations }}
-{{ toYaml .Values.ingress.annotations |  replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" | indent 4 }}
+  {{- $filteredAnnotations := include "forge.filteredIngressAnnotations" . | replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" }}
+  {{- if $filteredAnnotations }}
+{{ $filteredAnnotations | indent 4 }}
   {{- end }}
 spec:
   {{- if and $.Values.ingress.className (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
@@ -54,13 +55,13 @@ spec:
             name: forge
             port:
               number: 80
-  {{- if .Values.ingress.certManagerIssuer }}
+  {{- if include "forge.certManagerEnabled" . }}
   tls:
   - hosts:
     - {{ $forgeHostname }}
     secretName: {{ $forgeHostname }}
   {{- end }}
-{{- if gt (int .Values.forge.replicas) 1 -}}
+{{- if gt (int .Values.forge.replicas) 1 }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -71,14 +72,17 @@ metadata:
   {{- include "forge.labels" . | nindent 4 }}
   annotations:
   {{- if .Values.ingress.certManagerIssuer }}
-    cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certManagerIssuer }}
   {{- end }}
   {{- if .Values.ingress.annotations }}
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/affinity-mode: persistent
     nginx.ingress.kubernetes.io/session-cookie-name: FFSESSION
     nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
-{{ toYaml .Values.ingress.annotations |  replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" | indent 4 }}
+  {{- end }}
+  {{- $filteredAnnotations := include "forge.filteredIngressAnnotations" . | replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" }}
+  {{- if $filteredAnnotations }}
+{{ $filteredAnnotations | indent 4 }}
   {{- end }}
 spec:
   {{- if and $.Values.ingress.className (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
@@ -95,7 +99,7 @@ spec:
             name: forge
             port:
               number: 80
-  {{- if .Values.ingress.certManagerIssuer }}
+  {{- if include "forge.certManagerEnabled" . }}
   tls:
   - hosts:
     - {{ $forgeHostname }}

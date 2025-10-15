@@ -222,3 +222,79 @@ Generate NPM registry admin password if not provided
 {{- sha256sum $seed | trunc 25 }}
 {{- end }}
 {{- end -}}
+
+{{/*
+Check if cert-manager is enabled by detecting cert-manager annotations in ingress.annotations
+Usage: {{ if include "forge.certManagerEnabled" . }}
+*/}}
+{{- define "forge.certManagerEnabled" -}}
+{{- $certManagerDetected := false -}}
+{{- if .Values.ingress.certManagerIssuer -}}
+  {{- $certManagerDetected = true -}}
+{{- else if .Values.ingress.annotations -}}
+  {{- range $key, $value := .Values.ingress.annotations -}}
+    {{- if hasPrefix "cert-manager.io/" $key -}}
+      {{- $certManagerDetected = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $certManagerDetected -}}
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
+Check if cert-manager is enabled by detecting cert-manager annotations in broker ingress annotations
+Usage: {{ if include "forge.brokerCertManagerEnabled" . }}
+*/}}
+{{- define "forge.brokerCertManagerEnabled" -}}
+{{- $certManagerDetected := false -}}
+{{- if and .Values.forge.broker.enabled .Values.ingress.certManagerIssuer -}}
+  {{- $certManagerDetected = true -}}
+{{- else if and .Values.forge.broker.enabled ((.Values.forge.broker).ingress).annotations -}}
+  {{- range $key, $value := .Values.forge.broker.ingress.annotations -}}
+    {{- if hasPrefix "cert-manager.io/" $key -}}
+      {{- $certManagerDetected = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $certManagerDetected -}}
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
+Filter ingress annotations to remove cert-manager.io annotations when certManagerIssuer is set
+Usage: {{ include "forge.filteredIngressAnnotations" . }}
+*/}}
+{{- define "forge.filteredIngressAnnotations" -}}
+{{- $filtered := dict -}}
+{{- if .Values.ingress.annotations -}}
+  {{- range $key, $value := .Values.ingress.annotations -}}
+    {{- if not (and $.Values.ingress.certManagerIssuer (hasPrefix "cert-manager.io/" $key)) -}}
+      {{- $_ := set $filtered $key $value -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $filtered -}}
+{{- toYaml $filtered -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Filter broker ingress annotations to remove cert-manager.io annotations when certManagerIssuer is set
+Usage: {{ include "forge.filteredBrokerIngressAnnotations" . }}
+*/}}
+{{- define "forge.filteredBrokerIngressAnnotations" -}}
+{{- $filtered := dict -}}
+{{- if and .Values.forge.broker.enabled ((.Values.forge.broker).ingress).annotations -}}
+  {{- range $key, $value := (.Values.forge.broker).ingress.annotations -}}
+    {{- if not (and $.Values.ingress.certManagerIssuer (hasPrefix "cert-manager.io/" $key)) -}}
+      {{- $_ := set $filtered $key $value -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $filtered -}}
+{{- toYaml $filtered -}}
+{{- end -}}
+{{- end -}}

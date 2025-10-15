@@ -152,6 +152,7 @@ forge:
   logPassthrough: false
   customHostname:
     enabled: false
+    ingressAnnotations: {}
 
   assistant: {}
 
