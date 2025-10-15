@@ -365,7 +365,7 @@ Note: External secret must contain following keys:
 - `valkey.persistence.size` How large a storage volume should be created if enabled (default `20Gi`)
 - `valkey.auth.enabled` Should Valkey require authentication (default `false`)
 - `valkey.auth.password` Set a password (default not set, will generate if enabled)
-- `valkey.metrics.enabled` Enabled metrics endpoint (default `true`)
+- `valkey.metrics.enabled` Enabled metrics endpoint (default `false`)
 - `valkey.config` allows to overwrite the default Valkey configuration
 
 ###  Liveness, readiness and startup probes
