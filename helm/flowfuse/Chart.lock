@@ -2,5 +2,8 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.9.13
-digest: sha256:1423e37aa789fccab1a4b5db593ccda3887032de2a4814b928df938f6db1de3a
-generated: "2024-02-13T12:15:48.820039+01:00"
+- name: valkey
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.4.1
+digest: sha256:1e13c34b13da4af2417772e3e16a58cc121a626c6b876cb8a6d58d398abb291b
+generated: "2025-10-14T17:37:27.179684443+01:00"
