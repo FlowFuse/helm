@@ -40,6 +40,7 @@ For other values please refer to the documentation below.
  - `forge.projectIngressAnnotations` ingress annotations for project instances (default is `{}`)
  - `forge.projectServiceType` service type for project instances (allowed `ClusterIP` or `NodePort`, default is `ClusterIP`)
  - `forge.projectPodSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the project pods
+ - `forge.projectContainerSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the project container
  - `forge.projectLabels` allows to add custom labels to all project-related resources (default `{}`)
  - `forge.managementSelector` a collection of labels and values to filter nodes the Forge App will run on (default `role: management`)
  - `forge.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the core application pod
