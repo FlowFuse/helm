@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test configmap security contexts
+templates:
+  - configmap.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should not render containerSecurityContext by default
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "containerSecurityContext:"
+
+  - it: should not render podSecurityContext when forge.projectPodSecurityContext is null
+    set:
+      forge.projectPodSecurityContext: null
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "podSecurityContext:"
+
+  - it: should render podSecurityContext when forge.projectPodSecurityContext is set
+    set:
+      forge.projectPodSecurityContext:
+        runAsUser: 2001
+        runAsGroup: 2002
+        fsGroup: 2003
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "podSecurityContext:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "runAsUser: 2001"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "runAsGroup: 2002"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "fsGroup: 2003"
+
+  - it: should render containerSecurityContext when forge.projectContainerSecurityContext is set
+    set:
+      forge.projectContainerSecurityContext:
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        readOnlyRootFilesystem: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "containerSecurityContext:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "allowPrivilegeEscalation: false"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "runAsNonRoot: true"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "readOnlyRootFilesystem: true"
+
+  - it: should render both podSecurityContext and containerSecurityContext when both are set
+    set:
+      forge.projectPodSecurityContext:
+        runAsUser: 2001
+        runAsGroup: 2002
+      forge.projectContainerSecurityContext:
+        runAsNonRoot: true
+        capabilities:
+          drop:
+            - ALL
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "podSecurityContext:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "runAsUser: 2001"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "runAsGroup: 2002"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "containerSecurityContext:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "runAsNonRoot: true"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "capabilities:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "drop:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "- ALL"
