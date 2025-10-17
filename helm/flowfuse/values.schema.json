@@ -180,6 +180,20 @@
                 "projectPodSecurityContext": {
                     "type": "object"
                 },
+                "projectProbes": {
+                    "type": "object",
+                    "properties": {
+                        "livenessProbe": {
+                            "type": "object"
+                        },
+                        "readinessProbe": {
+                            "type": "object"
+                        },
+                        "startupProbe": {
+                            "type": "object"
+                        }
+                    }
+                },
                 "managementSelector": {
                     "type": "object"
                 },

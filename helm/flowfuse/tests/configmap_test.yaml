@@ -1,0 +1,137 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: projectProbes in flowforge configmap
+templates:
+  - configmap.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should not include projectProbes by default
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:"
+
+  - it: should not render projectProbes when set to empty object
+    set:
+      forge.projectProbes: {}
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:"
+
+  - it: should render livenessProbe when provided
+    set:
+      forge.projectProbes:
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 1880
+          initialDelaySeconds: 5
+          periodSeconds: 10
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:\\n\\s{2,}livenessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "livenessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "httpGet:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "path: /healthz"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "port: 1880"
+
+  - it: should render readinessProbe only when provided
+    set:
+      forge.projectProbes:
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 1880
+          initialDelaySeconds: 3
+          periodSeconds: 5
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:\\n\\s{2,}readinessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "readinessProbe:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "livenessProbe:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "startupProbe:"
+
+  - it: should render startupProbe when provided
+    set:
+      forge.projectProbes:
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 1880
+          failureThreshold: 30
+          periodSeconds: 5
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:\\n\\s{2,}startupProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "startupProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "path: /startup"
+
+  - it: should render all three probes when all are provided
+    set:
+      forge.projectProbes:
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 1880
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 1880
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 1880
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:"
+      # Ensure all three probes are nested under projectProbes (order independent)
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "projectProbes:\\n\\s{2,}livenessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "(?s)projectProbes:.*\\n\\s{2,}readinessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "(?s)projectProbes:.*\\n\\s{2,}startupProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "livenessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "readinessProbe:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "startupProbe:"
