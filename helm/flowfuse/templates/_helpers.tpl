@@ -222,3 +222,26 @@ Generate NPM registry admin password if not provided
 {{- sha256sum $seed | trunc 25 }}
 {{- end }}
 {{- end -}}
+
+
+{{/*
+Get the valkey host name.
+*/}}
+{{- define "forge.valkeyHost" -}}
+{{- if not .Values.valkey.host -}}
+    {{- printf "%s-%s" .Release.Name "valkey" }}
+{{- else -}}
+    {{- .Values.valkey.host }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the valkey port number.
+*/}}
+{{- define "forge.valkeyPort" -}}
+{{- if not .Values.valkey.host -}}
+    6379
+{{- else -}}
+    {{- .Values.valkey.port }}
+{{- end -}}
+{{- end -}}
