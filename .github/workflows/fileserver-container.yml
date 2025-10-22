@@ -42,7 +42,7 @@ jobs:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
   upload-stage-image:
-    # if: github.ref_name == 'main'
+    if: github.ref_name == 'main'
     name: Upload image to staging registry
     needs: build
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
@@ -60,7 +60,7 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   upload-production-image:
-    # if: github.ref_name == 'main'
+    if: github.ref_name == 'main'
     name: Upload image to production registry
     needs: build
     uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
@@ -78,8 +78,7 @@ jobs:
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   update-images:
-    # if: github.ref_name == 'main'
-    if: false
+    if: github.ref_name == 'main'
     name: Update images
     needs: [upload-production-image, upload-stage-image]
     runs-on: ubuntu-latest
