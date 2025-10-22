@@ -105,3 +105,218 @@ tests:
         documentSelector: 
           path: metadata.name
           value: flowforge-ingress 
+
+  - it: should create forge ingress with TLS when certManagerIssuer is set
+    template: service-ingress.yaml
+    documentSelector: 
+      path: metadata.name
+      value: flowforge-ingress
+    set:
+      ingress.certManagerIssuer: "test-issuer"
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/cluster-issuer"]
+          value: "test-issuer"
+      - isNotNullOrEmpty:
+          path: spec.tls
+      - equal:
+          path: spec.tls[0].hosts[0]
+          value: "forge.chart-unit-tests.com"
+      - equal:
+          path: spec.tls[0].secretName
+          value: "forge.chart-unit-tests.com"
+ 
+  - it: should create forge ingress with TLS section when cert-manager annotations are detected
+    template: service-ingress.yaml
+    documentSelector: 
+      path: metadata.name
+      value: flowforge-ingress
+    set:
+      ingress.annotations:
+        cert-manager.io/issuer: "annotation-issuer"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/issuer"]
+          value: "annotation-issuer"
+      - equal:
+          path: metadata.annotations["nginx.ingress.kubernetes.io/ssl-redirect"]
+          value: "true"
+      - isNotNullOrEmpty:
+          path: spec.tls
+      - equal:
+          path: spec.tls[0].hosts[0]
+          value: "forge.chart-unit-tests.com"
+      - equal:
+          path: spec.tls[0].secretName
+          value: "forge.chart-unit-tests.com"
+
+  - it: should add TLS section when multiple cert-manager annotations are present
+    template: service-ingress.yaml
+    documentSelector:
+      path: metadata.name
+      value: flowforge-ingress
+    set:
+      ingress:
+        annotations:
+          cert-manager.io/issuer: "letsencrypt-prod"
+          cert-manager.io/acme-challenge-type: "http01"
+          cert-manager.io/acme-http01-edit-in-place: "true"
+          kubernetes.io/ingress.class: "nginx"
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/issuer"]
+          value: "letsencrypt-prod"
+      - equal:
+          path: metadata.annotations["cert-manager.io/acme-challenge-type"]
+          value: "http01"
+      - equal:
+          path: metadata.annotations["cert-manager.io/acme-http01-edit-in-place"]
+          value: "true"
+      - equal:
+          path: metadata.annotations["kubernetes.io/ingress.class"]
+          value: "nginx"
+      - isNotNullOrEmpty:
+          path: spec.tls
+
+  - it: should NOT add TLS section when no cert-manager annotations are present
+    template: service-ingress.yaml
+    documentSelector:
+      path: metadata.name
+      value: flowforge-ingress
+    set:
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    asserts:
+      - equal:
+          path: metadata.annotations["kubernetes.io/ingress.class"]
+          value: "nginx"
+      - equal:
+          path: metadata.annotations["nginx.ingress.kubernetes.io/ssl-redirect"]
+          value: "false"
+      - notExists:
+          path: spec.tls
+
+  - it: should NOT add TLS section when no annotations are set
+    template: service-ingress.yaml
+    documentSelector:
+      path: metadata.name
+      value: flowforge-ingress
+    asserts:
+      - isNullOrEmpty:
+          path: metadata.annotations
+      - notExists:
+          path: spec.tls
+
+  - it: should use certManagerIssuer when both certManagerIssuer and cert-manager annotations are set
+    template: service-ingress.yaml
+    documentSelector:
+      path: metadata.name
+      value: flowforge-ingress
+    set:
+      ingress:
+        certManagerIssuer: "priority-issuer"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          cert-manager.io/issuer: "secondary-issuer"
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/cluster-issuer"]
+          value: "priority-issuer"
+      - equal:
+          path: metadata.annotations["nginx.ingress.kubernetes.io/ssl-redirect"]
+          value: "true"
+      - notExists:
+          path: metadata.annotations["cert-manager.io/issuer"]
+      - isNotNullOrEmpty:
+          path: spec.tls
+
+  - it: should create broker ingress with TLS when certManagerIssuer is set
+    template: broker-ingress.yaml
+    set:
+      forge:
+        broker:
+          enabled: true
+          teamBroker:
+            enabled: false
+      ingress.certManagerIssuer: "test-issuer"
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/cluster-issuer"]
+          value: "test-issuer"
+      - isNotNullOrEmpty:
+          path: spec.tls
+      - equal:
+          path: spec.tls[0].hosts[0]
+          value: "mqtt.chart-unit-tests.com"
+      - equal:
+          path: spec.tls[0].secretName
+          value: "mqtt.chart-unit-tests.com"
+
+  - it: should add TLS section to broker ingress when cert-manager annotations are detected
+    template: broker-ingress.yaml
+    set:
+      forge:
+        broker:
+          enabled: true
+          ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          teamBroker:
+            enabled: false
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/cluster-issuer"]
+          value: "letsencrypt-prod"
+      - isNotNullOrEmpty:
+          path: spec.tls
+      - equal:
+          path: spec.tls[0].hosts[0]
+          value: "mqtt.chart-unit-tests.com"
+      - equal:
+          path: spec.tls[0].secretName
+          value: "mqtt.chart-unit-tests.com"
+
+  # Test broker ingress without cert-manager annotations
+  - it: should NOT add TLS section to broker ingress when no cert-manager annotations
+    template: broker-ingress.yaml
+    set:
+      forge:
+        broker:
+          enabled: true
+          ingress:
+            annotations:
+              nginx.ingress.kubernetes.io/ssl-redirect: "false"
+          teamBroker:
+            enabled: false
+    asserts:
+      - notExists:
+          path: spec.tls
+
+  - it: should use certManagerIssuer when both certManagerIssuer and cert-manager annotations are set for broker ingress
+    template: broker-ingress.yaml
+    set:
+      forge:
+        broker:
+          enabled: true
+          ingress:
+            annotations:
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+              cert-manager.io/issuer: "letsencrypt-prod"
+          teamBroker:
+            enabled: false
+      ingress:
+        certManagerIssuer: "priority-issuer"
+    asserts:
+      - equal:
+          path: metadata.annotations["cert-manager.io/cluster-issuer"]
+          value: "priority-issuer"
+      - equal:
+          path: metadata.annotations["nginx.ingress.kubernetes.io/ssl-redirect"]
+          value: "true"
+      - notExists:
+          path: metadata.annotations["cert-manager.io/issuer"]
+      - isNotNullOrEmpty:
+          path: spec.tls

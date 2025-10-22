@@ -102,11 +102,12 @@ metadata:
       {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
     annotations:
     {{- if .Values.ingress.certManagerIssuer }}
-        cert-manager.io/cluster-issuer: {{ $.Values.ingress.certManagerIssuer }}
+        cert-manager.io/cluster-issuer: {{ .Values.ingress.certManagerIssuer }}
     {{- end }}
-    {{- if and .Values.forge.broker.enabled .Values.forge.broker.ingress (hasKey .Values.forge.broker.ingress "annotations") }}
-{{ toYaml .Values.forge.broker.ingress.annotations | replace "{{ instanceHost }}" "{{ include forge.brokerDomain . }}" | replace "{{ serviceName }}" "flowforge-broker" | indent 4 }}
-    {{- end }}
+  {{- $filteredAnnotations := include "forge.filteredBrokerIngressAnnotations" . | replace "{{ instanceHost }}" "{{ include forge.brokerDomain . }}" | replace "{{ serviceName }}" "flowforge-broker" }}
+  {{- if $filteredAnnotations }}
+{{ $filteredAnnotations | indent 4 }}
+  {{- end }}
 spec:
     {{- if $.Values.ingress.className }}
     ingressClassName: {{ $.Values.ingress.className }}
@@ -122,7 +123,7 @@ spec:
                         name: emqx-listeners
                         port:
                             number: 8080
-  {{- if .Values.ingress.certManagerIssuer }}
+  {{- if include "forge.brokerCertManagerEnabled" . }}
     tls:
     - hosts:
         - {{ include "forge.brokerDomain" . }}
