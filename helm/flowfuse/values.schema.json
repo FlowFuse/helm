@@ -900,7 +900,7 @@
                 "logPassthrough": {
                     "type": "boolean"
                 },
-                "customeHostname": {
+                "customHostname": {
                     "type": "object",
                     "properties": {
                         "enabled": {
@@ -914,6 +914,9 @@
                         },
                         "cnameTarget": {
                             "type": "string"
+                        },
+                        "ingressAnnotations": {
+                            "type": "object"
                         }
                     }
                 },
