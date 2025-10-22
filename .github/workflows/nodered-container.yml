@@ -114,7 +114,7 @@ jobs:
       image_tag_prefix: '2.2.3-'
       aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-223-prod:
