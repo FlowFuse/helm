@@ -1,3 +1,18 @@
+#### 2.50.0: Release
+
+ - feat: Release 2.23.0 (#719) @cstns
+ - feat: Add possibility to configure projects probes (#710) @ppawlowski
+ - feat: Add possibility to configure projects `containerSecurityContext` (#711) @ppawlowski
+ - ci: Switch to OIDC authentication in the `File-server - build and deploy` workflow (#715) @ppawlowski
+ - ci: Fix typo in `Build Node-RED containe` workflow (#718) @ppawlowski
+ - ci: Switch to OIDC authentication in the `Flowforge - build and deploy` workflow (#716) @ppawlowski
+ - ci: Switch to OIDC authentication in the `Build Node-RED container` workflow (#717) @ppawlowski
+ - feat: improve how ingress annotations are handled (#693) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3064.0 to 12.3065.0 (#714) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.30.8 to 4.30.9 (#712) @app/dependabot
+ - chore(deps): bump actions/setup-node from 5.0.0 to 6.0.0 (#713) @app/dependabot
+ - chore: Ensure secret is readable by node-red-user (#707) @hardillb
+
 #### 2.49.0: Release
 
  - feat: Release 2.22.1 (#706) @hardillb
