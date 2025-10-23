@@ -193,6 +193,7 @@
                             "type": "object"
                         }
                     }
+                },
                 "projectContainerSecurityContext": {
                     "type": "object"
                 },
