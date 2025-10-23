@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build:
     name: Build single-architecture container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.43.0
     with:
       image_name: 'file-server'
       package_dependencies: |
@@ -45,7 +45,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Upload image to staging registry
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: stage
       service_name: 'file-server'
@@ -53,9 +53,9 @@ jobs:
       container_name: 'file-storage'
       deploy: false
       image: ${{ needs.build.outputs.image }}
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
@@ -63,7 +63,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Upload image to production registry
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: production
       service_name: 'file-server'
@@ -71,9 +71,9 @@ jobs:
       container_name: 'file-storage'
       deploy: false
       image: ${{ needs.build.outputs.image }}
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 

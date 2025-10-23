@@ -193,6 +193,8 @@
                             "type": "object"
                         }
                     }
+                "projectContainerSecurityContext": {
+                    "type": "object"
                 },
                 "managementSelector": {
                     "type": "object"

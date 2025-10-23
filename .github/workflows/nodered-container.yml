@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.43.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -49,7 +49,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -58,16 +58,16 @@ jobs:
       deploy: false
       image: ${{ needs.build-302.outputs.image }}
       image_tag_prefix: '3.0.2-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-302-prod:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-302
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: production
       service_name: 'node-red'
@@ -76,15 +76,15 @@ jobs:
       deploy: false
       image: ${{ needs.build-302.outputs.image }}
       image_tag_prefix: '3.0.2-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.43.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
@@ -103,7 +103,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-223
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -112,16 +112,16 @@ jobs:
       deploy: false
       image: ${{ needs.build-223.outputs.image }}
       image_tag_prefix: '2.2.3-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-223-prod:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-223
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: production
       service_name: 'node-red'
@@ -130,15 +130,15 @@ jobs:
       deploy: false
       image: ${{ needs.build-223.outputs.image }}
       image_tag_prefix: '2.2.3-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-310:
     name: Build 3.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.43.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
@@ -157,7 +157,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-310
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -166,16 +166,16 @@ jobs:
       deploy: false
       image: ${{ needs.build-310.outputs.image }}
       image_tag_prefix: '3.1.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-310-prod:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-310
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: production
       service_name: 'node-red'
@@ -184,15 +184,15 @@ jobs:
       deploy: false
       image: ${{ needs.build-310.outputs.image }}
       image_tag_prefix: '3.1.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-40:
     name: Build 4.0.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.43.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-4.0
@@ -211,7 +211,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-40
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -220,16 +220,16 @@ jobs:
       deploy: false
       image: ${{ needs.build-40.outputs.image }}
       image_tag_prefix: '4.0.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-40-prod:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-40
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: production
       service_name: 'node-red'
@@ -238,15 +238,15 @@ jobs:
       deploy: false
       image: ${{ needs.build-40.outputs.image }}
       image_tag_prefix: '4.0.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
 
   build-41:
     name: Build 4.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.43.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-4.1
@@ -265,7 +265,7 @@ jobs:
     name: Upload image to staging ECR
     if: github.ref_name == 'main'
     needs: build-41
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: stage
       service_name: 'node-red'
@@ -274,16 +274,16 @@ jobs:
       deploy: false
       image: ${{ needs.build-41.outputs.image }}
       image_tag_prefix: '4.1.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
   upload-41-prod:
     name: Upload image to production ECR
     if: github.ref_name == 'main'
     needs: build-41
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.42.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
     with:
       environment: production
       service_name: 'node-red'
@@ -292,8 +292,8 @@ jobs:
       deploy: false
       image: ${{ needs.build-41.outputs.image }}
       image_tag_prefix: '4.1.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
     secrets:
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
