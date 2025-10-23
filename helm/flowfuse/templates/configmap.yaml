@@ -56,6 +56,21 @@ data:
           {{ $key }}: {{ $value }}
           {{- end}}
         {{- end }}
+        {{- if .Values.forge.projectProbes }}
+        projectProbes:
+        {{- if .Values.forge.projectProbes.livenessProbe }}
+          livenessProbe:
+{{ toYaml .Values.forge.projectProbes.livenessProbe | indent 12 }}
+        {{- end }}
+        {{- if .Values.forge.projectProbes.readinessProbe }}
+          readinessProbe:
+{{ toYaml .Values.forge.projectProbes.readinessProbe | indent 12 }} 
+        {{- end }}
+        {{- if .Values.forge.projectProbes.startupProbe }}
+          startupProbe:
+{{ toYaml .Values.forge.projectProbes.startupProbe | indent 12 }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.forge.projectIngressAnnotations }}
         projectIngressAnnotations:
           {{- range $key, $value := .Values.forge.projectIngressAnnotations }}
@@ -81,7 +96,7 @@ data:
         {{- if .Values.forge.customHostname }}
         customHostname:
           enabled: {{ .Values.forge.customHostname.enabled }}
-          {{ if default false .Values.forge.customHostname.enabled -}}
+          {{- if default false .Values.forge.customHostname.enabled -}}
           cnameTarget: {{ required "A value is required for .Values.forge.customHostname.cnameTarget" .Values.forge.customHostname.cnameTarget }}
           {{- end -}}
         {{- if .Values.forge.customHostname.certManagerIssuer }}
