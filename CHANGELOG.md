@@ -1,3 +1,7 @@
+#### 2.51.0: Release
+
+ - feat: Release 2.23.1 (#721) @hardillb
+
 #### 2.50.0: Release
 
  - feat: Release 2.23.0 (#719) @cstns
