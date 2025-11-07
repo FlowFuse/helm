@@ -156,6 +156,8 @@ forge:
 
   assistant: {}
 
+  expert: {}
+
   tables:
     enabled: false
 
