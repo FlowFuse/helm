@@ -96,9 +96,9 @@ data:
         {{- if .Values.forge.customHostname }}
         customHostname:
           enabled: {{ .Values.forge.customHostname.enabled }}
-          {{- if default false .Values.forge.customHostname.enabled -}}
+          {{- if default false .Values.forge.customHostname.enabled }}
           cnameTarget: {{ required "A value is required for .Values.forge.customHostname.cnameTarget" .Values.forge.customHostname.cnameTarget }}
-          {{- end -}}
+          {{- end }}
         {{- if .Values.forge.customHostname.certManagerIssuer }}
           certManagerIssuer: {{ .Values.forge.customHostname.certManagerIssuer }}
         {{- end }}
