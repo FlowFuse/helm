@@ -316,6 +316,16 @@ data:
         requestTimeout: {{ .Values.forge.assistant.requestTimeout | default 60000 }}
       {{- end }}
     {{- end }}
+    {{- if .Values.forge.expert }}
+    expert:
+      enabled: {{ .Values.forge.expert.enabled | default false }}
+      {{- if .Values.forge.expert.enabled }}
+      service:
+        token: <%= ENV['EXPERT_TOKEN'] %>
+        url: {{ ((.Values.forge.expert).service).url }}
+        requestTimeout: {{ .Values.forge.expert.requestTimeout | default 60000 }}
+      {{- end }}
+    {{- end }}
     {{- if and  (hasKey .Values.forge "npmRegistry") (hasKey .Values.forge.npmRegistry "enabled") }}
     {{- if .Values.forge.npmRegistry.enabled | default false }}
     npmRegistry:

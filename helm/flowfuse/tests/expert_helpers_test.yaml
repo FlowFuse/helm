@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test expert helper functions
+templates:
+  - secrets.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  # Test forge.expertSecretName helper
+  - it: should return flowfuse-secrets when expert is enabled
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          token: "test-token"
+    asserts:
+      - equal:
+          path: metadata.name
+          value: flowfuse-secrets
+
+  - it: should not create expert secret when expert is disabled
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - notExists:
+          path: data.expertToken
+
+  # Test forge.expertToken helper
+  - it: should base64 encode expert token correctly
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          token: "my-expert-token-123"
+    asserts:
+      - equal:
+          path: data.expertToken
+          value: bXktZXhwZXJ0LXRva2VuLTEyMw==  # base64("my-expert-token-123")
+
+  # Test integration with existing secrets
+  - it: should work with existing postgresql auth secret
+    template: secrets.yaml
+    set:
+      postgresql.auth.existingSecret: "external-db-secret"
+      forge.expert:
+        enabled: true
+        service:
+          token: "expert-token"
+    asserts:
+      - isKind:
+          of: Secret
+      - isNotNullOrEmpty:
+          path: data.expertToken
+      - notExists:
+          path: data.password
+      - notExists:
+          path: data.postgres-password
+
+  - it: should not create secret when expert is disabled and external secrets are used
+    template: secrets.yaml
+    set:
+      postgresql.auth.existingSecret: "external-db-secret"
+      forge.email:
+        smtp:
+          host: smtp.example.com
+          existingSecret: "external-smtp-secret"
+      forge.expert:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  # Test helper function error handling
+  - it: should require expert service token when expert is enabled
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          # token is missing
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.expert.service.token is required!"
+
+  - it: should require expert service when expert is enabled but service is not defined
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service: {}
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.expert.service.token is required!"
+
+  - it: should require expert service when expert is enabled but service is missing
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        # service is missing
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.expert.service.token is required!"
