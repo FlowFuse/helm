@@ -1,0 +1,277 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test expert feature
+templates:
+  - configmap.yaml
+  - deployment.yaml
+  - secrets.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  # ConfigMap tests
+  - it: should not include expert configuration by default
+    template: configmap.yaml
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+
+  - it: should not include expert configuration when expert is empty object
+    template: configmap.yaml
+    set:
+      forge.expert: {}
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+
+  - it: should include expert configuration when expert.enabled is false
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: false"
+
+  - it: should include expert configuration when expert.enabled is true
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "token: <%= ENV\\['EXPERT_TOKEN'\\] %>"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: https://expert\\.example\\.com"
+
+  - it: should include expert configuration with custom requestTimeout
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+        requestTimeout: 30000
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "requestTimeout: 30000"
+
+  - it: should include expert configuration with default requestTimeout when not specified
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "requestTimeout: 60000"
+
+  # Deployment tests
+  - it: should not include EXPERT_TOKEN environment variable by default
+    template: deployment.yaml
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "EXPERT_TOKEN")]
+
+  - it: should not include EXPERT_TOKEN environment variable when expert is disabled
+    template: deployment.yaml
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "EXPERT_TOKEN")]
+
+  - it: should include EXPERT_TOKEN environment variable when expert is enabled
+    template: deployment.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: expertToken
+                optional: true
+
+  # Secrets tests
+  - it: should not include expertToken in secrets by default
+    template: secrets.yaml
+    asserts:
+      - notExists:
+          path: data.expertToken
+
+  - it: should not include expertToken in secrets when expert is disabled
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - notExists:
+          path: data.expertToken
+
+  - it: should include expertToken in secrets when expert is enabled
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - isKind:
+          of: Secret
+      - isNotNullOrEmpty:
+          path: data.expertToken
+      - equal:
+          path: data.expertToken
+          value: dGVzdC10b2tlbg==  # base64 encoded "test-token"
+
+  - it: should create secret with expertToken and other tokens when multiple features are enabled
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+      forge.assistant:
+        enabled: true
+        service:
+          url: "https://assistant.example.com"
+          token: "assistant-token"
+      forge.email:
+        smtp:
+          host: smtp.example.com
+          password: "smtp-password"
+      postgresql.auth:
+        username: forge
+        password: db-password
+    asserts:
+      - isKind:
+          of: Secret
+      - isNotNullOrEmpty:
+          path: data.expertToken
+      - isNotNullOrEmpty:
+          path: data.token
+      - isNotNullOrEmpty:
+          path: data.smtp-password
+      - isNotNullOrEmpty:
+          path: data.password
+
+  - it: should fail when expert is enabled but token is missing
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.expert.service.token is required!"
+
+  - it: should fail when expert is enabled but service is missing
+    template: secrets.yaml
+    set:
+      forge.expert:
+        enabled: true
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.expert.service.token is required!"
+
+  # Test that expert works alongside assistant
+  - it: should render both expert and assistant configurations when both are enabled
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+      forge.assistant:
+        enabled: true
+        service:
+          url: "https://assistant.example.com"
+          token: "assistant-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "assistant:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: https://expert\\.example\\.com"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: https://assistant\\.example\\.com"
+
+  - it: should include both EXPERT_TOKEN and ASSISTANT_TOKEN environment variables when both features are enabled
+    template: deployment.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+      forge.assistant:
+        enabled: true
+        service:
+          url: "https://assistant.example.com"
+          token: "assistant-token"
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: expertToken
+                optional: true
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: ASSISTANT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: token
+                optional: true

@@ -139,6 +139,74 @@ tests:
           path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
           pattern: ^wait-for-local-db\.io\/
 
+  # Expert feature tests
+  - it: should not include EXPERT_TOKEN environment variable by default
+    template: deployment.yaml
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "EXPERT_TOKEN")]
+
+  - it: should not include EXPERT_TOKEN environment variable when expert is disabled
+    template: deployment.yaml
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "EXPERT_TOKEN")]
+
+  - it: should include EXPERT_TOKEN environment variable when expert is enabled
+    template: deployment.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: expertToken
+                optional: true
+
+  - it: should include both EXPERT_TOKEN and ASSISTANT_TOKEN when both features are enabled
+    template: deployment.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+      forge.assistant:
+        enabled: true
+        service:
+          url: "https://assistant.example.com"
+          token: "assistant-token"
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: expertToken
+                optional: true
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: ASSISTANT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: token
+                optional: true
+
   - it: should use custom registry for init containers only
     template: deployment.yaml
     set:

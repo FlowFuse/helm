@@ -224,3 +224,74 @@ tests:
       - matchRegex:
           path: data["flowforge.yml"]
           pattern: "- ALL"
+
+  # Expert feature tests
+  - it: should not render expert configuration by default
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+
+  - it: should not render expert configuration when expert is disabled
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: false"
+
+  - it: should render expert configuration when expert is enabled
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "token: <%= ENV\\['EXPERT_TOKEN'\\] %>"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: https://expert\\.example\\.com"
+
+  - it: should render expert configuration with custom requestTimeout
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+        requestTimeout: 30000
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "requestTimeout: 30000"
+
+  - it: should render expert configuration with default requestTimeout
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "requestTimeout: 60000"
