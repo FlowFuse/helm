@@ -1,3 +1,13 @@
+#### 2.52.0: Release
+
+ - feat: Add support for configuring the Expert feature (#728) @ppawlowski
+ - chore(deps): bump helm/kind-action from 1.12.0 to 1.13.0 (#727) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.0.0 to 6.0.1 (#726) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.0 to 4.31.2 (#725) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3068.0 to 12.3069.0 (#724) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3065.0 to 12.3068.0 (#723) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.30.9 to 4.31.0 (#722) @app/dependabot
+
 #### 2.51.0: Release
 
  - feat: Release 2.23.1 (#721) @hardillb
