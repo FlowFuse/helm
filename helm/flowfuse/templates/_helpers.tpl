@@ -123,7 +123,9 @@ Note: The value for key .Values.postgresql.auth.existingSecret is inherited from
 
 {{- define "forge.createSecret" -}}
 {{- if not (and .Values.postgresql.auth.existingSecret 
-    (not (and .Values.forge.email ((and .Values.forge.email.smtp (not .Values.forge.email.smtp.existingSecret)))))) -}}
+    (not (and .Values.forge.email ((and .Values.forge.email.smtp (not .Values.forge.email.smtp.existingSecret)))))
+    (not ((.Values.forge.assistant).enabled))
+    (not ((.Values.forge.expert).enabled))) -}}
 true
 {{- else -}}
 false
@@ -175,6 +177,24 @@ token: {{ $token | b64enc | quote }}
 {{- end -}}
 {{- end -}}
 
+{{/*
+Get the secret object name with expert token.
+*/}}
+{{- define "forge.expertSecretName" -}}
+{{- if (.Values.forge.expert).enabled -}}
+    {{- printf "flowfuse-secrets" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create expert token
+*/}}
+{{- define "forge.expertToken" -}}
+{{- if (.Values.forge.expert).enabled -}}
+{{- $token := required "A valid .Values.forge.expert.service.token is required!" ((.Values.forge.expert).service).token -}}
+expertToken: {{ $token | b64enc | quote }}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Configure broker domain

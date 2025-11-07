@@ -81,6 +81,14 @@ spec:
                 key: token
                 optional: true
         {{- end }}
+        {{- if (.Values.forge.expert).enabled }}
+          - name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.expertSecretName" . }}
+                key: expertToken
+                optional: true
+        {{- end }}
       {{- if .Values.forge.localPostgresql }}
       - name: wait-for-local-db
         {{- $initWaitForLocalDbRegistry := (or .Values.forge.initContainers.waitForLocalDb.image.registry .Values.forge.registry) }}
