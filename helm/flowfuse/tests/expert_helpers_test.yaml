@@ -86,12 +86,12 @@ tests:
       - failedTemplate:
           errorMessage: "A valid .Values.forge.expert.service.token is required!"
 
-  - it: should require expert service when expert is enabled but service is null
+  - it: should require expert service when expert is enabled but service is not defined
     template: secrets.yaml
     set:
       forge.expert:
         enabled: true
-        service: null
+        service: {}
     asserts:
       - failedTemplate:
           errorMessage: "A valid .Values.forge.expert.service.token is required!"
