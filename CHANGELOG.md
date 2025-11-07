@@ -1,3 +1,7 @@
+#### 2.52.1: Release
+
+ - fix: configmap templating for customHostname parameter (#729) @ppawlowski
+
 #### 2.52.0: Release
 
  - feat: Add support for configuring the Expert feature (#728) @ppawlowski
