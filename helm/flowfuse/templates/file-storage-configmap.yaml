@@ -31,6 +31,9 @@ data:
         {{- if eq .Values.forge.fileStore.context.options.type "postgres" }}
         host: {{ include "forge.databaseHost" . }}
         port: {{ .Values.postgresql.port | default 5432 }}
+        {{- if .Values.postgresql.ssl }}
+        ssl: {{ .Values.postgresql.ssl }}
+        {{- end }}
         username: {{ .Values.postgresql.auth.username }}
         database: {{ .Values.postgresql.auth.fileStoreDatabase }}
         password: <%= ENV['PGPASSWORD'] %>
