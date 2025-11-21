@@ -1,3 +1,18 @@
+#### 2.53.0: Release
+
+ - feat: Release 2.24.1 (#741) @hardillb
+ - feat: Release 2.24.0 (#740) @hardillb
+ - fix: Allow fileStorage.context.options.ssl to be set (#734) @hardillb
+ - chore(deps): bump cycjimmy/semantic-release-action from 5.0.2 to 6.0.0 (#738) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3072.0 to 12.3073.0 (#736) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.2 to 4.31.3 (#737) @app/dependabot
+ - chore(deps): bump actions/checkout from 5.0.0 to 5.0.1 (#739) @app/dependabot
+ - ci: Install latest `ct` version in `Helm chart validation` workflow (#735) @ppawlowski
+ - chore(deps): bump helm/chart-testing-action from 2.7.0 to 2.8.0 (#733) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3069.0 to 12.3072.0 (#731) @app/dependabot
+ - chore(deps): bump docker/metadata-action from 5.8.0 to 5.9.0 (#732) @app/dependabot
+ - chore(deps): bump docker/setup-qemu-action from 3.6.0 to 3.7.0 (#730) @app/dependabot
+
 #### 2.52.1: Release
 
  - fix: configmap templating for customHostname parameter (#729) @ppawlowski
