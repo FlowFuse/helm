@@ -1,3 +1,11 @@
+#### 2.54.0: Release
+
+ - feat: Release 2.24.2 (#746) @hardillb
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3073.0 to 12.3075.0 (#742) @app/dependabot
+ - chore(deps): bump actions/checkout from 5.0.1 to 6.0.0 (#743) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 5.1.0 to 5.1.1 (#744) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.3 to 4.31.5 (#745) @app/dependabot
+
 #### 2.53.0: Release
 
  - feat: Release 2.24.1 (#741) @hardillb
