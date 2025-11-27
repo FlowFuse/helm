@@ -53,6 +53,9 @@ forge:
     podLabels: {}
     tolerations: []
     ingress.annotations: {}
+  logging:
+    level: info
+    http: info
 
   persistentStorage:
     enabled: false
