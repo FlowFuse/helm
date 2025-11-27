@@ -1095,6 +1095,17 @@
                     "then": {
                         "required": ["driver"]
                     }
+                },
+                "logging": {
+                    "type": "object",
+                    "properties": {
+                        "level": {
+                            "enum": ["info", "debug", "error", "trace", "fatal", "warn"]
+                        },
+                        "http": {
+                            "enum": ["info", "debug", "error", "trace", "fatal", "warn"]
+                        }
+                    }
                 }
             },
             "required": [
