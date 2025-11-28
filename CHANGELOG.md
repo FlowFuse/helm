@@ -1,3 +1,9 @@
+#### 2.55.0: Release
+
+ - feat: Release 2.24.3 (#750) @hardillb
+ - feat: Allow forge logging level to be configured (#749) @hardillb
+ - ci: Install helm unittest on v4 (#747) @ppawlowski
+
 #### 2.54.0: Release
 
  - feat: Release 2.24.2 (#746) @hardillb
