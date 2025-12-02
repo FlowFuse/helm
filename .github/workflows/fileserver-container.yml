@@ -37,7 +37,7 @@ jobs:
       build_context: 'file-server'
       build_platform: "linux/amd64"
       npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
-      scan_image: false
+      scan_image: true
     secrets:
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
 
