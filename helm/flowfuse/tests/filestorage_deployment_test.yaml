@@ -252,3 +252,38 @@ tests:
       - matchRegex:
           path: spec.template.spec.initContainers[?(@.name == "add-context-db")].image
           pattern: ^add-context-db\.io\/
+
+  - it: should use forge.revisionHistoryLimit as default for file storage
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 10
+
+  - it: should use component-specific revisionHistoryLimit for file storage
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.fileStore.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5
+
+  - it: should prefer component value over forge.revisionHistoryLimit for file storage
+    template: file-storage.yml
+    documentSelector:
+      path: kind
+      value: Deployment
+    set:
+      forge.revisionHistoryLimit: 3
+      forge.fileStore.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5

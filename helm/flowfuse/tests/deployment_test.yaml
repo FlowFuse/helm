@@ -228,3 +228,19 @@ tests:
       - matchRegex:
           path: spec.template.spec.initContainers[?(@.name == "wait-for-local-db")].image
           pattern: ^wait-for-local-db.io\/
+
+  - it: should set default revisionHistoryLimit to 10 for main deployment
+    template: deployment.yaml
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 10
+
+  - it: should use custom forge.revisionHistoryLimit for main deployment
+    template: deployment.yaml
+    set:
+      forge.revisionHistoryLimit: 15
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 15
