@@ -30,6 +30,7 @@ metadata:
     app.kubernetes.io/name: flowfuse-npm-registry
     app.kubernetes.io/part-of: flowfuse
 spec:
+  revisionHistoryLimit: {{ .Values.npmRegistry.revisionHistoryLimit | default .Values.forge.revisionHistoryLimit }}
   selector:
     matchLabels:
       app: flowfuse-npm-registry

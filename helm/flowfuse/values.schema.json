@@ -23,6 +23,10 @@
                 "replicas": {
                     "type": "integer"
                 },
+                "revisionHistoryLimit": {
+                    "type": "integer",
+                    "minimum": 0
+                },
                 "registry": {
                     "type": "string"
                 },
@@ -267,6 +271,10 @@
                     "properties": {
                         "enabled": {
                             "type": "boolean"
+                        },
+                        "revisionHistoryLimit": {
+                            "type": ["integer", "null"],
+                            "minimum": 0
                         },
                         "url": {
                             "type" : "string"
@@ -527,6 +535,10 @@
                     "properties": {
                         "enabled": {
                             "type": "boolean"
+                        },
+                        "revisionHistoryLimit": {
+                            "type": ["integer", "null"],
+                            "minimum": 0
                         },
                         "type": {
                             "type": "string"
@@ -1001,6 +1013,10 @@
                         "enabled": {
                             "type": "boolean"
                         },
+                        "revisionHistoryLimit": {
+                            "type": ["integer", "null"],
+                            "minimum": 0
+                        },
                         "url": {
                             "type": "string"
                         },
@@ -1195,6 +1211,10 @@
                 "image": {
                     "type": "string"
                 },
+                "revisionHistoryLimit": {
+                    "type": ["integer", "null"],
+                    "minimum": 0
+                },
                 "storageClassName": {
                     "type": "string"
                 },
@@ -1215,6 +1235,10 @@
                             "properties": {
                                 "enabled": {
                                     "type": "boolean"
+                                },
+                                "revisionHistoryLimit": {
+                                    "type": ["integer", "null"],
+                                    "minimum": 0
                                 },
                                 "image": {
                                     "type": "object",

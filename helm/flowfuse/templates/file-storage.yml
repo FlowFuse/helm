@@ -30,6 +30,7 @@ metadata:
     checkov.io/skip4: CKV_K8S_13=We do not force default resources constraints
     checkov.io/skip5: CKV_K8S_35=Current approach is a temporary one
 spec:
+  revisionHistoryLimit: {{ .Values.forge.fileStore.revisionHistoryLimit | default .Values.forge.revisionHistoryLimit }}
   selector:
     matchLabels:
       {{- include "forge.fileStoreSelectorLabels" . | nindent 6 }}

@@ -22,6 +22,7 @@ metadata:
   labels:
     {{ include "forge.emqxExporterSelectorLabels" . | nindent 4 }}
 spec:
+  revisionHistoryLimit: {{ .Values.broker.monitoring.emqxExporter.revisionHistoryLimit | default .Values.forge.revisionHistoryLimit }}
   selector:
     matchLabels:
       {{ include "forge.emqxExporterSelectorLabels" . | nindent 6 }}
