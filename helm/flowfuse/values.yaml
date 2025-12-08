@@ -1,5 +1,6 @@
 forge:
   replicas: 1
+  revisionHistoryLimit: 10
   localPostgresql: true
   https: true
   projectNamespace: flowforge
@@ -25,6 +26,7 @@ forge:
   broker:
     enabled: false
     image: iegomez/mosquitto-go-auth
+    revisionHistoryLimit: null
     teamBroker:
       enabled: false
     createMetricsUser: false
@@ -62,6 +64,7 @@ forge:
 
   fileStore:
     enabled: false
+    revisionHistoryLimit: null
     type: localfs
     quota: 104857600
     options:
@@ -191,6 +194,7 @@ editors:
 
 broker:
   image: emqx:5
+  revisionHistoryLimit: null
   storageClassName: ''
   listenersServiceTemplate: {}
   dashboardServiceTemplate: {}
@@ -336,6 +340,7 @@ broker:
   monitoring:
     emqxExporter:
       enabled: false
+      revisionHistoryLimit: null
       image:
         registry: ""
         repository: emqx/emqx-exporter
@@ -345,6 +350,7 @@ broker:
 
 npmRegistry:
   enabled: false
+  revisionHistoryLimit: null
   image:
     registry: ""
     repository: "flowfuse/npm-registry"
