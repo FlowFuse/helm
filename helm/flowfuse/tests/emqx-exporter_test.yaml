@@ -117,3 +117,37 @@ tests:
       - matchRegex:
           path: spec.template.spec.initContainers[?(@.name == "config")].image
           pattern: ^config.io\/
+  - it: should use forge.revisionHistoryLimit as default for emqx-exporter
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 10
+
+  - it: should use component-specific revisionHistoryLimit for emqx-exporter 
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    set:
+      broker.monitoring.emqxExporter.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5
+
+  - it: should prefer component value over forge.revisionHistoryLimit for emqx-exporter
+    template: emqx-exporter.yaml
+    documentSelector:
+      path: metadata.name
+      value: emqx-exporter
+    set:
+      forge.revisionHistoryLimit: 4
+      broker.monitoring.emqxExporter.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5
