@@ -1,3 +1,9 @@
+#### 2.58.0: Release
+
+ - feat: Release 2.24.5 (#762) @hardillb
+ - chore: Bump 4.1.x Stack container to 4.1.2 (#757) @hardillb
+ - chore: Remove under used NR versions from Editor Cache (#720) @hardillb
+
 #### 2.57.0: Release
 
  - chore(deps): bump actions/setup-node from 6.0.0 to 6.1.0 (#761) @app/dependabot
