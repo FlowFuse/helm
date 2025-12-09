@@ -1,3 +1,13 @@
+#### 2.57.0: Release
+
+ - chore(deps): bump actions/setup-node from 6.0.0 to 6.1.0 (#761) @app/dependabot
+ - chore(deps): bump actions/checkout from 6.0.0 to 6.0.1 (#760) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.6 to 4.31.7 (#759) @app/dependabot
+ - feat: Add possibility to configure `revisionHistoryLimit` (#758) @ppawlowski
+ - chore(deps): bump docker/metadata-action from 5.9.0 to 5.10.0 (#753) @app/dependabot
+ - chore(deps): bump actions/setup-python from 6.0.0 to 6.1.0 (#754) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.5 to 4.31.6 (#755) @app/dependabot
+
 #### 2.56.0: Release
 
  - feat: Release 2.24.4 (#751) @hardillb
