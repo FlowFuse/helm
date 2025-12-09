@@ -1,3 +1,7 @@
+#### 2.56.0: Release
+
+ - feat: Release 2.24.4 (#751) @hardillb
+
 #### 2.55.0: Release
 
  - feat: Release 2.24.3 (#750) @hardillb
