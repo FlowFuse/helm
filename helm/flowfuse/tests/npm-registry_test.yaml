@@ -58,3 +58,43 @@ tests:
       - matchRegex:
           path: spec.template.spec.containers[?(@.name == "flowfuse-npm-registry")].image
           pattern: ^npm-registry.io\/
+
+  - it: should use forge.revisionHistoryLimit as default for npm registry
+    template: npm-registry.yaml
+    documentSelector:
+      path: kind
+      value: StatefulSet
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 10
+
+  - it: should use component-specific revisionHistoryLimit for npm registry
+    template: npm-registry.yaml
+    documentSelector:
+      path: kind
+      value: StatefulSet
+    set:
+      npmRegistry.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5
+
+  - it: should prefer component value over forge.revisionHistoryLimit for npm registry
+    template: npm-registry.yaml
+    documentIndex: 1
+    set:
+      forge.domain: "chart-unit-tests.com"
+      forge:
+        npmRegistry:
+          url: "npmregistry.chart-unit-tests.com"
+          admin:
+            username: "admin"
+      npmRegistry.enabled: true
+      forge.revisionHistoryLimit: 2
+      npmRegistry.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5

@@ -20,6 +20,35 @@ tests:
           path: spec.template.spec.containers
           count: 1
 
+  - it: should use forge.revisionHistoryLimit as default for mosquitto broker
+    template: broker.yaml
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 10
+
+  - it: should use component-specific revisionHistoryLimit for mosquitto broker
+    template: broker.yaml
+    documentIndex: 0
+    set:
+      forge.broker.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5
+
+  - it: should prefer component value over forge.revisionHistoryLimit for mosquitto broker
+    template: broker.yaml
+    documentIndex: 0
+    set:
+      forge.revisionHistoryLimit: 7
+      forge.broker.revisionHistoryLimit: 5
+    asserts:
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 5
+
   - it: should create a broker service for mosquitto broker deployment 
     template: broker.yaml
     documentIndex: 1

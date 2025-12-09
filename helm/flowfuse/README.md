@@ -61,6 +61,7 @@ For other values please refer to the documentation below.
  - `forge.labels` allows to add custom labels to the core application related objects (e.g. deployment, services, etc.) (default `{}`)
  - `forge.podLabels` allows to add custom labels to the core application pod (default `{}`)
  - `forge.replicas` allows the number of instances of the FlowFuse App to be set. Scaling only supported with ingress-nginx controller (default `1`)
+ - `forge.revisionHistoryLimit` global default for number of old ReplicaSets/ControllerRevisions to retain for rollback across all Deployments and StatefulSets managed by this chart (default `10`). Can be overridden per component.
  - `forge.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the core application deployment (default `[]`)
  - `forge.priorityClassName` allows to set [priorityClassName](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/) for all deployments created by this Helm chart (default not set)
  - `forge.service.type` allows to set the service type for the core application service (default `ClusterIP`)
@@ -118,6 +119,7 @@ To use STMP to send email
   - `forge.broker.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
   - `forge.broker.labels` allows to add custom labels to the broker related objects (e.g. deployment, services, etc.) (default `{}`)
+  - `forge.broker.revisionHistoryLimit` number of old ReplicaSets to retain for the mosquitto broker Deployment. If not set, uses `forge.revisionHistoryLimit` (default `10`).
   - `forge.broker.podLabels` allows to add custom labels to the broker pod (default `{}`)
   - `forge.broker.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the broker deployment (default `[]`)
   - `forge.broker.ingress.annotations` broker ingress annotations (default is `{}`)
@@ -132,6 +134,7 @@ To use STMP to send email
 ### Team Broker
 
   - `broker.image` defines the container image for the Team Broker (default `emqx:5`)
+  - `broker.revisionHistoryLimit` number of old ControllerRevisions to retain for the EMQX team broker. If not set, uses `forge.revisionHistoryLimit` (default `10`).
   - `broker.storageClassName` the StorageClass to use for the teamBroker persistent Storage
   - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
   - `broker.dashboardServiceTemplate` Service spec for the teamBroker admin console
@@ -140,6 +143,7 @@ To use STMP to send email
   - `broker.monitoring.emqxExporter.image.registry` optional registry for the emqx-exporter image; falls back to `forge.registry` when unset
   - `broker.monitoring.emqxExporter.image.repository` repository for the emqx-exporter image (default `emqx/emqx-exporter`)
   - `broker.monitoring.emqxExporter.image.tag` tag for the emqx-exporter image (default `0.2`)
+  - `broker.monitoring.emqxExporter.revisionHistoryLimit` number of old ReplicaSets to retain for the EMQX exporter Deployment. If not set, uses `forge.revisionHistoryLimit` (default `10`).
   - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
   - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
@@ -211,6 +215,7 @@ Enables FlowFuse Telemetry
 - `forge.fileStore.serviceAccount.annotations` File Storage service account annotations
 - `forge.fileStore.serviceAccount.automountServiceAccountToken` defines automount API credentials for a Service Account
 - `forge.fileStore.automountServiceAccountToken` defines automount API credentials for a pod (default `false`)
+- `forge.fileStore.revisionHistoryLimit` number of old ReplicaSets to retain for the file storage Deployment. If not set, uses `forge.revisionHistoryLimit` (default `10`).
 
 ### Persistent Storage
 
@@ -342,6 +347,7 @@ editors:
 - `npmRegistry.hostname` - the hostname to pass to the ingress object. Should link to `forge.npmRegistry.url` (default not set)
 - `npmRegistry.affinity` - allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the npmRegistry application pod
 - `npmRegistry.podSecurityContext` - define SecurityContext for npmRegistry pod (default empty)
+- `npmRegistry.revisionHistoryLimit` - number of old ControllerRevisions to retain for the NPM registry StatefulSet. If not set, uses `forge.revisionHistoryLimit` (default `10`)
 
 Note: External secret must contain following keys:
 - `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)
