@@ -45,7 +45,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Upload image to staging registry
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.44.0
     with:
       environment: stage
       service_name: 'file-server'
@@ -63,7 +63,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Upload image to production registry
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.44.0
     with:
       environment: production
       service_name: 'file-server'
