@@ -1,3 +1,12 @@
+#### 2.59.0: Release
+
+ - feat: Release 2.25.0 (#768) @cstns
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.43.0 to 0.44.0 (#766) @app/dependabot
+ - ci: Pin helm unittest plugin to `1.0.3` version (#767) @ppawlowski
+ - chore(deps): bump github/codeql-action from 4.31.7 to 4.31.8 (#765) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.43.0 to 0.44.0 (#764) @app/dependabot
+ - ci: Enable static security scan for forge and file-server containers (#763) @ppawlowski
+
 #### 2.58.0: Release
 
  - feat: Release 2.24.5 (#762) @hardillb
