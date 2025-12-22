@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build-302:
     name: Build 3.0.2 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.44.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.45.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile
@@ -84,7 +84,7 @@ jobs:
 
   build-223:
     name: Build 2.2.3 container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.44.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.45.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-2.2.x
@@ -138,7 +138,7 @@ jobs:
 
   build-310:
     name: Build 3.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.44.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.45.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-3.1
@@ -192,7 +192,7 @@ jobs:
 
   build-40:
     name: Build 4.0.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.44.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.45.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-4.0
@@ -246,7 +246,7 @@ jobs:
 
   build-41:
     name: Build 4.1.x container images
-    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.44.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@v0.45.0
     with:
       image_name: 'node-red'
       dockerfile_path: Dockerfile-4.1
