@@ -47,7 +47,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Upload image to staging registry
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.45.0
     with:
       environment: stage
       service_name: 'forge-k8s'
@@ -65,7 +65,7 @@ jobs:
     if: github.ref_name == 'main'
     name: Upload image to production registry
     needs: build
-    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.43.0
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@v0.45.0
     with:
       environment: production
       service_name: 'forge-k8s'
@@ -92,7 +92,7 @@ jobs:
           app_id: ${{ secrets.GH_BOT_APP_ID }}
           private_key: ${{ secrets.GH_BOT_APP_KEY }}
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           repository: 'FlowFuse/CloudProject'
           ref: 'main'
