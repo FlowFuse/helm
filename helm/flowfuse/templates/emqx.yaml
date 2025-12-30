@@ -61,11 +61,12 @@ spec:
                 mountPath: /mounted/config/api-keys
                 subPath: api-keys
             {{- if .Values.forge.broker.affinity }}
-            affinity: {{ toYaml .Values.forge.broker.affinity | indent 12 }}
+            affinity: 
+{{ toYaml .Values.forge.broker.affinity | indent 14 }}
             {{- end }}
             {{- if .Values.forge.broker.tolerations}}
             tolerations:
-            {{ toYaml .Values.forge.broker.tolerations | nindent 12 }}
+{{ toYaml .Values.forge.broker.tolerations | indent 14 }}
             {{- end }}
     listenersServiceTemplate:
         {{- if .Values.broker.listenersServiceTemplate }}
