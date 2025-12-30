@@ -1,3 +1,13 @@
+#### 2.60.0: Release
+
+ - fix: EMQX broker affinity and tolerations indentation (#775) @ppawlowski
+ - feat: Add projects custom scheduler configuration parameter (#773) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3075.0 to 12.3076.0 (#774) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.44.0 to 0.45.0 (#771) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.44.0 to 0.45.0 (#769) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.8 to 4.31.9 (#772) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 3.11.1 to 3.12.0 (#770) @app/dependabot
+
 #### 2.59.0: Release
 
  - feat: Release 2.25.0 (#768) @cstns
