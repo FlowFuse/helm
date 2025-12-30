@@ -201,6 +201,9 @@
                 "projectContainerSecurityContext": {
                     "type": "object"
                 },
+                "projectSchedulerName": {
+                    "type": "string"
+                },
                 "managementSelector": {
                     "type": "object"
                 },

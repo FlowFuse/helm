@@ -41,6 +41,7 @@ For other values please refer to the documentation below.
  - `forge.projectServiceType` service type for project instances (allowed `ClusterIP` or `NodePort`, default is `ClusterIP`)
  - `forge.projectPodSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the project pods
  - `forge.projectContainerSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the project container
+ - `forge.projectSchedulerName` allows to set a custom [scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/) for the project pods (default not set)
  - `forge.projectLabels` allows to add custom labels to all project-related resources (default `{}`)
  - `forge.projectProbes` allows to configure [liveness, readiness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) for the project pods (default not set, which means no custom probes configured)
  - `forge.projectProbes.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the project pods
