@@ -1,3 +1,10 @@
+#### 2.61.0: Release
+
+ - feat: Release 2.26.0 (#780) @Steve-Mcl
+ - chore: Update Node-RED base image to version 4.1.3 (#778) @knolleary
+ - chore(deps): bump mikepenz/action-junit-report from 6.0.1 to 6.1.0 (#777) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3076.0 to 12.3077.0 (#776) @app/dependabot
+
 #### 2.60.0: Release
 
  - fix: EMQX broker affinity and tolerations indentation (#775) @ppawlowski
