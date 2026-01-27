@@ -1,3 +1,12 @@
+#### 2.62.0: Release
+
+ - feat: Release 2.26.1 (#791) @hardillb
+ - chore: Update 4.1.x stack and add to device-agent cache (#785) @hardillb
+ - chore(deps): bump github/codeql-action from 4.31.9 to 4.31.10 (#779) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.45.0 to 0.46.0 (#781) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.45.0 to 0.46.0 (#782) @app/dependabot
+ - chore(deps): bump actions/setup-node from 6.1.0 to 6.2.0 (#783) @app/dependabot
+
 #### 2.61.0: Release
 
  - feat: Release 2.26.0 (#780) @Steve-Mcl
