@@ -363,7 +363,6 @@ valkey:
 
   persistence:
     enabled: false
-    size: 20Gi
 
   resources:
     requests:
@@ -378,8 +377,6 @@ valkey:
 
   metrics:
     enabled: false
-    serviceMonitor:
-      enabled: true
 
   config:
     maxMemory: 800mb

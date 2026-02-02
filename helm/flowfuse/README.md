@@ -357,9 +357,9 @@ Note: External secret must contain following keys:
 
 
 ### Valkey Shared Cache
-- `valkey.host` Hostname for external Valkey/Redis instance (default empty)
-- `valkey.port` Port for external Valkey/Redis instance (default empty)
-- `valkey.url` Full URL for an external Valkey/Redis instance (default empty)
+- `valkey.host` Hostname for external Valkey/Redis instance (default `<helm Release>-valkey`)
+- `valkey.port` Port for external Valkey/Redis instance (default `6379`)
+- `valkey.url` Full URL for an external Valkey/Redis instance (default empty, this take priority over `valkey.host` & `valkey.port`)
 - `valkey.replicaCount` Number of Valkey instances (default `1`)
 - `valkey.persistence.enabled` Should Valkey persist to disk (default `false`)
 - `valkey.persistence.size` How large a storage volume should be created if enabled (default `20Gi`)
