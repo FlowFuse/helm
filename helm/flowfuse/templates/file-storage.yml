@@ -141,6 +141,10 @@ spec:
         env:
         - name: NODE_ENV
           value: production
+        {{- if .Values.forge.privateCA }}
+        - name: NODE_EXTRA_CA_CERTS
+          value: /usr/local/ssl-certs/chain.pem
+        {{- end }}
         volumeMounts:
         - name: configdir
           mountPath: /usr/src/flowforge-file-server/etc
@@ -148,6 +152,11 @@ spec:
         - name: root
           mountPath: /usr/src/flowforge-file-server/var
         {{ end -}}
+        {{- if .Values.forge.privateCA }}
+        - name: cacert
+          mountPath: /usr/local/ssl-certs
+          readOnly: true
+        {{- end }}
         ports:
         - containerPort: 3001
         {{- if .Values.forge.fileStore.livenessProbe }}
@@ -212,6 +221,11 @@ spec:
       - name: root
         persistentVolumeClaim:
           claimName: file-storage-pvc
+      {{- end }}
+      {{- if .Values.forge.privateCA }}
+      - name: cacert
+        configMap:
+          name: {{ .Values.forge.privateCA.configMapName | default "ff-ca-certs" }}
       {{- end }}
       {{- if .Values.forge.managementSelector }}
       nodeSelector:
