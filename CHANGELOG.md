@@ -1,3 +1,7 @@
+#### 2.64.0: Release
+
+ - feat: enable private CA for file-server context db (#800) @hardillb
+
 #### 2.63.0: Release
 
  - feat: Release 2.26.2 (#799) @hardillb
