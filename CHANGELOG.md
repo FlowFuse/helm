@@ -1,3 +1,19 @@
+#### 2.63.0: Release
+
+ - feat: Release 2.26.2 (#799) @hardillb
+ - docs: Clarify fileStoreDatabase parameter description and corrected a typo (#798) @dbruynb
+ - chore(deps): bump actions/checkout from 6.0.1 to 6.0.2 (#796) @app/dependabot
+ - Fix typo in README for fileStoreDatabase (#797) @dbruynb
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3079.0 to 12.3080.0 (#795) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.32.0 to 4.32.1 (#794) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.1.0 to 6.2.0 (#793) @app/dependabot
+ - chore(deps): bump docker/login-action from 3.6.0 to 3.7.0 (#792) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3077.0 to 12.3079.0 (#786) @app/dependabot
+ - chore(deps): bump actions/setup-python from 6.1.0 to 6.2.0 (#787) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.31.10 to 4.32.0 (#788) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.46.0 to 0.47.0 (#789) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.46.0 to 0.47.0 (#790) @app/dependabot
+
 #### 2.62.0: Release
 
  - feat: Release 2.26.1 (#791) @hardillb
