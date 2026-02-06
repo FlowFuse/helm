@@ -360,7 +360,7 @@ data:
       {{- end -}}
     {{- end }}
     cache:
-      {{- if eq .Values.forge.cache.type "valkey" -}}
+      {{- if eq .Values.forge.cache.type "valkey" }}
       driver: 'redis'
       options:
         {{- if .Values.valkey.url }}
@@ -368,6 +368,6 @@ data:
         {{ else }}
         url: redis://{{ include "forge.valkeyHost" . }}:{{ include "forge.valkeyPort" . }}
         {{- end -}}
-      {{- else -}}
+      {{- else }}
       driver: 'memory'
       {{- end -}}
