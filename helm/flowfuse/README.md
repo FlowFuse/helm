@@ -28,6 +28,7 @@ For other values please refer to the documentation below.
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the hostname for the container registry used for FlowFuse images and as a fallback for init containers and other images in this chart (default: empty, meaning Docker Hub)
  - `forge.localPostgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
+ - `forge.localValkey` Deploy a Valkey Cache instance (default `true`)
  - `forge.initContainers.config.image.registry` optional registry override used only for the "config" init container image; falls back to `forge.registry` when unset
  - `forge.initContainers.waitForLocalDb.image.registry` optional registry override used only for the "wait-for-local-db" init container image; falls back to `forge.registry` when unset
  - `forge.cloudProvider` can be `aws` or `openshift` but will include more as needed (default not set)
@@ -69,6 +70,7 @@ For other values please refer to the documentation below.
  - `forge.service.nodePort` allows to set custom nodePort value when `forge.service.type` value is set to `NodePort` (default not set)
  - `forge.logging.level` sets logging level for the Forge app (default: `info` from "info", "error", "debug", "warn", "trace", "fatal")
  - `forge.logging.http` sets HTTP request level logging for the Forge app (default: `info` from "info", "error", "debug", "warn", "trace", "fatal")
+ - `forge.cache.type` sets the shared cache mode (default: `valkey`, alternative `memory`)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.
@@ -354,6 +356,18 @@ Note: External secret must contain following keys:
 - `password` - the password to use to connect to the database (equivalent to `postgresql.auth.password` key)
 - `postgress-password` - the password to use for the postgres user (equivalent to `postgresql.auth.postgresPassword` key)
 
+
+### Valkey Shared Cache
+- `valkey.host` Hostname for external Valkey/Redis instance (default `<helm Release>-valkey`)
+- `valkey.port` Port for external Valkey/Redis instance (default `6379`)
+- `valkey.url` Full URL for an external Valkey/Redis instance (default empty, this take priority over `valkey.host` & `valkey.port`)
+- `valkey.replicaCount` Number of Valkey instances (default `1`)
+- `valkey.persistence.enabled` Should Valkey persist to disk (default `false`)
+- `valkey.persistence.size` How large a storage volume should be created if enabled (default `20Gi`)
+- `valkey.auth.enabled` Should Valkey require authentication (default `false`)
+- `valkey.auth.password` Set a password (default not set, will generate if auth enabled)
+- `valkey.metrics.enabled` Enabled metrics endpoint (default `false`)
+- `valkey.config` allows to overwrite the default Valkey configuration
 
 ###  Liveness, readiness and startup probes
 

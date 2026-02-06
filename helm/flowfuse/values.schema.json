@@ -1125,6 +1125,17 @@
                             "enum": ["info", "debug", "error", "trace", "fatal", "warn"]
                         }
                     }
+                },
+                "cache": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "enum": ["valkey", "memory"]
+                        }
+                    }
+                },
+                "localValkey": {
+                    "type": "boolean"
                 }
             },
             "required": [
