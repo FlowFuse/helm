@@ -28,7 +28,7 @@ For other values please refer to the documentation below.
  - `forge.https` is the Forge App accessed via HTTPS (default `true`)
  - `forge.registry` the hostname for the container registry used for FlowFuse images and as a fallback for init containers and other images in this chart (default: empty, meaning Docker Hub)
  - `forge.localPostgresql` Deploy a PostgreSQL v14 Database into Kubernetes cluster (default `true`)
- - `forge.localValkey` Deploy a Valkey Cache instacne (default `true`)
+ - `forge.localValkey` Deploy a Valkey Cache instance (default `true`)
  - `forge.initContainers.config.image.registry` optional registry override used only for the "config" init container image; falls back to `forge.registry` when unset
  - `forge.initContainers.waitForLocalDb.image.registry` optional registry override used only for the "wait-for-local-db" init container image; falls back to `forge.registry` when unset
  - `forge.cloudProvider` can be `aws` or `openshift` but will include more as needed (default not set)
@@ -70,6 +70,7 @@ For other values please refer to the documentation below.
  - `forge.service.nodePort` allows to set custom nodePort value when `forge.service.type` value is set to `NodePort` (default not set)
  - `forge.logging.level` sets logging level for the Forge app (default: `info` from "info", "error", "debug", "warn", "trace", "fatal")
  - `forge.logging.http` sets HTTP request level logging for the Forge app (default: `info` from "info", "error", "debug", "warn", "trace", "fatal")
+ - `forge.cache.type` sets the shared cache mode (default: `valkey`, alternative `memory`)
 
  
 note: `forge.projectSelector` and `forge.managementSelector` defaults mean that you must have at least 2 nodes in your cluster and they need to be labeled before installing.

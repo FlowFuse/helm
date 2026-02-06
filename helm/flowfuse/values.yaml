@@ -59,6 +59,8 @@ forge:
   logging:
     level: info
     http: info
+  cache:
+    type: valkey
 
   persistentStorage:
     enabled: false
