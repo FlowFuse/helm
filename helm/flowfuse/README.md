@@ -337,7 +337,7 @@ editors:
 - `postgresql.auth.password` - the password to use to connect to the database (default `Zai1Wied`)
 - `postgresql.auth.database` - the database to use (default `flowforge`)
 - `postgresql.auth.postgresPassword` - the password to use for the postgres user (default `Moomiet0`)
-- `postgresql.auth.fileStoreDatabase` - the database to use bt the File Storage servive (default `ff-context`)
+- `postgresql.auth.fileStoreDatabase` - the database to be used by the File Storage service (default `ff-context`)
 - `postgresql.auth.existingSecret` - the name of an Kubernetes secret object with database credentials (If `postgresql.auth.existingSecret` is set, `postgresql.auth.password` and `postgresql.auth.postgresPassword` values are ignored; default not set)
 - `postgresql.image.registry` - registry host for local PostgreSQL instance (default `docker.io`)
 
