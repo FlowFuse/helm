@@ -1,3 +1,14 @@
+#### 2.65.0: Release
+
+ - feat: Release 2.27.0 (#807) @knolleary
+ - chore: Add NR 4.1.5 (#805) @knolleary
+ - fix: Ensure that sticky-session annotations are always added to the `flowforge-ingress-api-devices` ingress resource (#806) @ppawlowski
+ - chore(deps): bump aws-actions/configure-aws-credentials from 5.1.1 to 6.0.0 (#801) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.47.0 to 0.48.0 (#802) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.47.0 to 0.48.0 (#803) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.32.1 to 4.32.2 (#804) @app/dependabot
+ - feat: Add Valkey cache for scaling (#700) @hardillb
+
 #### 2.64.0: Release
 
  - feat: enable private CA for file-server context db (#800) @hardillb
