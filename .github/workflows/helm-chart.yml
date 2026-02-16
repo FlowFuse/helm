@@ -132,7 +132,7 @@ jobs:
     
       - name: Scan chart with checkov
         if: matrix.tool == 'checkov'
-        uses: bridgecrewio/checkov-action@f34885219720066007f948b843e747bb136aa223 # v12.3080.0
+        uses: bridgecrewio/checkov-action@81ec5eb0ef150170f3bda7759e3878fa1a5bd413 # v12.3082.0
         with:
           directory: ${{ github.workspace }}/helm
           var_file: ${{ github.workspace }}/helm/flowfuse/ci/default-values.yaml
