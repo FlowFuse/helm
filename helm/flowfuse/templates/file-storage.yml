@@ -8,8 +8,8 @@ metadata:
   {{- include "forge.labels" . | nindent 4 }}
 spec:
   accessModes:
-    {{- if .Values.forge.pvc.accessModes}}
-    {{- range .Values.forge.pvc.accessModes }}
+    {{- if .Values.forge.fileStore.pvc.accessModes }}
+    {{- range .Values.forge.fileStore.pvc.accessModes }}
     - {{ . | quote }}
     {{- end }}
     {{- else }}
