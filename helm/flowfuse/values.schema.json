@@ -724,8 +724,12 @@
                                 "storageClassName": {
                                     "type": "string"
                                 },
-                                "mode": {
-                                    "type": "string"
+                                "accessModes": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "enum": ["ReadWriteOnce", "ReadWriteMany", "ReadOnlyMany", "ReadWriteOncePod"]
+                                    }
                                 }
                             }
                         }

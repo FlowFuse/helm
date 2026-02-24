@@ -8,7 +8,13 @@ metadata:
   {{- include "forge.labels" . | nindent 4 }}
 spec:
   accessModes:
-    - {{ .Values.forge.fileStore.pvc.mode | default "ReadWriteOnce" }}
+    {{- if .Values.forge.pvc.accessModes}}
+    {{- range .Values.forge.pvc.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+    {{- else }}
+    - {{ .Values.forge.fileStore.pvc.accessModes | default "ReadWriteOnce" }}
+    {{- end }}
   resources:
     requests:
       storage: {{ .Values.forge.fileStore.pvc.size | default "10Gi" }}
