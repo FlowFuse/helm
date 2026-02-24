@@ -219,6 +219,9 @@ Enables FlowFuse Telemetry
 - `forge.fileStore.serviceAccount.automountServiceAccountToken` defines automount API credentials for a Service Account
 - `forge.fileStore.automountServiceAccountToken` defines automount API credentials for a pod (default `false`)
 - `forge.fileStore.revisionHistoryLimit` number of old ReplicaSets to retain for the file storage Deployment. If not set, uses `forge.revisionHistoryLimit` (default `10`).
+- `forge.fileStore.pvc.size` starting size for the PVC that backs the file-server (default `10Gi`)
+- `forge.fileStore.pvc.mode` Access mode for the PVC that backs the file-server (default `ReadWriteOnce`)
+- `forge.fileStore.pvc.storageClassName` Which StorageClass to use for the PVC that backs the file-server (default not set)
 
 ### Persistent Storage
 

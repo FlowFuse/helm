@@ -714,6 +714,20 @@
                         },
                         "automountServiceAccountToken" : {
                             "type": "boolean"
+                        },
+                        "pvc": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                },
+                                "storageClassName": {
+                                    "type": "string"
+                                },
+                                "mode": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     },
                     "required": [
