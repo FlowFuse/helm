@@ -99,6 +99,7 @@ forge:
       backend:
         prometheus:
           enabled: false
+    pvc: {}
 
   support:
     enabled: false

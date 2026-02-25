@@ -8,10 +8,19 @@ metadata:
   {{- include "forge.labels" . | nindent 4 }}
 spec:
   accessModes:
-    - ReadWriteOnce
+    {{- if .Values.forge.fileStore.pvc.accessModes }}
+    {{- range .Values.forge.fileStore.pvc.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+    {{- else }}
+    - {{ .Values.forge.fileStore.pvc.accessModes | default "ReadWriteOnce" }}
+    {{- end }}
   resources:
     requests:
-      storage: 10Gi
+      storage: {{ .Values.forge.fileStore.pvc.size | default "10Gi" }}
+  {{- if .Values.forge.fileStore.pvc.storageClassName }}
+  storageClassName: {{ .Values.forge.fileStore.pvc.storageClassName }}
+  {{- end }}
 {{- end }}
 ---
 apiVersion: apps/v1

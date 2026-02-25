@@ -714,6 +714,24 @@
                         },
                         "automountServiceAccountToken" : {
                             "type": "boolean"
+                        },
+                        "pvc": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                },
+                                "storageClassName": {
+                                    "type": "string"
+                                },
+                                "accessModes": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "enum": ["ReadWriteOnce", "ReadWriteMany", "ReadOnlyMany", "ReadWriteOncePod"]
+                                    }
+                                }
+                            }
                         }
                     },
                     "required": [
