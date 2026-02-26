@@ -1,3 +1,15 @@
+#### 2.66.0: Release
+
+ - fix: Remove trailing slash from the path in the `flowforge-ingress-api-devices` ingress resource (#819) @ppawlowski
+ - feat: Allow file-server PVC to be configured (#818) @hardillb
+ - chore(deps): bump helm/kind-action from 1.13.0 to 1.14.0 (#815) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3082.0 to 12.3086.0 (#813) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 6.18.0 to 6.19.2 (#808) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3080.0 to 12.3082.0 (#809) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.48.0 to 0.49.0 (#810) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.48.0 to 0.49.0 (#811) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.32.2 to 4.32.3 (#812) @app/dependabot
+
 #### 2.65.0: Release
 
  - feat: Release 2.27.0 (#807) @knolleary
