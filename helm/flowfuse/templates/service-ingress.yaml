@@ -91,7 +91,7 @@ spec:
     http:
       paths:
       - pathType: Prefix
-        path: "/api/v1/devices/"
+        path: "/api/v1/devices"
         backend:
           service:
             name: forge
