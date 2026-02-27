@@ -1,3 +1,9 @@
+#### 2.67.0: Release
+
+ - feat: Release 2.27.1 (#822) @hardillb
+ - chore: Minimise container size (#821) @hardillb
+ - chore: add NR 4.1.6 to dev editor and container build (#820) @hardillb
+
 #### 2.66.0: Release
 
  - fix: Remove trailing slash from the path in the `flowforge-ingress-api-devices` ingress resource (#819) @ppawlowski
