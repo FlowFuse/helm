@@ -84,6 +84,29 @@ tests:
           content:
             name: INGRESS_ANNOTATIONS
             value: '{"customProjectAnnotation":"true"}'
+
+  - it: should create container with INGRESS_CLASS_NAME env and value from `ingress.className`
+    template: deployment.yaml
+    set:
+      ingress.className: "my-ingress-class"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: INGRESS_CLASS_NAME
+            value: "my-ingress-class"
+
+  - it: should create container with INGRESS_CLASS_NAME env and value from `forge.projectIngressClassName`
+    template: deployment.yaml
+    set:
+      ingress.className: "my-ingress-class"
+      forge.projectIngressClassName: "my-project-ingress-class"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: INGRESS_CLASS_NAME
+            value: "my-project-ingress-class"
   
   - it: should not use any specific registry for images
     template: deployment.yaml
