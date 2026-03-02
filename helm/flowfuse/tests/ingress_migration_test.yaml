@@ -1,0 +1,159 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test ingress migration tool
+templates:
+  - ingress-migration.yaml
+release:
+  name: flowfuse
+  namespace: default
+set:
+  forge.domain: "chart-unit-tests.com"
+
+tests:
+  - it: should not render anything when disabled
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render serviceaccount, rbac and two jobs in copy mode (dry-run)
+    set:
+      ingressMigration:
+        enabled: true
+        mode: copy
+        dryRun: true
+        newIngressClassName: "traefik"
+        nameSuffix: "-tfk"
+    asserts:
+      - hasDocuments:
+          count: 7
+      - containsDocument:
+          apiVersion: v1
+          kind: ServiceAccount
+          name: flowfuse-ingress-migration
+          any: true
+      - containsDocument:
+          apiVersion: batch/v1
+          kind: Job
+          name: flowfuse-ingress-migration-project
+          any: true
+      - containsDocument:
+          apiVersion: batch/v1
+          kind: Job
+          name: flowfuse-ingress-migration-release
+          any: true
+
+  - it: should set correct env vars for project job in copy mode and omit cleanup-only env/ttl
+    set:
+      ingressMigration:
+        enabled: true
+        mode: copy
+        dryRun: true
+        newIngressClassName: "traefik"
+        nameSuffix: "-tfk"
+    documentSelector:
+      path: spec.template.spec.containers[0].env[?(@.name == "TARGET_NAMESPACE")].value
+      value: "flowforge"
+    asserts:
+      - isKind:
+          of: Job
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MODE
+            value: "copy"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: TARGET_NAMESPACE
+            value: "flowforge"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NEW_INGRESS_CLASS
+            value: "traefik"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NAME_SUFFIX
+            value: "-tfk"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DRY_RUN
+            value: "true"
+      - notExists:
+          path: spec.template.spec.containers[0].env[?(@.name == "OLD_INGRESS_CLASS")]
+      - notExists:
+          path: spec.ttlSecondsAfterFinished
+
+  - it: should render single job in cleanup mode and include OLD_INGRESS_CLASS
+    set:
+      ingressMigration:
+        enabled: true
+        mode: cleanup
+        dryRun: true
+        oldIngressClassName: "nginx"
+        newIngressClassName: "traefik"
+        nameSuffix: "-tfk"
+    asserts:
+      - hasDocuments:
+          count: 4
+      - containsDocument:
+          apiVersion: batch/v1
+          kind: Job
+          name: flowfuse-ingress-migration-project
+          any: true
+
+  - it: should set correct env vars for project job in cleanup mode
+    set:
+      ingressMigration:
+        enabled: true
+        mode: cleanup
+        dryRun: true
+        oldIngressClassName: "nginx"
+        newIngressClassName: "traefik"
+        nameSuffix: "-tfk"
+    documentSelector:
+      path: spec.template.spec.containers[0].env[?(@.name == "TARGET_NAMESPACE")].value
+      value: "flowforge"
+    asserts:
+      - isKind:
+          of: Job
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: MODE
+            value: "cleanup"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OLD_INGRESS_CLASS
+            value: "nginx"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: NEW_INGRESS_CLASS
+            value: "traefik"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: TARGET_NAMESPACE
+            value: "flowforge"
+
+  - it: should set ttlSecondsAfterFinished and use hookDeletePolicy when not dry-run
+    set:
+      ingressMigration:
+        enabled: true
+        mode: copy
+        dryRun: false
+        hookDeletePolicy: "hook-succeeded"
+        ttlSecondsAfterFinished: 123
+    documentSelector:
+      path: spec.template.spec.containers[0].env[?(@.name == "TARGET_NAMESPACE")].value
+      value: "flowforge"
+    asserts:
+      - equal:
+          path: metadata.annotations["helm.sh/hook-delete-policy"]
+          value: "hook-succeeded"
+      - equal:
+          path: spec.ttlSecondsAfterFinished
+          value: 123
