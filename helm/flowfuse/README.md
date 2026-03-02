@@ -392,6 +392,77 @@ readinessProbe:
   failureThreshold: 3
 ```
 
+### Ingress Migration Tool
+
+To help with migration from the Ingress-Nginx controller to the Traefik Ingress controller, this chart can run an Ingress migration tool as a Kubernetes Job.
+
+When enabled, the chart creates a Helm hook Job (plus RBAC) that operates on Ingress resources created by FlowFuse in the following namespaces:
+
+- Project namespace (`forge.projectNamespace`)
+- Release namespace (the namespace where you install/upgrade the chart) - only in `copy` mode
+
+The job behavior is controlled by values under the `ingressMigration` block:
+
+- `ingressMigration.enabled` Enable/disable the migration job (default `false`).
+- `ingressMigration.mode` Mode to run the tool in: `copy` or `cleanup` (default `copy`).
+- `ingressMigration.newIngressClassName` IngressClass name to set on migrated Ingress objects (default `traefik`).
+- `ingressMigration.oldIngressClassName` Old IngressClass name to target in `cleanup` mode (required when `mode: cleanup`).
+- `ingressMigration.nameSuffix` Suffix appended to migrated Ingress names (default `-tfk`).
+- `ingressMigration.dryRun` If `true`, the job runs in dry-run mode (default `true`).
+
+Helm hook controls:
+
+- `ingressMigration.helmHook` Helm hook phase to run the job in (default `post-upgrade`).
+- `ingressMigration.hookWeight` Hook weight used to order hook execution (default `0`).
+- `ingressMigration.hookDeletePolicy` Hook delete policy applied when `dryRun: false` (default `before-hook-creation,hook-succeeded`).
+
+Job controls:
+
+- `ingressMigration.backoffLimit` Job backoff limit (default `3`).
+- `ingressMigration.ttlSecondsAfterFinished` How long to keep the Job after completion when `dryRun: false` (default `300`).
+
+Image controls:
+
+- `ingressMigration.image.repository` Tool image repository (default `docker.io/devopswizard/ingress-migration-tool`).
+- `ingressMigration.image.tag` Tool image tag (default `latest`).
+- `ingressMigration.image.pullPolicy` Image pull policy (default `IfNotPresent`).
+
+Pod scheduling and security:
+
+- `ingressMigration.resources` Pod resources (requests/limits).
+- `ingressMigration.securityContext` Container securityContext.
+- `ingressMigration.nodeSelector` Node selector (default `role: management`).
+- `ingressMigration.tolerations` Tolerations list (default `[]`).
+
+Example: run in `copy` mode first (dry-run), then re-run to apply changes:
+
+```yaml
+ingressMigration:
+   enabled: true
+   mode: copy
+   newIngressClassName: traefik
+   nameSuffix: "-tfk"
+   dryRun: true
+```
+
+Then set `dryRun: false` and run `helm upgrade` again.
+
+Example: cleanup old Ingress objects after switching traffic:
+
+```yaml
+ingressMigration:
+   enabled: true
+   mode: cleanup
+   oldIngressClassName: nginx
+   newIngressClassName: traefik
+   nameSuffix: "-tfk"
+   dryRun: true
+```
+
+Then set `dryRun: false` and run `helm upgrade` again.
+
+
+
 ## Upgrading Chart
 
 ### Generic upgrade instructions
