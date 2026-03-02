@@ -389,22 +389,22 @@ valkey:
 ingressMigration:
   enabled: false
 
-  mode: copy # or cleanup
+  mode: copy  # or cleanup
   newIngressClassName: "traefik"
   nameSuffix: "-tfk"
   dryRun: true
   helmHook: "post-upgrade"
   hookWeight: "0"
   hookDeletePolicy: "before-hook-creation,hook-succeeded"
-  
+
   backoffLimit: 3
   ttlSecondsAfterFinished: 300  # Clean up job 5 minutes after completion
-  
+
   image:
-    repository: docker.io/devopswizard/ingress-migration-tool # Placeholder image, replace with actual image
+    repository: docker.io/devopswizard/ingress-migration-tool  # Placeholder image, replace with actual image
     tag: "latest"
     pullPolicy: IfNotPresent
-  
+
   resources:
     limits:
       cpu: 200m
@@ -412,7 +412,7 @@ ingressMigration:
     requests:
       cpu: 100m
       memory: 128Mi
-  
+
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
@@ -420,9 +420,9 @@ ingressMigration:
     capabilities:
       drop:
         - ALL
-  
+
   nodeSelector:
     role: management
-  
+
   # Tolerations
   tolerations: []
