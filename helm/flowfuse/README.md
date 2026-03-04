@@ -38,6 +38,7 @@ For other values please refer to the documentation below.
  - `forge.projectNetworkPolicy.enabled` specified if [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) should be created for project pods ( default `false`)
  - `forge.projectNetworkPolicy.ingress` a list of ingress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied on project pods ( default `[]`)
  - `forge.projectNetworkPolicy.egress` a list of egress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied in project pods ( default `[]`)
+ - `forge.projectIngressClassName` ingress class name for project instances (default is `ingress.className` value if set, otherwise `"""`)
  - `forge.projectIngressAnnotations` ingress annotations for project instances (default is `{}`)
  - `forge.projectServiceType` service type for project instances (allowed `ClusterIP` or `NodePort`, default is `ClusterIP`)
  - `forge.projectPodSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the project pods

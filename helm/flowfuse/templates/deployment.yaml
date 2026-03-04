@@ -125,9 +125,9 @@ spec:
         - name: INGRESS_ANNOTATIONS
           value: {{ .Values.ingress.annotations | toJson | quote }}
         {{- end }}
-        {{- if .Values.ingress.className }}
+        {{- if or .Values.forge.projectIngressClassName .Values.ingress.className }}
         - name: INGRESS_CLASS_NAME
-          value: {{ .Values.ingress.className }}
+          value: {{ .Values.forge.projectIngressClassName | default .Values.ingress.className }}
         {{- end }}
         {{- if .Values.editors.serviceAccount }}
         - name: EDITOR_SERVICE_ACCOUNT

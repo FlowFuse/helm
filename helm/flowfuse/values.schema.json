@@ -178,6 +178,9 @@
                     },
                     "default": []
                 },
+                "projectIngressClassName": {
+                    "type": "string"
+                },
                 "projectIngressAnnotations": {
                     "type": "object"
                 },
