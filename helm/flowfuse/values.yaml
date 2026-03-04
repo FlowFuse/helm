@@ -401,8 +401,8 @@ ingressMigration:
   ttlSecondsAfterFinished: 300  # Clean up job 5 minutes after completion
 
   image:
-    repository: docker.io/devopswizard/ingress-migration-tool  # Placeholder image, replace with actual image
-    tag: "latest"
+    repository: flowfuse/ingress-migration-tool  # Placeholder image, replace with actual image
+    tag: "1.0.0"
     pullPolicy: IfNotPresent
 
   resources:
