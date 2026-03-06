@@ -340,3 +340,10 @@ Get the valkey port number.
     {{- .Values.valkey.port }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Get the name from the release name.
+*/}}
+{{- define "forge.name" -}}
+{{- .Release.Name -}}
+{{- end -}}

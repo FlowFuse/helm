@@ -1316,6 +1316,99 @@
                 }
             }
         },
+        "ingressMigration": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": ["copy", "cleanup"],
+                    "description": "Mode to run the tool in."
+                },
+                "oldIngressClassName": {
+                    "type": "string",
+                    "description": "Old IngressClass name to target (required when mode is cleanup)."
+                },
+                "newIngressClassName": {
+                    "type": "string"
+                },
+                "nameSuffix": {
+                    "type": "string"
+                },
+                "dryRun": {
+                    "type": "boolean"
+                },
+                "helmHook": {
+                    "type": "string"
+                },
+                "hookWeight": {
+                    "type": "string"
+                },
+                "hookDeletePolicy": {
+                    "type": "string"
+                },
+                "backoffLimit": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "ttlSecondsAfterFinished": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        },
+                        "pullPolicy": {
+                            "type": "string",
+                            "enum": ["Always", "IfNotPresent", "Never"]
+                        }
+                    }
+                },
+                "resources": {
+                    "type": "object",
+                    "description": "Kubernetes resources requests/limits for the migration Job container."
+                },
+                "securityContext": {
+                    "type": "object",
+                    "description": "Kubernetes container securityContext for the migration Job container."
+                },
+                "nodeSelector": {
+                    "type": "object",
+                    "description": "Node selector for scheduling the migration Job."
+                },
+                "tolerations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "effect": { "type": "string" },
+                            "key": { "type": "string" },
+                            "operator": { "type": "string" },
+                            "value": { "type": "string" },
+                            "tolerationSeconds": { "type": "integer" }
+                        }
+                    }
+                }
+            },
+            "if": {
+                "properties": {
+                    "mode": {
+                        "const": "cleanup"
+                    }
+                }
+            },
+            "then": {
+                "required": ["oldIngressClassName"]
+            }
+        },
         "npmRegistry" :{
             "type": "object",
             "properties": {

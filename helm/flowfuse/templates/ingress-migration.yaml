@@ -1,0 +1,141 @@
+{{- if .Values.ingressMigration.enabled }}
+{{- $targetNamespaces := list }}
+{{- if eq (.Values.ingressMigration.mode | default "copy") "cleanup" }}
+{{- $targetNamespaces = list (dict "name" "project" "namespace" .Values.forge.projectNamespace "weight" "0") }}
+{{- else }}
+{{- $targetNamespaces = list (dict "name" "project" "namespace" .Values.forge.projectNamespace "weight" "0") (dict "name" "release" "namespace" .Release.Namespace "weight" "1") }}
+{{- end }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "forge.name" . }}-ingress-migration
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": {{ .Values.ingressMigration.helmHook | default "post-upgrade" }}
+    "helm.sh/hook-weight": {{ .Values.ingressMigration.hookWeight | default "-5" | quote }}
+    {{- if .Values.ingressMigration.dryRun }}
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    {{- else }}
+    "helm.sh/hook-delete-policy": {{ .Values.ingressMigration.hookDeletePolicy | default "before-hook-creation,hook-succeeded" }}
+    {{- end }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ingress-migration-job
+
+{{- range $targetNamespaces }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "forge.name" $ }}-ingress-migration-{{ .name }}
+  namespace: {{ .namespace }}
+  annotations:
+    "helm.sh/hook": {{ $.Values.ingressMigration.helmHook | default "post-upgrade" }}
+    "helm.sh/hook-weight": {{ $.Values.ingressMigration.hookWeight | default "-5" | quote }}
+    {{- if $.Values.ingressMigration.dryRun }}
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    {{- else }}
+    "helm.sh/hook-delete-policy": {{ $.Values.ingressMigration.hookDeletePolicy | default "before-hook-creation,hook-succeeded" }}
+    {{- end }}
+  labels:
+    {{- include "forge.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: ingress-migration-job
+rules:
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "create", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "forge.name" $ }}-ingress-migration-{{ .name }}
+  namespace: {{ .namespace }}
+  annotations:
+    "helm.sh/hook": {{ $.Values.ingressMigration.helmHook | default "post-upgrade" }}
+    "helm.sh/hook-weight": {{ $.Values.ingressMigration.hookWeight | default "-5" | quote }}
+    {{- if $.Values.ingressMigration.dryRun }}
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    {{- else }}
+    "helm.sh/hook-delete-policy": {{ $.Values.ingressMigration.hookDeletePolicy | default "before-hook-creation,hook-succeeded" }}
+    {{- end }}
+  labels:
+    {{- include "forge.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: ingress-migration-job
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "forge.name" $ }}-ingress-migration-{{ .name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "forge.name" $ }}-ingress-migration
+    namespace: {{ $.Release.Namespace }}
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "forge.name" $ }}-ingress-migration-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    "helm.sh/hook": {{ $.Values.ingressMigration.helmHook | default "post-upgrade" }}
+    "helm.sh/hook-weight": {{ .weight | quote }}
+    {{- if $.Values.ingressMigration.dryRun }}
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    {{- else }}
+    "helm.sh/hook-delete-policy": {{ $.Values.ingressMigration.hookDeletePolicy | default "before-hook-creation,hook-succeeded" }}
+    {{- end }}
+  labels:
+    {{- include "forge.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: ingress-migration-job
+spec:
+  backoffLimit: {{ $.Values.ingressMigration.backoffLimit | default 3 }}
+  {{- if not $.Values.ingressMigration.dryRun }}
+  ttlSecondsAfterFinished: {{ $.Values.ingressMigration.ttlSecondsAfterFinished | default 300 }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- include "forge.commonSelectorLabels" $ | nindent 8 }}
+        app.kubernetes.io/component: ingress-migration-job
+    spec:
+      serviceAccountName: {{ include "forge.name" $ }}-ingress-migration
+      restartPolicy: OnFailure
+      {{- with $.Values.ingressMigration.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.ingressMigration.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: ingress-copy
+        image: {{ $.Values.ingressMigration.image.repository }}:{{ $.Values.ingressMigration.image.tag | default "latest" }}
+        imagePullPolicy: {{ $.Values.ingressMigration.image.pullPolicy | default "IfNotPresent" }}
+        env:
+        - name: MODE
+          value: {{ $.Values.ingressMigration.mode | default "copy" | quote }}
+        - name: TARGET_NAMESPACE
+          value: {{ .namespace | quote }}
+        {{- if eq ($.Values.ingressMigration.mode | default "copy") "cleanup" }}
+        - name: OLD_INGRESS_CLASS
+          value: {{ $.Values.ingressMigration.oldIngressClassName | quote }}
+        {{- end }}
+        - name: NEW_INGRESS_CLASS
+          value: {{ $.Values.ingressMigration.newIngressClassName | quote }}
+        - name: NAME_SUFFIX
+          value: {{ $.Values.ingressMigration.nameSuffix | default "-copy" | quote }}
+        - name: DRY_RUN
+          value: {{ $.Values.ingressMigration.dryRun | default false | quote }}
+        {{- with $.Values.ingressMigration.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $.Values.ingressMigration.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+{{- end }}
+{{- end }}
