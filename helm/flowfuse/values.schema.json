@@ -532,6 +532,10 @@
                         },
                         "size": {
                             "type": "string"
+                        },
+                        "accessMode": {
+                            "type": "string",
+                            "enum": ["ReadWriteOnce", "ReadWriteMany", "ReadWriteOncePod"]
                         }
                     },
                     "required": [ "enabled" ]
