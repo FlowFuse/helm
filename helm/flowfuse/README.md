@@ -228,10 +228,11 @@ Enables FlowFuse Telemetry
 
 This is a replacement for the File Storage, both can be run at once to enable migration
 
-- `forge.persistentStorage.enabled` (default `false`)
-- `forge.persistentStorage.size` The size of the Persistent Volume that will be mounted into each instance e.g. `5Gi` (default not set)
+- `forge.persistentStorage.enabled` Enabled persistent storage for Hosted Instances (default `false`)
+- `forge.persistentStorage.size` The size of the Persistent Volume that will be mounted into each Hosted Instance e.g. `5Gi` (default not set)
 - `forge.persistentStorage.storageClass` The name of the Kubernetes Storage Class used to provision the volumes (default not set)
 - `forge.persistentStorage.storageClassEFSTag` The name of a AWS Tag used to find EFS Volumes when needing to scale (default not set)
+- `forge.persistentStorage.accessMode` Access mode for the Persistent Volume used by Hosted Instaces (default `ReadWriteMany`). Important note: selecting different access mode affects the High Availability capabilities of Hosted Instances. Change this parameter with caution and refer to Kubernetes documentation for details on access modes and their implications.
 
 One of either `storageClass` or `storageClassEFSTag` needs to be set.
 

@@ -122,6 +122,9 @@ data:
           {{- if .Values.forge.persistentStorage.size }}
           size: {{ .Values.forge.persistentStorage.size }}
           {{- end }}
+          {{- if .Values.forge.persistentStorage.accessMode }}
+          accessModes: {{ .Values.forge.persistentStorage.accessMode }}
+          {{- end }}
         {{- end }}
         {{- if .Values.forge.projectPodSecurityContext }}
         podSecurityContext:

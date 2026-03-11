@@ -295,3 +295,23 @@ tests:
       - matchRegex:
           path: data["flowforge.yml"]
           pattern: "requestTimeout: 60000"
+
+  - it: should not render accessModes when forge.persistentStorage.accessMode is not set
+    set:
+      forge.persistentStorage.enabled: true
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "accessModes:"
+
+  - it: should render accessModes when forge.persistentStorage.accessMode is set
+    set:
+      forge.persistentStorage.enabled: true
+      forge.persistentStorage.accessMode: "ReadWriteMany"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "storage:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "accessModes: ReadWriteMany"
