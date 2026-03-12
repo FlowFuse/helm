@@ -302,7 +302,7 @@ tests:
     asserts:
       - notMatchRegex:
           path: data["flowforge.yml"]
-          pattern: "accessModes:"
+          pattern: "accessMode:"
 
   - it: should render accessModes when forge.persistentStorage.accessMode is set
     set:
@@ -314,4 +314,4 @@ tests:
           pattern: "storage:"
       - matchRegex:
           path: data["flowforge.yml"]
-          pattern: "accessModes: ReadWriteMany"
+          pattern: "accessMode: ReadWriteMany"
