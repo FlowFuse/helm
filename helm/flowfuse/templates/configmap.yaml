@@ -123,7 +123,7 @@ data:
           size: {{ .Values.forge.persistentStorage.size }}
           {{- end }}
           {{- if .Values.forge.persistentStorage.accessMode }}
-          accessModes: {{ .Values.forge.persistentStorage.accessMode }}
+          accessMode: {{ .Values.forge.persistentStorage.accessMode }}
           {{- end }}
         {{- end }}
         {{- if .Values.forge.projectPodSecurityContext }}
