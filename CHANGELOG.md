@@ -1,3 +1,20 @@
+#### 2.68.0: Release
+
+ - feat: Release 2.28.0 (#838) @hardillb
+ - chore: Update containers for Node-RED 4.1.7 (#837) @knolleary
+ - feat: Add possibility to provide persistent storage access mode (#836) @ppawlowski
+ - chore(deps): bump docker/metadata-action from 5.10.0 to 6.0.0 (#835) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 3.12.0 to 4.0.0 (#834) @app/dependabot
+ - chore(deps): bump docker/login-action from 3.7.0 to 4.0.0 (#833) @app/dependabot
+ - chore(deps): bump actions/setup-node from 6.2.0 to 6.3.0 (#832) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3086.0 to 12.3088.0 (#831) @app/dependabot
+ - feat: introduce Ingress Migration tool (#826) @ppawlowski
+ - chore(deps): bump github/codeql-action from 4.32.3 to 4.32.5 (#829) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.2.0 to 6.3.1 (#827) @app/dependabot
+ - feat: Add possibility to specify separate ingress class name for projects (#823) @ppawlowski
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.49.0 to 0.52.0 (#828) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.49.0 to 0.52.0 (#830) @app/dependabot
+
 #### 2.67.0: Release
 
  - feat: Release 2.27.1 (#822) @hardillb
