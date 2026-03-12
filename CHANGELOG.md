@@ -1,3 +1,7 @@
+#### 2.68.1: Release
+
+ - fix: typo in storage's access mode parameter name (#840) @ppawlowski
+
 #### 2.68.0: Release
 
  - feat: Release 2.28.0 (#838) @hardillb
