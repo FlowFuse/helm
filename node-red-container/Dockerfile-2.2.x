@@ -2,8 +2,6 @@ FROM nodered/node-red:2.2.3-16
 
 ARG BUILD_TAG=latest
 
-RUN npm install -g npm
-
 COPY healthcheck.js /healthcheck.js
 
 COPY package.json /data
