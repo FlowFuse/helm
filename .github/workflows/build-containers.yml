@@ -89,7 +89,7 @@ jobs:
         
       - name: Login to AWS ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         with:
           registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
 
@@ -165,7 +165,7 @@ jobs:
         
       - name: Login to AWS ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         with:
           registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
 
@@ -225,7 +225,7 @@ jobs:
         
       - name: Login to AWS ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         with:
           registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
 
@@ -285,7 +285,7 @@ jobs:
         
       - name: Login to AWS ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         with:
           registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
 
@@ -345,7 +345,7 @@ jobs:
         
       - name: Login to AWS ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+        uses: aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
         with:
           registries: "${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}"
 
