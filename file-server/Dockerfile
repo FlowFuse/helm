@@ -3,6 +3,7 @@ FROM node:20-alpine
 ARG TAG
 
 RUN apk add --no-cache --virtual build-base g++ make py3-pip sqlite-dev python3
+RUN npm install -g npm
 # RUN npm config set python `which python3` --global
 
 WORKDIR /usr/src/flowforge-file-server
