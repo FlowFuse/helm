@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test extra objects
+templates:
+  - extra-objects.yaml
+release:
+  name: flowfuse
+  namespace: default
+set:
+  forge.domain: "chart-unit-tests.com"
+
+tests:
+  - it: should not render anything when extraObjects is empty (default)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render a single static manifest
+    set:
+      extraObjects:
+        - apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: my-extra-config
+          data:
+            key: value
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ConfigMap
+        documentIndex: 0
+      - equal:
+          path: metadata.name
+          value: my-extra-config
+        documentIndex: 0
+      - equal:
+          path: data.key
+          value: value
+        documentIndex: 0
+
+  - it: should render multiple manifests
+    set:
+      extraObjects:
+        - apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: extra-cm
+          data:
+            foo: bar
+        - apiVersion: v1
+          kind: ServiceAccount
+          metadata:
+            name: extra-sa
+    asserts:
+      - hasDocuments:
+          count: 2
+      - containsDocument:
+          apiVersion: v1
+          kind: ConfigMap
+          name: extra-cm
+          any: true
+      - containsDocument:
+          apiVersion: v1
+          kind: ServiceAccount
+          name: extra-sa
+          any: true
+
+  - it: should render manifest with Helm templating
+    set:
+      extraObjects:
+        - apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: "{{ .Release.Name }}-dynamic"
+            namespace: "{{ .Release.Namespace }}"
+          data:
+            release: "{{ .Release.Name }}"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata.name
+          value: flowfuse-dynamic
+        documentIndex: 0
+      - equal:
+          path: metadata.namespace
+          value: default
+        documentIndex: 0
+      - equal:
+          path: data.release
+          value: flowfuse
+        documentIndex: 0
