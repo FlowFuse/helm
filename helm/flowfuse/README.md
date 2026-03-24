@@ -394,6 +394,37 @@ readinessProbe:
   failureThreshold: 3
 ```
 
+### Extra Objects
+
+The chart supports deploying arbitrary Kubernetes manifests alongside the main release via `extraObjects`. Each item is rendered as-is, with full Helm templating support (`.Release.*`, `.Values.*`, helper functions).
+
+- `extraObjects` list of extra raw Kubernetes manifests to deploy as part of this release. Helm templating is supported. (default `[]`)
+
+Example:
+
+```yaml
+extraObjects:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: my-extra-config
+      namespace: {{ .Release.Namespace }}
+    data:
+      key: value
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: {{ .Release.Name }}-my-binding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: some-cluster-role
+    subjects:
+      - kind: ServiceAccount
+        name: my-sa
+        namespace: {{ .Release.Namespace }}
+```
+
 ### Ingress Migration Tool
 
 To help with migration from the Ingress-Nginx controller to the Traefik Ingress controller, this chart can run an Ingress migration tool as a Kubernetes Job.
