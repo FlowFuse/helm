@@ -1,3 +1,18 @@
+#### 2.69.0: Release
+
+ - feat: Release 2.28.1 (#857) @knolleary
+ - chore: Update Node-RED base image to version 4.1.8 (#856) @knolleary
+ - feat: add support for `extraObjects` (#855) @ppawlowski
+ - ci: Use NodeJS v24 as a default GitHub Actions runtime (#854) @ppawlowski
+ - fix: Add npm update to all docker files (#848) @knolleary
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.0.1 to 2.0.2 (#846) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.32.5 to 4.33.0 (#847) @app/dependabot
+ - chore(deps): bump actions/create-github-app-token from 2.2.1 to 3.0.0 (#845) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 6.19.2 to 7.0.0 (#844) @app/dependabot
+ - chore(deps): bump docker/setup-qemu-action from 3.7.0 to 4.0.0 (#843) @app/dependabot
+ - ci: Fix token permissions in FFC containers tag update job (#842) @ppawlowski
+ - ci: replace `tibdex/github-app-token` with `actions/create-github-app-token` (#841) @ppawlowski
+
 #### 2.68.1: Release
 
  - fix: typo in storage's access mode parameter name (#840) @ppawlowski
