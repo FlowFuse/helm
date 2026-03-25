@@ -426,3 +426,13 @@ ingressMigration:
 
   # Tolerations
   tolerations: []
+
+# Extra Kubernetes manifests to deploy as part of this release.
+# Supports Helm templating (e.g. .Release.Name, .Values.*).
+extraObjects: []
+# - apiVersion: v1
+#   kind: ConfigMap
+#   metadata:
+#     name: my-extra-config
+#   data:
+#     key: value

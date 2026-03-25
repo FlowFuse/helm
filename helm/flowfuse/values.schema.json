@@ -1458,6 +1458,14 @@
             }
         }
     },
+    "extraObjects": {
+        "type": "array",
+        "description": "Extra Kubernetes manifests to deploy as part of this release. Helm templating is supported.",
+        "default": [],
+        "items": {
+            "type": "object"
+        }
+    },
     "required": [
         "forge",
         "postgresql"
