@@ -124,6 +124,9 @@ metadata:
     app.kubernetes.io/component: registry
     app.kubernetes.io/part-of: flowfuse
 spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   rules:
   - host: {{ .Values.npmRegistry.hostname }}
     http:
