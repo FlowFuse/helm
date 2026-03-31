@@ -98,3 +98,25 @@ tests:
       - equal:
           path: spec.revisionHistoryLimit
           value: 5
+
+  - it: should set ingressClassName for npm registry
+    template: npm-registry.yaml
+    documentSelector:
+      path: kind
+      value: Ingress
+    set:
+      ingress:
+        className: "nginx"
+    asserts:
+      - equal:
+          path: spec.ingressClassName
+          value: "nginx"
+
+  - it: should not set ingressClassName for npm registry when not specified
+    template: npm-registry.yaml
+    documentSelector:
+      path: kind
+      value: Ingress
+    asserts:
+      - notExists:
+          path: spec.ingressClassName
