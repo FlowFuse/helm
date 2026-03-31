@@ -1,3 +1,10 @@
+#### 2.70.0: Release
+
+ - feat: set custom ingress class name for npm-registry (#863) @ppawlowski
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.13.1 to 0.13.3 (#851) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.33.0 to 4.34.1 (#852) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3088.0 to 12.3089.0 (#850) @app/dependabot
+
 #### 2.69.0: Release
 
  - feat: Release 2.28.1 (#857) @knolleary
