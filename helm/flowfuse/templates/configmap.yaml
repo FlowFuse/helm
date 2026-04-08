@@ -326,11 +326,9 @@ data:
     expert:
       enabled: {{ .Values.forge.expert.enabled | default false }}
       {{- if .Values.forge.expert.enabled }}
-      {{- if hasKey .Values.forge.expert "insights"}}
-      {{- if and (hasKey .Values.forge.expert "enabled") (.Values.forge.expert.insights.enabled)}}
+      {{- if ((.Values.forge.expert).insights).enabled }}
       insights:
-        enabled: true
-      {{- end }}
+        enabled: {{ .Values.forge.expert.insights.enabled | default false }}
       {{- end }}
       service:
         token: <%= ENV['EXPERT_TOKEN'] %>
