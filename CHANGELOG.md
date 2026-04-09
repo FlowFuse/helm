@@ -1,3 +1,7 @@
+#### 2.71.0: Release
+
+ - feat: Release 2.29.0 (#867) @cstns
+
 #### 2.70.1: Release
 
  - fix: version bump (#866) @hardillb
