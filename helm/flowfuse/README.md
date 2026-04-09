@@ -304,7 +304,7 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.expert.enabled` Enable/disable the FlowFuse Expert feature (default `false`)
  - `forge.expert.service.url` URL for the FlowFuse Expert service (default not set)
  - `forge.expert.service.token` Token for the FlowFuse Expert service (default not set)
- - `forge.expert.service.requestTimeout` Timeout for the FlowFuse Expert service (default `60000`)
+ - `forge.expert.service.requestTimeout` Timeout for the FlowFuse Expert service (default `60000`) 
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
