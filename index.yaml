@@ -2479,6 +2479,36 @@ entries:
     version: 1.1.0
   flowfuse:
   - apiVersion: v2
+    appVersion: 2.29.1
+    created: "2026-04-09T14:40:30.695275008Z"
+    dependencies:
+    - condition: forge.localPostgresql
+      import-values:
+      - child: image
+        parent: postgresql.image
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - condition: forge.localValkey
+      name: valkey
+      repository: oci://registry-1.docker.io/cloudpirates
+      version: 0.15.3
+    description: FlowFuse
+    digest: 0c36e71a25560518cdc9989ecb144f81041fda0b882c298ebeba2c92aafdc79b
+    home: https://flowfuse.com
+    icon: https://flowfuse.com/apple-touch-icon.png
+    keywords:
+    - flowfuse
+    - node-red
+    maintainers:
+    - name: FlowFuse Inc
+      url: https://flowfuse.com
+    name: flowfuse
+    type: application
+    urls:
+    - https://github.com/FlowFuse/helm/releases/download/v2.72.0/flowfuse-2.72.0.tgz
+    version: 2.72.0
+  - apiVersion: v2
     appVersion: 2.29.0
     created: "2026-04-09T10:21:04.08127924Z"
     dependencies:
@@ -3606,4 +3636,4 @@ entries:
     urls:
     - https://github.com/FlowFuse/helm/releases/download/v2.34.0/flowfuse-2.34.0.tgz
     version: 2.34.0
-generated: "2026-04-09T10:21:04.081684992Z"
+generated: "2026-04-09T14:40:30.695698537Z"
