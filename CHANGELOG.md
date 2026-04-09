@@ -1,3 +1,7 @@
+#### 2.72.0: Release
+
+ - feat: Release 2.29.1 (#868) @knolleary
+
 #### 2.71.0: Release
 
  - feat: Release 2.29.0 (#867) @cstns
