@@ -275,3 +275,61 @@ tests:
                 name: flowfuse-secrets
                 key: token
                 optional: true
+
+  - it: should not include insights configuration when insights key is absent
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "insights:"
+
+  - it: should not include insights configuration when insights.enabled is false
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+        insights:
+          enabled: false
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "insights:"
+
+  - it: should include insights configuration when expert and insights are both enabled
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "test-token"
+        insights:
+          enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "insights:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "insights:\\n\\s+enabled: true"
+
+  - it: should not include insights configuration when expert is disabled
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: false
+        insights:
+          enabled: true
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "insights:"
