@@ -1,3 +1,8 @@
+#### 2.70.1: Release
+
+ - fix: version bump (#866) @hardillb
+ - chore: add flag for FF Expert Insights (#865) @hardillb
+
 #### 2.70.0: Release
 
  - feat: set custom ingress class name for npm-registry (#863) @ppawlowski
