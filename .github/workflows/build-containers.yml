@@ -80,7 +80,7 @@ jobs:
           path: 'helm'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           aws-region: ${{ env.AWS_ECR_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
@@ -156,7 +156,7 @@ jobs:
           path: 'helm'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           aws-region: ${{ env.AWS_ECR_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
@@ -216,7 +216,7 @@ jobs:
           path: 'helm'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           aws-region: ${{ env.AWS_ECR_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
@@ -276,7 +276,7 @@ jobs:
           path: 'helm'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           aws-region: ${{ env.AWS_ECR_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
@@ -336,7 +336,7 @@ jobs:
           path: 'helm'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           aws-region: ${{ env.AWS_ECR_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.PRODUCTION_AWS_ACCOUNT_ID }}:role/${{ env.AWS_ECR_ROLE_NAME }}
