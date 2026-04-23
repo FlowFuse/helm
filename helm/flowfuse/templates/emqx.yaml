@@ -101,7 +101,7 @@ kind: Ingress
 metadata:
     name: flowforge-broker
     labels:
-      {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
+      {{- include "forge.brokerSelectorLabels" . | nindent 8 }}
     annotations:
     {{- if .Values.ingress.certManagerIssuer }}
         cert-manager.io/cluster-issuer: {{ .Values.ingress.certManagerIssuer }}
