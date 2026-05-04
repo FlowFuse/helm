@@ -299,6 +299,21 @@
                             "properties": {
                                 "enabled": {
                                     "type": "boolean"
+                                },
+                                "api": {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string",
+                                            "format": "uri"
+                                        },
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "secret": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         },
@@ -1019,6 +1034,19 @@
                                 },
                                 "requestTimeout": {
                                     "type": "integer"
+                                }
+                            }
+                        },
+                        "broker": {
+                            "type": "object",
+                            "properties": {
+                                "address": {
+                                    "type": "string"
+                                },
+                                "port": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 65535
                                 }
                             }
                         }
