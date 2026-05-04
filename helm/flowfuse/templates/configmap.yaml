@@ -224,6 +224,10 @@ data:
       teamBroker:
         enabled: true
         host: {{ include "forge.teamBrokerHost" . }}
+        api:
+          url: {{ .Values.forge.broker.teamBroker.api.url }}
+          key: {{ .Values.forge.broker.teamBroker.api.key }}
+          secret: <%= ENV['TEAM_BROKER_API_SECRET'] %>
       {{ end -}}
     {{- end }}
     logging:
@@ -334,6 +338,10 @@ data:
         token: <%= ENV['EXPERT_TOKEN'] %>
         url: {{ ((.Values.forge.expert).service).url }}
         requestTimeout: {{ .Values.forge.expert.requestTimeout | default 60000 }}
+      {{- if ((.Values.forge.expert).broker).address }}
+      centralBroker:
+        server: {{ printf "%s:%v" .Values.forge.expert.broker.address .Values.forge.expert.broker.port }}
+      {{- end }}
       {{- end }}
     {{- end }}
     {{- if and  (hasKey .Values.forge "npmRegistry") (hasKey .Values.forge.npmRegistry "enabled") }}

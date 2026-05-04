@@ -122,10 +122,11 @@ Note: The value for key .Values.postgresql.auth.existingSecret is inherited from
 */}}
 
 {{- define "forge.createSecret" -}}
-{{- if not (and .Values.postgresql.auth.existingSecret 
+{{- if not (and .Values.postgresql.auth.existingSecret
     (not (and .Values.forge.email ((and .Values.forge.email.smtp (not .Values.forge.email.smtp.existingSecret)))))
     (not ((.Values.forge.assistant).enabled))
-    (not ((.Values.forge.expert).enabled))) -}}
+    (not ((.Values.forge.expert).enabled))
+    (not ((.Values.forge.broker.teamBroker).enabled))) -}}
 true
 {{- else -}}
 false
@@ -346,4 +347,25 @@ Get the name from the release name.
 */}}
 {{- define "forge.name" -}}
 {{- .Release.Name -}}
+{{- end -}}
+
+{{/*
+Get the secret object name with Team Broker secret.
+*/}}
+{{- define "forge.teamBrokerSecretName" -}}
+{{- if (.Values.forge.broker.teamBroker).enabled -}}
+    {{- printf "flowfuse-secrets" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create Team Broker API secret
+*/}}
+{{- define "forge.teamBrokerApiSecret" -}}
+{{- if (.Values.forge.broker.teamBroker).enabled -}}
+{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.url is required!" ((.Values.forge.broker.teamBroker).api).url -}}
+{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.key is required!" ((.Values.forge.broker.teamBroker).api).key -}}
+{{- $token := required "A valid .Values.forge.broker.teamBroker.api.secret is required!" ((.Values.forge.broker.teamBroker).api).secret -}}
+teamBrokerApiSecret: {{ $token | b64enc | quote }}
+{{- end -}}
 {{- end -}}

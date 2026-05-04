@@ -90,6 +90,14 @@ spec:
                 key: expertToken
                 optional: true
         {{- end }}
+        {{- if (.Values.forge.broker.teamBroker).enabled }}
+          - name: TEAM_BROKER_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "forge.teamBrokerSecretName" . }}
+                key: teamBrokerApiSecret
+                optional: true
+        {{- end }}
       {{- if .Values.forge.localPostgresql }}
       - name: wait-for-local-db
         {{- $initWaitForLocalDbRegistry := (or .Values.forge.initContainers.waitForLocalDb.image.registry .Values.forge.registry) }}
