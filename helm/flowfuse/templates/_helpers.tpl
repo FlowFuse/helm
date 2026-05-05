@@ -359,11 +359,21 @@ Get the secret object name with Team Broker secret.
 {{- end -}}
 
 {{/*
+Resolve Team Broker API URL: user-provided value, or default to the in-cluster EMQX dashboard service.
+*/}}
+{{- define "forge.teamBrokerApiUrl" -}}
+{{- if ((.Values.forge.broker.teamBroker).api).url -}}
+  {{- .Values.forge.broker.teamBroker.api.url -}}
+{{- else -}}
+  {{- printf "http://emqx-dashboard.%s:18083" .Release.Namespace -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create Team Broker API secret
 */}}
 {{- define "forge.teamBrokerApiSecret" -}}
 {{- if (.Values.forge.broker.teamBroker).enabled -}}
-{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.url is required!" ((.Values.forge.broker.teamBroker).api).url -}}
 {{- $_ := required "A valid .Values.forge.broker.teamBroker.api.key is required!" ((.Values.forge.broker.teamBroker).api).key -}}
 {{- $token := required "A valid .Values.forge.broker.teamBroker.api.secret is required!" ((.Values.forge.broker.teamBroker).api).secret -}}
 teamBrokerApiSecret: {{ $token | b64enc | quote }}
