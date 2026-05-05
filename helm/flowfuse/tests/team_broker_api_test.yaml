@@ -133,7 +133,7 @@ tests:
         enabled: true
     asserts:
       - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.url is required!"
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
 
   # Coexistence with other secrets
   - it: should include teamBrokerApiSecret alongside other tokens when multiple features are enabled

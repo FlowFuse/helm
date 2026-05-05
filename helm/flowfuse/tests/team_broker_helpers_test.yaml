@@ -2,6 +2,7 @@
 suite: test team broker helper functions
 templates:
   - secrets.yaml
+  - configmap.yaml
 set:
   forge.domain: "chart-unit-tests.com"
 tests:
@@ -79,8 +80,8 @@ tests:
       - hasDocuments:
           count: 0
 
-  # Helper error handling: api.url, api.key and api.secret are all required together
-  - it: should require api.url when teamBroker is enabled and api.url is missing
+  # Helper error handling: api.key and api.secret are required together; api.url has a default
+  - it: should not require api.url when teamBroker is enabled and api.url is missing
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
@@ -89,8 +90,8 @@ tests:
           key: "team-broker-key"
           secret: "team-broker-secret"
     asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.url is required!"
+      - isNotNullOrEmpty:
+          path: data.teamBrokerApiSecret
 
   - it: should require api.key when teamBroker is enabled and api.key is missing
     template: secrets.yaml
@@ -124,7 +125,7 @@ tests:
         api: {}
     asserts:
       - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.url is required!"
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
 
   - it: should require api fields when teamBroker is enabled but api is missing
     template: secrets.yaml
@@ -134,4 +135,41 @@ tests:
         # api is missing
     asserts:
       - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.url is required!"
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
+
+  # forge.teamBrokerApiUrl helper - verified indirectly through the rendered configmap
+  - it: should default api.url to in-cluster EMQX dashboard when not provided
+    template: configmap.yaml
+    release:
+      namespace: my-namespace
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: http://emqx-dashboard\\.my-namespace:18083"
+
+  - it: should use user-provided api.url when set
+    template: configmap.yaml
+    release:
+      namespace: my-namespace
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: https://team-broker\\.example\\.com"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: http://emqx-dashboard"
