@@ -114,7 +114,7 @@ To use STMP to send email
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
   - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`)
-  - `forge.broker.teamBroker.api.url` URL for the Team Broker API (default not set)
+  - `forge.broker.teamBroker.api.url` URL for the Team Broker API (default `http://emqx-dashboard.<release-namespace>:18083`)
   - `forge.broker.teamBroker.api.key` API key for the Team Broker API (default not set)
   - `forge.broker.teamBroker.api.secret` API secret for the Team Broker API (default not set)
   - `forge.broker.createMetricsUser` defines if a dedicated MQTT user with broker metrics collection permissions should be created (default `true`)
@@ -308,7 +308,8 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.expert.service.url` URL for the FlowFuse Expert service (default not set)
  - `forge.expert.service.token` Token for the FlowFuse Expert service (default not set)
  - `forge.expert.service.requestTimeout` Timeout for the FlowFuse Expert service (default `60000`)
- - `forge.expert.broker.address` Address of the MQTT broker to use for communication with the Expert service (default not set)
+ - `forge.expert.broker.address` Address of the MQTT broker to use for communication with the Expert service (default not set). Requires `forge.broker.teamBroker.enabled=true`, since the local team broker bridges to this central broker.
+ - `forge.expert.broker.port` Port of the MQTT broker to use for communication with the Expert service (default `8883`)
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
