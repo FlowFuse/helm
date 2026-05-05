@@ -343,7 +343,7 @@ data:
       {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)" -}}
       {{- end }}
       centralBroker:
-        server: {{ printf "%s:%v" .Values.forge.expert.broker.address .Values.forge.expert.broker.port }}
+        server: {{ printf "%s:%v" .Values.forge.expert.broker.address (.Values.forge.expert.broker.port | default 8883) }}
       {{- end }}
       {{- end }}
     {{- end }}
