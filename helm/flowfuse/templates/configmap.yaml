@@ -339,6 +339,9 @@ data:
         url: {{ ((.Values.forge.expert).service).url }}
         requestTimeout: {{ .Values.forge.expert.requestTimeout | default 60000 }}
       {{- if ((.Values.forge.expert).broker).address }}
+      {{- if not ((.Values.forge.broker.teamBroker).enabled) }}
+      {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)" -}}
+      {{- end }}
       centralBroker:
         server: {{ printf "%s:%v" .Values.forge.expert.broker.address .Values.forge.expert.broker.port }}
       {{- end }}

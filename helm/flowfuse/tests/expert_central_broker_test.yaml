@@ -41,6 +41,7 @@ tests:
   - it: should render central broker server when expert is enabled with broker address and port
     template: configmap.yaml
     set:
+      forge.broker.teamBroker.enabled: true
       forge.expert:
         enabled: true
         service:
@@ -60,6 +61,7 @@ tests:
   - it: should render central broker server with custom port
     template: configmap.yaml
     set:
+      forge.broker.teamBroker.enabled: true
       forge.expert:
         enabled: true
         service:
@@ -72,3 +74,34 @@ tests:
       - matchRegex:
           path: data["flowforge.yml"]
           pattern: "server: 10\\.0\\.0\\.5:8883"
+
+  - it: should fail when expert broker address is set but team broker is not enabled
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "central-broker.example.com"
+          port: 1883
+    asserts:
+      - failedTemplate:
+          errorMessage: "forge.expert.broker requires forge.broker.teamBroker.enabled=true (the expert central broker bridges through the team broker)"
+
+  - it: should fail when expert broker address is set and team broker is explicitly disabled
+    template: configmap.yaml
+    set:
+      forge.broker.teamBroker.enabled: false
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "central-broker.example.com"
+          port: 1883
+    asserts:
+      - failedTemplate:
+          errorMessage: "forge.expert.broker requires forge.broker.teamBroker.enabled=true (the expert central broker bridges through the team broker)"
