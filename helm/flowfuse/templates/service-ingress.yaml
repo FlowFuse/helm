@@ -78,6 +78,7 @@ metadata:
     nginx.ingress.kubernetes.io/affinity-mode: persistent
     nginx.ingress.kubernetes.io/session-cookie-name: FFSESSION
     nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
+    nginx.ingress.kubernetes.io/session-cookie-path: /api/v1/devices
   {{- $filteredAnnotations := include "forge.filteredIngressAnnotations" . | replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" }}
   {{- if $filteredAnnotations }}
 {{ $filteredAnnotations | indent 4 }}
