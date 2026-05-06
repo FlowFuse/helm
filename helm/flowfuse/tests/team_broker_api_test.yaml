@@ -1,0 +1,200 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test team broker API configuration
+templates:
+  - configmap.yaml
+  - deployment.yaml
+  - secrets.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should not include teamBroker api block when teamBroker is disabled by default
+    template: configmap.yaml
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "teamBroker:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "TEAM_BROKER_API_SECRET"
+
+  - it: should render teamBroker.api block with url, key and secret when enabled
+    template: configmap.yaml
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "teamBroker:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: https://team-broker\\.example\\.com"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "key: team-broker-key"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "secret: <%= ENV\\['TEAM_BROKER_API_SECRET'\\] %>"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "secret: team-broker-secret"
+
+  # Deployment tests
+  - it: should not include TEAM_BROKER_API_SECRET env var by default
+    template: deployment.yaml
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "TEAM_BROKER_API_SECRET")]
+
+  - it: should not include TEAM_BROKER_API_SECRET env var when teamBroker is disabled
+    template: deployment.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: false
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "TEAM_BROKER_API_SECRET")]
+
+  - it: should include TEAM_BROKER_API_SECRET env var when teamBroker is enabled
+    template: deployment.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: TEAM_BROKER_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: teamBrokerApiSecret
+                optional: true
+
+  # Secrets tests
+  - it: should not include teamBrokerApiSecret in secrets by default
+    template: secrets.yaml
+    asserts:
+      - notExists:
+          path: data.teamBrokerApiSecret
+
+  - it: should not include teamBrokerApiSecret in secrets when teamBroker is disabled
+    template: secrets.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: false
+    asserts:
+      - notExists:
+          path: data.teamBrokerApiSecret
+
+  - it: should include teamBrokerApiSecret base64 encoded when teamBroker is enabled
+    template: secrets.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+    asserts:
+      - isKind:
+          of: Secret
+      - isNotNullOrEmpty:
+          path: data.teamBrokerApiSecret
+      - equal:
+          path: data.teamBrokerApiSecret
+          value: dGVhbS1icm9rZXItc2VjcmV0  # base64("team-broker-secret")
+
+  - it: should fail when teamBroker is enabled but api.secret is missing
+    template: secrets.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.secret is required!"
+
+  - it: should fail when teamBroker is enabled but api block is missing
+    template: secrets.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+    asserts:
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
+
+  # Coexistence with other secrets
+  - it: should include teamBrokerApiSecret alongside other tokens when multiple features are enabled
+    template: secrets.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+      forge.assistant:
+        enabled: true
+        service:
+          url: "https://assistant.example.com"
+          token: "assistant-token"
+    asserts:
+      - isKind:
+          of: Secret
+      - isNotNullOrEmpty:
+          path: data.teamBrokerApiSecret
+      - isNotNullOrEmpty:
+          path: data.expertToken
+      - isNotNullOrEmpty:
+          path: data.token
+
+  - it: should include both EXPERT_TOKEN and TEAM_BROKER_API_SECRET env vars when both features are enabled
+    template: deployment.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+        api:
+          url: "https://team-broker.example.com"
+          key: "team-broker-key"
+          secret: "team-broker-secret"
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+    asserts:
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: TEAM_BROKER_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: teamBrokerApiSecret
+                optional: true
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: expertToken
+                optional: true
