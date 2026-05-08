@@ -1,3 +1,8 @@
+#### 2.74.0: Release
+
+ - feat: Release 2.30.1 (#898) @hardillb
+ - chore: Bump for NR 4.1.10 stacks (#897) @hardillb
+
 #### 2.73.0: Release
 
  - feat: Release 2.30.0 (#896) @ppawlowski
