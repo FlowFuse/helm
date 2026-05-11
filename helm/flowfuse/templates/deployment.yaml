@@ -90,7 +90,7 @@ spec:
                 key: expertToken
                 optional: true
         {{- end }}
-        {{- if (.Values.forge.broker.teamBroker).enabled }}
+        {{- if and (.Values.forge.broker.teamBroker).enabled (.Values.forge.broker.teamBroker).api }}
           - name: TEAM_BROKER_API_SECRET
             valueFrom:
               secretKeyRef:
