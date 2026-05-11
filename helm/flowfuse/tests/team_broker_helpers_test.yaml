@@ -117,25 +117,29 @@ tests:
       - failedTemplate:
           errorMessage: "A valid .Values.forge.broker.teamBroker.api.secret is required!"
 
-  - it: should require api fields when teamBroker is enabled but api is empty
+  - it: should skip teamBrokerApiSecret rendering when teamBroker is enabled but api is empty
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
         api: {}
     asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
+      - isKind:
+          of: Secret
+      - notExists:
+          path: data.teamBrokerApiSecret
 
-  - it: should require api fields when teamBroker is enabled but api is missing
+  - it: should skip teamBrokerApiSecret rendering when teamBroker is enabled but api is missing
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
         # api is missing
     asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
+      - isKind:
+          of: Secret
+      - notExists:
+          path: data.teamBrokerApiSecret
 
   # forge.teamBrokerApiUrl helper - verified indirectly through the rendered configmap
   - it: should default api.url to in-cluster EMQX dashboard when not provided
