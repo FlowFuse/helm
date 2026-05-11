@@ -44,6 +44,38 @@ tests:
           path: data["flowforge.yml"]
           pattern: "secret: team-broker-secret"
 
+  - it: should render teamBroker block without api sub-block when teamBroker is enabled but api is missing
+    template: configmap.yaml
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "teamBroker:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "api:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "TEAM_BROKER_API_SECRET"
+
+  - it: should render teamBroker block without api sub-block when teamBroker is enabled but api is empty
+    template: configmap.yaml
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+        api: {}
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "teamBroker:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "api:"
+
   # Deployment tests
   - it: should not include TEAM_BROKER_API_SECRET env var by default
     template: deployment.yaml
@@ -79,6 +111,25 @@ tests:
                 name: flowfuse-secrets
                 key: teamBrokerApiSecret
                 optional: true
+
+  - it: should not include TEAM_BROKER_API_SECRET env var when teamBroker is enabled but api is missing
+    template: deployment.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "TEAM_BROKER_API_SECRET")]
+
+  - it: should not include TEAM_BROKER_API_SECRET env var when teamBroker is enabled but api is empty
+    template: deployment.yaml
+    set:
+      forge.broker.teamBroker:
+        enabled: true
+        api: {}
+    asserts:
+      - notExists:
+          path: spec.template.spec.initContainers[0].env[?(@.name == "TEAM_BROKER_API_SECRET")]
 
   # Secrets tests
   - it: should not include teamBrokerApiSecret in secrets by default
@@ -126,14 +177,16 @@ tests:
       - failedTemplate:
           errorMessage: "A valid .Values.forge.broker.teamBroker.api.secret is required!"
 
-  - it: should fail when teamBroker is enabled but api block is missing
+  - it: should not include teamBrokerApiSecret when teamBroker is enabled but api block is missing
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
     asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
+      - isKind:
+          of: Secret
+      - notExists:
+          path: data.teamBrokerApiSecret
 
   # Coexistence with other secrets
   - it: should include teamBrokerApiSecret alongside other tokens when multiple features are enabled

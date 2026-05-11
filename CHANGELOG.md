@@ -1,3 +1,7 @@
+#### 2.74.1: Release
+
+ - fix: Ensure the team broker api key and secret are not templated when not defined (#901) @ppawlowski
+
 #### 2.74.0: Release
 
  - feat: Release 2.30.1 (#898) @hardillb

@@ -373,9 +373,9 @@ Resolve Team Broker API URL: user-provided value, or default to the in-cluster E
 Create Team Broker API secret
 */}}
 {{- define "forge.teamBrokerApiSecret" -}}
-{{- if (.Values.forge.broker.teamBroker).enabled -}}
-{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.key is required!" ((.Values.forge.broker.teamBroker).api).key -}}
-{{- $token := required "A valid .Values.forge.broker.teamBroker.api.secret is required!" ((.Values.forge.broker.teamBroker).api).secret -}}
+{{- if and (.Values.forge.broker.teamBroker).enabled (.Values.forge.broker.teamBroker).api -}}
+{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.key is required!" .Values.forge.broker.teamBroker.api.key -}}
+{{- $token := required "A valid .Values.forge.broker.teamBroker.api.secret is required!" .Values.forge.broker.teamBroker.api.secret -}}
 teamBrokerApiSecret: {{ $token | b64enc | quote }}
 {{- end -}}
 {{- end -}}
