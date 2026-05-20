@@ -63,6 +63,36 @@ spec:
   {{- end }}
 {{- if gt (int .Values.forge.replicas) 1 }}
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forge-devices
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: FFSESSION
+    traefik.ingress.kubernetes.io/service.sticky.cookie.path: /api/v1/devices
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.forge.service.type }}
+  selector:
+    {{- include "forge.forgeSelectorLabels" . | nindent 6 }}
+  {{- if eq .Values.forge.service.type "NodePort" }}
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+    {{- if .Values.forge.service.nodePort }}
+    nodePort: {{ .Values.forge.service.nodePort }}
+    {{- end }}
+  {{- else }}
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  {{- end }}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -74,10 +104,6 @@ metadata:
   {{- if .Values.ingress.certManagerIssuer }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.certManagerIssuer }}
   {{- end }}
-    nginx.ingress.kubernetes.io/affinity: cookie
-    nginx.ingress.kubernetes.io/affinity-mode: persistent
-    nginx.ingress.kubernetes.io/session-cookie-name: FFSESSION
-    nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
   {{- $filteredAnnotations := include "forge.filteredIngressAnnotations" . | replace "{{ instanceHost }}" $forgeHostname | replace "{{ serviceName }}" "forge" }}
   {{- if $filteredAnnotations }}
 {{ $filteredAnnotations | indent 4 }}
@@ -94,7 +120,7 @@ spec:
         path: "/api/v1/devices"
         backend:
           service:
-            name: forge
+            name: forge-devices
             port:
               number: 80
   {{- if include "forge.certManagerEnabled" . }}
