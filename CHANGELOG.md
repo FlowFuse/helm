@@ -1,3 +1,14 @@
+#### 2.75.0: Release
+
+ - feat: Traefik Stick Sessions for horizontal scaling (#883) @hardillb
+ - ci: Switch tagging approach for internal reusable workflows (#908) @ppawlowski
+ - ci: enable dependabot cooldown (#906) @ppawlowski
+ - chore: bump forge and file-server containers to Node v24 (#899) @hardillb
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.1.4 to 2.1.5 (#902) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.35.3 to 4.35.4 (#903) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3099.0 to 12.3102.0 (#904) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.1.0 to 6.1.1 (#905) @app/dependabot
+
 #### 2.74.1: Release
 
  - fix: Ensure the team broker api key and secret are not templated when not defined (#901) @ppawlowski
