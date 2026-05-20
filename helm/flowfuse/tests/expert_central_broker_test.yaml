@@ -1,0 +1,123 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test expert central broker configuration
+templates:
+  - configmap.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should not include central broker block when expert is disabled
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: false
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "centralBroker:"
+
+  - it: should not include central broker block when expert key is absent
+    template: configmap.yaml
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "centralBroker:"
+
+  - it: should not include central broker block when expert is enabled but broker.address is not set
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "centralBroker:"
+
+  - it: should render central broker server when expert is enabled with broker address and port
+    template: configmap.yaml
+    set:
+      forge.broker.teamBroker.enabled: true
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "central-broker.example.com"
+          port: 1883
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "centralBroker:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "server: central-broker\\.example\\.com:1883"
+
+  - it: should render central broker server with custom port
+    template: configmap.yaml
+    set:
+      forge.broker.teamBroker.enabled: true
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "10.0.0.5"
+          port: 1883
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "server: 10\\.0\\.0\\.5:1883"
+
+  - it: should default the central broker port to 8883 when not provided
+    template: configmap.yaml
+    set:
+      forge.broker.teamBroker.enabled: true
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "central-broker.example.com"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "server: central-broker\\.example\\.com:8883"
+
+  - it: should fail when expert broker address is set but team broker is not enabled
+    template: configmap.yaml
+    set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "central-broker.example.com"
+          port: 1883
+    asserts:
+      - failedTemplate:
+          errorMessage: "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)"
+
+  - it: should fail when expert broker address is set and team broker is explicitly disabled
+    template: configmap.yaml
+    set:
+      forge.broker.teamBroker.enabled: false
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+        broker:
+          address: "central-broker.example.com"
+          port: 1883
+    asserts:
+      - failedTemplate:
+          errorMessage: "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)"

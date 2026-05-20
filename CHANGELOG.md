@@ -1,3 +1,38 @@
+#### 2.74.1: Release
+
+ - fix: Ensure the team broker api key and secret are not templated when not defined (#901) @ppawlowski
+
+#### 2.74.0: Release
+
+ - feat: Release 2.30.1 (#898) @hardillb
+ - chore: Bump for NR 4.1.10 stacks (#897) @hardillb
+
+#### 2.73.0: Release
+
+ - feat: Release 2.30.0 (#896) @ppawlowski
+ - fix: Configure the team broker api only when config is provided (#895) @ppawlowski
+ - feat: Add support for FlowFuse Expert Broker (#890) @ppawlowski
+ - chore: Update 4.x to 4.1.9 NR (#893) @hardillb
+ - chore(deps): bump github/codeql-action from 4.35.2 to 4.35.3 (#892) @app/dependabot
+ - ci: Use new project-automation workflow (#888) @ppawlowski
+ - chore(deps): bump actions/setup-node from 6.3.0 to 6.4.0 (#875) @app/dependabot
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.1.3 to 2.1.4 (#884) @app/dependabot
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.13.4 to 0.13.5 (#886) @app/dependabot
+ - fix: Adjust indentation for brokerSelectorLabels in emqx.yaml (#880) @hardillb
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.13.3 to 0.13.4 (#879) @app/dependabot
+ - chore(deps): bump docker/login-action from 4.0.0 to 4.1.0 (#878) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.0.0 to 6.1.0 (#877) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.34.1 to 4.35.2 (#876) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3092.0 to 12.3099.0 (#874) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml from 0.52.0 to 0.76.0 (#871) @app/dependabot
+ - chore(deps): bump flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml from 0.52.0 to 0.76.0 (#872) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 7.0.0 to 7.1.0 (#870) @app/dependabot
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.0.2 to 2.1.3 (#873) @app/dependabot
+ - chore(deps): bump actions/create-github-app-token from 3.0.0 to 3.1.1 (#869) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3089.0 to 12.3092.0 (#862) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.3.1 to 6.4.0 (#859) @app/dependabot
+ - chore(deps): bump azure/setup-helm from 4.3.1 to 5.0.0 (#861) @app/dependabot
+
 #### 2.72.0: Release
 
  - feat: Release 2.29.1 (#868) @knolleary
