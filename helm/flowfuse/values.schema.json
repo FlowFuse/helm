@@ -1016,6 +1016,14 @@
                         }
                     }
                 },
+                "ai": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                },
                 "expert": {
                     "type": "object",
                     "properties": {
