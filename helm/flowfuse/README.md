@@ -311,6 +311,10 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.expert.broker.address` Address of the MQTT broker to use for communication with the Expert service (default not set). Requires `forge.broker.teamBroker.enabled=true`, since the local team broker bridges to this central broker.
  - `forge.expert.broker.port` Port of the MQTT broker to use for communication with the Expert service (default `8883`)
 
+### AI
+
+ - `forge.ai.enabled` Enable/disable AI features (default `true`)
+
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowFuse. 
