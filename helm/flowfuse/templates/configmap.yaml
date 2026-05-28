@@ -328,6 +328,10 @@ data:
         requestTimeout: {{ .Values.forge.assistant.requestTimeout | default 60000 }}
       {{- end }}
     {{- end }}
+    {{- if .Values.forge.ai }}
+    ai:
+      enabled: {{ .Values.forge.ai.enabled | default false }}
+    {{- end }}
     {{- if .Values.forge.expert }}
     expert:
       enabled: {{ .Values.forge.expert.enabled | default false }}
