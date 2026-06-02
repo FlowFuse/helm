@@ -365,7 +365,7 @@ Resolve Team Broker API URL: user-provided value, or default to the in-cluster E
 {{- if ((.Values.forge.broker.teamBroker).api).url -}}
   {{- .Values.forge.broker.teamBroker.api.url -}}
 {{- else -}}
-  {{- printf "http://emqx-dashboard.%s:18083" .Release.Namespace -}}
+  {{- printf "http://emqx-dashboard.%s:18083/api/v5" .Release.Namespace -}}
 {{- end -}}
 {{- end -}}
 
