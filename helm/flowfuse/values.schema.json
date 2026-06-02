@@ -344,100 +344,6 @@
                                 }
                             }
                         },
-                        "podSecurityContext": {
-                            "type": "object",
-                            "properties": {
-                                "runAsUser": {
-                                    "type": "integer"
-                                },
-                                "runAsGroup": {
-                                    "type": "integer"
-                                },
-                                "fsGroup": {
-                                    "type": "integer"
-                                },
-                                "seccompProfile": {
-                                    "type": "object",
-                                    "properties": {
-                                        "type": {
-                                            "type": "string"
-                                        },
-                                        "localhostProfile": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "livenessProbe": {
-                            "type": "object",
-                            "properties": {
-                                "failureThreshold": {
-                                    "type": "integer"
-                                },
-                                "initialDelaySeconds": {
-                                    "type": "integer"
-                                },
-                                "periodSeconds": {
-                                    "type": "integer"
-                                },
-                                "successThreshold": {
-                                    "type": "integer"
-                                },
-                                "timeoutSeconds": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "readinessProbe": {
-                            "type": "object",
-                            "properties": {
-                                "failureThreshold": {
-                                    "type": "integer"
-                                },
-                                "initialDelaySeconds": {
-                                    "type": "integer"
-                                },
-                                "periodSeconds": {
-                                    "type": "integer"
-                                },
-                                "successThreshold": {
-                                    "type": "integer"
-                                },
-                                "timeoutSeconds": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "startupProbe": {
-                            "type": "object",
-                            "properties": {
-                                "failureThreshold": {
-                                    "type": "integer"
-                                },
-                                "initialDelaySeconds": {
-                                    "type": "integer"
-                                },
-                                "periodSeconds": {
-                                    "type": "integer"
-                                },
-                                "successThreshold": {
-                                    "type": "integer"
-                                },
-                                "timeoutSeconds": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "containerSecurityContext": {
-                            "type": "object"
-                        },
-                        "podLabels": {
-                            "type": "object"
-                        },
-                        "labels": {
-                            "type": "object"
-                        },
                         "tolerations": {
                             "type": "array"
                         },
@@ -449,12 +355,6 @@
                                     "minProperties": 0
                                 }
                             }
-                        },
-                        "createMetricsUser": {
-                            "type": "boolean"
-                        },
-                        "image": {
-                            "type": "string"
                         }
                     },
                     "required": [
@@ -1324,31 +1224,6 @@
                             }
                         }
                     }
-                },
-                "service": {
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "type": "string"
-                        },
-                        "mqtt": {
-                            "type": "object",
-                            "properties": {
-                                "nodePort": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "ws": {
-                            "type": "object",
-                            "properties": {
-                                "nodePort": {
-                                    "type": "integer"
-                                }
-                            }
-                        }
-                    },
-                    "required": ["type"]
                 },
                 "config": {
                     "type": "string",

@@ -1,6 +1,6 @@
-{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true )  -}}
+{{- if eq .Values.forge.broker.enabled true -}}
 {{- if not (.Capabilities.APIVersions.Has "apps.emqx.io/v2beta1") }}
-{{- fail "EMQX Operator not installed. Please install it or disable team broker before continuing" }}
+{{- fail "EMQX Operator not installed. Please install it or disable the broker (forge.broker.enabled=false) before continuing" }}
 {{- end }}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
@@ -33,8 +33,8 @@ spec:
               - name: EMQX_DASHBOARD__DEFAULT_PASSWORD
                 valueFrom:
                     secretKeyRef:
-                        {{- if .Values.broker.exisitingSecret }}
-                        name: {{ .Values.broker.exisitingSecret }}
+                        {{- if .Values.broker.existingSecret }}
+                        name: {{ .Values.broker.existingSecret }}
                         {{- else }}
                         name: emqx-config-secrets
                         {{- end }}
@@ -51,8 +51,8 @@ spec:
             extraVolumes:
               - name: config
                 secret:
-                    {{- if .Values.broker.exisitingSecret }}
-                    secretName: {{ .Values.broker.exisitingSecret }}
+                    {{- if .Values.broker.existingSecret }}
+                    secretName: {{ .Values.broker.existingSecret }}
                     {{- else }}
                     secretName: emqx-config-secrets
                     {{- end }}
@@ -83,7 +83,7 @@ spec:
             type: ClusterIP
         {{- end }}
 ---
-{{- if not .Values.broker.exisitingSecret }}
+{{- if not .Values.broker.existingSecret }}
 apiVersion: v1
 kind: Secret
 metadata:

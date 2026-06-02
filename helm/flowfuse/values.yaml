@@ -26,34 +26,9 @@ forge:
   podLabels: {}
   broker:
     enabled: false
-    image: iegomez/mosquitto-go-auth
     revisionHistoryLimit: null
     teamBroker:
       enabled: false
-    createMetricsUser: false
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-      seccompProfile:
-        type: RuntimeDefault
-    livenessProbe:
-      initialDelaySeconds: 10
-      periodSeconds: 10
-      timeoutSeconds: 15
-      successThreshold: 1
-      failureThreshold: 5
-    readinessProbe:
-      initialDelaySeconds: 10
-      periodSeconds: 10
-      timeoutSeconds: 15
-      successThreshold: 1
-      failureThreshold: 3
-    containerSecurityContext:
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-    labels: {}
-    podLabels: {}
     tolerations: []
     ingress.annotations: {}
   logging:
@@ -352,8 +327,6 @@ broker:
         registry: ""
         repository: emqx/emqx-exporter
         tag: "0.2"
-  service:
-    type: ClusterIP
 
 npmRegistry:
   enabled: false
