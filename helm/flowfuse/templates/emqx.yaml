@@ -108,7 +108,7 @@ metadata:
     {{- end }}
   {{- $filteredAnnotations := include "forge.filteredBrokerIngressAnnotations" . | replace "{{ instanceHost }}" "{{ include forge.brokerDomain . }}" | replace "{{ serviceName }}" "flowforge-broker" }}
   {{- if $filteredAnnotations }}
-{{ $filteredAnnotations | indent 4 }}
+{{ $filteredAnnotations | indent 8 }}
   {{- end }}
 spec:
     {{- if $.Values.ingress.className }}
@@ -129,7 +129,7 @@ spec:
     tls:
     - hosts:
         - {{ include "forge.brokerDomain" . }}
-        secretName: {{ include "forge.brokerDomain" . }}
+      secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
 
 {{- end }}
