@@ -1194,6 +1194,31 @@
                         }
                     }
                 },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        },
+                        "mqtt": {
+                            "type": "object",
+                            "properties": {
+                                "nodePort": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "ws": {
+                            "type": "object",
+                            "properties": {
+                                "nodePort": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "required": ["type"]
+                },
                 "config": {
                     "type": "string",
                     "description": "EMQX configuration rendered into spec.config.data via tpl."

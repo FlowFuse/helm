@@ -131,5 +131,43 @@ spec:
         - {{ include "forge.brokerDomain" . }}
       secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowforge-broker
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.broker.service.type }}
+  {{- if eq .Values.broker.service.type "NodePort" }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+    {{- if (.Values.broker.service.mqtt).nodePort }}
+    nodePort: {{ .Values.broker.service.mqtt.nodePort }}
+    {{- end }}
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+    {{- if (.Values.broker.service.ws).nodePort }}
+    nodePort: {{ .Values.broker.service.ws.nodePort }}
+    {{- end }}
+  {{- else }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+  {{- end }}
+  selector:
+    {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
 
 {{- end }}

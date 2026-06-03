@@ -326,6 +326,8 @@ broker:
         registry: ""
         repository: emqx/emqx-exporter
         tag: "0.2"
+  service:
+    type: ClusterIP
 
 npmRegistry:
   enabled: false

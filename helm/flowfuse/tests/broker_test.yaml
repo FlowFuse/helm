@@ -66,24 +66,71 @@ tests:
       broker.existingSecret: my-existing-secret
     asserts:
       - hasDocuments:
-          count: 2
+          count: 3
       - isKind:
           of: EMQX
         documentIndex: 0
       - isKind:
           of: Ingress
         documentIndex: 1
+      - isKind:
+          of: Service
+        documentIndex: 2
 
   - it: should create the broker ingress pointing at the EMQX listeners service
-    documentSelector:
-      path: metadata.name
-      value: flowforge-broker
+    documentIndex: 2
     asserts:
       - isKind:
           of: Ingress
+      - equal:
+          path: metadata.name
+          value: flowforge-broker
       - equal:
           path: spec.rules[0].http.paths[0].backend.service.name
           value: emqx-listeners
       - equal:
           path: spec.rules[0].http.paths[0].backend.service.port.number
           value: 8080
+
+  - it: should create the flowforge-broker compatibility service selecting EMQX pods
+    documentIndex: 3
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: flowforge-broker
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.ports[?(@.name == "mqtt-native")].port
+          value: 1883
+      - equal:
+          path: spec.selector
+          value:
+            apps.emqx.io/db-role: core
+            apps.emqx.io/instance: emqx
+            apps.emqx.io/managed-by: emqx-operator
+
+  - it: should create a NodePort-type flowforge-broker service with custom node ports
+    documentIndex: 3
+    set:
+      broker.service:
+        type: NodePort
+        mqtt:
+          nodePort: 30001
+        ws:
+          nodePort: 30002
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: spec.type
+          value: NodePort
+      - equal:
+          path: spec.ports[?(@.name == "mqtt-native")].nodePort
+          value: 30001
+      - equal:
+          path: spec.ports[?(@.name == "mqtt-ws")].nodePort
+          value: 30002
