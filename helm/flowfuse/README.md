@@ -113,10 +113,10 @@ To use STMP to send email
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
-  - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`)
+  - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`). Requires `forge.broker.enabled=true`
   - `forge.broker.teamBroker.api.url` URL for the Team Broker API (default `http://emqx-dashboard.<release-namespace>:18083`)
-  - `forge.broker.teamBroker.api.key` API key for the Team Broker API (default not set)
-  - `forge.broker.teamBroker.api.secret` API secret for the Team Broker API (default not set)
+  - `forge.broker.teamBroker.api.key` API key name for the Team Broker API (optional; must be set together with `api.secret`)
+  - `forge.broker.teamBroker.api.secret` API secret for the Team Broker API (optional; must be set together with `api.key`)
   - `forge.broker.createMetricsUser` defines if a dedicated MQTT user with broker metrics collection permissions should be created (default `true`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
   - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
