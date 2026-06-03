@@ -26,7 +26,6 @@ forge:
   podLabels: {}
   broker:
     enabled: false
-    revisionHistoryLimit: null
     teamBroker:
       enabled: false
     tolerations: []

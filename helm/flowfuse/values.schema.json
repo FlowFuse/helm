@@ -278,10 +278,6 @@
                         "enabled": {
                             "type": "boolean"
                         },
-                        "revisionHistoryLimit": {
-                            "type": ["integer", "null"],
-                            "minimum": 0
-                        },
                         "url": {
                             "type" : "string"
                         },
@@ -312,33 +308,6 @@
                                         },
                                         "secret": {
                                             "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "resources": {
-                            "type": "object",
-                            "properties": {
-                                "limits": {
-                                    "type": "object",
-                                    "properties": {
-                                        "cpu": {
-                                            "type": ["number","string"]
-                                        },
-                                        "memory": {
-                                            "type": ["number","string"]
-                                        }
-                                    }
-                                },
-                                "requests": {
-                                    "type": "object",
-                                    "properties": {
-                                        "cpu": {
-                                            "type": ["number","string"]
-                                        },
-                                        "memory": {
-                                            "type": ["number","string"]
                                         }
                                     }
                                 }
