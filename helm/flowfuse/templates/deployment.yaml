@@ -90,12 +90,12 @@ spec:
                 key: expertToken
                 optional: true
         {{- end }}
-        {{- if and (.Values.forge.broker.teamBroker).enabled (.Values.forge.broker.teamBroker).api }}
+        {{- if and .Values.forge.broker.enabled (.Values.forge.broker.teamBroker).enabled }}
           - name: TEAM_BROKER_API_SECRET
             valueFrom:
               secretKeyRef:
-                name: {{ include "forge.teamBrokerSecretName" . }}
-                key: teamBrokerApiSecret
+                name: {{ include "forge.teamBrokerApiSecretName" . }}
+                key: {{ include "forge.teamBrokerApiSecretKey" . }}
                 optional: true
         {{- end }}
       {{- if .Values.forge.localPostgresql }}

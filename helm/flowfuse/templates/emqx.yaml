@@ -83,7 +83,7 @@ spec:
             type: ClusterIP
         {{- end }}
 ---
-{{- if not .Values.broker.exisitingSecret }}
+{{- if not .Values.broker.existingSecret }}
 apiVersion: v1
 kind: Secret
 metadata:
