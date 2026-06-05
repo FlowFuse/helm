@@ -168,6 +168,9 @@ forge:
 
   expert: {}
 
+  ai:
+    enabled: true
+
   tables:
     enabled: false
 

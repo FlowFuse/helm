@@ -315,3 +315,28 @@ tests:
       - matchRegex:
           path: data["flowforge.yml"]
           pattern: "accessMode: ReadWriteMany"
+
+  - it: should render ai enabled by default
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "ai:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "ai:\\n\\s{2,}enabled: true"
+
+  - it: should render ai disabled when forge.ai.enabled is false
+    set:
+      forge.ai.enabled: false
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "ai:\\n\\s{2,}enabled: false"
+
+  - it: should render ai enabled when forge.ai.enabled is true
+    set:
+      forge.ai.enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "ai:\\n\\s{2,}enabled: true"

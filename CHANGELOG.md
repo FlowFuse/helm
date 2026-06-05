@@ -1,3 +1,23 @@
+#### 2.77.0: Release
+
+ - chore: Remove ARMv7 container builds for release (#932) @hardillb
+ - feat: Release 2.31.0 (#931) @hardillb
+ - chore: Add NR 4.1.11 Stack (#930) @hardillb
+ - fix: Set path on default emqx admin api url (#921) @hardillb
+
+#### 2.76.0: Release
+
+ - feat: add configurable ai feature flag (#914) @ppawlowski
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.1.1 to 6.1.2 (#917) @app/dependabot
+ - chore(deps): bump docker/metadata-action from 6.0.0 to 6.1.0 (#918) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 7.1.0 to 7.2.0 (#919) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 4.0.0 to 4.1.0 (#916) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.35.5 to 4.36.0 (#915) @app/dependabot
+ - ci: Update FFC values file name in GitHub Actions workflows (#912) @ppawlowski
+ - chore(deps): bump github/codeql-action from 4.35.4 to 4.35.5 (#909) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.4.0 to 6.4.1 (#910) @app/dependabot
+ - chore(deps): bump actions/create-github-app-token from 3.1.1 to 3.2.0 (#907) @app/dependabot
+
 #### 2.75.0: Release
 
  - feat: Traefik Stick Sessions for horizontal scaling (#883) @hardillb
