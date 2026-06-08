@@ -297,3 +297,57 @@ jobs:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
       eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+
+  build-50:
+    name: Build 5.0.x container images
+    uses: flowfuse/github-actions-workflows/.github/workflows/build_container_image.yml@build_container_image/v1
+    with:
+      image_name: 'node-red'
+      dockerfile_path: Dockerfile-5.0
+      image_tag_prefix: '5.0.x-'
+      package_dependencies: |
+        @flowforge/nr-project-nodes=nightly
+      build_context: 'node-red-container'
+      build_platform: "linux/arm64"
+      build_arguments: |
+        BUILD_TAG=nightly
+      npm_registry_url: ${{ vars.PUBLIC_NPM_REGISTRY_URL }}
+      scan_image: false
+    secrets:
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+  upload-50-stage:
+    name: Upload image to staging ECR
+    if: github.ref_name == 'main'
+    needs: build-50
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@deploy_container_image/v1
+    with:
+      environment: stage
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-50.outputs.image }}
+      image_tag_prefix: '5.0.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
+    secrets:
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
+  upload-50-prod:
+    name: Upload image to production ECR
+    if: github.ref_name == 'main'
+    needs: build-50
+    uses: flowfuse/github-actions-workflows/.github/workflows/deploy_container_image.yml@deploy_container_image/v1
+    with:
+      environment: production
+      service_name: 'node-red'
+      deployment_name: 'node-red'
+      container_name: 'node-red'
+      deploy: false
+      image: ${{ needs.build-50.outputs.image }}
+      image_tag_prefix: '5.0.x-'
+      aws_ecr_iam_role_name: ECR_push_pull_images
+    secrets:
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      temporary_registry_token: ${{ secrets.GITHUB_TOKEN }}
+      eks_cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
