@@ -220,10 +220,10 @@ data:
       teamBroker:
         enabled: true
         host: {{ include "forge.teamBrokerHost" . }}
-        {{- if .Values.forge.broker.teamBroker.api }}
+        {{- if .Values.forge.broker.teamBroker.enabled }}
         api:
           url: {{ include "forge.teamBrokerApiUrl" . }}
-          key: {{ .Values.forge.broker.teamBroker.api.key }}
+          key: {{ include "forge.teamBrokerApiKey" . }}
           secret: <%= ENV['TEAM_BROKER_API_SECRET'] %>
         {{- end }}
       {{ end -}}
