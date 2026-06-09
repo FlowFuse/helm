@@ -473,7 +473,7 @@ jobs:
             type=raw,enable=true,priority=200,prefix=,suffix=-5.0.x,value=${{ github.event.inputs.version }}
             type=raw,enable=true,priority=200,prefix=latest-,suffix=,value=5.0.x
           flavor: |
-            latest=true
+            latest=false
           images: |
             flowforge/node-red
             flowfuse/node-red
