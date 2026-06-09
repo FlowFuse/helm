@@ -1,3 +1,10 @@
+#### 2.77.0: Release
+
+ - chore: Remove ARMv7 container builds for release (#932) @hardillb
+ - feat: Release 2.31.0 (#931) @hardillb
+ - chore: Add NR 4.1.11 Stack (#930) @hardillb
+ - fix: Set path on default emqx admin api url (#921) @hardillb
+
 #### 2.76.0: Release
 
  - feat: add configurable ai feature flag (#914) @ppawlowski

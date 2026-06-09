@@ -50,7 +50,7 @@ jobs:
         with:
           context: helm/flowforge-container
           file: helm/flowforge-container/Dockerfile
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
@@ -124,7 +124,7 @@ jobs:
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
 
@@ -200,7 +200,7 @@ jobs:
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-2.2.x
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
 
@@ -260,7 +260,7 @@ jobs:
         with:
           context: helm/node-red-container
           file: helm/node-red-container/Dockerfile-3.1
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
 
@@ -416,7 +416,7 @@ jobs:
         with:
           context: helm/file-server
           file: helm/file-server/Dockerfile
-          platforms: linux/amd64, linux/arm64, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           push: true
       - name: Push README
