@@ -1,3 +1,12 @@
+#### 2.78.0: Release
+
+ - feat: Release 2.31.2 (#940) @hardillb
+ - feat: Add Node-RED 5 container build to the `Release container images` workflow (#938) @ppawlowski
+ - feat: Add Node-RED 5 container image build and upload to `Build Node-RED container` workflow (#937) @ppawlowski
+ - feat: Introduce Dockerfile for Node-RED 5 container (#936) @ppawlowski
+ - feat: Switch from Mosquitto to EMQX as a default MQTT broker (#922) @ppawlowski
+ - feat: Move to Role from ClusterRole (#913) @hardillb
+
 #### 2.77.0: Release
 
  - chore: Remove ARMv7 container builds for release (#932) @hardillb
