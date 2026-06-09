@@ -209,11 +209,7 @@ data:
       {{ if .Values.forge.broker.url -}}
       url: {{ .Values.forge.broker.url }}
       {{ else -}}
-      {{ if .Values.forge.broker.teamBroker.enabled }}
       url: mqtt://emqx-listeners.{{ .Release.Namespace }}:1883
-      {{ else -}}
-      url: mqtt://flowforge-broker.{{ .Release.Namespace }}:1883
-      {{end -}}
       {{ end -}}
       {{ if .Values.forge.broker.public_url -}}
       public_url: {{ .Values.forge.broker.public_url }}
@@ -224,10 +220,10 @@ data:
       teamBroker:
         enabled: true
         host: {{ include "forge.teamBrokerHost" . }}
-        {{- if .Values.forge.broker.teamBroker.api }}
+        {{- if .Values.forge.broker.teamBroker.enabled }}
         api:
           url: {{ include "forge.teamBrokerApiUrl" . }}
-          key: {{ .Values.forge.broker.teamBroker.api.key }}
+          key: {{ include "forge.teamBrokerApiKey" . }}
           secret: <%= ENV['TEAM_BROKER_API_SECRET'] %>
         {{- end }}
       {{ end -}}

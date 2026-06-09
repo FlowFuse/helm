@@ -108,35 +108,22 @@ To use STMP to send email
 
  ### MQTT Broker
 
-  - `forge.broker.enabled` (default `false`)
-  - `forge.broker.image` Allows the mosquitto broker container image to be overidden (default `iegomez/mosquitto-go-auth`)
-  - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://flowforge-broker.[namespace]:1883`)
+  - `forge.broker.enabled` deploys the MQTT broker (default `false`)
+  - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://emqx-listeners.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
-  - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`)
+  - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`). Requires `forge.broker.enabled=true`
   - `forge.broker.teamBroker.api.url` URL for the Team Broker API (default `http://emqx-dashboard.<release-namespace>:18083`)
-  - `forge.broker.teamBroker.api.key` API key for the Team Broker API (default not set)
-  - `forge.broker.teamBroker.api.secret` API secret for the Team Broker API (default not set)
-  - `forge.broker.createMetricsUser` defines if a dedicated MQTT user with broker metrics collection permissions should be created (default `true`)
+  - `forge.broker.teamBroker.api.key` API key name for the Team Broker API (optional; must be set together with `api.secret`)
+  - `forge.broker.teamBroker.api.secret` API secret for the Team Broker API (optional; must be set together with `api.key`)
   - `forge.broker.affinity` allows to configure [affinity or anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) for the broker pod
-  - `forge.broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the broker container
-  - `forge.broker.podSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker pod
-  - `forge.broker.containerSecurityContext` allows to configure [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the broker container
-  - `forge.broker.livenessProbe` block with [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
-  - `forge.broker.readinessProbe` block with [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
-  - `forge.broker.startupProbe` block with [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) configuration for the broker pod (check [here](#liveness-readiness-and-startup-probes) for more details)
-  - `forge.broker.labels` allows to add custom labels to the broker related objects (e.g. deployment, services, etc.) (default `{}`)
-  - `forge.broker.revisionHistoryLimit` number of old ReplicaSets to retain for the mosquitto broker Deployment. If not set, uses `forge.revisionHistoryLimit` (default `10`).
-  - `forge.broker.podLabels` allows to add custom labels to the broker pod (default `{}`)
-  - `forge.broker.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the broker deployment (default `[]`)
+  - `forge.broker.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the broker pod (default `[]`)
   - `forge.broker.ingress.annotations` broker ingress annotations (default is `{}`)
 
 `forge.broker.ingress.annotations` values can contain the following tokens that will be replaced as follows:
 
   - `{{ instanceHost }}` replaced by the hostname of the instance
   - `{{ serviceName }}` replaced by the service name of the instance
-
-`forge.broker.createMetricsUser` parameter controlls if a dedicated MQTT user with broker metrics collection permissions should be created. This user can by used by the tools like [Mosquitto Exporter](https://github.com/sapcc/mosquitto-exporter) to expose broker's metrics for Prometheus scrapper. 
 
 ### Team Broker
 
@@ -152,7 +139,7 @@ To use STMP to send email
   - `broker.monitoring.emqxExporter.image.tag` tag for the emqx-exporter image (default `0.2`)
   - `broker.monitoring.emqxExporter.revisionHistoryLimit` number of old ReplicaSets to retain for the EMQX exporter Deployment. If not set, uses `forge.revisionHistoryLimit` (default `10`).
   - `broker.hostname` Sets the hostname for the Team Broker (default `broker.[forge.domain]`)
-  - `broker.service.type` allows to set the service type for the Team Broker service (default `ClusterIP`)
+  - `broker.service.type` allows to set the service type for the `flowforge-broker` MQTT service (default `ClusterIP`)
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.service.ws.nodePort` allows to set custom nodePort value for `ws` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.config` allows to overwrite the default Team Broker configuration

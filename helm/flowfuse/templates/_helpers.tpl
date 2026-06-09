@@ -39,17 +39,13 @@ Broker Selector labels
 */}}
 
 {{- define "forge.brokerSelectorLabels" -}}
-{{/* 
+{{/*
 {{ include "forge.commonSelectorLabels" . }}
 app.kubernetes.io/component: "broker"
 */}}
-{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled false ) -}}
-app: flowforge-broker
-{{- else -}}
 apps.emqx.io/db-role: core
 apps.emqx.io/instance: emqx
 apps.emqx.io/managed-by: emqx-operator
-{{- end -}}
 {{- end }}
 
 {{/*
@@ -126,7 +122,7 @@ Note: The value for key .Values.postgresql.auth.existingSecret is inherited from
     (not (and .Values.forge.email ((and .Values.forge.email.smtp (not .Values.forge.email.smtp.existingSecret)))))
     (not ((.Values.forge.assistant).enabled))
     (not ((.Values.forge.expert).enabled))
-    (not ((.Values.forge.broker.teamBroker).enabled))) -}}
+    (not (include "forge.teamBrokerApiUsesCustomKey" .))) -}}
 true
 {{- else -}}
 false
@@ -350,11 +346,53 @@ Get the name from the release name.
 {{- end -}}
 
 {{/*
-Get the secret object name with Team Broker secret.
+Determine whether the Team Broker API uses a dedicated, user-supplied credential
+(forge.broker.teamBroker.api.key + api.secret) instead of the shared EMQX bootstrap key.
+Returns "true" only when both api.key and api.secret are provided.
 */}}
-{{- define "forge.teamBrokerSecretName" -}}
-{{- if (.Values.forge.broker.teamBroker).enabled -}}
+{{- define "forge.teamBrokerApiUsesCustomKey" -}}
+{{- if and ((.Values.forge.broker.teamBroker).api).key ((.Values.forge.broker.teamBroker).api).secret -}}
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
+Resolve the Team Broker API key name. Defaults to the shared EMQX bootstrap API key name
+("flowfuse"); when a dedicated credential is supplied, uses forge.broker.teamBroker.api.key.
+*/}}
+{{- define "forge.teamBrokerApiKey" -}}
+{{- if ((.Values.forge.broker.teamBroker).api).key -}}
+    {{- .Values.forge.broker.teamBroker.api.key -}}
+{{- else -}}
+    {{- printf "flowfuse" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Name of the secret the Team Broker API secret is read from.
+- Dedicated credential: the chart-managed flowfuse-secrets.
+- Shared bootstrap key: broker.existingSecret when provided, else emqx-config-secrets.
+*/}}
+{{- define "forge.teamBrokerApiSecretName" -}}
+{{- if include "forge.teamBrokerApiUsesCustomKey" . -}}
     {{- printf "flowfuse-secrets" -}}
+{{- else if .Values.broker.existingSecret -}}
+    {{- .Values.broker.existingSecret -}}
+{{- else -}}
+    {{- printf "emqx-config-secrets" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Data key within the Team Broker API secret holding the secret value.
+- Dedicated credential: teamBrokerApiSecret (in flowfuse-secrets).
+- Shared bootstrap key: api_key_secret (in the EMQX secret).
+*/}}
+{{- define "forge.teamBrokerApiSecretKey" -}}
+{{- if include "forge.teamBrokerApiUsesCustomKey" . -}}
+    {{- printf "teamBrokerApiSecret" -}}
+{{- else -}}
+    {{- printf "api_key_secret" -}}
 {{- end -}}
 {{- end -}}
 
@@ -370,12 +408,15 @@ Resolve Team Broker API URL: user-provided value, or default to the in-cluster E
 {{- end -}}
 
 {{/*
-Create Team Broker API secret
+Render the custom Team Broker API secret into flowfuse-secrets.
+Created when a custom credential is supplied; api.key and api.secret are required together.
 */}}
 {{- define "forge.teamBrokerApiSecret" -}}
-{{- if and (.Values.forge.broker.teamBroker).enabled (.Values.forge.broker.teamBroker).api -}}
-{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.key is required!" .Values.forge.broker.teamBroker.api.key -}}
-{{- $token := required "A valid .Values.forge.broker.teamBroker.api.secret is required!" .Values.forge.broker.teamBroker.api.secret -}}
+{{- if (.Values.forge.broker.teamBroker).enabled -}}
+{{- if or ((.Values.forge.broker.teamBroker).api).key ((.Values.forge.broker.teamBroker).api).secret -}}
+{{- $_ := required "A valid .Values.forge.broker.teamBroker.api.key is required when api.secret is set!" ((.Values.forge.broker.teamBroker).api).key -}}
+{{- $token := required "A valid .Values.forge.broker.teamBroker.api.secret is required when api.key is set!" ((.Values.forge.broker.teamBroker).api).secret -}}
 teamBrokerApiSecret: {{ $token | b64enc | quote }}
+{{- end -}}
 {{- end -}}
 {{- end -}}

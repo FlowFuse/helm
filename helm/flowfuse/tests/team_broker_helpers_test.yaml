@@ -6,14 +6,13 @@ templates:
 set:
   forge.domain: "chart-unit-tests.com"
 tests:
-  # forge.teamBrokerSecretName helper (verified indirectly through secret name on the rendered Secret)
-  - it: should render flowfuse-secrets when teamBroker is enabled
+  # forge.teamBrokerApiSecretName / forge.teamBrokerApiSecretKey (verified via the rendered secret)
+  - it: should render flowfuse-secrets when a dedicated credential is provided
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
         api:
-          url: "https://team-broker.example.com"
           key: "team-broker-key"
           secret: "team-broker-secret"
     asserts:
@@ -30,14 +29,23 @@ tests:
       - notExists:
           path: data.teamBrokerApiSecret
 
+  - it: should not produce teamBrokerApiSecret data when using the shared bootstrap key
+    template: secrets.yaml
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+    asserts:
+      - notExists:
+          path: data.teamBrokerApiSecret
+
   # forge.teamBrokerApiSecret helper - encoding
-  - it: should base64 encode team broker api secret correctly
+  - it: should base64 encode the dedicated team broker api secret correctly
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
         api:
-          url: "https://team-broker.example.com"
           key: "team-broker-key"
           secret: "my-team-broker-secret-123"
     asserts:
@@ -46,14 +54,13 @@ tests:
           value: bXktdGVhbS1icm9rZXItc2VjcmV0LTEyMw==  # base64("my-team-broker-secret-123")
 
   # Integration with external secrets
-  - it: should work alongside external postgresql secret
+  - it: should work alongside external postgresql secret when a dedicated credential is provided
     template: secrets.yaml
     set:
       postgresql.auth.existingSecret: "external-db-secret"
       forge.broker.teamBroker:
         enabled: true
         api:
-          url: "https://team-broker.example.com"
           key: "team-broker-key"
           secret: "team-broker-secret"
     asserts:
@@ -66,7 +73,7 @@ tests:
       - notExists:
           path: data.postgres-password
 
-  - it: should not create the secret when teamBroker is disabled and external secrets are used
+  - it: should not create the secret when teamBroker uses the shared key and external secrets are used
     template: secrets.yaml
     set:
       postgresql.auth.existingSecret: "external-db-secret"
@@ -74,48 +81,35 @@ tests:
         smtp:
           host: smtp.example.com
           existingSecret: "external-smtp-secret"
+      forge.broker.enabled: true
       forge.broker.teamBroker:
-        enabled: false
+        enabled: true
     asserts:
       - hasDocuments:
           count: 0
 
-  # Helper error handling: api.key and api.secret are required together; api.url has a default
-  - it: should not require api.url when teamBroker is enabled and api.url is missing
+  # Helper error handling: api.key and api.secret are required together
+  - it: should require api.secret when api.key is set
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
         api:
           key: "team-broker-key"
-          secret: "team-broker-secret"
     asserts:
-      - isNotNullOrEmpty:
-          path: data.teamBrokerApiSecret
+      - failedTemplate:
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.secret is required when api.key is set!"
 
-  - it: should require api.key when teamBroker is enabled and api.key is missing
+  - it: should require api.key when api.secret is set
     template: secrets.yaml
     set:
       forge.broker.teamBroker:
         enabled: true
         api:
-          url: "https://team-broker.example.com"
           secret: "team-broker-secret"
     asserts:
       - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required!"
-
-  - it: should require api.secret when teamBroker is enabled and api.secret is missing
-    template: secrets.yaml
-    set:
-      forge.broker.teamBroker:
-        enabled: true
-        api:
-          url: "https://team-broker.example.com"
-          key: "team-broker-key"
-    asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.broker.teamBroker.api.secret is required!"
+          errorMessage: "A valid .Values.forge.broker.teamBroker.api.key is required when api.secret is set!"
 
   - it: should skip teamBrokerApiSecret rendering when teamBroker is enabled but api is empty
     template: secrets.yaml
@@ -150,13 +144,10 @@ tests:
       forge.broker.enabled: true
       forge.broker.teamBroker:
         enabled: true
-        api:
-          key: "team-broker-key"
-          secret: "team-broker-secret"
     asserts:
       - matchRegex:
           path: data["flowforge.yml"]
-          pattern: "url: http://emqx-dashboard\\.my-namespace:18083"
+          pattern: "url: http://emqx-dashboard\\.my-namespace:18083/api/v5"
 
   - it: should use user-provided api.url when set
     template: configmap.yaml
@@ -177,3 +168,15 @@ tests:
       - notMatchRegex:
           path: data["flowforge.yml"]
           pattern: "url: http://emqx-dashboard"
+
+  # forge.teamBrokerApiKey helper - verified indirectly through the rendered configmap
+  - it: should default api key name to flowfuse when not provided
+    template: configmap.yaml
+    set:
+      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "key: flowfuse"

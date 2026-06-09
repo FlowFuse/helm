@@ -2,6 +2,9 @@
 suite: test forge ingress objects
 set:
   forge.domain: "chart-unit-tests.com"
+capabilities:
+  apiVersions:
+    - apps.emqx.io/v2beta1
 tests:
   - it: should create forge ingress object
     template: service-ingress.yaml
@@ -26,7 +29,7 @@ tests:
           name: flowforge-broker
           apiVersion: networking.k8s.io/v1
           any: true
-        template: broker-ingress.yaml
+        template: emqx.yaml
   - it: should create forge ingress object with annotations
     template: service-ingress.yaml
     documentSelector: 
@@ -50,8 +53,8 @@ tests:
       - isNullOrEmpty:
           path: metadata.annotations
   - it: should create broker ingress object with annotations
-    templates: 
-      - broker-ingress.yaml
+    template: emqx.yaml
+    documentIndex: 2
     set:
       forge.broker:
         enabled: true
@@ -65,8 +68,8 @@ tests:
           path: metadata.annotations.customBrokerAnnotation
           value: "true"
   - it: should create broker ingress object without annotations
-    templates: 
-    - broker-ingress.yaml
+    template: emqx.yaml
+    documentIndex: 2
     set:
       ingress.annotations:
         customForgeAnnotation: "true"
@@ -87,11 +90,13 @@ tests:
     asserts:
       - isNotNullOrEmpty:
           path: metadata.annotations
-        template: broker-ingress.yaml
+        template: emqx.yaml
+        documentIndex: 2
       - equal:
           path: metadata.annotations.customBrokerAnnotation
           value: "true"
-        template: broker-ingress.yaml
+        template: emqx.yaml
+        documentIndex: 2
       - isNotNullOrEmpty:
           path: metadata.annotations
         template: service-ingress.yaml
@@ -234,7 +239,8 @@ tests:
           path: spec.tls
 
   - it: should create broker ingress with TLS when certManagerIssuer is set
-    template: broker-ingress.yaml
+    template: emqx.yaml
+    documentIndex: 2
     set:
       forge:
         broker:
@@ -256,7 +262,8 @@ tests:
           value: "mqtt.chart-unit-tests.com"
 
   - it: should add TLS section to broker ingress when cert-manager annotations are detected
-    template: broker-ingress.yaml
+    template: emqx.yaml
+    documentIndex: 2
     set:
       forge:
         broker:
@@ -281,7 +288,8 @@ tests:
 
   # Test broker ingress without cert-manager annotations
   - it: should NOT add TLS section to broker ingress when no cert-manager annotations
-    template: broker-ingress.yaml
+    template: emqx.yaml
+    documentIndex: 2
     set:
       forge:
         broker:
@@ -296,7 +304,8 @@ tests:
           path: spec.tls
 
   - it: should use certManagerIssuer when both certManagerIssuer and cert-manager annotations are set for broker ingress
-    template: broker-ingress.yaml
+    template: emqx.yaml
+    documentIndex: 2
     set:
       forge:
         broker:
