@@ -57,6 +57,24 @@ jobs:
             kubectl label --overwrite $node "role=management"
           done
 
+      - name: Install cert-manager (required by EMQX Operator)
+        if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
+        run: |
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.2/cert-manager.yaml
+          kubectl wait --for=condition=Available --timeout=300s \
+            deployment/cert-manager deployment/cert-manager-webhook deployment/cert-manager-cainjector \
+            -n cert-manager
+
+      - name: Install EMQX Operator
+        if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
+        run: |
+          helm repo add emqx https://repos.emqx.io/charts
+          helm repo update
+          helm install emqx-operator emqx/emqx-operator \
+            --namespace emqx-operator-system --create-namespace --wait
+          kubectl wait --for=condition=Available --timeout=300s \
+            deployment -l app.kubernetes.io/instance=emqx-operator -n emqx-operator-system
+
       - name: Run chart-testing (install and upgrade)
         if: "${{!startsWith(github.event.pull_request.title, 'feat: Release')}}"
         run: ct install --upgrade --config ./.github/configs/chart-testing.yaml

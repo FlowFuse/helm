@@ -1,6 +1,6 @@
-{{- if and ( eq .Values.forge.broker.enabled true) ( eq .Values.forge.broker.teamBroker.enabled true )  -}}
+{{- if eq .Values.forge.broker.enabled true -}}
 {{- if not (.Capabilities.APIVersions.Has "apps.emqx.io/v2beta1") }}
-{{- fail "EMQX Operator not installed. Please install it or disable team broker before continuing" }}
+{{- fail "EMQX Operator not installed. Please install it or disable the broker (forge.broker.enabled=false) before continuing" }}
 {{- end }}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
@@ -33,8 +33,8 @@ spec:
               - name: EMQX_DASHBOARD__DEFAULT_PASSWORD
                 valueFrom:
                     secretKeyRef:
-                        {{- if .Values.broker.exisitingSecret }}
-                        name: {{ .Values.broker.exisitingSecret }}
+                        {{- if .Values.broker.existingSecret }}
+                        name: {{ .Values.broker.existingSecret }}
                         {{- else }}
                         name: emqx-config-secrets
                         {{- end }}
@@ -51,8 +51,8 @@ spec:
             extraVolumes:
               - name: config
                 secret:
-                    {{- if .Values.broker.exisitingSecret }}
-                    secretName: {{ .Values.broker.exisitingSecret }}
+                    {{- if .Values.broker.existingSecret }}
+                    secretName: {{ .Values.broker.existingSecret }}
                     {{- else }}
                     secretName: emqx-config-secrets
                     {{- end }}
@@ -83,7 +83,7 @@ spec:
             type: ClusterIP
         {{- end }}
 ---
-{{- if not .Values.broker.exisitingSecret }}
+{{- if not .Values.broker.existingSecret }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -108,7 +108,7 @@ metadata:
     {{- end }}
   {{- $filteredAnnotations := include "forge.filteredBrokerIngressAnnotations" . | replace "{{ instanceHost }}" "{{ include forge.brokerDomain . }}" | replace "{{ serviceName }}" "flowforge-broker" }}
   {{- if $filteredAnnotations }}
-{{ $filteredAnnotations | indent 4 }}
+{{ $filteredAnnotations | indent 8 }}
   {{- end }}
 spec:
     {{- if $.Values.ingress.className }}
@@ -129,7 +129,45 @@ spec:
     tls:
     - hosts:
         - {{ include "forge.brokerDomain" . }}
-        secretName: {{ include "forge.brokerDomain" . }}
+      secretName: {{ include "forge.brokerDomain" . }}
   {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowforge-broker
+  labels:
+  {{- include "forge.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.broker.service.type }}
+  {{- if eq .Values.broker.service.type "NodePort" }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+    {{- if (.Values.broker.service.mqtt).nodePort }}
+    nodePort: {{ .Values.broker.service.mqtt.nodePort }}
+    {{- end }}
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+    {{- if (.Values.broker.service.ws).nodePort }}
+    nodePort: {{ .Values.broker.service.ws.nodePort }}
+    {{- end }}
+  {{- else }}
+  ports:
+  - port: 1883
+    targetPort: 1883
+    protocol: TCP
+    name: mqtt-native
+  - port: 1884
+    targetPort: 1884
+    protocol: TCP
+    name: mqtt-ws
+  {{- end }}
+  selector:
+    {{- include "forge.brokerSelectorLabels" . | nindent 4 }}
 
 {{- end }}

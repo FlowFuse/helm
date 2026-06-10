@@ -278,10 +278,6 @@
                         "enabled": {
                             "type": "boolean"
                         },
-                        "revisionHistoryLimit": {
-                            "type": ["integer", "null"],
-                            "minimum": 0
-                        },
                         "url": {
                             "type" : "string"
                         },
@@ -317,127 +313,6 @@
                                 }
                             }
                         },
-                        "resources": {
-                            "type": "object",
-                            "properties": {
-                                "limits": {
-                                    "type": "object",
-                                    "properties": {
-                                        "cpu": {
-                                            "type": ["number","string"]
-                                        },
-                                        "memory": {
-                                            "type": ["number","string"]
-                                        }
-                                    }
-                                },
-                                "requests": {
-                                    "type": "object",
-                                    "properties": {
-                                        "cpu": {
-                                            "type": ["number","string"]
-                                        },
-                                        "memory": {
-                                            "type": ["number","string"]
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "podSecurityContext": {
-                            "type": "object",
-                            "properties": {
-                                "runAsUser": {
-                                    "type": "integer"
-                                },
-                                "runAsGroup": {
-                                    "type": "integer"
-                                },
-                                "fsGroup": {
-                                    "type": "integer"
-                                },
-                                "seccompProfile": {
-                                    "type": "object",
-                                    "properties": {
-                                        "type": {
-                                            "type": "string"
-                                        },
-                                        "localhostProfile": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "livenessProbe": {
-                            "type": "object",
-                            "properties": {
-                                "failureThreshold": {
-                                    "type": "integer"
-                                },
-                                "initialDelaySeconds": {
-                                    "type": "integer"
-                                },
-                                "periodSeconds": {
-                                    "type": "integer"
-                                },
-                                "successThreshold": {
-                                    "type": "integer"
-                                },
-                                "timeoutSeconds": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "readinessProbe": {
-                            "type": "object",
-                            "properties": {
-                                "failureThreshold": {
-                                    "type": "integer"
-                                },
-                                "initialDelaySeconds": {
-                                    "type": "integer"
-                                },
-                                "periodSeconds": {
-                                    "type": "integer"
-                                },
-                                "successThreshold": {
-                                    "type": "integer"
-                                },
-                                "timeoutSeconds": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "startupProbe": {
-                            "type": "object",
-                            "properties": {
-                                "failureThreshold": {
-                                    "type": "integer"
-                                },
-                                "initialDelaySeconds": {
-                                    "type": "integer"
-                                },
-                                "periodSeconds": {
-                                    "type": "integer"
-                                },
-                                "successThreshold": {
-                                    "type": "integer"
-                                },
-                                "timeoutSeconds": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        "containerSecurityContext": {
-                            "type": "object"
-                        },
-                        "podLabels": {
-                            "type": "object"
-                        },
-                        "labels": {
-                            "type": "object"
-                        },
                         "tolerations": {
                             "type": "array"
                         },
@@ -449,12 +324,6 @@
                                     "minProperties": 0
                                 }
                             }
-                        },
-                        "createMetricsUser": {
-                            "type": "boolean"
-                        },
-                        "image": {
-                            "type": "string"
                         }
                     },
                     "required": [
