@@ -3,7 +3,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   version: 11.9.13
 - name: valkey
-  repository: oci://registry-1.docker.io/cloudpirates
-  version: 0.15.3
-digest: sha256:e43b7e22bffb62a4f6c6042e837e5bcb9e7a6e2f5066d96bcf62ce05ef7bab03
-generated: "2026-02-03T16:07:53.32473377Z"
+  repository: https://valkey.io/valkey-helm/
+  version: 0.9.4
+digest: sha256:ea037f8acf67bf4b6f2990c604bfc3e04bbc53ffc8335479741982331841eab7
+generated: "2026-05-29T13:11:22.814579+02:00"

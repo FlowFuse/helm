@@ -340,9 +340,14 @@ npmRegistry:
   podSecurityContext: {}
 
 valkey:
-  replicaCount: 1
+  # Standalone mode (single pod, Deployment). Set replica.enabled: true for
+  # master + N replicas (StatefulSet).
+  replica:
+    enabled: false
 
-  persistence:
+  # Persistence is disabled by default — the cache is ephemeral. Override to a
+  # PVC by setting dataStorage.enabled: true and dataStorage.requestedSize.
+  dataStorage:
     enabled: false
 
   resources:
@@ -359,10 +364,12 @@ valkey:
   metrics:
     enabled: false
 
-  config:
-    maxMemory: 800mb
-    maxMemoryPolicy: allkeys-lru
-    save: 3600 1 300 100 60 10000
+  # Raw valkey.conf appended to the rendered config. See upstream docs:
+  # https://github.com/valkey-io/valkey-helm/tree/main/valkey
+  valkeyConfig: |
+    maxmemory 800mb
+    maxmemory-policy allkeys-lru
+    save 3600 1 300 100 60 10000
 
 ingressMigration:
   enabled: false

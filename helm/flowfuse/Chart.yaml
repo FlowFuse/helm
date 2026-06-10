@@ -17,8 +17,8 @@ dependencies:
       - child: image
         parent: postgresql.image
   - name: valkey
-    version: 0.15.3
-    repository: oci://registry-1.docker.io/cloudpirates
+    version: 0.9.4
+    repository: https://valkey.io/valkey-helm/
     condition: forge.localValkey
 maintainers:
   - name: "FlowFuse Inc"
