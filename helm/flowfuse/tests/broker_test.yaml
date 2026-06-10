@@ -51,6 +51,31 @@ tests:
           path: spec.revisionHistoryLimit
           value: 5
 
+  - it: should default the EMQX core replicas to 2
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: spec.coreTemplate.spec.replicas
+          value: 2
+
+  - it: should honor a custom broker.replicas value
+    documentIndex: 0
+    set:
+      broker.replicas: 3
+    asserts:
+      - equal:
+          path: spec.coreTemplate.spec.replicas
+          value: 3
+
+  - it: should fall back to 2 replicas when broker.replicas is null
+    documentIndex: 0
+    set:
+      broker.replicas: null
+    asserts:
+      - equal:
+          path: spec.coreTemplate.spec.replicas
+          value: 2
+
   - it: should generate the emqx-config-secrets secret when no existingSecret is set
     documentSelector:
       path: metadata.name
