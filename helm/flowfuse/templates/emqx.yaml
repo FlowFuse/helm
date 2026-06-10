@@ -29,6 +29,7 @@ spec:
               - name: {{ . }}
             {{- end }}
             {{- end }}
+            replicas: {{ .Values.broker.replicas | default 2 }}
             env:
               - name: EMQX_DASHBOARD__DEFAULT_PASSWORD
                 valueFrom:

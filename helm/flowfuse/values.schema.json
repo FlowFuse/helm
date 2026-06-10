@@ -1155,6 +1155,10 @@
                 "image": {
                     "type": "string"
                 },
+                "replicas": {
+                    "type": "integer",
+                    "minimum": 1
+                },
                 "revisionHistoryLimit": {
                     "type": ["integer", "null"],
                     "minimum": 0

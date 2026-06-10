@@ -128,6 +128,7 @@ To use STMP to send email
 ### Team Broker
 
   - `broker.image` defines the container image for the Team Broker (default `emqx:5`)
+  - `broker.replicas` number of broker replicas (default `2`)
   - `broker.revisionHistoryLimit` number of old ControllerRevisions to retain for the EMQX team broker. If not set, uses `forge.revisionHistoryLimit` (default `10`).
   - `broker.storageClassName` the StorageClass to use for the teamBroker persistent Storage
   - `broker.listenersServiceTemplate` Service spec for the MQTT listeners
