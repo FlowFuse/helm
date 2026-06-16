@@ -1,3 +1,8 @@
+#### 2.79.0: Release
+
+ - feat: Release 2.31.3 (#944) @knolleary
+ - feat: Add possibility to specify custom broker replica number (#942) @ppawlowski
+
 #### 2.78.0: Release
 
  - feat: Release 2.31.2 (#940) @hardillb
