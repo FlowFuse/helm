@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test custom network policies
+templates:
+  - network-policies.yaml
+release:
+  name: flowfuse
+  namespace: default
+set:
+  forge.domain: "chart-unit-tests.com"
+
+tests:
+  - it: should not render anything when networkPolicies is empty (default)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render a single network policy
+    set:
+      networkPolicies:
+        deny-all-ingress:
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Ingress
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: NetworkPolicy
+        documentIndex: 0
+      - isAPIVersion:
+          of: networking.k8s.io/v1
+        documentIndex: 0
+      - equal:
+          path: metadata.name
+          value: deny-all-ingress
+        documentIndex: 0
+      - equal:
+          path: spec.policyTypes
+          value:
+            - Ingress
+        documentIndex: 0
+
+  - it: should default namespace to the release namespace
+    set:
+      networkPolicies:
+        deny-all-ingress:
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Ingress
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: default
+        documentIndex: 0
+
+  - it: should use the provided namespace when set
+    set:
+      networkPolicies:
+        deny-all-ingress:
+          namespace: custom-ns
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Ingress
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: custom-ns
+        documentIndex: 0
+
+  - it: should inject chart labels and merge custom labels and annotations
+    set:
+      networkPolicies:
+        deny-all-ingress:
+          labels:
+            extra-label: value
+          annotations:
+            extra-annotation: value
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Ingress
+    asserts:
+      - equal:
+          path: metadata.labels["app.kubernetes.io/managed-by"]
+          value: Helm
+        documentIndex: 0
+      - equal:
+          path: metadata.labels["extra-label"]
+          value: value
+        documentIndex: 0
+      - equal:
+          path: metadata.annotations["extra-annotation"]
+          value: value
+        documentIndex: 0
+
+  - it: should render multiple network policies
+    set:
+      networkPolicies:
+        deny-all-ingress:
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Ingress
+        allow-egress:
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Egress
+    asserts:
+      - hasDocuments:
+          count: 2
+      - containsDocument:
+          apiVersion: networking.k8s.io/v1
+          kind: NetworkPolicy
+          name: deny-all-ingress
+          any: true
+      - containsDocument:
+          apiVersion: networking.k8s.io/v1
+          kind: NetworkPolicy
+          name: allow-egress
+          any: true
+
+  - it: should support Helm templating in namespace and spec
+    set:
+      forge.projectNamespace: my-projects
+      networkPolicies:
+        flowfuse-projects-policy:
+          namespace: "{{ .Values.forge.projectNamespace }}"
+          spec:
+            podSelector:
+              matchLabels:
+                nodered: "true"
+            policyTypes:
+              - Ingress
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: my-projects
+        documentIndex: 0
+      - equal:
+          path: spec.podSelector.matchLabels.nodered
+          value: "true"
+        documentIndex: 0
