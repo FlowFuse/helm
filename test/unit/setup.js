@@ -8,8 +8,10 @@ async function setup () {
     const child = exec([
         'helm',
         'template',
-        'flowforge',
-        'flowforge',
+        'flowfuse',
+        'flowfuse',
+        '--api-versions',
+        'apps.emqx.io/v2beta1',
         '-f',
         `${testDir}/customizations.yml`
     ].join(' '), {

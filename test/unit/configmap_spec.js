@@ -58,17 +58,6 @@ describe('Examine Config Maps', function () {
             })
         })
         describe('has broker', function () {
-            // let mosquittoConf
-            before(function () {
-                // const brokerCM = configMaps.filter(cm => cm.metadata.name === 'flowforge-broker-config')[0]
-                // mosquittoConf = brokerCM.data['mosquitto.conf']
-            })
-            it('has configmap', function () {
-                const cm = configMaps.filter(s => s.metadata.name === 'flowforge-broker-config')
-                cm.should.have.length(1)
-                const cmp = configMaps.filter(s => s.metadata.name === 'flowforge-broker-ping')
-                cmp.should.have.length(1)
-            })
             it('has broker', function () {
                 ffYML.should.have.property('broker')
             })

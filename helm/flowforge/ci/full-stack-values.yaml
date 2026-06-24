@@ -1,6 +1,0 @@
-forge:
-  domain: example.com
-  broker:
-    enabled: true
-  fileStore:
-    enabled: true
