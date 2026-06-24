@@ -144,6 +144,7 @@
                 },
                 "projectNetworkPolicy": {
                     "type": "object",
+                    "description": "DEPRECATED: use the top-level `networkPolicies` value instead. This block still works but will be removed in a future release.",
                     "properties": {
                         "egress": {
                             "type": "array"
@@ -1365,6 +1366,29 @@
             "postgresql": {
                 "required": ["auth"]
             }
+        }
+    },
+    "networkPolicies": {
+        "type": "object",
+        "description": "Custom NetworkPolicies to deploy as part of this release, keyed by policy name. Helm templating is supported.",
+        "default": {},
+        "additionalProperties": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "object"
+                },
+                "annotations": {
+                    "type": "object"
+                },
+                "spec": {
+                    "type": "object"
+                }
+            },
+            "required": ["spec"]
         }
     },
     "extraObjects": {
