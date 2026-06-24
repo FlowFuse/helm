@@ -37,8 +37,10 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f # v2.8.0
 
-      - name: Add bitami repo
-        run: helm repo add bitnami https://charts.bitnami.com/bitnami
+      - name: Add required helm repositories
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add valkey-io https://valkey.io/valkey-helm/ 
 
       - name: Lint helm chart
         run: |
