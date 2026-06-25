@@ -5,6 +5,107 @@ templates:
 set:
   forge.domain: "chart-unit-tests.com"
 tests:
+  - it: should render core server settings (host, port, domain)
+    set:
+      forge.domain: example.com
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "host: 0\\.0\\.0\\.0"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "port: 3000"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "domain: example\\.com"
+
+  - it: should configure the postgres database
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "db:\\n\\s+type: postgres"
+
+  - it: should configure the kubernetes driver
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "driver:\\n\\s+type: kubernetes"
+
+  - it: should render default logging configuration
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "logging:\\n\\s+level: info\\n\\s+http: info"
+
+  - it: should render the email block when email is configured
+    set:
+      forge.email:
+        from: '"FlowForge" <flowforge@example.com>'
+        ses:
+          region: eu-west-1
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "email:\\n\\s+enabled: true"
+
+  - it: should default the email block to disabled when email is not configured
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "email:\\n\\s+enabled: false"
+
+  - it: should render broker url and public_url when broker is enabled
+    set:
+      forge.broker:
+        enabled: true
+        url: mqtt://flowforge-broker.default:1883
+        public_url: wss://mqtt.example.com
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "broker:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "url: mqtt://flowforge-broker\\.default:1883"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "public_url: wss://mqtt\\.example\\.com"
+
+  - it: should render the fileStore url when fileStore is enabled
+    release:
+      namespace: default
+    set:
+      forge.fileStore.enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "fileStore:\\n\\s+url: http://flowforge-file\\.default"
+
+  - it: should render sentry telemetry for frontend and backend
+    set:
+      forge.telemetry.sentry:
+        production_mode: false
+        frontend_dsn: https://sentry.io/flowforge/flowforge-frontend
+        backend_dsn: https://sentry.io/flowforge/flowforge-backend
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "dsn: https://sentry\\.io/flowforge/flowforge-frontend"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "dsn: https://sentry\\.io/flowforge/flowforge-backend"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "production_mode: false"
+
+  - it: should render prometheus enabled in backend telemetry
+    set:
+      forge.telemetry.backend.prometheus.enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "prometheus:\\n\\s+enabled: true"
+
   - it: should not include projectProbes by default
     asserts:
       - notMatchRegex:
