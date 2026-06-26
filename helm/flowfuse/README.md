@@ -67,6 +67,9 @@ For other values please refer to the documentation below.
  - `forge.revisionHistoryLimit` global default for number of old ReplicaSets/ControllerRevisions to retain for rollback across all Deployments and StatefulSets managed by this chart (default `10`). Can be overridden per component.
  - `forge.tolerations` allows to configure [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) for the core application deployment (default `[]`)
  - `forge.priorityClassName` allows to set [priorityClassName](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/) for all deployments created by this Helm chart (default not set)
+ - `forge.podDisruptionBudget.enabled` enables a [PodDisruptionBudget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) for the core application deployment (default `false`)
+ - `forge.podDisruptionBudget.minAvailable` minimum number/percentage of pods that must remain available during voluntary disruption (default `1`). Mutually exclusive with `maxUnavailable`.
+ - `forge.podDisruptionBudget.maxUnavailable` maximum number/percentage of pods unavailable during voluntary disruption (default not set). Mutually exclusive with `minAvailable`.
  - `forge.service.type` allows to set the service type for the core application service (default `ClusterIP`)
  - `forge.service.nodePort` allows to set custom nodePort value when `forge.service.type` value is set to `NodePort` (default not set)
  - `forge.logging.level` sets logging level for the Forge app (default: `info` from "info", "error", "debug", "warn", "trace", "fatal")

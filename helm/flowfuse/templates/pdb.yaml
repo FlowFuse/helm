@@ -1,0 +1,22 @@
+{{- if .Values.forge.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: flowfuse
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+    {{- with .Values.forge.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.forge.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.forge.podDisruptionBudget.minAvailable }}
+  {{- end }}
+  {{- if .Values.forge.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.forge.podDisruptionBudget.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "forge.forgeSelectorLabels" . | nindent 6 }}
+{{- end }}

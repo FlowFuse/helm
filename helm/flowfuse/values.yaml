@@ -135,6 +135,11 @@ forge:
 
   priorityClassName: ""
 
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+    # maxUnavailable: 1   # set instead of minAvailable (mutually exclusive)
+
   logPassthrough: false
   customHostname:
     enabled: false
