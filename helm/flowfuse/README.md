@@ -35,9 +35,9 @@ For other values please refer to the documentation below.
  - `forge.projectSelector` a collection of labels and values to filter nodes that Project Pods will run on (default `role: projects`)
  - `forge.projectNamespace` namespace Project Pods will run in (default `flowforge`)
  - `forge.projectDeploymentTolerations` tolerations settings for Project instances. Default is `[]`.
- - `forge.projectNetworkPolicy.enabled` specified if [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) should be created for project pods ( default `false`)
- - `forge.projectNetworkPolicy.ingress` a list of ingress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied on project pods ( default `[]`)
- - `forge.projectNetworkPolicy.egress` a list of egress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied in project pods ( default `[]`)
+ - `forge.projectNetworkPolicy.enabled` **DEPRECATED** (use the top-level [`networkPolicies`](#network-policies) value instead) specified if [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) should be created for project pods ( default `false`)
+ - `forge.projectNetworkPolicy.ingress` **DEPRECATED** (use the top-level [`networkPolicies`](#network-policies) value instead) a list of ingress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied on project pods ( default `[]`)
+ - `forge.projectNetworkPolicy.egress` **DEPRECATED** (use the top-level [`networkPolicies`](#network-policies) value instead) a list of egress rules for the [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) applied in project pods ( default `[]`)
  - `forge.projectIngressClassName` ingress class name for project instances (default is `ingress.className` value if set, otherwise `"""`)
  - `forge.projectIngressAnnotations` ingress annotations for project instances (default is `{}`)
  - `forge.projectServiceType` service type for project instances (allowed `ClusterIP` or `NodePort`, default is `ClusterIP`)
@@ -392,6 +392,46 @@ readinessProbe:
   timeoutSeconds: 5
   successThreshold: 1
   failureThreshold: 3
+```
+
+### Network Policies
+
+The chart can deploy arbitrary [NetworkPolicies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) via the top-level `networkPolicies` value. It is a map keyed by policy name; each entry renders one `NetworkPolicy`. The chart owns `apiVersion`, `kind`, `metadata.name` (the map key), labels and namespace, while `spec` is rendered as-is. Full Helm templating is supported in both keys and values (`.Release.*`, `.Values.*`, helper functions), so policies can target any namespace and any pods.
+
+- `networkPolicies` map of custom NetworkPolicies to deploy as part of this release. Helm templating is supported. (default `{}`)
+  - `<name>.namespace` namespace the policy is created in (default is the release namespace)
+  - `<name>.labels` extra labels merged onto the chart labels (default `{}`)
+  - `<name>.annotations` annotations applied to the policy (default `{}`)
+  - `<name>.spec` the [NetworkPolicy spec](https://kubernetes.io/docs/reference/kubernetes-api/policy-resources/network-policy-v1/#NetworkPolicySpec), rendered verbatim (required)
+
+> **Note:** `forge.projectNetworkPolicy` is deprecated in favour of this value. To reproduce it, target the project namespace and the `nodered: "true"` pods (see the example below).
+
+Example:
+
+```yaml
+networkPolicies:
+  # Equivalent of the deprecated forge.projectNetworkPolicy
+  flowfuse-projects-policy:
+    namespace: "{{ .Values.forge.projectNamespace }}"
+    spec:
+      podSelector:
+        matchLabels:
+          nodered: "true"
+      policyTypes:
+        - Ingress
+        - Egress
+      ingress:
+        - from:
+            - podSelector: {}
+      egress:
+        - to:
+            - namespaceSelector: {}
+  # Deny all ingress to the release namespace by default
+  default-deny-ingress:
+    spec:
+      podSelector: {}
+      policyTypes:
+        - Ingress
 ```
 
 ### Extra Objects

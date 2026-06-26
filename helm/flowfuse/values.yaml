@@ -8,6 +8,8 @@ forge:
   projectSelector:
     role: projects
   projectDeploymentTolerations: []
+  # DEPRECATED: use the top-level `networkPolicies` value instead.
+  # This block still works but will be removed in a future release.
   projectNetworkPolicy:
     enabled: false
   projectIngressAnnotations: {}
@@ -416,6 +418,25 @@ ingressMigration:
 
   # Tolerations
   tolerations: []
+
+# Custom NetworkPolicies to deploy as part of this release.
+# A map keyed by policy name; each entry renders a single NetworkPolicy.
+# `namespace` defaults to the release namespace. `spec` is rendered verbatim.
+# Supports Helm templating in keys and values (e.g. .Release.Name, .Values.*).
+networkPolicies: {}
+# allow-projects-ingress:
+#   namespace: "{{ .Values.forge.projectNamespace }}"
+#   labels: {}
+#   annotations: {}
+#   spec:
+#     podSelector:
+#       matchLabels:
+#         nodered: "true"
+#     policyTypes:
+#       - Ingress
+#     ingress:
+#       - from:
+#           - podSelector: {}
 
 # Extra Kubernetes manifests to deploy as part of this release.
 # Supports Helm templating (e.g. .Release.Name, .Values.*).

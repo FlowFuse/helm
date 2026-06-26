@@ -1,3 +1,21 @@
 Thank you for installing {{ .Chart.Name }} v{{ .Chart.AppVersion }}
 
 You can complete the setup wizard at {{ if .Values.forge.entryPoint }}http{{- if .Values.forge.https -}}s{{- end -}}://{{ .Values.forge.entryPoint }}{{- else }}http{{- if .Values.forge.https -}}s{{- end -}}://forge.{{ .Values.forge.domain }}{{- end }}
+{{ if (((.Values.forge).projectNetworkPolicy).enabled) }}
+[DEPRECATION WARNING] `forge.projectNetworkPolicy` is deprecated and will be
+removed in a future release. Please migrate to the top-level `networkPolicies`
+value, which can express the same policy:
+
+  networkPolicies:
+    flowfuse-projects-policy:
+      namespace: "{{ "{{" }} .Values.forge.projectNamespace {{ "}}" }}"
+      spec:
+        podSelector:
+          matchLabels:
+            nodered: "true"
+        policyTypes:
+          - Ingress
+          - Egress
+        ingress: []   # your forge.projectNetworkPolicy.ingress rules
+        egress: []    # your forge.projectNetworkPolicy.egress rules
+{{- end }}
