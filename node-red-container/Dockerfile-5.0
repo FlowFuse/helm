@@ -1,5 +1,5 @@
 # TODO: set proper tag after Node-RED 5 release
-FROM nodered/node-red:5.0.0-24 
+FROM nodered/node-red:5.0.1-24 
 
 ARG BUILD_TAG=latest
 
