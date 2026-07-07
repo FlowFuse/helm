@@ -1,3 +1,29 @@
+#### 2.80.0: Release
+
+ - ci: Add helm chart dependencies to the release pipeline (#964) @ppawlowski
+ - feat: Release 2.32.0 (#962) @andypalmi
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3107.0 to 12.3112.0 (#960) @app/dependabot
+ - chore: Updates for NR 5.0.1 (#961) @knolleary
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.2.0 to 6.2.1 (#959) @app/dependabot
+ - ci: set dependabot pull request limit to 30 (#945) @ppawlowski
+ - chore(deps): bump actions/checkout from 6.0.3 to 7.0.0 (#956) @app/dependabot
+ - chore(deps): bump actions/setup-python from 6.2.0 to 6.3.0 (#957) @app/dependabot
+ - chore(deps): bump azure/setup-helm from 5.0.0 to 5.0.1 (#955) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.4.1 to 6.4.2 (#954) @app/dependabot
+ - feat: add configurable PodDisruptionBudget for core deployment (#953) @ppawlowski
+ - feat: Add possibility to specify custom, global Network Policies (#952) @ppawlowski
+ - test: migrate node unit tests to helm-unittest (#958) @ppawlowski
+ - feat: switch valkey dependency to official valkey-io chart (#939) @ppawlowski
+ - chore: Remove deprecated flowforge helm chart (#950) @ppawlowski
+ - chore(deps): bump actions/checkout from 6.0.2 to 6.0.3 (#927) @app/dependabot
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.1.5 to 2.1.6 (#949) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.1.2 to 6.2.0 (#929) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3102.0 to 12.3107.0 (#947) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.36.1 to 4.36.2 (#948) @app/dependabot
+ - chore(deps): bump docker/login-action from 4.1.0 to 4.2.0 (#925) @app/dependabot
+ - chore(deps): bump docker/setup-qemu-action from 4.0.0 to 4.1.0 (#926) @app/dependabot
+ - chore(deps): bump github/codeql-action from 4.36.0 to 4.36.1 (#928) @app/dependabot
+
 #### 2.79.0: Release
 
  - feat: Release 2.31.3 (#944) @knolleary
