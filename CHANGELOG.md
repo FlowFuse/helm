@@ -1,3 +1,17 @@
+#### 2.81.0: Release
+
+ - feat: Release 2.32.1 (#979) @hardillb
+ - chore(deps): bump docker/build-push-action from 7.2.0 to 7.3.0 (#971) @app/dependabot
+ - chore(deps): bump docker/login-action from 4.2.0 to 4.4.0 (#968) @app/dependabot
+ - chore(deps): bump docker/metadata-action from 6.1.0 to 6.2.0 (#970) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 4.1.0 to 4.2.0 (#965) @app/dependabot
+ - chore(deps): bump docker/setup-qemu-action from 4.1.0 to 4.2.0 (#966) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.2.1 to 6.2.2 (#973) @app/dependabot
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.13.5 to 0.14.0 (#972) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3112.0 to 12.3113.0 (#967) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.36.2 to 4.36.3 (#969) @app/dependabot
+ - ci: Add slack notification to the release pipeline (#974) @ppawlowski
+
 #### 2.80.0: Release
 
  - ci: Add helm chart dependencies to the release pipeline (#964) @ppawlowski
