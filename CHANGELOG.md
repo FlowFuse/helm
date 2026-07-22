@@ -1,3 +1,7 @@
+#### 2.81.1: Release
+
+ - fix: Ensure Expert Insights can be configured with values (#980) @ppawlowski
+
 #### 2.81.0: Release
 
  - feat: Release 2.32.1 (#979) @hardillb
