@@ -301,6 +301,7 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.expert.service.requestTimeout` Timeout for the FlowFuse Expert service (default `60000`)
  - `forge.expert.broker.address` Address of the MQTT broker to use for communication with the Expert service (default not set). Requires `forge.broker.teamBroker.enabled=true`, since the local team broker bridges to this central broker.
  - `forge.expert.broker.port` Port of the MQTT broker to use for communication with the Expert service (default `8883`)
+ - `forge.expert.insights.enabled` Enable/disable FlowFuse Expert Insights feature (default `false`)
 
 ### AI
 

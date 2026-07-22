@@ -941,6 +941,14 @@
                                     "maximum": 65535
                                 }
                             }
+                        },
+                        "insights": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
                         }
                     }
                 },
