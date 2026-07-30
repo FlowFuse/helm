@@ -1,3 +1,8 @@
+#### 2.82.0: Release
+
+ - feat: Release 2.33.0 (#988) @Steve-Mcl
+ - chore: Update for NR 5.0.2 and 4.1.12 (#987) @hardillb
+
 #### 2.81.1: Release
 
  - fix: Ensure Expert Insights can be configured with values (#980) @ppawlowski
