@@ -1,3 +1,9 @@
+#### 2.83.0: Release
+
+ - feat: Release 2.33.1 (#990) @hardillb
+ - chore(deps): bump actions/checkout from 7.0.0 to 7.0.1 (#981) @app/dependabot
+ - chore: Bump containers for 5.0.4 and 4.1.13 (#989) @knolleary
+
 #### 2.82.0: Release
 
  - feat: Release 2.33.0 (#988) @Steve-Mcl
