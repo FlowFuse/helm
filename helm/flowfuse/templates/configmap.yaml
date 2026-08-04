@@ -341,11 +341,11 @@ data:
         url: {{ ((.Values.forge.expert).service).url }}
         requestTimeout: {{ .Values.forge.expert.requestTimeout | default 60000 }}
       {{- $expertBrokerAddress := (((.Values.forge.expert).broker).address) }}
-      {{- if ((.Values.forge.broker.teamBroker).enabled) }}
+      {{- if (and .Values.forge.broker.enabled ((.Values.forge.broker.teamBroker).enabled)) }}
       centralBroker:
         server: {{ printf "%s:%v" ($expertBrokerAddress | default "expert-broker.flowfuse.com") (((.Values.forge.expert).broker).port | default 8883) }}
       {{- else if $expertBrokerAddress }}
-      {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)" -}}
+      {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.enabled=true and forge.broker.teamBroker.enabled=true)" -}}
       {{- end }}
       {{- end }}
     {{- end }}
