@@ -340,12 +340,12 @@ data:
         token: <%= ENV['EXPERT_TOKEN'] %>
         url: {{ ((.Values.forge.expert).service).url }}
         requestTimeout: {{ .Values.forge.expert.requestTimeout | default 60000 }}
-      {{- if ((.Values.forge.expert).broker).address }}
-      {{- if not ((.Values.forge.broker.teamBroker).enabled) }}
-      {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)" -}}
-      {{- end }}
+      {{- $expertBrokerAddress := (((.Values.forge.expert).broker).address) }}
+      {{- if ((.Values.forge.broker.teamBroker).enabled) }}
       centralBroker:
-        server: {{ printf "%s:%v" .Values.forge.expert.broker.address (.Values.forge.expert.broker.port | default 8883) }}
+        server: {{ printf "%s:%v" ($expertBrokerAddress | default "expert-broker.flowfuse.com") (((.Values.forge.expert).broker).port | default 8883) }}
+      {{- else if $expertBrokerAddress }}
+      {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.teamBroker.enabled=true)" -}}
       {{- end }}
       {{- end }}
     {{- end }}
