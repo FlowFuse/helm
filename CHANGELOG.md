@@ -1,3 +1,8 @@
+#### 2.84.0: Release
+
+ - fix: Require broker.enabled for Expert central broker default (#992) @andypalmi
+ - feat: Default Expert central broker when Team Broker is enabled (#991) @andypalmi
+
 #### 2.83.0: Release
 
  - feat: Release 2.33.1 (#990) @hardillb
