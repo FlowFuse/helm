@@ -1,3 +1,7 @@
+#### 2.85.0: Release
+
+ - feat: Release 2.33.2 (#993) @hardillb
+
 #### 2.84.0: Release
 
  - fix: Require broker.enabled for Expert central broker default (#992) @andypalmi
