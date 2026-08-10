@@ -16,7 +16,7 @@ tests:
           of: EMQX
       - equal:
           path: spec.image
-          value: emqx:5
+          value: emqx:5.8.6
 
   - it: should deploy EMQX even when the team broker is disabled
     documentIndex: 0
