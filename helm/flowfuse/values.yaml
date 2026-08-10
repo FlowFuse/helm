@@ -181,7 +181,7 @@ editors:
     name: editors
 
 broker:
-  image: emqx:5
+  image: emqx:5.8.6
   replicas: 2
   revisionHistoryLimit: null
   storageClassName: ''
