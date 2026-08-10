@@ -1,3 +1,7 @@
+#### 2.85.1: Release
+
+ - fix: Pin to known working verison of emqx (#997) @hardillb
+
 #### 2.85.0: Release
 
  - feat: Release 2.33.2 (#993) @hardillb
