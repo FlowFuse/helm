@@ -147,6 +147,7 @@ To use STMP to send email
   - `broker.service.mqtt.nodePort` allows to set custom nodePort value for `mqtt` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.service.ws.nodePort` allows to set custom nodePort value for `ws` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.config` allows to overwrite the default Team Broker configuration
+  - `broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the Team Broker core container (default not set)
 
 ### Telemetry
 
