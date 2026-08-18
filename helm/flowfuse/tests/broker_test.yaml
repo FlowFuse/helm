@@ -105,6 +105,66 @@ tests:
       - equal:
           path: spec.coreTemplate.spec.resources.limits.memory
           value: 1Gi
+  
+  - it: should not set core pod or container security context by default
+    documentIndex: 0
+    asserts:
+      - notExists:
+          path: spec.coreTemplate.spec.podSecurityContext
+      - notExists:
+          path: spec.coreTemplate.spec.containerSecurityContext
+
+  - it: should honor a custom broker.podSecurityContext value
+    documentIndex: 0
+    set:
+      broker.podSecurityContext:
+        runAsUser: 1000710000
+        fsGroup: 1000710000
+        seccompProfile:
+          type: RuntimeDefault
+    asserts:
+      - equal:
+          path: spec.coreTemplate.spec.podSecurityContext.runAsUser
+          value: 1000710000
+      - equal:
+          path: spec.coreTemplate.spec.podSecurityContext.seccompProfile.type
+          value: RuntimeDefault
+
+  - it: should honor a custom broker.containerSecurityContext value
+    documentIndex: 0
+    set:
+      broker.containerSecurityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+    asserts:
+      - equal:
+          path: spec.coreTemplate.spec.containerSecurityContext.allowPrivilegeEscalation
+          value: false
+      - equal:
+          path: spec.coreTemplate.spec.containerSecurityContext.capabilities.drop[0]
+          value: ALL
+
+  - it: should not set core pod labels by default
+    documentIndex: 0
+    asserts:
+      - notExists:
+          path: spec.coreTemplate.metadata
+
+  - it: should honor custom broker.podLabels
+    documentIndex: 0
+    set:
+      broker.podLabels:
+        app.kubernetes.io/name: flowforge
+        team: platform
+    asserts:
+      - equal:
+          path: spec.coreTemplate.metadata.labels
+          value:
+            app.kubernetes.io/name: flowforge
+            team: platform
 
   - it: should generate the emqx-config-secrets secret when no existingSecret is set
     documentSelector:

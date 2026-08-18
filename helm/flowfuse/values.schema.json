@@ -1208,6 +1208,14 @@
                             }
                         }
                     }
+                "podSecurityContext": {
+                    "type": "object"
+                },
+                "containerSecurityContext": {
+                    "type": "object"
+                },
+                "podLabels": {
+                    "type": "object"
                 },
                 "revisionHistoryLimit": {
                     "type": ["integer", "null"],

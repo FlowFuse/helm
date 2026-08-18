@@ -148,6 +148,9 @@ To use STMP to send email
   - `broker.service.ws.nodePort` allows to set custom nodePort value for `ws` port when `broker.service.type` value is set to `NodePort` (default not set)
   - `broker.config` allows to overwrite the default Team Broker configuration
   - `broker.resources` allows to configure [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for the Team Broker core container (default not set)
+  - `broker.podSecurityContext` allows to configure pod-level [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the Team Broker core pods (default not set)
+  - `broker.containerSecurityContext` allows to configure container-level [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the Team Broker core container (default not set)
+  - `broker.podLabels` allows to add custom labels to the Team Broker core pods (default `{}`). Setting this rolls the broker core pods, and the keys must not start with `apps.emqx.io/`.
 
 ### Telemetry
 
