@@ -22,6 +22,10 @@ spec:
                 secretName: emqx-config-secrets
                 secretKey: api_key_secret
     coreTemplate:
+        {{- with .Values.broker.podLabels }}
+        metadata:
+            labels: {{- toYaml . | nindent 16 }}
+        {{- end }}
         spec:
             {{- if .Values.forge.registrySecrets }}
             imagePullSecrets:

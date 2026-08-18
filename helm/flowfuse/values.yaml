@@ -185,6 +185,7 @@ broker:
   replicas: 2
   podSecurityContext: {}
   containerSecurityContext: {}
+  podLabels: {}
   revisionHistoryLimit: null
   storageClassName: ''
   listenersServiceTemplate: {}

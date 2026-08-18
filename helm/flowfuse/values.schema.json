@@ -1188,6 +1188,9 @@
                 "containerSecurityContext": {
                     "type": "object"
                 },
+                "podLabels": {
+                    "type": "object"
+                },
                 "revisionHistoryLimit": {
                     "type": ["integer", "null"],
                     "minimum": 0
