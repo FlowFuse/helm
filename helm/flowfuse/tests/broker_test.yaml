@@ -117,6 +117,25 @@ tests:
           path: spec.coreTemplate.spec.containerSecurityContext.capabilities.drop[0]
           value: ALL
 
+  - it: should not set core pod labels by default
+    documentIndex: 0
+    asserts:
+      - notExists:
+          path: spec.coreTemplate.metadata
+
+  - it: should honor custom broker.podLabels
+    documentIndex: 0
+    set:
+      broker.podLabels:
+        app.kubernetes.io/name: flowforge
+        team: platform
+    asserts:
+      - equal:
+          path: spec.coreTemplate.metadata.labels
+          value:
+            app.kubernetes.io/name: flowforge
+            team: platform
+
   - it: should generate the emqx-config-secrets secret when no existingSecret is set
     documentSelector:
       path: metadata.name
