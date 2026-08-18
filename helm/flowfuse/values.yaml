@@ -183,6 +183,7 @@ editors:
 broker:
   image: emqx:5.8.6
   replicas: 2
+  resources: {}
   revisionHistoryLimit: null
   storageClassName: ''
   listenersServiceTemplate: {}
