@@ -30,6 +30,12 @@ spec:
             {{- end }}
             {{- end }}
             replicas: {{ .Values.broker.replicas | default 2 }}
+            {{- if .Values.broker.podSecurityContext }}
+            podSecurityContext: {{- toYaml .Values.broker.podSecurityContext | nindent 16 }}
+            {{- end }}
+            {{- if .Values.broker.containerSecurityContext }}
+            containerSecurityContext: {{- toYaml .Values.broker.containerSecurityContext | nindent 16 }}
+            {{- end }}
             env:
               - name: EMQX_DASHBOARD__DEFAULT_PASSWORD
                 valueFrom:
