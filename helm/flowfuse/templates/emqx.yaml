@@ -40,6 +40,15 @@ spec:
             {{- if .Values.broker.containerSecurityContext }}
             containerSecurityContext: {{- toYaml .Values.broker.containerSecurityContext | nindent 16 }}
             {{- end }}
+            {{- with .Values.broker.livenessProbe }}
+            livenessProbe: {{- toYaml . | nindent 16 }}
+            {{- end }}
+            {{- with .Values.broker.readinessProbe }}
+            readinessProbe: {{- toYaml . | nindent 16 }}
+            {{- end }}
+            {{- with .Values.broker.startupProbe }}
+            startupProbe: {{- toYaml . | nindent 16 }}
+            {{- end }}
             env:
               - name: EMQX_DASHBOARD__DEFAULT_PASSWORD
                 valueFrom:
