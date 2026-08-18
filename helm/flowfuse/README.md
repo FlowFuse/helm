@@ -149,6 +149,7 @@ To use STMP to send email
   - `broker.config` allows to overwrite the default Team Broker configuration
   - `broker.podSecurityContext` allows to configure pod-level [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the Team Broker core pods (default not set)
   - `broker.containerSecurityContext` allows to configure container-level [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the Team Broker core container (default not set)
+  - `broker.podLabels` allows to add custom labels to the Team Broker core pods (default `{}`). Setting this rolls the broker core pods, and the keys must not start with `apps.emqx.io/`.
 
 ### Telemetry
 
