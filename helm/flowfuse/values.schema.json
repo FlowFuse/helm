@@ -1191,6 +1191,15 @@
                 "podLabels": {
                     "type": "object"
                 },
+                "livenessProbe": {
+                    "type": "object"
+                },
+                "readinessProbe": {
+                    "type": "object"
+                },
+                "startupProbe": {
+                    "type": "object"
+                },
                 "revisionHistoryLimit": {
                     "type": ["integer", "null"],
                     "minimum": 0
