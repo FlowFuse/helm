@@ -183,6 +183,8 @@ editors:
 broker:
   image: emqx:5.8.6
   replicas: 2
+  podSecurityContext: {}
+  containerSecurityContext: {}
   revisionHistoryLimit: null
   storageClassName: ''
   listenersServiceTemplate: {}
