@@ -136,6 +136,51 @@ tests:
             app.kubernetes.io/name: flowforge
             team: platform
 
+  - it: should not set core probes by default
+    documentIndex: 0
+    asserts:
+      - notExists:
+          path: spec.coreTemplate.spec.livenessProbe
+      - notExists:
+          path: spec.coreTemplate.spec.readinessProbe
+      - notExists:
+          path: spec.coreTemplate.spec.startupProbe
+
+  - it: should honor custom broker probes
+    documentIndex: 0
+    set:
+      broker.livenessProbe:
+        httpGet:
+          path: /status
+          port: dashboard
+        initialDelaySeconds: 90
+        periodSeconds: 30
+      broker.readinessProbe:
+        httpGet:
+          path: /status
+          port: dashboard
+        initialDelaySeconds: 15
+        failureThreshold: 20
+      broker.startupProbe:
+        httpGet:
+          path: /status
+          port: dashboard
+        failureThreshold: 30
+        periodSeconds: 10
+    asserts:
+      - equal:
+          path: spec.coreTemplate.spec.livenessProbe.initialDelaySeconds
+          value: 90
+      - equal:
+          path: spec.coreTemplate.spec.livenessProbe.httpGet.port
+          value: dashboard
+      - equal:
+          path: spec.coreTemplate.spec.readinessProbe.failureThreshold
+          value: 20
+      - equal:
+          path: spec.coreTemplate.spec.startupProbe.failureThreshold
+          value: 30
+
   - it: should generate the emqx-config-secrets secret when no existingSecret is set
     documentSelector:
       path: metadata.name
