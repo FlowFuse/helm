@@ -151,6 +151,21 @@ To use STMP to send email
   - `broker.podSecurityContext` allows to configure pod-level [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the Team Broker core pods (default not set)
   - `broker.containerSecurityContext` allows to configure container-level [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the Team Broker core container (default not set)
   - `broker.podLabels` allows to add custom labels to the Team Broker core pods (default `{}`). Setting this rolls the broker core pods, and the keys must not start with `apps.emqx.io/`.
+  - `broker.livenessProbe` allows to configure [livenessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) for the Team Broker core container (default not set)
+  - `broker.readinessProbe` allows to configure [readinessProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) for the Team Broker core container (default not set)
+  - `broker.startupProbe` allows to configure [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) for the Team Broker core container (default not set)
+
+  Each probe is passed through as given, so provide a complete definition including a handler, for example:
+
+  ```yaml
+  broker:
+    livenessProbe:
+      httpGet:
+        path: /status
+        port: dashboard
+      initialDelaySeconds: 90
+      periodSeconds: 30
+  ```
 
 ### Telemetry
 

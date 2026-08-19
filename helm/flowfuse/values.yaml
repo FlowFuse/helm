@@ -187,6 +187,9 @@ broker:
   podSecurityContext: {}
   containerSecurityContext: {}
   podLabels: {}
+  livenessProbe: {}
+  readinessProbe: {}
+  startupProbe: {}
   revisionHistoryLimit: null
   storageClassName: ''
   listenersServiceTemplate: {}
