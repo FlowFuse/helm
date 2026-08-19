@@ -1182,6 +1182,33 @@
                     "type": "integer",
                     "minimum": 1
                 },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": ["number","string"]
+                                },
+                                "memory": {
+                                    "type": ["number","string"]
+                                }
+                            }
+                        }
+                    }
+                },
                 "podSecurityContext": {
                     "type": "object"
                 },

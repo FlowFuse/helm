@@ -34,6 +34,9 @@ spec:
             {{- end }}
             {{- end }}
             replicas: {{ .Values.broker.replicas | default 2 }}
+            {{- if .Values.broker.resources }}
+            resources: {{- toYaml .Values.broker.resources | nindent 16 }}
+            {{- end }}
             {{- if .Values.broker.podSecurityContext }}
             podSecurityContext: {{- toYaml .Values.broker.podSecurityContext | nindent 16 }}
             {{- end }}
