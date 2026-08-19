@@ -1,3 +1,17 @@
+#### 2.86.0: Release
+
+ - feat: Add possibility to configure Team Broker probes (#1004) @ppawlowski
+ - feat: Add possibility to configure Team Broker resources (#1001) @ppawlowski
+ - feat: Add possibility to customize Team Broker pod labels (#1003) @ppawlowski
+ - feat: Add possibility to configure security contexts for Team Broker pods and containers (#1002) @ppawlowski
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3115.0 to 12.3116.0 (#999) @app/dependabot
+ - chore(deps): bump actions/setup-python from 6.3.0 to 7.0.0 (#982) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.2.2 to 6.2.3 (#985) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3113.0 to 12.3115.0 (#996) @app/dependabot
+ - chore(deps): bump docker/login-action from 4.4.0 to 4.6.0 (#995) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.36.3 to 4.37.6 (#994) @app/dependabot
+ - ci: Replace deprecated `app-id` with `client-id` in `actions/create-github-app-token` (#998) @ppawlowski
+
 #### 2.85.1: Release
 
  - fix: Pin to known working verison of emqx (#997) @hardillb
