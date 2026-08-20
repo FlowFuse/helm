@@ -1,3 +1,7 @@
+#### 2.87.0: Release
+
+ - feat: Add possibility to configure Google Tag Manager as part of the telemetry (#1009) @ppawlowski
+
 #### 2.86.0: Release
 
  - feat: Add possibility to configure Team Broker probes (#1004) @ppawlowski
