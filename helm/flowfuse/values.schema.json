@@ -382,11 +382,11 @@
                                 },
                                 "events": {
                                     "type": "object"
+                                },
+                                "gtm": {
+                                    "type": "string"
                                 }
-                            },
-                            "required": [
-                                "tag"
-                            ]
+                            }
                         },
                         "backend": {
                             "type": "object",
