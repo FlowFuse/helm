@@ -98,6 +98,66 @@ tests:
           path: data["flowforge.yml"]
           pattern: "production_mode: false"
 
+  - it: should render Google Analytics tag without a Tag Manager container
+    set:
+      forge.telemetry.google:
+        tag: G-TESTTAG
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "frontend:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "google:\\n\\s+tag: G-TESTTAG"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "gtm:"
+
+  - it: should render Google Analytics events
+    set:
+      forge.telemetry.google:
+        tag: G-TESTTAG
+        events:
+          signup: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "google:\\n\\s+tag: G-TESTTAG\\n\\s+events:\\n\\s+signup: true"
+
+  - it: should render Google Tag Manager container without an Analytics tag
+    set:
+      forge.telemetry.google:
+        gtm: GTM-ABC123
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "frontend:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "google:\\n\\s+gtm: GTM-ABC123"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "tag:"
+
+  - it: should render both Analytics tag and Google Tag Manager container
+    set:
+      forge.telemetry.google:
+        tag: G-TESTTAG
+        gtm: GTM-ABC123
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "google:\\n\\s+tag: G-TESTTAG\\n\\s+gtm: GTM-ABC123"
+
+  - it: should not render google telemetry by default
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "google:"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "gtm:"
+
   - it: should render prometheus enabled in backend telemetry
     set:
       forge.telemetry.backend.prometheus.enabled: true
