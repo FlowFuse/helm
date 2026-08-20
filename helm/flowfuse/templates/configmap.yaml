@@ -233,7 +233,7 @@ data:
       http: {{ .Values.forge.logging.http }}
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
-      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn")) }}
+      {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn")) (and (hasKey .Values.forge.telemetry "google") (or (hasKey .Values.forge.telemetry.google "tag") (hasKey .Values.forge.telemetry.google "gtm"))) }}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
         plausible:
@@ -260,9 +260,14 @@ data:
           production_mode: true
           {{ end }}
         {{ end -}}
-        {{ if and (hasKey .Values.forge.telemetry "google") (hasKey .Values.forge.telemetry.google "tag") }}
+        {{ if and (hasKey .Values.forge.telemetry "google") (or (hasKey .Values.forge.telemetry.google "tag") (hasKey .Values.forge.telemetry.google "gtm")) }}
         google:
+          {{ if hasKey .Values.forge.telemetry.google "tag" -}}
           tag: {{ .Values.forge.telemetry.google.tag }}
+          {{ end -}}
+          {{ if hasKey .Values.forge.telemetry.google "gtm" -}}
+          gtm: {{ .Values.forge.telemetry.google.gtm }}
+          {{ end -}}
           {{ if hasKey .Values.forge.telemetry.google "events" }}
           events:
 {{ toYaml .Values.forge.telemetry.google.events | indent 12 }}
