@@ -35,20 +35,41 @@ tests:
           path: spec.template.spec.initContainers
           count: 1
 
-  - it: should create an init container with two secrets
+  - it: should create an init container with three secrets
     template: deployment.yaml
     asserts:
       - isNotNullOrEmpty:
           path: spec.template.spec.initContainers[0].env
       - lengthEqual:
           path: spec.template.spec.initContainers[0].env
-          count: 2
+          count: 3
       - equal:
           path: spec.template.spec.initContainers[0].env[0].name
           value: PGPASSWORD
       - equal:
           path: spec.template.spec.initContainers[0].env[1].name
           value: SMTPPASSWORD
+      - equal:
+          path: spec.template.spec.initContainers[0].env[2].name
+          value: TEAM_BROKER_API_SECRET
+      - equal:
+          path: spec.template.spec.initContainers[0].env[0].valueFrom.secretKeyRef.name
+          value: flowfuse-secrets
+      - equal:
+          path: spec.template.spec.initContainers[0].env[1].valueFrom.secretKeyRef.name
+          value: flowfuse-secrets
+      - equal:
+          path: spec.template.spec.initContainers[0].env[2].valueFrom.secretKeyRef.name
+          value: emqx-config-secrets
+
+  - it: should create an init container with two secrets when the broker is disabled
+    template: deployment.yaml
+    set:
+      forge.broker.enabled: false
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.initContainers[0].env
+          count: 2
       - equal:
           path: spec.template.spec.initContainers[0].env[*].valueFrom.secretKeyRef.name
           value: flowfuse-secrets
