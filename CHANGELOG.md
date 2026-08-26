@@ -1,3 +1,7 @@
+#### 2.88.0: Release
+
+ - feat: Add possibility to anonymize telemetry (#1012) @ppawlowski
+
 #### 2.87.0: Release
 
  - feat: Add possibility to configure Google Tag Manager as part of the telemetry (#1009) @ppawlowski
