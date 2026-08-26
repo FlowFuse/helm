@@ -1,6 +1,6 @@
 {{- if eq .Values.forge.broker.enabled true -}}
 {{- if not (.Capabilities.APIVersions.Has "apps.emqx.io/v2beta1") }}
-{{- fail "EMQX Operator not installed. Please install it or disable the broker (forge.broker.enabled=false) before continuing" }}
+{{- fail "EMQX Operator not installed. Please install it or disable the broker (forge.broker.enabled=false) before continuing. See https://flowfuse.com/docs/install/kubernetes/#prerequisites for installation prerequisites." }}
 {{- end }}
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX

@@ -2,6 +2,16 @@
 
 Access to FlowFuse Management App via the host `forge` on what ever domain is passed. e.g. if `example.com` then `http://forge.example.com`
 
+## Prerequisites
+
+The MQTT broker is installed by default, and it needs the EMQX Operator and cert-manager to be
+present in your cluster first. See the
+[installation prerequisites](https://flowfuse.com/docs/install/kubernetes/#prerequisites) for the
+full list and how to install them.
+
+If you would rather not run the broker, set `forge.broker.enabled: false` and no broker is
+installed.
+
 ## Database
 
 This chart can use the Bitnami PostgreSQL Chart to provide an instance of a PostgreSQL Database to store state (`forge.localPostgresql: true`).
@@ -111,11 +121,11 @@ To use STMP to send email
 
  ### MQTT Broker
 
-  - `forge.broker.enabled` deploys the MQTT broker (default `false`)
+  - `forge.broker.enabled` deploys the MQTT broker (default `true`)
   - `forge.broker.url` URL to access the broker from inside the cluster (default `mqtt://emqx-listeners.[namespace]:1883`)
   - `forge.broker.public_url` URL to access the broker from outside the cluster (default `ws://mqtt.[forge.domain]`, uses `wss://` if `forge.https` is `true`)
   - `forge.broker.hostname` the custom Fully Qualified Domain Name (FQDN) where the broker will be hosted (default `mqtt.[forge.domain]`)
-  - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `false`). Requires `forge.broker.enabled=true`
+  - `forge.broker.teamBroker.enabled` Enables Team Broker feature (default `true`). Requires `forge.broker.enabled=true`
   - `forge.broker.teamBroker.api.url` URL for the Team Broker API (default `http://emqx-dashboard.<release-namespace>:18083`)
   - `forge.broker.teamBroker.api.key` API key name for the Team Broker API (optional; must be set together with `api.secret`)
   - `forge.broker.teamBroker.api.secret` API secret for the Team Broker API (optional; must be set together with `api.key`)

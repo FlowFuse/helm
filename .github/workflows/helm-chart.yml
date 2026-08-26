@@ -97,9 +97,16 @@ jobs:
       - name: Create kind cluster
         uses: helm/kind-action@ef37e7f390d99f746eb8b610417061a60e82a6cc # v1.14.0
 
+      - name: Install EMQX Operator CRDs
+        run: |
+          helm repo add emqx https://repos.emqx.io/charts
+          helm repo update
+          helm template emqx-operator emqx/emqx-operator --include-crds -s templates/crds.yaml \
+            | kubectl apply --server-side -f -
+
       - name: Validate chart
         run: |
-          helm template flowfuse ./helm/flowfuse --set forge.domain=example.com | kubectl apply --validate=true -f -
+          helm template flowfuse ./helm/flowfuse --set forge.domain=example.com --api-versions apps.emqx.io/v2beta1 | kubectl apply --validate=true -f -
 
   unit-tests:
     name: Run unit tests
@@ -155,7 +162,7 @@ jobs:
         uses: bridgecrewio/checkov-action@358405ddafaa109ad35d3d607bbc7cf933c742d9 # v12.3116.0
         with:
           directory: ${{ github.workspace }}/helm
-          var_file: ${{ github.workspace }}/helm/flowfuse/ci/default-values.yaml
+          var_file: ${{ github.workspace }}/helm/flowfuse/ci/ci-values.yaml
           skip_path: /flowfuse/charts/
           framework: helm
           output_format: cli,sarif
