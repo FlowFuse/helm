@@ -158,6 +158,31 @@ tests:
           path: data["flowforge.yml"]
           pattern: "gtm:"
 
+  - it: should render telemetry anonymize when enabled
+    set:
+      forge.telemetry.anonymize: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "telemetry:\\n\\s+enabled: true\\n\\s+anonymize: true"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "frontend:"
+
+  - it: should render telemetry anonymize when disabled
+    set:
+      forge.telemetry.anonymize: false
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "telemetry:\\n\\s+enabled: true\\n\\s+anonymize: false"
+
+  - it: should not render telemetry anonymize by default
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "anonymize:"
+
   - it: should render prometheus enabled in backend telemetry
     set:
       forge.telemetry.backend.prometheus.enabled: true

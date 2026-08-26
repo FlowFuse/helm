@@ -233,6 +233,9 @@ data:
       http: {{ .Values.forge.logging.http }}
     telemetry:
       enabled: {{ .Values.forge.telemetry.enabled }}
+      {{ if hasKey .Values.forge.telemetry "anonymize" -}}
+      anonymize: {{ .Values.forge.telemetry.anonymize }}
+      {{ end -}}
       {{ if or (.Values.forge.telemetry.plausible) (.Values.forge.telemetry.posthog) (and (hasKey .Values.forge.telemetry "sentry") (hasKey .Values.forge.telemetry.sentry "frontend_dsn")) (and (hasKey .Values.forge.telemetry "google") (or (hasKey .Values.forge.telemetry.google "tag") (hasKey .Values.forge.telemetry.google "gtm"))) }}
       frontend:
         {{ if .Values.forge.telemetry.plausible -}}
