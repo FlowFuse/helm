@@ -27,9 +27,9 @@ forge:
   labels: {}
   podLabels: {}
   broker:
-    enabled: false
+    enabled: true
     teamBroker:
-      enabled: false
+      enabled: true
     tolerations: []
     ingress.annotations: {}
   logging:

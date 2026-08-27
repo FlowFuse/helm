@@ -22,9 +22,26 @@ tests:
           path: data["flowforge.yml"]
           pattern: "centralBroker:"
 
-  - it: should not include central broker block when expert is enabled but broker.address is not set
+  - it: should include the default central broker block when expert is enabled and broker.address is not set
     template: configmap.yaml
     set:
+      forge.expert:
+        enabled: true
+        service:
+          url: "https://expert.example.com"
+          token: "expert-token"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "server: expert-broker\\.flowfuse\\.com:8883"
+
+  - it: should not include central broker block when team broker is explicitly disabled
+    template: configmap.yaml
+    set:
+      forge.broker.teamBroker.enabled: false
       forge.expert:
         enabled: true
         service:
@@ -94,9 +111,10 @@ tests:
           path: data["flowforge.yml"]
           pattern: "server: central-broker\\.example\\.com:8883"
 
-  - it: should fail when expert broker address is set but team broker is not enabled
+  - it: should fail when expert broker address is set and the broker is disabled
     template: configmap.yaml
     set:
+      forge.broker.enabled: false
       forge.expert:
         enabled: true
         service:

@@ -7,10 +7,21 @@ templates:
 set:
   forge.domain: "chart-unit-tests.com"
 tests:
-  - it: should not include teamBroker api block when teamBroker is disabled by default
+  - it: should include the teamBroker api block by default
+    template: configmap.yaml
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "teamBroker:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "TEAM_BROKER_API_SECRET"
+
+  - it: should not render teamBroker api block when teamBroker is explicitly disabled
     template: configmap.yaml
     set:
-      forge.broker.enabled: true
+      forge.broker.teamBroker:
+        enabled: false
     asserts:
       - notMatchRegex:
           path: data["flowforge.yml"]
@@ -77,10 +88,10 @@ tests:
           pattern: "secret: team-broker-secret"
 
   # Deployment tests
-  - it: should not include TEAM_BROKER_API_SECRET env var by default
+  - it: should include TEAM_BROKER_API_SECRET env var by default
     template: deployment.yaml
     asserts:
-      - notExists:
+      - exists:
           path: spec.template.spec.initContainers[0].env[?(@.name == "TEAM_BROKER_API_SECRET")]
 
   - it: should not include TEAM_BROKER_API_SECRET env var when teamBroker is disabled
