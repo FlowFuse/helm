@@ -1,3 +1,11 @@
+#### 2.89.0: Release
+
+ - feat: Release 3.0.0 (#1018) @n-lark
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3116.0 to 12.3119.0 (#1015) @app/dependabot
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.1.6 to 2.1.7 (#1013) @app/dependabot
+ - ci: Wait for broker CRDs to be created before templating the Helm chart (#1016) @ppawlowski
+ - feat: Enable MQTT broker and Team Broker feature by default (#1011) @ppawlowski
+
 #### 2.88.0: Release
 
  - feat: Add possibility to anonymize telemetry (#1012) @ppawlowski
