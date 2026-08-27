@@ -103,8 +103,14 @@ jobs:
           helm repo update
           helm template emqx-operator emqx/emqx-operator --include-crds -s templates/crds.yaml \
             | kubectl apply --server-side -f -
-          kubectl wait --for=condition=Established --timeout=60s \
-            crd/emqxes.apps.emqx.io crd/rebalances.apps.emqx.io
+          # `kubectl wait` exits with an error instead of waiting if newly created CRD returns `status.conditions: null`.
+          for i in $(seq 1 30); do
+            kubectl wait --for=condition=Established --timeout=10s \
+              crd/emqxes.apps.emqx.io crd/rebalances.apps.emqx.io \
+              && exit 0
+            sleep 2
+          done
+          exit 1
 
       - name: Validate chart
         run: |
