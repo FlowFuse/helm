@@ -1,3 +1,9 @@
+#### 2.90.0: Release
+
+ - feat: Release 3.0.1 (#1021) @knolleary
+ - chore: Replace NR 5.0.5 with 5.0.6 in container builds (#1020) @knolleary
+ - fix: Update for NR 5.0.5 & 4.1.14 (#1019) @hardillb
+
 #### 2.89.0: Release
 
  - feat: Release 3.0.0 (#1018) @n-lark
