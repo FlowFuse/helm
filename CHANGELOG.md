@@ -1,3 +1,9 @@
+#### 2.91.0: Release
+
+ - feat: Release 3.0.2 (#1029) @ppawlowski
+ - chore: Bump base `nodered/node-red` image to `4.1.15` in Node-RED 4.1 dockerfile (#1028) @ppawlowski
+ - chore: Update containers for NR 5.0.7 (#1027) @knolleary
+
 #### 2.90.0: Release
 
  - feat: Release 3.0.1 (#1021) @knolleary
