@@ -35,14 +35,14 @@ tests:
           path: spec.template.spec.initContainers
           count: 1
 
-  - it: should create an init container with three secrets
+  - it: should create an init container with four secrets
     template: deployment.yaml
     asserts:
       - isNotNullOrEmpty:
           path: spec.template.spec.initContainers[0].env
       - lengthEqual:
           path: spec.template.spec.initContainers[0].env
-          count: 3
+          count: 4
       - equal:
           path: spec.template.spec.initContainers[0].env[0].name
           value: PGPASSWORD
@@ -51,6 +51,9 @@ tests:
           value: SMTPPASSWORD
       - equal:
           path: spec.template.spec.initContainers[0].env[2].name
+          value: EXPERT_TOKEN
+      - equal:
+          path: spec.template.spec.initContainers[0].env[3].name
           value: TEAM_BROKER_API_SECRET
       - equal:
           path: spec.template.spec.initContainers[0].env[0].valueFrom.secretKeyRef.name
@@ -60,16 +63,19 @@ tests:
           value: flowfuse-secrets
       - equal:
           path: spec.template.spec.initContainers[0].env[2].valueFrom.secretKeyRef.name
+          value: flowfuse-secrets
+      - equal:
+          path: spec.template.spec.initContainers[0].env[3].valueFrom.secretKeyRef.name
           value: emqx-config-secrets
 
-  - it: should create an init container with two secrets when the broker is disabled
+  - it: should create an init container with three secrets when the broker is disabled
     template: deployment.yaml
     set:
       forge.broker.enabled: false
     asserts:
       - lengthEqual:
           path: spec.template.spec.initContainers[0].env
-          count: 2
+          count: 3
       - equal:
           path: spec.template.spec.initContainers[0].env[*].valueFrom.secretKeyRef.name
           value: flowfuse-secrets
@@ -184,10 +190,10 @@ tests:
           pattern: ^wait-for-local-db\.io\/
 
   # Expert feature tests
-  - it: should not include EXPERT_TOKEN environment variable by default
+  - it: should include EXPERT_TOKEN environment variable by default
     template: deployment.yaml
     asserts:
-      - notExists:
+      - exists:
           path: spec.template.spec.initContainers[0].env[?(@.name == "EXPERT_TOKEN")]
 
   - it: should not include EXPERT_TOKEN environment variable when expert is disabled
