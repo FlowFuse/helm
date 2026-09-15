@@ -18,6 +18,27 @@ tests:
           path: data["flowforge.yml"]
           pattern: "enabled: true"
 
+  - it: should keep the default expert configuration when expert is an empty object
+    template: configmap.yaml
+    set:
+      forge.expert: {}
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
+
+  - it: should not include expert configuration when expert is null
+    template: configmap.yaml
+    set:
+      forge.expert: null
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+
   - it: should include expert configuration when expert.enabled is false
     template: configmap.yaml
     set:
