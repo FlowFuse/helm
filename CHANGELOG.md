@@ -1,3 +1,7 @@
+#### 2.92.0: Release
+
+ - feat: Enable Expert feature by default (#1030) @andypalmi
+
 #### 2.91.0: Release
 
  - feat: Release 3.0.2 (#1029) @ppawlowski
