@@ -8,17 +8,32 @@ set:
   forge.domain: "chart-unit-tests.com"
 tests:
   # ConfigMap tests
-  - it: should not include expert configuration by default
+  - it: should enable expert by default
     template: configmap.yaml
     asserts:
-      - notMatchRegex:
+      - matchRegex:
           path: data["flowforge.yml"]
           pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
 
-  - it: should not include expert configuration when expert is empty object
+  - it: should keep the default expert configuration when expert is an empty object
     template: configmap.yaml
     set:
       forge.expert: {}
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
+
+  - it: should not include expert configuration when expert is null
+    template: configmap.yaml
+    set:
+      forge.expert: null
     asserts:
       - notMatchRegex:
           path: data["flowforge.yml"]
@@ -96,11 +111,18 @@ tests:
           pattern: "requestTimeout: 60000"
 
   # Deployment tests
-  - it: should not include EXPERT_TOKEN environment variable by default
+  - it: should include EXPERT_TOKEN environment variable by default
     template: deployment.yaml
     asserts:
-      - notExists:
-          path: spec.template.spec.initContainers[0].env[?(@.name == "EXPERT_TOKEN")]
+      - contains:
+          path: spec.template.spec.initContainers[0].env
+          content:
+            name: EXPERT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: flowfuse-secrets
+                key: expertToken
+                optional: true
 
   - it: should not include EXPERT_TOKEN environment variable when expert is disabled
     template: deployment.yaml
@@ -131,11 +153,14 @@ tests:
                 optional: true
 
   # Secrets tests
-  - it: should not include expertToken in secrets by default
+  - it: should include the default expertToken in secrets by default
     template: secrets.yaml
     asserts:
-      - notExists:
+      - isNotNullOrEmpty:
           path: data.expertToken
+      - equal:
+          path: data.expertToken
+          value: Rmxvd0Z1c2VFeHBlcnRUb2tlbg==  # base64 encoded "FlowFuseExpertToken"
 
   - it: should not include expertToken in secrets when expert is disabled
     template: secrets.yaml
@@ -195,22 +220,13 @@ tests:
       - isNotNullOrEmpty:
           path: data.password
 
-  - it: should fail when expert is enabled but token is missing
+  - it: should fail when expert is enabled but the token is blanked
     template: secrets.yaml
     set:
       forge.expert:
         enabled: true
         service:
-          url: "https://expert.example.com"
-    asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.expert.service.token is required!"
-
-  - it: should fail when expert is enabled but service is missing
-    template: secrets.yaml
-    set:
-      forge.expert:
-        enabled: true
+          token: ""
     asserts:
       - failedTemplate:
           errorMessage: "A valid .Values.forge.expert.service.token is required!"

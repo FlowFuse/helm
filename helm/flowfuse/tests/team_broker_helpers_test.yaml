@@ -77,6 +77,8 @@ tests:
     template: secrets.yaml
     set:
       postgresql.auth.existingSecret: "external-db-secret"
+      forge.expert:
+        enabled: false
       forge.email:
         smtp:
           host: smtp.example.com

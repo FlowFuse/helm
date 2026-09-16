@@ -15,13 +15,6 @@ tests:
           path: data["flowforge.yml"]
           pattern: "centralBroker:"
 
-  - it: should not include central broker block when expert key is absent
-    template: configmap.yaml
-    asserts:
-      - notMatchRegex:
-          path: data["flowforge.yml"]
-          pattern: "centralBroker:"
-
   - it: should include the default central broker block when expert is enabled and broker.address is not set
     template: configmap.yaml
     set:

@@ -74,34 +74,26 @@ tests:
           count: 0
 
   # Test helper function error handling
-  - it: should require expert service token when expert is enabled
+  - it: should use the default token when expert is enabled without an explicit token
     template: secrets.yaml
     set:
       forge.expert:
         enabled: true
         service:
           url: "https://expert.example.com"
-          # token is missing
+          # token falls back to the chart default
     asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.expert.service.token is required!"
+      - equal:
+          path: data.expertToken
+          value: Rmxvd0Z1c2VFeHBlcnRUb2tlbg==  # base64 encoded "FlowFuseExpertToken"
 
-  - it: should require expert service when expert is enabled but service is not defined
+  - it: should require a non-empty expert service token when expert is enabled
     template: secrets.yaml
     set:
       forge.expert:
         enabled: true
-        service: {}
-    asserts:
-      - failedTemplate:
-          errorMessage: "A valid .Values.forge.expert.service.token is required!"
-
-  - it: should require expert service when expert is enabled but service is missing
-    template: secrets.yaml
-    set:
-      forge.expert:
-        enabled: true
-        # service is missing
+        service:
+          token: ""
     asserts:
       - failedTemplate:
           errorMessage: "A valid .Values.forge.expert.service.token is required!"

@@ -412,11 +412,14 @@ tests:
           pattern: "- ALL"
 
   # Expert feature tests
-  - it: should not render expert configuration by default
+  - it: should render expert configuration enabled by default
     asserts:
-      - notMatchRegex:
+      - matchRegex:
           path: data["flowforge.yml"]
           pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "enabled: true"
 
   - it: should not render expert configuration when expert is disabled
     set:

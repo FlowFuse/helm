@@ -147,7 +147,10 @@ forge:
 
   assistant: {}
 
-  expert: {}
+  expert:
+    enabled: true
+    service:
+      token: FlowFuseExpertToken
 
   ai:
     enabled: true
