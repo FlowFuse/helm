@@ -1,3 +1,7 @@
+#### 2.93.1: Release
+
+ - fix: Fix expert.onboarding templating (#1039) @hardillb
+
 #### 2.93.0: Release
 
  - feat: Allow expert onboarding to be enabled (#1038) @hardillb
