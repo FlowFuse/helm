@@ -485,6 +485,20 @@ tests:
           path: data["flowforge.yml"]
           pattern: "requestTimeout: 60000"
 
+  - it: should enable expert onboarding mode
+    set:
+      forge.expert:
+        enabled: true
+        onboarding:
+          enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "expert:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "onboarding:"
+
   - it: should not render accessModes when forge.persistentStorage.accessMode is not set
     set:
       forge.persistentStorage.enabled: true

@@ -356,6 +356,10 @@ data:
       {{- fail "forge.expert.broker requires the Team Broker to be enabled (forge.broker.enabled=true and forge.broker.teamBroker.enabled=true)" -}}
       {{- end }}
       {{- end }}
+      {{- if (((.Values.forge.expert).onboarding)).enabled -}}
+      onboarding:
+        enabled: {{ .Values.forge.expert.onboarding.enabled | default false }}
+      {{- end -}}
     {{- end }}
     {{- if and  (hasKey .Values.forge "npmRegistry") (hasKey .Values.forge.npmRegistry "enabled") }}
     {{- if .Values.forge.npmRegistry.enabled | default false }}
