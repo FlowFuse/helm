@@ -1,3 +1,18 @@
+#### 2.93.0: Release
+
+ - feat: Allow expert onboarding to be enabled (#1038) @hardillb
+ - chore(deps): bump mikepenz/action-junit-report from 6.4.2 to 6.5.0 (#1023) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.37.6 to 4.37.8 (#1014) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.2.4 to 6.3.0 (#1036) @app/dependabot
+ - chore(deps): bump docker/setup-qemu-action from 4.3.0 to 4.4.0 (#1035) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 4.3.0 to 4.4.0 (#1034) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3119.0 to 12.3123.0 (#1033) @app/dependabot
+ - chore(deps): bump docker/build-push-action from 7.3.0 to 7.4.0 (#1032) @app/dependabot
+ - chore(deps): bump helm/kind-action from 1.14.0 to 1.15.0 (#1025) @app/dependabot
+ - chore(deps): bump aws-actions/configure-aws-credentials from 6.2.3 to 6.2.4 (#1024) @app/dependabot
+ - chore(deps): bump docker/setup-qemu-action from 4.2.0 to 4.3.0 (#1022) @app/dependabot
+ - chore(deps): bump docker/setup-buildx-action from 4.2.0 to 4.3.0 (#1007) @app/dependabot
+
 #### 2.92.0: Release
 
  - feat: Enable Expert feature by default (#1030) @andypalmi
