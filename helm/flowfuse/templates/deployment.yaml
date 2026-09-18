@@ -98,6 +98,13 @@ spec:
                 key: {{ include "forge.teamBrokerApiSecretKey" . }}
                 optional: true
         {{- end }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
       {{- if .Values.forge.localPostgresql }}
       - name: wait-for-local-db
         {{- $initWaitForLocalDbRegistry := (or .Values.forge.initContainers.waitForLocalDb.image.registry .Values.forge.registry) }}
@@ -116,6 +123,13 @@ spec:
               secretKeyRef:
                 name: {{ include "forge.secretName" . }}
                 key: password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
       {{- end }}
       containers:
       - name: forge
