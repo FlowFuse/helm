@@ -31,4 +31,4 @@ tests:
           pattern: "mcp:"
       - matchRegex:
           path: data["flowforge.yml"]
-          pattern: "domainVerificationToken: test-token-123"
+          pattern: 'domainVerificationToken: "test-token-123"'

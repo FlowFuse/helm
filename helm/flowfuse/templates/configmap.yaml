@@ -334,7 +334,7 @@ data:
     {{- end }}
     {{- if and .Values.forge.mcp .Values.forge.mcp.domainVerificationToken }}
     mcp:
-      domainVerificationToken: {{ .Values.forge.mcp.domainVerificationToken }}
+      domainVerificationToken: {{ .Values.forge.mcp.domainVerificationToken | quote }}
     {{- end }}
     {{- if .Values.forge.ai }}
     ai:
