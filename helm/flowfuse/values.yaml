@@ -147,10 +147,7 @@ forge:
 
   assistant: {}
 
-  # MCP settings. Only set domainVerificationToken to expose a connector
-  # directory domain-verification token (e.g. OpenAI) at
-  # /.well-known/openai-apps-challenge. Left empty by default so the endpoint
-  # returns 404.
+  # Set domainVerificationToken to serve it at /.well-known/openai-apps-challenge.
   mcp: {}
 
   expert:
