@@ -332,6 +332,10 @@ data:
         requestTimeout: {{ .Values.forge.assistant.requestTimeout | default 60000 }}
       {{- end }}
     {{- end }}
+    {{- if and .Values.forge.mcp .Values.forge.mcp.domainVerificationToken }}
+    mcp:
+      domainVerificationToken: {{ .Values.forge.mcp.domainVerificationToken }}
+    {{- end }}
     {{- if .Values.forge.ai }}
     ai:
       enabled: {{ .Values.forge.ai.enabled | default false }}

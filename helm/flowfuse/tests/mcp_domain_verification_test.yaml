@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test mcp domain verification token
+templates:
+  - configmap.yaml
+set:
+  forge.domain: "chart-unit-tests.com"
+tests:
+  - it: should not include mcp configuration by default
+    template: configmap.yaml
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "mcp:"
+
+  - it: should not include mcp configuration when mcp is an empty object
+    template: configmap.yaml
+    set:
+      forge.mcp: {}
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "mcp:"
+
+  - it: should serve the domain verification token when set
+    template: configmap.yaml
+    set:
+      forge.mcp.domainVerificationToken: "test-token-123"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "mcp:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "domainVerificationToken: test-token-123"
