@@ -340,7 +340,7 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
 
 ### MCP
 
- - `forge.mcp.domainVerificationToken` Token served at `/.well-known/openai-apps-challenge` for connector directory domain verification (e.g. OpenAI). Left empty by default, in which case the endpoint returns 404.
+ - `forge.mcp.domainVerificationToken` Token served at `/.well-known/openai-apps-challenge` for connector directory domain verification (e.g. OpenAI) (default not set)
 
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
