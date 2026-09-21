@@ -147,7 +147,6 @@ forge:
 
   assistant: {}
 
-  # Set domainVerificationToken to serve it at /.well-known/openai-apps-challenge.
   mcp: {}
 
   expert:
