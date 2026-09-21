@@ -338,6 +338,10 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
 
  - `forge.ai.enabled` Enable/disable AI features (default `true`)
 
+### MCP
+
+ - `forge.mcp.domainVerificationToken` Token served at `/.well-known/openai-apps-challenge` for connector directory domain verification (e.g. OpenAI). Left empty by default, in which case the endpoint returns 404.
+
  ### Ingress
  - `ingress.annotations` ingress annotations (default is `{}`). This value is also applied to Editor instances created by FlowFuse.
  - `ingress.className` ingress class name (default is `"""`). This value is also applied to Editor instances created by FlowFuse. 

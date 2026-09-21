@@ -908,6 +908,14 @@
                         }
                     }
                 },
+                "mcp": {
+                    "type": "object",
+                    "properties": {
+                        "domainVerificationToken": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "expert": {
                     "type": "object",
                     "properties": {
