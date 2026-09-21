@@ -93,6 +93,13 @@ spec:
           capabilities:
             drop:
               - ALL
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
       {{ if .Values.forge.localPostgresql -}}
       - name: wait-for-local-db
         {{- $initWaitForLocalDbRegistry := (or .Values.forge.initContainers.waitForLocalDb.image.registry .Values.forge.registry) }}
@@ -111,6 +118,13 @@ spec:
               secretKeyRef:
                 name: {{ include "forge.secretName" . }}
                 key: postgres-password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
       - name: add-context-db
         image: {{ .Values.postgresql.image.registry }}/{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
         command:
