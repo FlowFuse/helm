@@ -1,3 +1,8 @@
+#### 2.94.0: Release
+
+ - feat: expose mcp.domainVerificationToken in the helm chart (#1042) @andypalmi
+ - fix: Resources on init containers (#1041) @hardillb
+
 #### 2.93.1: Release
 
  - fix: Fix expert.onboarding templating (#1039) @hardillb
