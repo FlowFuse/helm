@@ -1,3 +1,7 @@
+#### 2.95.0: Release
+
+ - feat: Release 3.1.0 (#1046) @andypalmi
+
 #### 2.94.0: Release
 
  - feat: expose mcp.domainVerificationToken in the helm chart (#1042) @andypalmi
