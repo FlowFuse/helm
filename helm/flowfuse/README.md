@@ -582,7 +582,7 @@ If there are no version-specific upgrade instructions for the release you are ta
 
    Ensure you create a backup of your database and any other critical data before proceeding.
 
-2. **Review release nortes**
+2. **Review release notes**
 
    Check the [FlowFuse Helm chart release notes](https://github.com/FlowFuse/helm/releases) for potential breaking changes or important upgrade considerations.
 
