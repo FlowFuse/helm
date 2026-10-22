@@ -67,7 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           semantic_version: 20.0.0
-          branchs: main
+          branches: main
           extra_plugins: |
             semantic-release-helm3@2.9.3
 
