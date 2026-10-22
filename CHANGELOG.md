@@ -1,3 +1,26 @@
+#### 2.96.0: Release
+
+ - chore: Fix semantic release helm version (#1068) @hardillb
+ - chore: Update semantic-release-helm3 version (#1067) @hardillb
+ - chore: Update semantic version to 20.0.0 in workflow (#1066) @hardillb
+ - chore(deps): bump cycjimmy/semantic-release-action from 8.0.1 to 8.1.3 (#1063) @app/dependabot
+ - feat: Release 3.2.0 (#1065) @hardillb
+ - chore: Update containers for 5.0.9 and 4.1.17 (#1064) @knolleary
+ - chore(deps): bump helm/chart-testing-action from 2.8.0 to 2.9.0 (#1055) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.38.2 to 4.38.3 (#1056) @app/dependabot
+ - chore(deps): bump actions/create-github-app-token from 3.2.0 to 3.3.0 (#1057) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3130.0 to 12.3134.0 (#1058) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.6.0 to 6.6.1 (#1059) @app/dependabot
+ - chore(deps): bump cycjimmy/semantic-release-action from 6.0.0 to 8.0.1 (#1060) @app/dependabot
+ - feat: Release 3.1.1 (#1054) @hardillb
+ - chore: Add NR 5.0.8 and 4.1.16 (#1053) @hardillb
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3126.0 to 12.3130.0 (#1050) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.5.0 to 6.6.0 (#1051) @app/dependabot
+ - chore(deps): bump helm/kind-action from 1.15.0 to 1.15.1 (#1052) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3123.0 to 12.3126.0 (#1049) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.37.8 to 4.38.2 (#1048) @app/dependabot
+ - chore: Fix typo in README.md from 'nortes' to 'notes' (#1047) @hardillb
+
 #### 2.95.0: Release
 
  - feat: Release 3.1.0 (#1046) @andypalmi
