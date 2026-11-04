@@ -101,7 +101,7 @@ jobs:
         run: |
           helm repo add emqx https://repos.emqx.io/charts
           helm repo update
-          helm template emqx-operator emqx/emqx-operator --version 2.2.29 --include-crds -s templates/crds.yaml \
+          helm template --version 2.2.29 emqx-operator emqx/emqx-operator --include-crds -s templates/crds.yaml \
             | kubectl apply --server-side -f -
           # `kubectl wait` exits with an error instead of waiting if newly created CRD returns `status.conditions: null`.
           for i in $(seq 1 30); do
