@@ -195,7 +195,7 @@ postgresql:
               name: data
         - name: fix-perms
           image: busybox:1.28
-          command: ['sh', '-c', 'chmod og+rw /bitnami/postgresql/data/postmaster.opts' ]
+          command: ['sh', '-c', 'chmod og+rw /bitnami/postgresql/data/postmaster.opts']
           securityContext:
             runAsUser: 0
           volumeMounts:
