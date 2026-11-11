@@ -355,7 +355,7 @@ npmRegistry:
   image:
     registry: ""
     repository: "flowfuse/npm-registry"
-    tag: "latest"
+    tag: "0.0.2"
   podSecurityContext: {}
 
 valkey:
