@@ -1,3 +1,19 @@
+#### 2.96.1: Release
+
+ - fix: Add network policy (#1075) @hardillb
+ - chore: Bump default flowfuse/npm-registry version (#1083) @hardillb
+ - chore(deps): bump helm/chart-releaser-action from 1.8.0 to 1.9.0 (#1080) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3134.0 to 12.3139.0 (#1078) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.38.3 to 4.39.2 (#1077) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.6.1 to 6.7.0 (#1076) @app/dependabot
+ - chore(deps): bump cycjimmy/semantic-release-action from 8.1.3 to 8.1.4 (#1081) @app/dependabot
+ - chore(deps): bump helm/kind-action from 1.15.1 to 1.15.2 (#1079) @app/dependabot
+ - chore(deps): bump actions/setup-python from 7.0.0 to 7.1.0 (#1071) @app/dependabot
+ - chore(deps): bump yokawasa/action-setup-kube-tools from 0.14.0 to 0.14.1 (#1070) @app/dependabot
+ - chore: Add version to emqx-operator Helm install command (#1074) @hardillb
+ - chore(deps): bump helm/chart-releaser-action from 1.7.0 to 1.8.0 (#1073) @app/dependabot
+ - chore(deps): bump docker/login-action from 4.6.0 to 4.7.0 (#1069) @app/dependabot
+
 #### 2.96.0: Release
 
  - chore: Fix semantic release helm version (#1068) @hardillb
