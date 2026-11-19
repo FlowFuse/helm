@@ -323,6 +323,50 @@ Everything under `forge.rate_limits` is used as input to Fastify Rate Limit plug
  - `forge.tables.driver.type` Which backend driver to use for the Tables feature (`postgres-localfs` or `postgres-supavisor`)
  - `forge.tables.driver.options` Configuration for driver (default not set).
 
+ ### FlowFuse Time-Series Database
+
+ Gives each team its own QuestDB server, created by forge in a dedicated namespace. Requires a block-storage StorageClass (not NFS or EFS), `vm.max_map_count=1048576` on the nodes running QuestDB, and wildcard DNS and TLS for `*.<domain>`.
+
+ **Time-series prerequisites.** Before you enable it, you need an Enterprise licence, a block-storage StorageClass (not NFS or EFS), `vm.max_map_count=1048576` on every node that runs QuestDB, wildcard DNS and a wildcard TLS certificate for `*.<domain>` (set the certificate Secret in `forge.timeseries.tlsSecretName`), and a `kubernetes.io/tls` Secret for the PgBouncer hostname (`forge.timeseries.pgbouncer.tls.secretName`). Backups also need a CSI driver with snapshot support and a VolumeSnapshotClass. The [Time-series databases](https://flowfuse.com/docs/install/timeseries/) install guide covers each prerequisite, image upgrades, backups and restore, and recovery from a full disk.
+
+ - `forge.timeseries.enabled` Enable the Time-Series Database feature (default `false`)
+ - `forge.timeseries.external.enabled` Let team owners connect a QuestDB server that FlowFuse doesn't manage (default `true`)
+ - `forge.timeseries.external.allowPrivateNetworks` Let the connection check for those servers reach private, loopback and link-local addresses. Leave off on multi-tenant installs (default `false`)
+ - `forge.timeseries.driver` Override the driver, for example `{type: static, options: {...}}` to use one existing QuestDB server. When set, the chart does not render the namespace, RBAC or network policy below (default not set)
+ - `forge.timeseries.namespace` Namespace for the per-team QuestDB servers (default `flowfuse-timeseries`)
+ - `forge.timeseries.createNamespace` Create the namespace (default `true`)
+ - `forge.timeseries.image` QuestDB container image (default `questdb/questdb:9.0.1`)
+ - `forge.timeseries.domain` Parent domain for each team's public hostname, `<random name>.<domain>` (default `ts.<forge.domain>`)
+ - `forge.timeseries.ingressClassName` Ingress class for the team hostnames (default `ingress.className`)
+ - `forge.timeseries.ingressAnnotations` Annotations added to each team's Ingress (default `{}`)
+ - `forge.timeseries.tlsSecretName` TLS Secret for the team hostnames, typically a wildcard certificate for `*.<domain>` (default not set)
+ - `forge.timeseries.storageClass` StorageClass for each team's volume (default cluster default)
+ - `forge.timeseries.defaultTier` Tier used when a team creates a server (default `small`)
+ - `forge.timeseries.tiers` CPU, memory and storage per tier (default `small` 1 CPU/2Gi/20Gi and `medium` 2 CPU/8Gi/100Gi)
+ - `forge.timeseries.nodeSelector` Node selector for QuestDB pods (default `{}`)
+ - `forge.timeseries.tolerations` Tolerations for QuestDB pods (default `[]`)
+ - `forge.timeseries.snapshots.enabled` Let forge take a nightly VolumeSnapshot of every team volume, keeping 7 daily and 4 weekly, and grant the RBAC for it (default `false`)
+ - `forge.timeseries.snapshots.volumeSnapshotClass` VolumeSnapshotClass used for snapshots (default not set)
+ - `forge.timeseries.networkPolicy.enabled` Restrict access to QuestDB pods to instances, forge and the ingress controller (default `true`)
+ - `forge.timeseries.networkPolicy.ingressControllerNamespace` Namespace of the ingress controller (default `ingress-nginx`)
+ - `forge.timeseries.networkPolicy.monitoringNamespace` Namespace allowed to scrape QuestDB metrics on port 9003 (default not set)
+
+ Remote devices query their team's server over PGWire through a shared PgBouncer, which terminates TLS and picks the team's server from the database name. forge maintains the team list in the `timeseries-pgbouncer` Secret, and PgBouncer reloads by itself when it changes.
+
+ - `forge.timeseries.pgbouncer.enabled` Run PgBouncer for device queries (default `true`)
+ - `forge.timeseries.pgbouncer.image` PgBouncer image (default `edoburu/pgbouncer:v1.26.1-p0`)
+ - `forge.timeseries.pgbouncer.replicas` Number of PgBouncer pods (default `2`)
+ - `forge.timeseries.pgbouncer.host` Hostname devices connect to (default `forge.timeseries.domain`, which defaults to `ts.<forge.domain>`)
+ - `forge.timeseries.pgbouncer.port` Service port (default `5432`)
+ - `forge.timeseries.pgbouncer.service.type` Service type (default `LoadBalancer`)
+ - `forge.timeseries.pgbouncer.service.annotations` Service annotations, for example to request an NLB (default `{}`)
+ - `forge.timeseries.pgbouncer.tls.secretName` `kubernetes.io/tls` Secret for the PgBouncer hostname. Without it PgBouncer accepts unencrypted connections, which is only suitable for testing (default not set)
+ - `forge.timeseries.pgbouncer.poolMode` `session` or `transaction` (default `transaction`)
+ - `forge.timeseries.pgbouncer.maxClientConnections` Maximum client connections per pod (default `1000`)
+ - `forge.timeseries.pgbouncer.defaultPoolSize` Server connections per team and user (default `5`)
+ - `forge.timeseries.pgbouncer.maxConnectionsPerTeam` Maximum server connections to one team's server per pod (default `10`)
+ - `forge.timeseries.pgbouncer.resources` PgBouncer container resources
+
 ### FlowFuse Expert
 
  - `forge.expert.enabled` Enable/disable the FlowFuse Expert feature (default `true`)
