@@ -1,0 +1,153 @@
+{{- if and (include "forge.timeseriesKubernetes" .) .Values.forge.timeseries.pgbouncer.enabled }}
+{{- $pgb := .Values.forge.timeseries.pgbouncer }}
+{{- $namespace := include "forge.timeseriesNamespace" . }}
+{{- $existing := lookup "v1" "Secret" $namespace "timeseries-pgbouncer" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: timeseries-pgbouncer-base
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+data:
+  pgbouncer.ini: |
+    [pgbouncer]
+    listen_addr = 0.0.0.0
+    listen_port = 5432
+    auth_type = scram-sha-256
+    pool_mode = {{ $pgb.poolMode }}
+    max_client_conn = {{ $pgb.maxClientConnections }}
+    default_pool_size = {{ $pgb.defaultPoolSize }}
+    max_db_connections = {{ $pgb.maxConnectionsPerTeam }}
+    server_tls_sslmode = disable
+    ignore_startup_parameters = extra_float_digits
+  run.sh: |
+    {{- .Files.Get "files/timeseries-pgbouncer-run.sh" | nindent 4 }}
+---
+# forge owns the team list. The chart only creates it empty and never overwrites it.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: timeseries-pgbouncer
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/resource-policy: keep
+type: Opaque
+{{- if $existing }}
+data:
+  {{- toYaml $existing.data | nindent 2 }}
+{{- else }}
+stringData:
+  databases.ini: |
+    [databases]
+  userlist.txt: ""
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timeseries-pgbouncer
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+    flowfuse.com/component: timeseries-pgbouncer
+spec:
+  replicas: {{ $pgb.replicas }}
+  selector:
+    matchLabels:
+      flowfuse.com/component: timeseries-pgbouncer
+  template:
+    metadata:
+      labels:
+        flowfuse.com/component: timeseries-pgbouncer
+      annotations:
+        checksum/run-script: {{ .Files.Get "files/timeseries-pgbouncer-run.sh" | sha256sum }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70
+        runAsGroup: 70
+      {{- with .Values.forge.timeseries.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.forge.timeseries.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: pgbouncer
+          image: {{ $pgb.image }}
+          command: ["/bin/sh", "/etc/pgbouncer/base/run.sh"]
+          ports:
+            - name: pgwire
+              containerPort: 5432
+          readinessProbe:
+            tcpSocket:
+              port: pgwire
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: pgwire
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          {{- with $pgb.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: base
+              mountPath: /etc/pgbouncer/base
+              readOnly: true
+            - name: dynamic
+              mountPath: /etc/pgbouncer/dynamic
+              readOnly: true
+            {{- if $pgb.tls.secretName }}
+            - name: tls
+              mountPath: /etc/pgbouncer/tls
+              readOnly: true
+            {{- end }}
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: base
+          configMap:
+            name: timeseries-pgbouncer-base
+        - name: dynamic
+          secret:
+            secretName: timeseries-pgbouncer
+        {{- if $pgb.tls.secretName }}
+        - name: tls
+          secret:
+            secretName: {{ $pgb.tls.secretName }}
+        {{- end }}
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timeseries-pgbouncer
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+  {{- with $pgb.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ $pgb.service.type }}
+  selector:
+    flowfuse.com/component: timeseries-pgbouncer
+  ports:
+    - name: pgwire
+      port: {{ $pgb.port }}
+      targetPort: pgwire
+{{- end }}

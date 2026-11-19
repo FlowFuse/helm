@@ -1,0 +1,119 @@
+{{- if include "forge.timeseriesKubernetes" . }}
+{{- $ts := .Values.forge.timeseries }}
+{{- $namespace := include "forge.timeseriesNamespace" . }}
+{{- if and $ts.createNamespace (ne $namespace .Release.Namespace) (ne $namespace .Values.forge.projectNamespace) }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+---
+{{- end }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flowfuse-timeseries
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+rules:
+- apiGroups: [""]
+  resources: ["pods/log", "pods/status"]
+  verbs: ["get", "list", "watch"]
+# update: forge annotates the PgBouncer pods so kubelet picks up a new team list straight away
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch", "update"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "deployments/status"]
+  verbs: ["create", "patch", "get", "list", "update", "watch", "delete"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims", "services", "secrets"]
+  verbs: ["create", "patch", "get", "list", "update", "watch", "delete"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["create", "patch", "get", "list", "update", "watch", "delete"]
+{{- if ($ts.snapshots).enabled }}
+- apiGroups: ["snapshot.storage.k8s.io"]
+  resources: ["volumesnapshots"]
+  verbs: ["create", "get", "list", "watch", "delete"]
+{{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: flowfuse-timeseries
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: flowforge
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: flowfuse-timeseries
+  apiGroup: rbac.authorization.k8s.io
+{{- if ($ts.networkPolicy).enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: flowfuse-timeseries
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "forge.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      flowfuse.com/component: timeseries
+  policyTypes:
+    - Ingress
+  ingress:
+    # Hosted instances write over ILP HTTP and query over PGWire
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.forge.projectNamespace }}
+      ports:
+        - port: 9000
+        - port: 8812
+    # forge checks health and reads usage
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          podSelector:
+            matchLabels:
+              {{- include "forge.forgeSelectorLabels" . | trim | nindent 14 }}
+      ports:
+        - port: 9000
+        - port: 8812
+        - port: 9003
+    # Remote devices reach the allow-listed HTTP paths through the ingress controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ $ts.networkPolicy.ingressControllerNamespace }}
+      ports:
+        - port: 9000
+    {{- if ($ts.pgbouncer).enabled }}
+    # Remote devices query over PGWire through PgBouncer
+    - from:
+        - podSelector:
+            matchLabels:
+              flowfuse.com/component: timeseries-pgbouncer
+      ports:
+        - port: 8812
+    {{- end }}
+    {{- with $ts.networkPolicy.monitoringNamespace }}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . }}
+      ports:
+        - port: 9003
+    {{- end }}
+{{- end }}
+{{- end }}

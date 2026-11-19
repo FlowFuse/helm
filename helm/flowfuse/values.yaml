@@ -160,6 +160,60 @@ forge:
   tables:
     enabled: false
 
+  timeseries:
+    enabled: false
+    external:
+      enabled: true
+      allowPrivateNetworks: false
+    namespace: flowfuse-timeseries
+    createNamespace: true
+    image: questdb/questdb:9.0.1
+    domain: ""
+    ingressClassName: ""
+    ingressAnnotations: {}
+    tlsSecretName: ""
+    storageClass: ""
+    defaultTier: small
+    tiers:
+      small:
+        cpu: "1"
+        memory: 2Gi
+        storage: 20Gi
+      medium:
+        cpu: "2"
+        memory: 8Gi
+        storage: 100Gi
+    nodeSelector: {}
+    tolerations: []
+    snapshots:
+      enabled: false
+      volumeSnapshotClass: ""
+    networkPolicy:
+      enabled: true
+      ingressControllerNamespace: ingress-nginx
+      monitoringNamespace: ""
+    pgbouncer:
+      enabled: true
+      image: edoburu/pgbouncer:v1.26.1-p0
+      replicas: 2
+      host: ""
+      port: 5432
+      service:
+        type: LoadBalancer
+        annotations: {}
+      tls:
+        secretName: ""
+      poolMode: transaction
+      maxClientConnections: 1000
+      defaultPoolSize: 5
+      maxConnectionsPerTeam: 10
+      resources:
+        requests:
+          cpu: 100m
+          memory: 64Mi
+        limits:
+          memory: 256Mi
+
   service:
     type: ClusterIP
 

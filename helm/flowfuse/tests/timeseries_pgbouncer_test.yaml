@@ -1,0 +1,175 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test timeseries pgbouncer
+templates:
+  - timeseries-pgbouncer.yaml
+release:
+  name: flowfuse
+  namespace: default
+set:
+  forge.domain: "chart-unit-tests.com"
+  forge.timeseries.enabled: true
+
+tests:
+  - it: should not render anything when timeseries is disabled
+    set:
+      forge.timeseries.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should not render anything when pgbouncer is disabled
+    set:
+      forge.timeseries.pgbouncer.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should not render anything for a non-kubernetes driver
+    set:
+      forge.timeseries.driver:
+        type: static
+        options: {}
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render the config map, team-list secret, deployment and service in the timeseries namespace
+    asserts:
+      - hasDocuments:
+          count: 4
+      - isKind:
+          of: ConfigMap
+        documentIndex: 0
+      - isKind:
+          of: Secret
+        documentIndex: 1
+      - isKind:
+          of: Deployment
+        documentIndex: 2
+      - isKind:
+          of: Service
+        documentIndex: 3
+      - equal:
+          path: metadata.namespace
+          value: flowfuse-timeseries
+
+  - it: should render the base settings from values
+    set:
+      forge.timeseries.pgbouncer.poolMode: session
+      forge.timeseries.pgbouncer.maxConnectionsPerTeam: 3
+    asserts:
+      - matchRegex:
+          path: data["pgbouncer.ini"]
+          pattern: "pool_mode = session"
+        documentIndex: 0
+      - matchRegex:
+          path: data["pgbouncer.ini"]
+          pattern: "max_db_connections = 3"
+        documentIndex: 0
+      - matchRegex:
+          path: data["run.sh"]
+          pattern: "kill -HUP"
+        documentIndex: 0
+
+  - it: should create an empty team list that helm keeps
+    asserts:
+      - equal:
+          path: metadata.name
+          value: timeseries-pgbouncer
+        documentIndex: 1
+      - equal:
+          path: metadata.annotations["helm.sh/resource-policy"]
+          value: keep
+        documentIndex: 1
+      - equal:
+          path: stringData["databases.ini"]
+          value: "[databases]\n"
+        documentIndex: 1
+
+  - it: should keep the existing team list on upgrade
+    kubernetesProvider:
+      scheme:
+        "v1/Secret":
+          gvr:
+            version: "v1"
+            resource: "secrets"
+          namespaced: true
+      objects:
+        - kind: Secret
+          apiVersion: v1
+          metadata:
+            name: timeseries-pgbouncer
+            namespace: flowfuse-timeseries
+          data:
+            databases.ini: W2RhdGFiYXNlc10KYWJjID0gaG9zdD10cy1hYmMgcG9ydD04ODEyIGRibmFtZT1xZGIK
+            userlist.txt: InRfYWJjIiAic2VjcmV0Igo=
+    asserts:
+      - equal:
+          path: data["databases.ini"]
+          value: W2RhdGFiYXNlc10KYWJjID0gaG9zdD10cy1hYmMgcG9ydD04ODEyIGRibmFtZT1xZGIK
+        documentIndex: 1
+      - notExists:
+          path: stringData
+        documentIndex: 1
+
+  - it: should run the reload wrapper with a read-only root filesystem
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 2
+        documentIndex: 2
+      - equal:
+          path: spec.template.spec.containers[0].command
+          value: ["/bin/sh", "/etc/pgbouncer/base/run.sh"]
+        documentIndex: 2
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem
+          value: true
+        documentIndex: 2
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: dynamic
+            secret:
+              secretName: timeseries-pgbouncer
+        documentIndex: 2
+
+  - it: should not mount a certificate when no TLS secret is set
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: tls
+            mountPath: /etc/pgbouncer/tls
+            readOnly: true
+        documentIndex: 2
+
+  - it: should mount the TLS secret when set
+    set:
+      forge.timeseries.pgbouncer.tls.secretName: ts-tls
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: tls
+            secret:
+              secretName: ts-tls
+        documentIndex: 2
+
+  - it: should expose PgBouncer through a LoadBalancer service by default
+    set:
+      forge.timeseries.pgbouncer.service.annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    asserts:
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+        documentIndex: 3
+      - equal:
+          path: spec.ports[0].port
+          value: 5432
+        documentIndex: 3
+      - equal:
+          path: metadata.annotations["service.beta.kubernetes.io/aws-load-balancer-type"]
+          value: nlb
+        documentIndex: 3

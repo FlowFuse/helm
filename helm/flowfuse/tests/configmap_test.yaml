@@ -543,3 +543,151 @@ tests:
       - matchRegex:
           path: data["flowforge.yml"]
           pattern: "ai:\\n\\s{2,}enabled: true"
+
+  - it: should not render timeseries when forge.timeseries.enabled is false (default)
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "timeseries:"
+
+  - it: should render the kubernetes timeseries driver from forge.timeseries values
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.storageClass: gp3-questdb
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "timeseries:\\n\\s+enabled: true\\n\\s+driver:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "type: kubernetes"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "namespace: flowfuse-timeseries"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "domain: ts\\.chart-unit-tests\\.com"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "storageClass: gp3-questdb"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "small:\\n\\s+cpu: \"1\"\\n\\s+memory: 2Gi\\n\\s+storage: 20Gi"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "snapshots:"
+
+  - it: should use the shared ingress class and a custom domain for timeseries
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.domain: tsdb.example.com
+      ingress.className: nginx
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "domain: tsdb\\.example\\.com"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "ingressClass: nginx"
+
+  - it: should pass the snapshot settings to the timeseries driver when snapshots are enabled
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.snapshots.enabled: true
+      forge.timeseries.snapshots.volumeSnapshotClass: ebs-snapshots
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "snapshots:\\n\\s+enabled: true\\n\\s+volumeSnapshotClass: ebs-snapshots"
+
+  - it: should leave the snapshot class out when none is set
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.snapshots.enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "snapshots:\\n\\s+enabled: true"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "volumeSnapshotClass"
+
+  - it: should render a timeseries driver override verbatim
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.driver:
+        type: static
+        options:
+          questdb:
+            ilp:
+              url: "http::addr=questdb:9000"
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "timeseries:\\n\\s+enabled: true\\n\\s+driver:\\n\\s+options:\\n\\s+questdb:"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "type: static"
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "type: kubernetes\\n\\s+cache:"
+
+  - it: should render the pgbouncer settings forge needs
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.pgbouncer.tls.secretName: ts-tls
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "pgbouncer:\\n\\s+host: ts\\.chart-unit-tests\\.com\\n\\s+maxConnectionsPerTeam: 10\\n\\s+port: 5432\\n\\s+secretName: timeseries-pgbouncer\\n\\s+ssl: true"
+
+  - it: should tell forge pgbouncer has no TLS when no secret is set
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.pgbouncer.host: db.example.com
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "pgbouncer:\\n\\s+host: db\\.example\\.com"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "ssl: false"
+
+  - it: should not render pgbouncer settings when pgbouncer is disabled
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.pgbouncer.enabled: false
+    asserts:
+      - notMatchRegex:
+          path: data["flowforge.yml"]
+          pattern: "pgbouncer:"
+
+  - it: should allow external timeseries servers by default
+    set:
+      forge.timeseries.enabled: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "external:\\n\\s+enabled: true"
+
+  - it: should disable external timeseries servers when set
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.external.enabled: false
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "external:\\n\\s+enabled: false"
+
+  - it: should pass the team hostname TLS secret and private network setting to forge
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.tlsSecretName: ts-wildcard
+      forge.timeseries.external.allowPrivateNetworks: true
+    asserts:
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "tlsSecretName: ts-wildcard"
+      - matchRegex:
+          path: data["flowforge.yml"]
+          pattern: "allowPrivateNetworks: true"

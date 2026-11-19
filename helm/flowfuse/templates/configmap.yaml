@@ -395,6 +395,23 @@ data:
 {{ toYaml .Values.forge.tables.driver | indent 8 }}
       {{- end -}}
     {{- end }}
+    {{- if .Values.forge.timeseries.enabled }}
+    timeseries:
+      enabled: true
+      driver:
+      {{- if .Values.forge.timeseries.driver }}
+        {{- toYaml .Values.forge.timeseries.driver | nindent 8 }}
+      {{- else }}
+        {{- include "forge.timeseriesDriver" . | nindent 8 }}
+      {{- end }}
+      external:
+        enabled: {{ ((.Values.forge.timeseries).external).enabled | default false }}
+        allowPrivateNetworks: {{ ((.Values.forge.timeseries).external).allowPrivateNetworks | default false }}
+      {{- if and (include "forge.timeseriesKubernetes" .) .Values.forge.timeseries.pgbouncer.enabled }}
+      pgbouncer:
+        {{- include "forge.timeseriesPgbouncer" . | nindent 8 }}
+      {{- end }}
+    {{- end }}
     {{- if and (eq .Values.forge.cache.type "valkey") (not .Values.forge.localValkey) (not .Values.valkey.url) -}}
     {{- fail "forge.cache.type=valkey requires either forge.localValkey=true or valkey.url to be set" -}}
     {{- end }}

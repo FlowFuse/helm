@@ -420,3 +420,65 @@ teamBrokerApiSecret: {{ $token | b64enc | quote }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Namespace that holds the per-team QuestDB servers
+*/}}
+{{- define "forge.timeseriesNamespace" -}}
+{{- default "flowfuse-timeseries" .Values.forge.timeseries.namespace -}}
+{{- end -}}
+
+{{/*
+"true" when the chart provisions the per-team QuestDB servers itself, i.e. timeseries
+is enabled and no driver override (such as the static driver) has been set
+*/}}
+{{- define "forge.timeseriesKubernetes" -}}
+{{- $ts := .Values.forge.timeseries -}}
+{{- if and $ts.enabled (or (not $ts.driver) (eq ($ts.driver).type "kubernetes")) -}}
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
+Kubernetes driver config for the timeseries feature, built from forge.timeseries values
+*/}}
+{{- define "forge.timeseriesDriver" -}}
+{{- $ts := .Values.forge.timeseries -}}
+{{- $options := dict "namespace" (include "forge.timeseriesNamespace" .) "image" $ts.image "domain" (default (printf "ts.%s" .Values.forge.domain) $ts.domain) "defaultTier" $ts.defaultTier "tiers" $ts.tiers -}}
+{{- with (default .Values.ingress.className $ts.ingressClassName) }}
+{{- $_ := set $options "ingressClass" . }}
+{{- end }}
+{{- with $ts.ingressAnnotations }}
+{{- $_ := set $options "ingressAnnotations" . }}
+{{- end }}
+{{- with $ts.tlsSecretName }}
+{{- $_ := set $options "tlsSecretName" . }}
+{{- end }}
+{{- with $ts.storageClass }}
+{{- $_ := set $options "storageClass" . }}
+{{- end }}
+{{- with $ts.nodeSelector }}
+{{- $_ := set $options "nodeSelector" . }}
+{{- end }}
+{{- with $ts.tolerations }}
+{{- $_ := set $options "tolerations" . }}
+{{- end }}
+{{- if ($ts.snapshots).enabled }}
+{{- $snapshots := dict "enabled" true }}
+{{- with $ts.snapshots.volumeSnapshotClass }}
+{{- $_ := set $snapshots "volumeSnapshotClass" . }}
+{{- end }}
+{{- $_ := set $options "snapshots" $snapshots }}
+{{- end }}
+{{- toYaml (dict "type" "kubernetes" "options" $options) -}}
+{{- end -}}
+
+{{/*
+PgBouncer settings forge needs: where devices connect, the per-team limit and the team-list Secret
+*/}}
+{{- define "forge.timeseriesPgbouncer" -}}
+{{- $ts := .Values.forge.timeseries -}}
+{{- $pgb := $ts.pgbouncer -}}
+{{- $host := default (default (printf "ts.%s" .Values.forge.domain) $ts.domain) $pgb.host -}}
+{{- toYaml (dict "host" $host "port" $pgb.port "ssl" (not (empty $pgb.tls.secretName)) "maxConnectionsPerTeam" $pgb.maxConnectionsPerTeam "secretName" "timeseries-pgbouncer") -}}
+{{- end -}}

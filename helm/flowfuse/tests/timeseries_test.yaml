@@ -1,0 +1,199 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test timeseries
+templates:
+  - timeseries.yaml
+release:
+  name: flowfuse
+  namespace: default
+set:
+  forge.domain: "chart-unit-tests.com"
+
+tests:
+  - it: should not render anything when timeseries is disabled (default)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should not render anything when a non-kubernetes driver is set
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.driver:
+        type: static
+        options: {}
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render the namespace, role, role binding and network policy
+    set:
+      forge.timeseries.enabled: true
+    asserts:
+      - hasDocuments:
+          count: 4
+      - isKind:
+          of: Namespace
+        documentIndex: 0
+      - equal:
+          path: metadata.name
+          value: flowfuse-timeseries
+        documentIndex: 0
+      - isKind:
+          of: Role
+        documentIndex: 1
+      - isKind:
+          of: RoleBinding
+        documentIndex: 2
+      - isKind:
+          of: NetworkPolicy
+        documentIndex: 3
+
+  - it: should not create the namespace when createNamespace is false
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.createNamespace: false
+    asserts:
+      - hasDocuments:
+          count: 3
+      - isKind:
+          of: Role
+        documentIndex: 0
+
+  - it: should not create the namespace when it is the project namespace
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.namespace: flowforge
+    asserts:
+      - hasDocuments:
+          count: 3
+      - equal:
+          path: metadata.namespace
+          value: flowforge
+        documentIndex: 0
+
+  - it: should bind the role to the forge service account in the release namespace
+    set:
+      forge.timeseries.enabled: true
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: flowfuse-timeseries
+        documentIndex: 2
+      - contains:
+          path: subjects
+          content:
+            kind: ServiceAccount
+            name: flowforge
+            namespace: default
+        documentIndex: 2
+
+  - it: should only grant volumesnapshots access when snapshots are enabled
+    set:
+      forge.timeseries.enabled: true
+    asserts:
+      - notContains:
+          path: rules
+          content:
+            apiGroups: ["snapshot.storage.k8s.io"]
+            resources: ["volumesnapshots"]
+            verbs: ["create", "get", "list", "watch", "delete"]
+        documentIndex: 1
+
+  - it: should grant volumesnapshots access when snapshots are enabled
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.snapshots.enabled: true
+    asserts:
+      - contains:
+          path: rules
+          content:
+            apiGroups: ["snapshot.storage.k8s.io"]
+            resources: ["volumesnapshots"]
+            verbs: ["create", "get", "list", "watch", "delete"]
+        documentIndex: 1
+
+  - it: should let forge annotate pods so PgBouncer reloads the team list quickly
+    set:
+      forge.timeseries.enabled: true
+    asserts:
+      - contains:
+          path: rules
+          content:
+            apiGroups: [""]
+            resources: ["pods"]
+            verbs: ["get", "list", "watch", "update"]
+        documentIndex: 1
+
+  - it: should allow instances, forge and the ingress controller in the network policy
+    set:
+      forge.timeseries.enabled: true
+    asserts:
+      - equal:
+          path: spec.podSelector.matchLabels
+          value:
+            flowfuse.com/component: timeseries
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[0].from[0].namespaceSelector.matchLabels["kubernetes.io/metadata.name"]
+          value: flowforge
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[1].from[0].podSelector.matchLabels
+          value:
+            app: flowforge
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[2].from[0].namespaceSelector.matchLabels["kubernetes.io/metadata.name"]
+          value: ingress-nginx
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[2].ports
+          value:
+            - port: 9000
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[3].from[0].podSelector.matchLabels
+          value:
+            flowfuse.com/component: timeseries-pgbouncer
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[3].ports
+          value:
+            - port: 8812
+        documentIndex: 3
+      - lengthEqual:
+          path: spec.ingress
+          count: 4
+        documentIndex: 3
+
+  - it: should not allow PgBouncer in the network policy when PgBouncer is disabled
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.pgbouncer.enabled: false
+    asserts:
+      - lengthEqual:
+          path: spec.ingress
+          count: 3
+        documentIndex: 3
+
+  - it: should allow the monitoring namespace to scrape metrics when set
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.networkPolicy.monitoringNamespace: monitoring
+    asserts:
+      - equal:
+          path: spec.ingress[4].from[0].namespaceSelector.matchLabels["kubernetes.io/metadata.name"]
+          value: monitoring
+        documentIndex: 3
+      - equal:
+          path: spec.ingress[4].ports
+          value:
+            - port: 9003
+        documentIndex: 3
+
+  - it: should not render the network policy when disabled
+    set:
+      forge.timeseries.enabled: true
+      forge.timeseries.networkPolicy.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 3
