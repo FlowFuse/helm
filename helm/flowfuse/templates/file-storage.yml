@@ -73,7 +73,7 @@ spec:
       initContainers:
       - name: config
         {{- $initConfigRegistry := (or .Values.forge.initContainers.config.image.registry .Values.forge.registry) }}
-        image: {{ $initConfigRegistry }}{{- if $initConfigRegistry }}/{{- end -}}ruby:2.7-slim
+        image: {{ $initConfigRegistry }}{{- if $initConfigRegistry }}/{{- end -}}ruby:4.0.10-slim
         imagePullPolicy: Always
         command: ['sh', '-c', 'erb /tmpl/flowforge-storage.yml > /config/flowforge-storage.yml' ]
         volumeMounts:
