@@ -1,3 +1,15 @@
+#### 2.97.0: Release
+
+ - feat: Release 3.3.0 (#1094) @allthedoll
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3139.0 to 12.3141.0 (#1090) @app/dependabot
+ - chore(deps): bump aws-actions/amazon-ecr-login from 2.1.7 to 2.2.0 (#1091) @app/dependabot
+ - chore: Add version 4.1.18 and 5.0.10 to VERSION_LIST (#1089) @hardillb
+ - chore(deps): bump azure/setup-helm from 5.0.1 to 5.1.0 (#1088) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.39.2 to 4.39.3 (#1087) @app/dependabot
+ - chore(deps): bump docker/login-action from 4.7.0 to 4.8.0 (#1086) @app/dependabot
+ - chore(deps): bump mikepenz/action-junit-report from 6.7.0 to 6.7.1 (#1085) @app/dependabot
+ - chore(deps): bump amannn/action-semantic-pull-request from 6.1.1 to 6.1.2 (#1084) @app/dependabot
+
 #### 2.96.1: Release
 
  - fix: Add network policy (#1075) @hardillb
