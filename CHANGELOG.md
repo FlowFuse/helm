@@ -1,3 +1,8 @@
+#### 2.98.0: Release
+
+ - feat: Release 3.3.1 (#1095) @hardillb
+ - chore: Update to latest Ruby image (#1093) @hardillb
+
 #### 2.97.0: Release
 
  - feat: Release 3.3.0 (#1094) @allthedoll
