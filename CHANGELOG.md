@@ -1,3 +1,11 @@
+#### 2.99.0: Release
+
+ - feat: Release 3.3.2 (#1100) @knolleary
+ - chore(deps): bump amannn/action-semantic-pull-request from 6.1.2 to 6.1.4 (#1099) @app/dependabot
+ - chore(deps): bump github/codeql-action/upload-sarif from 4.39.3 to 4.39.5 (#1098) @app/dependabot
+ - chore(deps): bump actions/create-github-app-token from 3.3.0 to 3.4.0 (#1097) @app/dependabot
+ - chore(deps): bump bridgecrewio/checkov-action from 12.3141.0 to 12.3146.0 (#1096) @app/dependabot
+
 #### 2.98.0: Release
 
  - feat: Release 3.3.1 (#1095) @hardillb
